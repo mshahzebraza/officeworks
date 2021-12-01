@@ -1,17 +1,17 @@
 const purchaseOrdersDb = [
   {
     // There can be a field of available References and RefId can be chosen to be from one of them. In the order of PO > DeliveryNote > Bill# > Quotation#
-    Ref: 'CST', // Bill, Delivery Note (DN), , Comparative Statement of Tender (CST), Purchase Order (PO)
-    RefId: 'CST20210414', // typeOfRef-YYYYMMDD
+    refType: 'CST', // Bill, Delivery Note (DN), , Comparative Statement of Tender (CST), Purchase Order (PO)
+    refId: 'CST20210414', // typeOfRef-YYYYMMDD
     category: 'Single Quotation',
+    fulfillmentSource: 'Foreign',
     currency: 'USD',
     price: 32500,
-    fulfillment: 'Foreign',
     supplier: 'Wuhan Beta Tech Company',
     status: 'Uninitiated', // Raised, Active, Delivered (Payment Pending), Closed 
     // Remark / Update
     remarks: [
-      { dateId, title, remark } // date id is automatically generated for each remark
+      // { dateId, title, remark } // date id is automatically generated for each remark
     ],
     items: [ // 05 items in the PO
       {
@@ -73,3 +73,4 @@ const purchaseOrdersDb = [
   }
 ]
 
+export default purchaseOrdersDb;

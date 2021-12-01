@@ -27,9 +27,20 @@ li {
 	list-style: none;
 }
 
+button,
+input {
+	font-family: inherit;
+	color: inherit;
+	padding: 0.2em 0.3em;
+}
+
 button {
+	border-width: 1px;
 	border-style: solid;
-	background-color: none;
+	background-color: inherit;
+}
+input {
+	/* color: inherit; */
 }
 
 h1 {

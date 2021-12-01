@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Mwo(pProps) {
+export default function MWO(pProps) {
   return (
     <>
       <main>
@@ -15,6 +15,7 @@ export default function Mwo(pProps) {
             </li>
           </ul>
         </section>
+
       </main>
     </>
   )

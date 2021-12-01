@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import MultiForm from '../components/MultiForm';
+import Link from 'next/link'
 // import Image from 'next/image';
 // import styles from '../styles/Home.module.css'
-
 export default function Home() {
   return (
     <div >
@@ -14,18 +14,16 @@ export default function Home() {
       </Head>
 
       <main >
-        {/* <MultiForm defaultPairs={[
-          { field: 'Name', value: '', req: true },
-          { field: 'Type', value: '', req: true },
-          { field: 'Remarks', value: '', req: true },
-        ]} /> */}
-        <MultiForm defaultFields={[
-          'Type', 'Remarks'
-        ]} />
-        {/* <h1 > */}
-        {/* Welcome to <a >Next.js!</a> */}
-        {/* </h1> */}
-        {/* <p>another p tag</p> */}
+
+        <Link href='/procurement' ><a >Procurement</a></Link>
+        <Link href='/inventory' ><a >Inventory</a></Link>
+
+        <MultiForm
+          defaultFields={[
+            'Type', 'Remarks'
+          ]}
+          subLevels={['specifications']}
+        />
 
       </main>
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styles from './Multiform.module.scss'
-import { defaultPairMaker, multiFormDataTranslator } from '../public/helpers';
+import { defaultPairMaker, multiFormDataTranslator } from '../../public/helpers';
+import { useDispatch } from 'react-redux'
+import { poActions } from '../../store/po/po-slice'
 
 export default function MultiForm(props) {
 
@@ -16,6 +18,7 @@ export default function MultiForm(props) {
 
   if (props.defaultFields) {
     initialState = defaultPairMaker(props.defaultFields)
+    console.log(initialState);
   }
 
   const [inputPairs, setInputPairs] = useState(initialState);
@@ -42,10 +45,8 @@ export default function MultiForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputPairs);
-    console.log(
-      multiFormDataTranslator(inputPairs, props.subLevels)
-    );
+    const result = multiFormDataTranslator(inputPairs, props.subLevels);
+    props.submitter(result)
 
   }
 
@@ -69,21 +70,34 @@ export default function MultiForm(props) {
 
               onChange={e => handlePairChange('field', pairIndex, e)} />
             <input
+              list={`optionList-${pair.field}`}
               type="text" placeholder={`${pair.level}/value-${pairIndex + 1}`}
               value={pair.value}
               required={true}
               onChange={e => handlePairChange('value', pairIndex, e)} />
+            {
+              pair.options &&
+              <datalist id={`optionList-${pair.field}`} >
+                {
+                  pair.options.map((option) => {
+                    return <option value={option}> {option} </option>
+                  })
+                }
+              </datalist>
+            }
+
+
             {!pair.req && <button onClick={e => handlerPairDelete(pairIndex, e)} > Delete pair</button>}
 
           </div>
         })
       }
 
-      <button onClick={handleFieldAdd}>Add Field</button>
+      <button type='submit' >Submit Data</button>
       {props.subLevels && props.subLevels.map((subLevel, id) => {
         return <button key={id} onClick={e => handleFieldAdd(e, id + 1)} >Add {subLevel}</button>
       })}
-      <button type='submit' >Submit Data</button>
+      <button onClick={handleFieldAdd}>Add Field</button>
     </form>
   )
 }

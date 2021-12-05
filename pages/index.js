@@ -1,9 +1,12 @@
 import Head from 'next/head';
-import MultiForm from '../components/MultiForm';
+import MultiForm from '../components/MultiForm/MultiForm';
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { poActions } from '../store/po/po-slice'
 // import Image from 'next/image';
 // import styles from '../styles/Home.module.css'
 export default function Home() {
+  const dispatch = useDispatch()
   return (
     <div >
       <Head>
@@ -19,6 +22,7 @@ export default function Home() {
         <Link href='/inventory' ><a >Inventory</a></Link>
 
         <MultiForm
+          submitter={(formData) => { console.log(formData); }}
           defaultFields={[
             'Type', 'Remarks'
           ]}

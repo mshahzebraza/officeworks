@@ -6,7 +6,7 @@ const purchaseOrdersDb = [
     category: 'Single Quotation',
     fulfillmentSource: 'Foreign',
     currency: 'USD',
-    price: 32500,
+    totalCost: 32500,
     supplier: 'Wuhan Beta Tech Company',
     status: 'Uninitiated', // Raised, Active, Delivered (Payment Pending), Closed 
     // Remark / Update
@@ -70,6 +70,16 @@ const purchaseOrdersDb = [
         }
       },
     ]
+  },
+  {
+    refType: 'PO', // Bill, Delivery Note (DN), , Comparative Statement of Tender (CST), Purchase Order (PO)
+    refId: 'NDC-LP-MN-65', // typeOfRef-YYYYMMDD
+    category: 'Repeat Order',
+    fulfillmentSource: 'Foreign',
+    currency: 'RMB',
+    totalCost: 2500,
+    supplier: 'Wuhan Beta Tech Company',
+    status: 'Closed',
   }
 ]
 

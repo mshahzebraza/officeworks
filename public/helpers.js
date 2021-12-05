@@ -1,6 +1,6 @@
 export function defaultPairMaker(defaultKeys) {
   return defaultKeys.map(curKey => {
-    return { field: curKey, value: '', level: 0, req: true }
+    return { field: curKey.field, value: '', level: 0, req: true, options: curKey.dataList }
   })
 }
 

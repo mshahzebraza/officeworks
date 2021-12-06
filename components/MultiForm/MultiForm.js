@@ -55,9 +55,7 @@ export default function MultiForm(props) {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`beforeConversion`, inputPairs);
     const result = multiFormDataTranslator(inputPairs, props.subLevels);
-    console.log('result', result);
     props.submit(result)
 
   }

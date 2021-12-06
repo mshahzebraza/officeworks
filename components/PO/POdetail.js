@@ -12,13 +12,15 @@ export default function POdetail(props) {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
-  const deletePoItem = (poIndex) => {
-    console.log(poIndex);
+  const deletePoItem = (refID) => {
+    console.log(`Request to delete ${refID} received.`);
     const answer = prompt('You will now be able to retrieve it back! Type "DELETE THIS PO" if you really want to delete it.')
     if (answer === "DELETE THIS PO") {
-      dispatch(poActions.deletePO(poIndex))
+      dispatch(poActions.deletePO(refID))
+      console.log(`Deletion confirmed`);
+    } else {
+      console.log(`Confirm the deletion of ${refID} by typing the required message.`);
     }
-    console.log(`Confirm the deletion by typing the required message.`);
   }
 
 

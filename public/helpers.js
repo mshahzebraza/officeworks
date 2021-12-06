@@ -36,9 +36,6 @@ Output:  [
  */
 
 export function defaultPairMaker(defaultKeys) {
-  console.log(defaultKeys);
-  console.log(defaultKeys[8].field);
-  console.log(defaultKeys[8].defaultValue);
   return defaultKeys.map(curKey => {
     return {
       field: curKey.field,
@@ -98,8 +95,6 @@ export function defaultPairMaker(defaultKeys) {
     }
 */
 export function multiFormDataTranslator(data, subLevels = []) {
-  // console.log('data', data);
-  console.log('subLevels', subLevels);
   let newData = {};
   subLevels.length > 0 && subLevels.forEach((sub, subId) => {
     newData[`${sub}`] = {}

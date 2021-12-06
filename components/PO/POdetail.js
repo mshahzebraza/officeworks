@@ -1,11 +1,26 @@
-import React, { useState } from 'react'
-import styles from './ListItem.module.scss'
-import { useRouter } from 'next/router'
-import Modal from '../UI/Modal'
+import React, { useState } from 'react';
+import styles from './ListItem.module.scss';
+import { useRouter } from 'next/router';
+import Modal from '../UI/Modal';
+import { poActions } from '../../store/po/po-slice'
+import { useDispatch } from 'react-redux';
+import MultiForm from '../MultiForm/MultiForm'
 
 export default function POdetail(props) {
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  const deletePoItem = (poIndex) => {
+    console.log(poIndex);
+    const answer = prompt('You will now be able to retrieve it back! Type "DELETE THIS PO" if you really want to delete it.')
+    if (answer === "DELETE THIS PO") {
+      dispatch(poActions.deletePO(poIndex))
+    }
+    console.log(`Confirm the deletion by typing the required message.`);
+  }
+
 
   function goToPoDetail(refId) {
     router.push(`po/${refId}`)
@@ -38,9 +53,9 @@ export default function POdetail(props) {
   // key={props.itemKey}
   >
     {
-      showModal &&
+      showDetailModal &&
       <Modal
-        closer={() => setShowModal(false)}
+        closer={() => setShowDetailModal(false)}
       >
         {
           <div className={styles['poItem-extra']}>
@@ -69,9 +84,39 @@ export default function POdetail(props) {
         }
       </Modal>
     }
+    <button onClick={() => setShowUpdateModal(true)} >Update PO</button>
+    {
+      showUpdateModal &&
+      <Modal
+        closer={() => setShowUpdateModal(false)}
+      >
+        <MultiForm
+          submit={(formData) => { dispatch(poActions.updatePO(formData)) }}
+          fields={
+            [
+              { field: 'refType', dataList: ['CST', 'Bill', 'PO'] },
+              { field: 'refId', req: true, fixedValue: `${props.data.refId}` },
+              { field: 'category' },
+              { field: 'fulfillmentSource', dataList: ['Local', 'Foreign'] },
+              { field: 'currency', dataList: ['PKR', 'USD', 'RMB'] },
+              { field: 'totalCost' },
+              { field: 'supplier', dataList: ['Wuhan', 'E-Tech'] },
+              { field: 'status', dataList: ['Closed', 'In Process', 'Delivered'] },
+              { field: 'remarks' }
+            ]
+            // [
+            //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'
+            // ]
+          }
+        // subLevels={['specifications']}
+        />
+      </Modal>
+    }
 
-    <button onClick={() => setShowModal(true)} >Show Details</button>
 
+    <button onClick={() => setShowDetailModal(true)} >Show Details</button>
+
+    <button onClick={() => deletePoItem(props.data.refId)} >Delete PO item</button>
     <button onClick={() => goToPoDetail(props.data.refId)} >Procured Items Detail Page</button>
     <p>
       Reference Type: {props.data.refType},

@@ -10,13 +10,33 @@ const poSlice = createSlice({
   initialState,
   reducers: {
 
-    addPO(state, action) {
+    addPO(poState, action) {
       // Check PO List for duplicates
-      const duplicateIndex = state.findIndex(el => el.refId === action.payload.refId)
+      const duplicateIndex = poState.findIndex(el => el.refId === action.payload.refId)
       // Add the new PO
-      duplicateIndex < 0 ? state.push(action.payload) : console.log(`Duplicate Found`);;
+      duplicateIndex < 0 ? poState.push(action.payload) : console.log(`Duplicate Found`);
     },
 
+    deletePO(poState, action) {
+      // Find PO entry index against the input poId
+      const poIndex = poState.findIndex(el => el.refId === action.payload)
+
+      // delete the PO from the poState slice
+      poIndex < 0 ?
+        console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
+        poState.splice(poIndex, 1);
+    },
+
+    updatePO(poState, action) {
+      // Find PO entry index against the input poId
+      console.log(`updatePO in ran`);
+      // const poIndex = poState.findIndex(el => el.refId === action.payload)
+
+      // delete the PO from the poState slice
+      // poIndex < 0 ?
+      //   console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
+      //   poState.splice(poIndex, 1) && poState;
+    }
   },
 });
 

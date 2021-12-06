@@ -23,7 +23,7 @@ export default function Home() {
 
         <MultiForm
           submitter={(formData) => { console.log(formData); }}
-          defaultFields={[
+          fields={[
             'Type', 'Remarks'
           ]}
           subLevels={['specifications']}

@@ -32,18 +32,18 @@ export default function PO(pProps) {
             closer={() => setShowModal(false)}
           >
             <MultiForm
-              submitter={(formData) => { dispatch(poActions.addPO(formData)) }}
-              defaultFields={
+              submit={(formData) => { dispatch(poActions.addPO(formData)) }}
+              fields={
                 [
-                  { field: 'refType', dataList: ['CST', 'Bill', 'PO'] },
-                  { field: 'refId' },
-                  { field: 'category', dataList: ['Single Quotation', 'Repeat Order'] },
-                  { field: 'fulfillmentSource', dataList: ['Local', 'Foreign'] },
-                  { field: 'currency', dataList: ['PKR', 'USD', 'RMB'] },
-                  { field: 'totalCost' },
+                  { field: 'refType', dataList: ['CST', 'Bill', 'PO'], req: true },
+                  { field: 'refId', req: true },
+                  { field: 'category', dataList: ['Single Quotation', 'Repeat Order'], req: true },
+                  { field: 'fulfillmentSource', dataList: ['Local', 'Foreign'], req: true },
+                  { field: 'currency', dataList: ['PKR', 'USD', 'RMB'], req: true },
+                  { field: 'totalCost', req: true },
                   { field: 'supplier', dataList: ['Wuhan', 'E-Tech'] },
-                  { field: 'status', dataList: ['Closed', 'In Process', 'Delivered'] },
-                  { field: 'remarks' }
+                  { field: 'status', dataList: ['Closed', 'In Process', 'Delivered'], req: true },
+                  { field: 'remarks', }
                 ]
                 // [
                 //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'

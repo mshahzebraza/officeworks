@@ -92,17 +92,59 @@ export default function POdetail(props) {
       >
         <MultiForm
           submit={(formData) => { dispatch(poActions.updatePO(formData)) }}
+          // The field should be rendered automatically.
+          // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.
           fields={
             [
-              { field: 'refType', dataList: ['CST', 'Bill', 'PO'] },
-              { field: 'refId', req: true, fixedValue: `${props.data.refId}` },
-              { field: 'category' },
-              { field: 'fulfillmentSource', dataList: ['Local', 'Foreign'] },
-              { field: 'currency', dataList: ['PKR', 'USD', 'RMB'] },
-              { field: 'totalCost' },
-              { field: 'supplier', dataList: ['Wuhan', 'E-Tech'] },
-              { field: 'status', dataList: ['Closed', 'In Process', 'Delivered'] },
-              { field: 'remarks' }
+              {
+                field: 'refType',
+                req: true,
+                defaultValue: props.data.refType && props.data.refType,
+                dataList: ['CST', 'Bill', 'PO']
+              },
+              {
+                field: 'refId',
+                defaultValue: props.data.refId && props.data.refId,
+                req: true,
+                isFixed: true
+              },
+              {
+                field: 'category',
+                req: true,
+                defaultValue: props.data.category && props.data.category,
+              },
+              {
+                field: 'fulfillmentSource',
+                req: true,
+                defaultValue: props.data.fulfillmentSource && props.data.fulfillmentSource,
+                dataList: ['Local', 'Foreign'],
+              },
+              {
+                field: 'currency',
+                req: true,
+                defaultValue: props.data.currency && props.data.currency,
+                dataList: ['PKR', 'USD', 'RMB'],
+              },
+              {
+                field: 'totalCost',
+                req: true,
+                defaultValue: props.data.totalCost && props.data.totalCost,
+              },
+              {
+                field: 'supplier',
+                defaultValue: props.data.supplier && props.data.supplier,
+                dataList: ['Wuhan', 'E-Tech']
+              },
+              {
+                field: 'status',
+                req: true,
+                defaultValue: props.data.status && props.data.status,
+                dataList: ['Closed', 'In Process', 'Delivered']
+              },
+              {
+                field: 'remarks',
+                defaultValue: props.data.remarks && props.data.remarks,
+              }
             ]
             // [
             //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'

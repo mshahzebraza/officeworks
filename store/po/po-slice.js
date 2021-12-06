@@ -30,6 +30,7 @@ const poSlice = createSlice({
     updatePO(poState, action) {
       // Find PO entry index against the input poId
       console.log(`updatePO in ran`);
+      console.log(action.payload);
       // const poIndex = poState.findIndex(el => el.refId === action.payload)
 
       // delete the PO from the poState slice

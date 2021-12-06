@@ -105,11 +105,12 @@ export default function MultiForm(props) {
 
             {/* VALUE-INPUT-BOX */}
             <input
-              disabled={!!pair.fixedValue}
+              disabled={pair.isFixed}
               list={`optionList-${pair.field}`}
               type="text"
               placeholder={`${pair.level}/value-${pairIndex + 1}`}
-              value={pair.fixedValue ? pair.fixedValue : pair.value}
+              value={pair.value}
+              // value={pair.fixedValue ? pair.fixedValue : pair.value}
               required={pair.req}
               onChange={e => handlePairChange('value', pairIndex, e)}
             />

@@ -3,7 +3,8 @@ Input: [
   {
     field: 'label01' , 
     req: true , 
-    fixedValue: 'fixedValue' , 
+    isFixed: true ,
+    defaultValue: 'someDefaultValue' , // this key will not be present in the output object but it overrides the 'value' key if-it-is-present 
     dataList : [
       'option01_forLabel01',
       'option02_forLabel01'
@@ -17,9 +18,9 @@ Input: [
 Output:  [
   {
     field: 'label01',
-    value: '', ( OR 'fixedValue' ?? !!fixedValue )
+    value: '', ( OR 'someDefaultValue' ?? !!defaultValue )
     level: 0,
-    fixedValue: (depends-on-the-fixedValue-passed), 
+    isFixed: (depends-on-the-isFixed-passed), 
     req: (depends-on-the-req-passed), 
     // for default fields passed in the component this is the case.
     // Can be changed to be there only if 'req' is passed down.
@@ -35,12 +36,16 @@ Output:  [
  */
 
 export function defaultPairMaker(defaultKeys) {
+  console.log(defaultKeys);
+  console.log(defaultKeys[8].field);
+  console.log(defaultKeys[8].defaultValue);
   return defaultKeys.map(curKey => {
     return {
       field: curKey.field,
-      value: '',
+      value: curKey.defaultValue ? curKey.defaultValue : '',
+      // defaultValue: '',
       level: 0,
-      fixedValue: curKey.fixedValue,
+      isFixed: !!curKey.isFixed,
       req: !!curKey.req,
       options: curKey.dataList,
     }

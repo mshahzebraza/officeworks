@@ -42,7 +42,7 @@ export default function PO(pProps) {
                   { field: 'currency', dataList: ['PKR', 'USD', 'RMB'], req: true },
                   { field: 'totalCost', req: true },
                   { field: 'supplier', dataList: ['Wuhan', 'E-Tech'] },
-                  { field: 'status', dataList: ['Closed', 'In Process', 'Delivered'], req: true },
+                  { field: 'status', dataList: ['Active', 'Delivered', 'Closed'], req: true },
                   { field: 'remarks', }
                 ]
                 // [

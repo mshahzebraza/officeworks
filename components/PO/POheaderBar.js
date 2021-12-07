@@ -1,0 +1,2 @@
+//This can be accommodated in the POentryBar as well by introducing an option of special styles based on conditions passed.
+// like if i tell the component that this data is for header, then it should make it bold, etc.

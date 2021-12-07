@@ -8,11 +8,12 @@ const purchaseOrdersDb = [
     currency: 'USD',
     totalCost: 32500,
     supplier: 'Wuhan Beta Tech Company',
-    status: 'Uninitiated', // Raised, Active, Delivered (Payment Pending), Closed 
+    status: 'Active', // Active,Delivered,Closed
     // Remark / Update
-    remarks: [
-      // { dateId, title, remark } // date id is automatically generated for each remark
-    ],
+    remarks: '',
+    //   [ // it is planned to convert the remarks into an array of different remarks
+    //   // { dateId, title, remark } // date id is automatically generated for each remark
+    // ],
     items: [ // 05 items in the PO
       {
         // Trim the input strings before saving from inputs

@@ -10,6 +10,7 @@ export default function POlist(props) {
           key={idx}
           // itemKey={idx}
           data={itemData}
+          dataIndex={idx}
         />
       })}
     </>

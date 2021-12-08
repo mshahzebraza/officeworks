@@ -35,17 +35,21 @@ export default function POdetail(pProps) {
   // poData.refId && console.log(poData.refId);
 
   return (
-    <main>
-
-      <section className={styles.poDetail} >
+    <main className={styles.po} >
+      <section className={styles.poOverview}>
+        <h1>Status: {poData.status} </h1>
         <h1>{poData.refType} ID: {poData.refId} </h1>
         <h1>Total Cost: {poData.currency} {poData.totalCost} </h1>
-        <h1>Supplier: {poData.supplier} </h1>
+
+      </section>
+
+      <section className={styles.poDetail} >
         <h1>Type: {poData.category}, {poData.fulfillmentSource} </h1>
-        <h1>Status: {poData.status} </h1>
+        <h1>Supplier: {poData.supplier} </h1>
       </section>
 
       <section className={styles.poItemList} >
+        {console.log(poData.items)}
         {poData.items ?
           <ul>
             {

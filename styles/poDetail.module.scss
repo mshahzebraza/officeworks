@@ -1,16 +1,44 @@
-.poDetail {
-	padding: 1rem;
-}
-.poItemDetail {
-	padding: 1rem;
-}
-.poItemList {
-	padding: 1rem;
-}
-.poItemForm {
-	padding: 1rem;
+.po {
+	margin: 7rem auto;
+	max-width: 120rem;
+
+	display: grid;
+	gap: 2rem;
+
+	grid-template-rows: 20rem 40rem;
+	grid-template-columns: 30rem 1fr 15rem;
+	grid-template-areas: "poOverview     poDetail      ." // overview poDetail poButtons
+		"poItemList   poItemDetail  poItemDetail";
+	// "poItemList   poItemDetail  poItemDetail";
+
 	background: #000;
-}
-.poItemSpecs {
-	padding: 1rem;
+	& > * {
+		border: 1px solid yellow;
+	}
+
+	&Detail {
+		grid-area: poOverview;
+		padding: 1rem;
+	}
+	&Detail {
+		grid-area: poDetail;
+		padding: 1rem;
+	}
+	&ItemList {
+		grid-area: poItemList;
+		padding: 1rem;
+	}
+	&ItemDetail {
+		// will itself contain a grid
+		grid-area: poItemDetail;
+		padding: 1rem;
+	}
+	&ItemSpecs {
+		grid-area: poItemSpecs;
+		padding: 1rem;
+	}
+	&ItemForm {
+		padding: 1rem;
+		background: #000;
+	}
 }

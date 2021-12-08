@@ -1,3 +1,4 @@
+@import "./abstracts/abstracts";
 html,
 body,
 * {
@@ -31,17 +32,41 @@ button,
 input {
 	font-family: inherit;
 	color: inherit;
-	padding: 0.2em 0.3em;
+	letter-spacing: 0.08em;
+	border: 1.5px solid rgb(90, 89, 89);
+	border-radius: 0.25rem;
+	// padding: 0.2em 0.3em;
+	padding: 0.2em;
 }
 
 button {
-	border-width: 1px;
-	border-color: rgb(90, 89, 89);
-	/* border-style: solid; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem;
+
+	// border-width: 1.5px;
+	// border-color: rgb(90, 89, 89);
+	// border-style: solid;
 	background-color: inherit;
+	&:hover {
+		cursor: pointer;
+	}
 }
 input {
 	/* color: inherit; */
+	// padding: 0.5rem;
+
+	&:disabled {
+		// font-weight: 900;
+		// color: rgb(197, 64, 64);
+		color: white;
+		background-color: $red;
+		&:hover {
+			cursor: not-allowed;
+		}
+		// background-color: transparent;
+	}
 }
 
 h1 {

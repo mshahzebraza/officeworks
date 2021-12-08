@@ -29,6 +29,7 @@ export default function PO(pProps) {
         <button onClick={() => setShowModal(true)} >Add a PO</button>
         {showModal &&
           <Modal
+            title='New PO Entry'
             closer={() => setShowModal(false)}
           >
             <MultiForm

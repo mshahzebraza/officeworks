@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './Modal.module.scss'
+import Image from 'next/image'
 
 export default function Modal(props) {
   return (
@@ -12,7 +13,20 @@ export default function Modal(props) {
           className={`${styles.content}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <button onClick={props.closer} >Close</button>
+          {/* content header */}
+          <div className={styles.contentHeader}>
+            <h2 className={styles.contentTitle}>
+              {props.title && props.title}
+            </h2>
+            <button
+              className={`${styles.closeBtn} ${`tooltip`}`}
+              onClick={props.closer}
+            >
+              <Image src="/icons/close.png" alt="close" width={20} height={20} />
+              {/* <span className={`tooltipContent`} >Edit Record</span> */}
+            </button>
+          </div>
+          {/* content body */}
           {props.children}
         </div>
       </div>

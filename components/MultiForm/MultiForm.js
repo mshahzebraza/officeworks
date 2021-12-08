@@ -82,7 +82,9 @@ export default function MultiForm(props) {
     }
      */
   return (
-    <form onSubmit={handleSubmit} >
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit} >
       {
         inputPairs.map((pair, pairIndex) => {
           return <div
@@ -92,6 +94,7 @@ export default function MultiForm(props) {
 
             {/* LABEL-INPUT-BOX */}
             <input
+              className={styles.formField}
               type="text"
               // depends on 'level'
               placeholder={`${pair.level}/field-${pairIndex + 1}`}
@@ -103,6 +106,7 @@ export default function MultiForm(props) {
 
             {/* VALUE-INPUT-BOX */}
             <input
+              className={styles.formValue}
               disabled={pair.isFixed}
               list={`optionList-${pair.field}`}
               type="text"
@@ -124,17 +128,19 @@ export default function MultiForm(props) {
             }
 
 
-            {!pair.req && <button onClick={e => handlerPairDelete(pairIndex, e)} > Delete pair</button>}
+            {!pair.req && <button className={`${styles.formButton} ${styles.formButton_delete}`} onClick={e => handlerPairDelete(pairIndex, e)} > Delete </button>}
 
           </div>
         })
       }
+      <div className={`${styles.formControls}`}>
+        <button className={`${styles.formButton} ${styles.formButton_submit}`} type='submit' >Submit Data</button>
+        {props.subLevels && props.subLevels.map((subLevel, id) => {
+          return <button key={id} className={`${styles.formButton} ${styles.formButton_subLevel}`} onClick={e => handleFieldAdd(e, id + 1)} >Add {subLevel}</button>
+        })}
+        <button className={`${styles.formButton} ${styles.formButton_addPair}`} onClick={handleFieldAdd}>Add Field</button>
+      </div>
 
-      <button type='submit' >Submit Data</button>
-      {props.subLevels && props.subLevels.map((subLevel, id) => {
-        return <button key={id} onClick={e => handleFieldAdd(e, id + 1)} >Add {subLevel}</button>
-      })}
-      <button onClick={handleFieldAdd}>Add Field</button>
     </form>
   )
 }

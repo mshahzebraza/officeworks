@@ -1,4 +1,5 @@
 .backdrop {
+	z-index: 1000;
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
@@ -37,13 +38,32 @@
 
 .content {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	min-height: min(30vh, 30rem);
+	min-width: min(60vw, 60rem);
 	padding: 20px;
-	box-sizing: border-box;
-	min-height: 30vh;
-	min-width: 60vw;
-	max-height: 80%;
-	max-width: 80%;
+
+	border-radius: 1rem;
+
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-	background-color: white;
-	border-radius: 2px;
+	background-color: rgb(9, 16, 32);
+
+	&Header {
+		display: flex;
+		justify-content: space-between;
+		// flex-direction: column;
+	}
+}
+
+.closeBtn {
+	align-self: flex-end;
+	// position: absolute;
+	border-color: rgb(79, 117, 255);
+	border-radius: 0.5rem;
+	background: hsl(225, 47%, 10%);
+	&:hover {
+		background: hsl(225, 47%, 4%);
+	}
 }

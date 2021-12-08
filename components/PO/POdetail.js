@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import MultiForm from '../MultiForm/MultiForm'
 import EntryBar from './POentryBar'
 
+
 export default function POdetail(props) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -62,11 +63,6 @@ export default function POdetail(props) {
     {updateModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, props)}
 
 
-    <button onClick={() => setShowUpdateModal(true)} >Update PO</button>
-    <button onClick={() => setShowDetailModal(true)} >Show Details</button>
-    <button onClick={() => deletePoItem(props.data.refId)} >Delete PO item</button>
-    <button onClick={() => goToPoDetail(props.data.refId)} >Procured Items Detail Page</button>
-
     <EntryBar
       data={{
         ...props.data,
@@ -86,50 +82,53 @@ export default function POdetail(props) {
       {/* ss */}
     </EntryBar>
 
-    <p>
-      Reference Type: {props.data.refType},
-    </p>
-    <p>
-      Reference ID: {props.data.refId},
-    </p>
-    <p>
-      Items: {itemList ? itemList.map((item, itemIdx) => <span key={itemIdx}>{item.name}, </span>) : `No items found`}
-    </p>
-    <p>
-      Status: {props.data.status},
-    </p>
-
-
   </li >
 
 }
 function detailModalCodeSnippet(showDetailModal, setShowDetailModal, props, itemList) {
   return showDetailModal &&
     <Modal
+      title='PO Detail'
       closer={() => setShowDetailModal(false)}
     >
-      {<div className={styles['poItem-extra']}>
+      {<div className={styles.body}>
 
-        <p>Reference ID: {props.data.refId}</p>
+        <p className={styles.data} >
+          <span className={styles.dataField} >Reference ID:</span>
+          <span className={styles.dataValue} >{props.data.refId}</span>
+        </p>
+        <p className={styles.data} >
+          <span className={styles.dataField} >Total Cost:</span>
+          <span className={styles.dataValue} >{props.data.totalCost}</span>
+        </p>
+        <p className={styles.data} >
+          <span className={styles.dataField} >Supplier:</span>
+          <span className={styles.dataValue} >{props.data.supplier}</span>
+        </p>
+        <p className={styles.data} >
+          <span className={styles.dataField} >PO Category:</span>
+          <span className={styles.dataValue} >{props.data.category}</span>
+        </p>
+        <p className={styles.data} >
+          <span className={styles.dataField} >Source:</span>
+          <span className={styles.dataValue} >{props.data.fulfillmentSource}</span>
+        </p>
 
-        <p>Total Cost: {props.data.totalCost}</p>
+        <div className={styles.data}>
+          <span className={styles.dataField}>Items Procured:</span>
+          <ul className={styles.dataValue} >
+            {itemList ?
+              itemList.map(
+                (item, itemIdx) => <li
+                  className={styles.dataItem}
+                  key={itemIdx}
+                >
+                  <span className={styles.dataItemQty}> {item.qty} </span>
+                  <span className={styles.dataItemType} >{item.name}</span>
+                </li>) : <>No items</>}
+          </ul>
+        </div>
 
-        <p>Supplier: {props.data.supplier}</p>
-
-        <p>PO Category: {props.data.category}</p>
-
-        <p>Source: {props.data.fulfillmentSource}</p>
-
-        Items Procured:
-        <ul>
-          {itemList ?
-            itemList.map(
-              (item, itemIdx) => <li
-                key={itemIdx}
-              >
-                <span>{item.name}</span>: <span> {item.qty} </span>
-              </li>) : <>No items</>}
-        </ul>
       </div>}
     </Modal>;
 }
@@ -137,6 +136,7 @@ function detailModalCodeSnippet(showDetailModal, setShowDetailModal, props, item
 function updateModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, props) {
   return showUpdateModal &&
     <Modal
+      title='Edit Entry'
       closer={() => setShowUpdateModal(false)}
     >
       <MultiForm

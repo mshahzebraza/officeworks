@@ -46,11 +46,8 @@ export default function PO(pProps) {
                   { field: 'status', dataList: ['Active', 'Delivered', 'Closed'], req: true },
                   { field: 'remarks', }
                 ]
-                // [
-                //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'
-                // ]
               }
-            // subLevels={['specifications']}
+              subLevels={['specifications']}
             />
           </Modal>}
 

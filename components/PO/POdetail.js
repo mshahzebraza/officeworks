@@ -1,11 +1,18 @@
+// Dependency
 import React, { useState } from 'react';
-import styles from './ListItem.module.scss';
 import { useRouter } from 'next/router';
-import Modal from '../UI/Modal';
-import { poActions } from '../../store/po/po-slice'
 import { useDispatch } from 'react-redux';
+import { repeatQtyList } from '../../public/helpers';
+
+// Store & Styles
+import { poActions } from '../../store/po/po-slice'
+import styles from './POdetail.module.scss';
+
+// Components
+import Modal from '../UI/Modal';
 import MultiForm from '../MultiForm/MultiForm'
 import EntryBar from './POentryBar'
+
 
 
 export default function POdetail(props) {
@@ -16,7 +23,7 @@ export default function POdetail(props) {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   // Ensures that the delete action is intentional by making the user type a DELETE PHRASE.
-  const deletePoItem = (refID) => {
+  function deletePoItem(refID) {
     console.log(`Request to delete ${refID} received.`);
     const answer = prompt('You will now be able to retrieve it back! Type "DELETE THIS PO" if you really want to delete it.')
     if (answer === "DELETE THIS PO") {
@@ -32,28 +39,12 @@ export default function POdetail(props) {
   }
 
   // Makes sure that 01 TYPE of item is displayed once. And checks for repetition.
-  // In case of repetition, the quantity is increased by 1.
-  const itemList = props.data.items && props.data.items.
-    reduce((prev, cur, arr) => {
-
-      // Check duplicate
-      const duplicateIndex = prev.findIndex((prev) => prev.name === cur.name)
-
-      // No Duplicate
-      if (duplicateIndex === -1) {
-        prev.push(
-          { name: cur.name, qty: 1 }
-        )
-      };
-
-      // Found Duplicate
-      if (duplicateIndex >= 0) {
-        prev[duplicateIndex].qty++;
-      };
-
-      return prev
-
-    }, []);
+  let itemList = [];
+  if (props.data.items && props.data.items.length > 0) {
+    // props.data.items // poItem -> itemsArray (containing all items contained in the PO)
+    const itemListArray = props.data.items.map((el, elIdx) => el.name); // ['po_item1', 'po_item1', 'po_item2']
+    itemList = repeatQtyList(itemListArray); // [{item: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
+  }
 
   return <li
     className={styles.poItem}
@@ -66,10 +57,7 @@ export default function POdetail(props) {
     <EntryBar
       data={{
         ...props.data,
-        itemList: itemList
-        // ? itemList.map((item, itemIdx) => <span key={itemIdx}>{item.name}, </span>)
-        // : `No items found`
-        ,
+        itemList,
         index: props.dataIndex
       }}
       handlers={{
@@ -79,7 +67,6 @@ export default function POdetail(props) {
         delete: deletePoItem, // expects refId
       }}
     >
-      {/* ss */}
     </EntryBar>
 
   </li >
@@ -124,7 +111,7 @@ function detailModalCodeSnippet(showDetailModal, setShowDetailModal, props, item
                   key={itemIdx}
                 >
                   <span className={styles.dataItemQty}> {item.qty} </span>
-                  <span className={styles.dataItemType} >{item.name}</span>
+                  <span className={styles.dataItemType} >{item.item}</span>
                 </li>) : <>No items</>}
           </ul>
         </div>

@@ -15,14 +15,14 @@ export default function POentryBar(props) {
       <span className={styles.entryId}>{pd.refId}</span>
       <span className={styles.entryItemList}>
         {
-          pd.itemList
+          pd.itemList.length > 0
             ? pd.itemList.map(
               (item, itemIdx) =>
                 <span
                   key={itemIdx}
                   className={styles.entryItem}
                 >
-                  {item.name}
+                  {item.item}
                 </span>
             )
             : <span className={`${styles.entryItem} ${styles.entryItemEmpty}`} >

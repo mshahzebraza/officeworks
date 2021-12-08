@@ -8,7 +8,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	// gap: 1rem;
+	gap: 1rem;
 	// padding: 1rem;
 	background: $lite;
 	border-radius: 0.5rem;
@@ -47,6 +47,11 @@
 		padding: 0.25em 0.5em;
 		border-radius: 0.5rem;
 		background: hsla(0, 0%, 0%, 0.15);
+
+		&Empty {
+			color: $red;
+		}
+
 		&:hover {
 			cursor: pointer;
 			background: hsla(0, 0%, 0%, 0.45);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './Multiform.module.scss'
-import { guid, defaultPairMaker, multiFormDataTranslator } from '../../public/helpers';
+import { guid, defaultPairMaker, multiFormDataTranslator } from '../../helpers/specific';
 import { useDispatch } from 'react-redux'
 import { poActions } from '../../store/po/po-slice'
 

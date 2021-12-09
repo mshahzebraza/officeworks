@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
-import styles from './POentryBar.module.scss'
+import styles from './POentry.module.scss'
 
-export default function POentryBar(props) {
+export default function POdetailBar(props) {
   const pd = props.data;
   const ph = props.handlers;
   /* 

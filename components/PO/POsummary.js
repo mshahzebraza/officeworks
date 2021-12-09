@@ -2,20 +2,20 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { repeatQtyList } from '../../public/helpers';
+import { repeatQtyList } from '../../helpers/specific';
 
 // Store & Styles
 import { poActions } from '../../store/po/po-slice'
-import styles from './POdetail.module.scss';
+import styles from './POsummary.module.scss';
 
 // Components
 import Modal from '../UI/Modal';
 import MultiForm from '../MultiForm/MultiForm'
-import EntryBar from './POentryBar'
+import EntryBar from './POentry'
 
 
 
-export default function POdetail(props) {
+export default function POsummary(props) {
   const router = useRouter();
   const dispatch = useDispatch();
 

@@ -1,3 +1,4 @@
+import { addObjectPair } from './reusable'
 /* 
 Input: [
   {
@@ -104,7 +105,7 @@ export function multiFormDataTranslator(data, subLevels = []) {
 
     // console.log(newData[`${subLevels[pair.level - 0]}`]);
     if (pair.level === 0) {
-      newData[`${pair.field}`] = pair.value
+      newData = addObjectPair(newData, [pair.field, pair.value])
     }
     if (pair.level > 0) {
       // Because first subCategory is at level 0 and the subCategory array doesn't include the base level.

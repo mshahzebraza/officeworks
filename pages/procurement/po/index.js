@@ -9,6 +9,7 @@ import POList from '../../../components/PO/POlist'
 import purchaseOrdersDb from '../../../db/purchaseOrders'
 import { poActions } from '../../../store/po/po-slice'
 
+
 export default function PO(pProps) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +18,6 @@ export default function PO(pProps) {
 
   return (
     <main>
-
 
       <section className={styles.poData} >
         <POList

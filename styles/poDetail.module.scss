@@ -7,9 +7,11 @@
 
 	grid-template-rows: 20rem 50rem;
 	grid-template-columns: 30rem 1fr 15rem;
-	grid-template-areas: "poHeader     poHeader      poHeader" // overview poDetail poButtons
-		"poItemList   poItemDetail  poItemDetail";
-	// "poItemList   poItemDetail  poItemDetail";
+	grid-template-areas: 
+  // overview poDetail poButtons
+
+		"poHeader     poHeader      poHeader"
+		"poNavList   poDetails  poDetails";
 
 	background: #000;
 	& > * {
@@ -21,24 +23,30 @@
 		padding: 1rem;
 		background: #bbb;
 	}
+	&NavList {
+		grid-area: poNavList;
+	}
+	&Details {
+		grid-area: poDetails;
+	}
 
-	&ItemList {
-		grid-area: poItemList;
-		padding: 1rem;
-	}
-	&ItemDetail {
-		// will itself contain a grid
-		grid-area: poItemDetail;
-		padding: 1rem;
-	}
-	&ItemSpecs {
-		// grid-area: poItemSpecs;
-		// padding: 1rem;
-	}
-	&ItemForm {
-		padding: 1rem;
-		background: #000;
-	}
+	// &ItemList {
+	// 	grid-area: poItemList;
+	// 	padding: 1rem;
+	// }
+	// &ItemDetail {
+	// 	// will itself contain a grid
+	// 	grid-area: poItemDetail;
+	// 	padding: 1rem;
+	// }
+	// &ItemSpecs {
+	// 	// grid-area: poItemSpecs;
+	// 	// padding: 1rem;
+	// }
+	// &ItemForm {
+	// 	padding: 1rem;
+	// 	background: #000;
+	// }
 }
 .pair {
 	display: flex;

@@ -47,120 +47,26 @@ export default function POdetailPage(pProps) {
 
 
       {/* Header */}
-
-      {/* ---Primary */}
-      {/* ---Secondary */}
-      {/* ---Controls */}
-
-      {/* Navigation List */}
-
-      {/* Detail */}
-
-
       <POheader
         classes={[styles.poHeader]}
         data={poSummary} // summary of current PO - top/entry level && buttons for next PO
       />
+
+      {/* Navigation List */}
       <POnavList
         classes={[styles.poNavList]}
         data={poData} // list of items in current PO - with item-name & ID 
       />
+      {/* Detail */}
       <POdetails
-        classes={[styles.podetails]}
+        classes={[styles.poDetails]}
         data={poData} // detail for the current PO - nested/item/detail level
         dataIndex={activeItemIndex}
         setDataIndex={setActiveItemIndex}
         totalItems={totalItems}
       />
 
-      {/* <section className={styles.poOverview}>
-        <h1>Status: {poData.status} </h1>
-        <h1>{poData.refType} ID: {poData.refId} </h1>
-        <h1>Total Cost: {poData.currency} {poData.totalCost} </h1>
-      </section>
 
-      <section className={styles.poDetail} >
-        <h1>Type: {poData.category}, {poData.fulfillmentSource} </h1>
-        <h1>Supplier: {poData.supplier} </h1>
-      </section> */}
-
-      {/* <section className={styles.poItemList} >
-        {console.log(poData.items)}
-        {poData.items ?
-          <ul>
-            {
-              poData.items.map((item, itemIdx) => {
-                return <li key={itemIdx} >{item.name}</li>
-              })
-            }
-          </ul>
-          : <>No Items Available</>
-        }
-      </section> */}
-
-      {/* <section className={styles.poItemDetail} >
-        {poData.items &&
-          <>
-            <h2 className={styles.title} >Product Details</h2>
-            <h4 className={styles.pair}>
-              <span className={styles.pairField}>ProductId</span>
-              <span className={styles.pairValue}>{poData.items[activeItemIndex].id}</span>
-            </h4>
-            <h4 className={styles.pair}>
-              <span className={styles.pairField}>Product Name</span>
-              <span className={styles.pairValue}>{poData.items[activeItemIndex].name}</span>
-            </h4>
-            <h4 className={styles.pair}>
-              <span className={styles.pairField}>Product Quantity</span>
-              <span className={styles.pairValue}>{poData.items[activeItemIndex].qty}</span>
-            </h4>
-            <h4 className={styles.pair}>
-              <span className={styles.pairField}>Product Type</span>
-              <span className={styles.pairValue}>{poData.items[activeItemIndex].type}</span>
-            </h4>
-            <h4 className={styles.pair}>
-              <span className={styles.pairField}>Unit Price</span>
-              <span className={styles.pairValue}>{poData.items[activeItemIndex].unitPrice}</span>
-            </h4>
-
-
-            <h2 className={styles.subTitle} >Specifications</h2>
-
-            <ul className={styles.poItemSpecs} >
-              {
-                Object.entries(poData.items[activeItemIndex].specification).map((specPair, specPairIndex) => {
-                  return <li className={styles.pair} key={specPairIndex}>
-                    <h5 className={styles.pairField}>{specPair[0]}: </h5>
-                    <p className={styles.pairValue}>{specPair[1]}</p>
-                  </li>
-                })
-              }
-            </ul>
-            <button
-              disabled={activeItemIndex === 0}
-              onClick={
-                (e) => {
-                  setActiveItemIndex((prevState) => {
-                    return prevState - 1
-                  })
-                }
-              }
-            >Last Item </button>
-            <button
-              disabled={activeItemIndex === totalItems.length - 1}
-              onClick={
-                (e) => {
-                  setActiveItemIndex((prevState) => {
-                    return prevState + 1
-                  })
-                }
-              }
-            >Next Item </button>
-          </>
-        }
-
-
-      </section> */}
 
     </main>
   )
@@ -168,9 +74,9 @@ export default function POdetailPage(pProps) {
 
 // Next functions
 
-function commentCode(params) {
-  return <>
+// function commentCode(params) {
+//   return <>
 
 
-  </>
-}
+//   </>
+// }

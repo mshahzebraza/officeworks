@@ -12,13 +12,16 @@ export default function POheader(props) {
 
   return (
     <section className={concatStrings([...props.classes, styles.poHeader])} >
+      {/* Overview */}
       <div className={styles.poOverview}>
         {getTransformedEntries(OV_data, entryCallback)}
       </div>
 
+      {/* Secondary */}
       <div className={styles.poMeta} >
         {getTransformedEntries(meta_data, entryCallback)}
       </div>
+      {/* Controls */}
       {/* <section className={styles.poControls}></section> */}
     </section>
   )

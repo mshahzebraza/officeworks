@@ -38,7 +38,7 @@ export default function POdetailPage(pProps) {
 
   const totalItems = poData.items;
 
-  poData && console.log(poData);
+  // poData && console.log(poData);
   // poData.refId && console.log(poData.refId);
   const poSummary = cloneAndPluck(poData, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
 
@@ -53,18 +53,27 @@ export default function POdetailPage(pProps) {
       />
 
       {/* Navigation List */}
-      <POnavList
-        classes={[styles.poNavList]}
-        data={poData} // list of items in current PO - with item-name & ID 
-      />
+      {
+        poData.items
+          ? <POnavList
+            classes={[styles.poNavList]}
+            data={poData.items} // list of items in current PO - with item-name & ID 
+          />
+          : `No Items Inside`
+      }
+
       {/* Detail */}
-      <POdetails
-        classes={[styles.poDetails]}
-        data={poData} // detail for the current PO - nested/item/detail level
-        dataIndex={activeItemIndex}
-        setDataIndex={setActiveItemIndex}
-        totalItems={totalItems}
-      />
+      {
+        poData.items
+          ? <POdetails
+            classes={[styles.poDetails]}
+            data={poData.items} // detail for the current PO - nested/item/detail level
+            dataIndex={activeItemIndex}
+            setDataIndex={setActiveItemIndex}
+            totalItems={totalItems}
+          />
+          : `No Items Inside`
+      }
 
 
 

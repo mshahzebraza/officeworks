@@ -54,3 +54,7 @@ export function pairToEntry(pairArr, pairIndex) {
     label: pairArr[0], value: pairArr[1]
   }
 }
+
+export function genLog(label, data, background = '#78f086', padding = '0.5rem 1rem', color = '#000') {
+  console.log(`%c ${label}`, `background: ${background}; padding: ${padding}; color: ${color}`, data);
+}

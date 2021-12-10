@@ -63,25 +63,44 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
-        specification: {
-          type: 'Slot Head',
-          dimensions: '20 V',
-          material: '70 A',
-          details: 'All of the long long lorem ipsum goes in here if it is felt that the content does not fall in any other category',
-        }
+        // specification: {
+        //   type: 'Slot Head',
+        //   dimensions: '20 V',
+        //   material: '70 A',
+        //   details: 'All of the long long lorem ipsum goes in here if it is felt that the content does not fall in any other category',
+        // }
       },
     ]
   },
   {
-    refType: 'PO', // Bill, Delivery Note (DN), , Comparative Statement of Tender (CST), Purchase Order (PO)
-    refId: 'NDC-LP-MN-65', // typeOfRef-YYYYMMDD
+    refType: 'PO',
+    refId: 'NDC-LP-MN-65',
     category: 'Repeat Order',
     fulfillmentSource: 'Foreign',
     currency: 'RMB',
     totalCost: 2500,
     supplier: 'Wuhan Beta Tech Company',
     status: 'Closed',
-  }
+  },
+  {
+    refType: 'Bill',
+    refId: '269-IE-FP-9-21',
+    category: 'Spot Purchase',
+    fulfillmentSource: 'Local',
+    currency: 'PKR',
+    totalCost: 500,
+    supplier: 'E-Tech',
+    status: 'Delivered',
+    items: [ // 01 items in the PO
+      {
+        name: 'Fasteners',
+        type: 'Standard',
+        id: 'M5*25 SS A4',
+        qty: 200,
+        unitPrice: 45,
+      },
+    ]
+  },
 ]
 
 export default purchaseOrdersDb;

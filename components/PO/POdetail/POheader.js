@@ -6,7 +6,7 @@ import styles from './POheader.module.scss'
 import { concatStrings, getTransformedEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
 
 export default function POheader(props) {
-  console.log(props.data);
+  // console.log(props.data);
   const OV_data = cloneAndPluck(props.data, ['refId', 'refType', 'totalCost'])
   const meta_data = cloneAndPluck(props.data, ['fulfillmentSource', 'category', 'supplier'])
 

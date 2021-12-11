@@ -2,8 +2,8 @@ import React from 'react'
 import styles from './POdetails.module.scss'
 import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck } from '../../../helpers/reusable'
 
-export default function POdetails({ data: itemList, dataIndex, setDataIndex, totalItems }) {
-  // genLog('Total Items', totalItems)
+export default function POdetails({ data: itemList, dataIndex, setDataIndex }) {
+  // genLog('Total Items', itemList)
   // Data used - Top Level
   /*
     Product Id        : {data[dataIndex].id}
@@ -62,10 +62,10 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex, tot
           </> : <p className='note'>No Specification for item. - POdetail</p>
         }
 
-        {totalItems.length > 1 &&
+        {itemList.length > 1 &&
           <>
-            {navBtn('prev', setDataIndex, totalItems.length, dataIndex, 'Prev Item')}
-            {navBtn('next', setDataIndex, totalItems.length, dataIndex, 'Next Item')}
+            {navBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
+            {navBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
           </>
         }
       </section>

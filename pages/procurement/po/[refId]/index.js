@@ -38,14 +38,17 @@ export default function POdetailPage(pProps) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   // poData.items[activeItemIndex] - the item showed in the detail section
 
-  const totalItems = poData.items;
-
-  poData && console.log(poData);
-  // poData.refId && console.log(poData.refId);
   const poSummaryData = cloneAndPluck(poData, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
-  const poNavListData = poData.items && poData.items.length > 0 && poData.items.map(el => { return cloneAndPluck(el, ['name', 'id']) });
 
-  console.log(poNavListData); // contains the same order as the array of poData.items
+  const poNavListData = poData.items
+    && poData.items.length > 0
+    && poData.items.map((el, elIdx) => {
+      const items = cloneAndPluck(el, ['name', 'id']);
+      items.order = elIdx; // order key added to the object
+      return items
+    });
+
+  // console.log(poNavListData); // contains the same order as the array of poData.items
 
   return (
     <main className={styles.po} >
@@ -63,7 +66,8 @@ export default function POdetailPage(pProps) {
           ? <POnavList
             classes={[styles.poNavList]}
             // const itemListArray = props.data.items.map((el, elIdx) => {el.name})
-            data={poData.items} // list of items in current PO - with item-name & ID 
+            data={poNavListData} // list of items in current PO - with item-name & item-ID 
+            activeItemVersion={poNavListData[activeItemIndex].id}
             activeIndex={activeItemIndex}
             setActiveIndex={setActiveItemIndex}
           />
@@ -78,7 +82,6 @@ export default function POdetailPage(pProps) {
             data={poData.items} // detail for the current PO - nested/item/detail level
             dataIndex={activeItemIndex}
             setDataIndex={setActiveItemIndex}
-            totalItems={totalItems}
           />
           : <p className='note'>No Items Inside - detailPage</p>
       }

@@ -47,7 +47,7 @@ const purchaseOrdersDb = [
       {
         name: 'Motor',
         type: 'Special',
-        id: 'NRS BF 200x4 1002',
+        id: 'J48ZWX01',
         qty: 100,
         unitPrice: 500,
         specification: {

@@ -104,15 +104,18 @@ function detailModalCodeSnippet(showDetailModal, setShowDetailModal, props, item
         <div className={styles.data}>
           <span className={styles.dataField}>Items Procured:</span>
           <ul className={styles.dataValue} >
-            {itemList ?
-              itemList.map(
-                (item, itemIdx) => <li
-                  className={styles.dataItem}
-                  key={itemIdx}
-                >
-                  <span className={styles.dataItemQty}> {item.qty} </span>
-                  <span className={styles.dataItemType} >{item.item}</span>
-                </li>) : <>No items</>}
+            {
+              itemList && itemList.length > 0
+                ? itemList.map(
+                  (item, itemIdx) => <li
+                    className={styles.dataItem}
+                    key={itemIdx}
+                  >
+                    <span className={styles.dataItemQty}> {item.qty} </span>
+                    <span className={styles.dataItemType} >{item.item}</span>
+                  </li>)
+                : <span>No items</span>
+            }
           </ul>
         </div>
 

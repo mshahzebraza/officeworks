@@ -59,7 +59,7 @@ export default function POdetailPage(pProps) {
             classes={[styles.poNavList]}
             data={poData.items} // list of items in current PO - with item-name & ID 
           />
-          : `No Items Inside`
+          : <p className='note'>No Items Inside - detailPage</p>
       }
 
       {/* Detail */}
@@ -72,10 +72,8 @@ export default function POdetailPage(pProps) {
             setDataIndex={setActiveItemIndex}
             totalItems={totalItems}
           />
-          : `No Items Inside`
+          : <p className='note'>No Items Inside - detailPage</p>
       }
-
-
 
     </main>
   )

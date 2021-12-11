@@ -41,11 +41,24 @@ export function addObjectPair(parentObj, entryPairArr) {
 // Input: {label1: 'value1', label2: 'value2'}
 // Output: [['label1': 'value1'], ['label2': 'value2']]
 // performs transformation on each object-pair and returns an array.
-export function getTransformedEntries(object, transformer = pairToEntry) {
+export function transformEntries(object, transformer = pairToEntry) {
   return Object.entries(object).map((el, idx) => {
     return transformer(el, idx)
   });
 }
+
+export function transformArray(array, transformer) {
+  return array.map((el, idx) => {
+    return transformer(el, idx)
+  });
+}
+
+// Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {
+//   return <li className={styles.pair} key={specPairIndex}>
+//     <h5 className={styles.pairField}>{specPair[0]}: </h5>
+//     <p className={styles.pairValue}>{specPair[1]}</p>
+//   </li>
+// })
 
 // Input: ['label1', 'value1']
 // Input: {label1: 'value1'}
@@ -57,4 +70,46 @@ export function pairToEntry(pairArr, pairIndex) {
 
 export function genLog(label, data, background = '#78f086', padding = '0.5rem 1rem', color = '#000') {
   console.log(`%c ${label}`, `background: ${background}; padding: ${padding}; color: ${color}`, data);
+}
+
+
+
+
+// Input: ['s','s','y','y','y','z']
+/* 
+Output: [
+  {item:'s', qty: 2},
+  {item:'y', qty: 3}
+  {item:'z', qty: 1}
+]
+ */
+export function removeDuplicate(list, label = 'item') {
+  let result;
+  if (list.length === 0) {
+    result = []
+  } else {
+
+    result = list.reduce((prev, cur, arr) => {
+
+      // Check duplicate
+      const duplicateIndex = prev.findIndex((el) => el[label] === cur)
+
+      // No Duplicate
+      if (duplicateIndex === -1) {
+        prev.push(
+          { [label]: cur, qty: 1 }
+        )
+      };
+
+      // Found Duplicate
+      if (duplicateIndex >= 0) {
+        prev[duplicateIndex].qty++;
+      };
+
+      return prev
+
+    }, [])
+  }
+
+  return result;
 }

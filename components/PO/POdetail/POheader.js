@@ -3,7 +3,7 @@ import React from 'react'
 // Styles & Stores
 import styles from './POheader.module.scss'
 // Components
-import { concatStrings, getTransformedEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
+import { concatStrings, transformEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
 
 export default function POheader(props) {
   // console.log(props.data);
@@ -14,12 +14,12 @@ export default function POheader(props) {
     <section className={concatStrings([...props.classes, styles.poHeader])} >
       {/* Overview */}
       <div className={styles.poOverview}>
-        {getTransformedEntries(OV_data, entryCallback)}
+        {transformEntries(OV_data, entryCallback)}
       </div>
 
       {/* Secondary */}
       <div className={styles.poMeta} >
-        {getTransformedEntries(meta_data, entryCallback)}
+        {transformEntries(meta_data, entryCallback)}
       </div>
       {/* Controls */}
       {/* <section className={styles.poControls}></section> */}

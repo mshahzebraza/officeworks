@@ -1,138 +1,52 @@
-@import "../../styles/abstracts/abstracts";
-.entry {
-	// margin: auto;
-	// max-width: 80rem;
-	padding: 1rem calc((100vw - 100rem) / 2);
+.poItem {
 	// padding: 1rem;
-	// (100vw - desiredContentWidth)/2
+}
+
+.body {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.data {
+	display: flex;
 	gap: 1rem;
-	// padding: 1rem;
-	background: $lite;
-	border-radius: 0.5rem;
 
-	&Index {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
-		// color: royalblue;
+	&Field {
+		flex: 0 0 30%;
+		// background: #000;
+		// padding: 0.5rem;
 	}
-
-	&Type {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
-		// color: royalblue;
-	}
-
-	&Id {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 15%;
-		// color: royalblue;
-	}
-
-	&ItemList {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 45%;
+	&Value {
+		flex: 1;
 		display: flex;
-		gap: 1rem;
-		// justify-content: space-between;
-		// color: royalblue;
+		flex-direction: column;
+		gap: 0.5rem;
+		// padding: 0.5rem;
+		// for round items objects
 	}
-
 	&Item {
-		// border: 1px dotted saddlebrown;
-		// flex: 0 0 35%;
-		// color: royalblue;
-		padding: 0.25em 0.5em;
-		border-radius: 0.5rem;
-		background: hsla(0, 0%, 0%, 0.15);
-
-		&Empty {
-			color: $red;
-		}
-
-		&:hover {
-			cursor: pointer;
-			background: hsla(0, 0%, 0%, 0.45);
-		}
-	}
-
-	&Status {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 10%;
-		// flex: 0 1 10%;
+		// background: #000;
 		display: flex;
-		// justify-content: center;
-		// align-items: center;
+		align-items: center;
 		gap: 1rem;
-		// color: royalblue;
-		padding: 0.25em;
-		border-radius: 0.5rem;
 
-		&Icon {
-			// border: 1px dotted saddlebrown;
+		&Qty {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
 			width: 2rem;
 			height: 2rem;
-			border-radius: 0.35rem;
+			font-size: 1.2rem;
 
-			&-active {
-				background-color: rgb(235, 179, 76);
-			}
-			&-delivered {
-				background-color: rgb(78, 134, 247);
-			}
-			&-closed {
-				background-color: rgb(71, 220, 41);
-			}
-		}
-		&Text {
+			border-radius: 2rem;
+			// padding: 1rem;
+			border: 1.5px solid rgb(56, 99, 160);
 			// background: #000;
-			// display: none;
-			font-weight: 400;
-			// color: ivory;
-			transform: translateX(-1rem);
-			width: 0;
-			opacity: 0;
-			transition: 0.2s ease all;
+			// flex: 0 0 10rem;
 		}
-		&:hover {
-			background: hsla(0, 0%, 0%, 0.15);
-			cursor: pointer;
-			*:nth-child(n + 2) {
-				transform: translateX(0);
-				// background: red;
-				width: initial;
-				opacity: 1;
-			}
-		}
-	}
-
-	&Controls {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 20%;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		// align-items: center;
-		button {
-			border-radius: 0.35rem;
-			padding: 0.65rem;
-			// padding: 0.65rem 0.5rem 0.5rem;
-			flex-basis: 20%;
-			border: 1.5px solid rgb(74, 104, 145);
-			box-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.25);
-			&:active,
-			&:hover {
-				cursor: pointer;
-			}
-			&:hover {
-				background-color: hsla(0, 0%, 0%, 15%);
-			}
-			&:active {
-				background-color: hsla(0, 0%, 0%, 45%);
-				// background-color: darken($color: black, $amount: 0.01);
-			}
+		&Type {
+			flex: 0 0 50%;
 		}
 	}
 }

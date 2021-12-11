@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './POdetails.module.scss'
-import { camelToSentenceCase, genLog, cloneAndPluck } from '../../../helpers/reusable'
+import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck } from '../../../helpers/reusable'
 
 export default function POdetails({ data: itemList, dataIndex, setDataIndex, totalItems }) {
-  genLog('Total Items', totalItems)
+  // genLog('Total Items', totalItems)
   // Data used - Top Level
   /*
     Product Id        : {data[dataIndex].id}
@@ -13,25 +13,6 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex, tot
     Unit Price        : {data[dataIndex].unitPrice}
    */
 
-  // DOM Mockup for a pair entry
-  /*
-    <h4 className={styles.pair}>
-      <span className={styles.pairField}>Product Id</span>
-      <span className={styles.pairValue}>{data[dataIndex].id}</span>
-    </h4>
-   */
-
-  // render function for the specification object
-  /*
-    {
-      Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {
-        return <li className={styles.pair} key={specPairIndex}>
-          <h5 className={styles.pairField}>{specPair[0]}: </h5>
-          <p className={styles.pairValue}>{specPair[1]}</p>
-        </li>
-      })
-    }
-   */
 
   const itemLabels = [
     'Item Id',
@@ -46,13 +27,13 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex, tot
 
   const curItemData = itemList[dataIndex] ? itemList[dataIndex] : `No items found in PO`;
 
-  genLog(`Current Item Data`, curItemData)
+  // genLog(`Current Item Data`, curItemData)
 
   const itemSummary = cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
-  console.log('itemSummary', itemSummary);
+  // genLog('itemSummary', itemSummary);
 
   const itemSpecification = curItemData.specification;
-  console.log(`itemSpecification`, itemSpecification);
+  // genLog(`itemSpecification`, itemSpecification);
 
 
   return (
@@ -63,9 +44,7 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex, tot
             <>
               <h2 className={styles.title} >Product Details</h2>
               {
-                Object.entries(itemSummary).map((specPair, specPairIndex) => {
-                  return renderListItem(specPair, specPairIndex)
-                })
+                transformEntries(itemSummary, renderListItem)
               }
             </>
             :
@@ -77,9 +56,7 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex, tot
             <h2 className={styles.subTitle} >Specifications</h2>
             <ul className={styles.poItemSpecs} >
               {
-                Object.entries(itemSpecification).map((specPair, specPairIndex) => {
-                  return renderListItem(specPair, specPairIndex)
-                })
+                transformEntries(itemSpecification, renderListItem)
               }
             </ul>
           </> : <p className='note'>No Specification for item. - POdetail</p>
@@ -115,3 +92,4 @@ export function navBtn(type = 'next', stateSetter, dataLength, curDataIndex, cap
     }
   >{caption ? caption : type}</button>
 }
+

@@ -31,16 +31,21 @@ export async function getServerSideProps(context) {
 }
 
 export default function POdetailPage(pProps) {
-  // Find the po against the ID in URL
+  // Find the po-data against the ID in URL
   const poData = useSelector(state => { return state.po.find(item => item.refId === pProps.pid) })
-  // Control the visible item in the PO for item details
+
+  // Control the active/visible item in the PO for item details
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+  // poData.items[activeItemIndex] - the item showed in the detail section
 
   const totalItems = poData.items;
 
-  // poData && console.log(poData);
+  poData && console.log(poData);
   // poData.refId && console.log(poData.refId);
-  const poSummary = cloneAndPluck(poData, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
+  const poSummaryData = cloneAndPluck(poData, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
+  const poNavListData = poData.items && poData.items.length > 0 && poData.items.map(el => { return cloneAndPluck(el, ['name', 'id']) });
+
+  console.log(poNavListData); // contains the same order as the array of poData.items
 
   return (
     <main className={styles.po} >
@@ -49,7 +54,7 @@ export default function POdetailPage(pProps) {
       {/* Header */}
       <POheader
         classes={[styles.poHeader]}
-        data={poSummary} // summary of current PO - top/entry level && buttons for next PO
+        data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
       />
 
       {/* Navigation List */}
@@ -57,7 +62,10 @@ export default function POdetailPage(pProps) {
         poData.items
           ? <POnavList
             classes={[styles.poNavList]}
+            // const itemListArray = props.data.items.map((el, elIdx) => {el.name})
             data={poData.items} // list of items in current PO - with item-name & ID 
+            activeIndex={activeItemIndex}
+            setActiveIndex={setActiveItemIndex}
           />
           : <p className='note'>No Items Inside - detailPage</p>
       }

@@ -5,6 +5,7 @@ import { store } from '../store/index'
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store} >
+      <div id="portalRoot"></div>
       <Component {...pageProps} />
     </Provider>
   )

@@ -44,7 +44,7 @@ export default function POentry(props) {
   >
     {/* Code for Modals */}
     {summaryModalCodeSnippet(showDetailModal, setShowDetailModal, props, itemList)}
-    {editModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, props)}
+    {editModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, props.data)}
 
 
     <POentryBar
@@ -116,7 +116,7 @@ function summaryModalCodeSnippet(showDetailModal, setShowDetailModal, props, ite
     </Modal>;
 }
 
-function editModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, props) {
+function editModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, data) {
   return showUpdateModal &&
     <Modal
       title='Edit Entry'
@@ -130,51 +130,51 @@ function editModalCodeSnippet(showUpdateModal, setShowUpdateModal, dispatch, pro
           {
             field: 'refType',
             req: true,
-            defaultValue: props.data.refType && props.data.refType,
+            defaultValue: data.refType && data.refType,
             dataList: ['CST', 'Bill', 'PO']
           },
           {
             field: 'refId',
-            defaultValue: props.data.refId && props.data.refId,
+            defaultValue: data.refId && data.refId,
             req: true,
             isFixed: true
           },
           {
             field: 'category',
             req: true,
-            defaultValue: props.data.category && props.data.category,
+            defaultValue: data.category && data.category,
           },
           {
             field: 'fulfillmentSource',
             req: true,
-            defaultValue: props.data.fulfillmentSource && props.data.fulfillmentSource,
+            defaultValue: data.fulfillmentSource && data.fulfillmentSource,
             dataList: ['Local', 'Foreign'],
           },
           {
             field: 'currency',
             req: true,
-            defaultValue: props.data.currency && props.data.currency,
+            defaultValue: data.currency && data.currency,
             dataList: ['PKR', 'USD', 'RMB'],
           },
           {
             field: 'totalCost',
             req: true,
-            defaultValue: props.data.totalCost && props.data.totalCost,
+            defaultValue: data.totalCost && data.totalCost,
           },
           {
             field: 'supplier',
-            defaultValue: props.data.supplier && props.data.supplier,
+            defaultValue: data.supplier && data.supplier,
             dataList: ['Wuhan', 'E-Tech']
           },
           {
             field: 'status',
             req: true,
-            defaultValue: props.data.status && props.data.status,
+            defaultValue: data.status && data.status,
             dataList: ['Closed', 'In Process', 'Delivered']
           },
           {
             field: 'remarks',
-            defaultValue: props.data.remarks && props.data.remarks,
+            defaultValue: data.remarks && data.remarks,
           }
         ]
           // [

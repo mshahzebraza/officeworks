@@ -86,8 +86,6 @@ The `Backdrop` or `Modal-Content` Element often has fixed/absolute position. The
 After mapping the close-modal-state to backdrop of the modal, it was observed that the clicks on modal's content (indirectly on backdrop-as backdrop was the parent) were also triggering the modal-close-state.
 To solve the issue, an event listener was set on the modal-content to stop the event propagation upwards.
 
-# PO Detail Page
-
 # poData undefined
 
 I want to fetch the poDetails before the component loads.
@@ -131,3 +129,8 @@ return (
 }
 
 `
+
+# PO Detail Page
+
+Can't delete the PO from within the PO-Detail Page. Bcz after deleting the current PO there is no PO to be rendered and an error is thrown.
+A fix would be to check the content presence inside before accessing the data.

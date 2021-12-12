@@ -39,6 +39,22 @@ const poSlice = createSlice({
       }
     },
 
+    deletePOitem(poState, action) {
+      // action.payload = [po-refId, item-id]
+
+      // Find PO entry index against the input poId
+      const poIndex = poState.findIndex(el => el.refId === action.payload[0])
+      const itemIndex = poState[poIndex].items.findIndex((el, elIdx) => elIdx === action.payload[1])
+
+      // delete the PO from the poState slice
+      poIndex < 0 ?
+        console.log(`Can't find item with the item id: (${action.payload[1]}) in the redux state`) :
+        poState[poIndex].items.splice(itemIndex, 1);
+
+      console.log(`Deleted item ID# ${action.payload[1]} from PO# ${action.payload[0]}.`)
+
+    },
+
     updatePO(poState, action) {
       console.log(`updatePO in ran`);
       // Find PO entry index against the input poId

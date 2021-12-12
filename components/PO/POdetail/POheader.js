@@ -22,15 +22,15 @@ export default function POheader({ poId, data, classes }) {
         {transformEntries(meta_data, entryCallback)}
       </div>
       {/* Controls */}
-      <section className={styles.poControls}>
-        {/* <button
+      {/* <section className={styles.poControls}>
+        <button
           onClick={
             (e) => {
               dispatch(poActions.deletePO(poId)) // To make it work, first make the app handle empty pages and show fallback
             }
           }
-        >Delete PO# {poId}</button> */}
-        {/* <button
+        >Delete PO# {poId}</button>
+        <button
           className={styles.btn}
           // disabled={type === 'next' ? (curDataIndex === dataLength - 1) : (curDataIndex === 0)}
           onClick={
@@ -40,9 +40,9 @@ export default function POheader({ poId, data, classes }) {
               // router.replace('/procurement/po')
             }
           }
-        >Edit Item# {poId}</button> */}
+        >Edit Item# {poId}</button>
 
-      </section>
+      </section> */}
     </section>
   )
 }

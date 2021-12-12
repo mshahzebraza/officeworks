@@ -1,9 +1,13 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { poActions } from '../../../store/po/po-slice';
 import styles from './POdetails.module.scss'
 import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
 
-export default function POdetails({ classes, data: itemList, dataIndex, setDataIndex }) {
-  // genLog('Total Items', itemList)
+export default function POdetails({ classes, data: itemList, activePO, dataIndex, setDataIndex }) {
+  const dispatch = useDispatch();
+  genLog('Active PO #', activePO)
+  genLog('Data Index', dataIndex)
   // Data used - Top Level
   /*
     Product Id        : {data[dataIndex].id}
@@ -59,6 +63,7 @@ export default function POdetails({ classes, data: itemList, dataIndex, setDataI
         <div className={concatStrings([styles.section, styles.controls])}>
           {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
           {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
+          <button onClick={() => dispatch(poActions.deletePOitem([activePO, dataIndex]))} >Delete Item</button>
         </div>
       }
 
@@ -77,6 +82,16 @@ export default function POdetails({ classes, data: itemList, dataIndex, setDataI
     </section>
   )
 }
+
+
+
+
+
+
+
+
+
+
 
 export function renderListItem(pair, pairIndex) {
   return <li className='pair' key={pairIndex}>

@@ -64,6 +64,7 @@ export default function POdetails({ classes, data: itemList, activePO, dataIndex
           {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
           {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
           <button onClick={() => dispatch(poActions.deletePOitem([activePO, dataIndex]))} >Delete Item</button>
+          <button onClick={() => dispatch(poActions.updatePOitem([activePO, dataIndex]))} >Delete Item</button>
         </div>
       }
 

@@ -48,7 +48,6 @@ export default function POdetailPage(pProps) {
       return items
     });
 
-  // console.log(poNavListData); // contains the same order as the array of poData.items
 
   return (
     <main className={styles.po} >
@@ -56,6 +55,7 @@ export default function POdetailPage(pProps) {
 
       {/* Header */}
       <POheader
+        poId={pProps.pid}
         classes={[styles.poHeader]}
         data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
       />

@@ -6,7 +6,6 @@ import { poActions } from '../store/po/po-slice'
 // import Image from 'next/image';
 // import styles from '../styles/Home.module.css'
 export default function Home() {
-  const dispatch = useDispatch()
   return (
     <div >
       <Head>
@@ -16,18 +15,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main >
+      <main className='tempContainer' >
 
-        <Link href='/procurement' ><a >Procurement</a></Link>
-        <Link href='/inventory' ><a >Inventory</a></Link>
-
+        <Link href='/procurement' ><a className='tempBox' >Procurement</a></Link>
+        <Link href='/inventory' ><a className='tempBox' >Inventory</a></Link>
+        {/* 
         <MultiForm
           submitter={(formData) => { console.log(formData); }}
           fields={[
             'Type', 'Remarks'
           ]}
           subLevels={['specifications']}
-        />
+        /> */}
 
       </main>
 

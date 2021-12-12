@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './POdetails.module.scss'
-import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck } from '../../../helpers/reusable'
+import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
 
-export default function POdetails({ data: itemList, dataIndex, setDataIndex }) {
+export default function POdetails({ classes, data: itemList, dataIndex, setDataIndex }) {
   // genLog('Total Items', itemList)
   // Data used - Top Level
   /*
@@ -37,51 +37,57 @@ export default function POdetails({ data: itemList, dataIndex, setDataIndex }) {
 
 
   return (
-    <div>
-      <section className={styles.poItemDetail} >
-        {
-          itemSummary ?
-            <>
-              <h2 className={styles.title} >Product Details</h2>
+    <section className={concatStrings([...classes, styles.details])} >
+
+      {/* Summary */}
+      {
+        itemSummary ?
+          <div className={styles.section} >
+            <h2 className={styles.title} >Product Summary</h2>
+            <ul className={concatStrings([styles.content, styles.summary])} >
               {
                 transformEntries(itemSummary, renderListItem)
               }
-            </>
-            :
-            <p className='note'>No Items Inside this PO. - POdetail</p>
-        }
-
-        {itemSpecification ?
-          <>
-            <h2 className={styles.subTitle} >Specifications</h2>
-            <ul className={styles.poItemSpecs} >
-              {
-                transformEntries(itemSpecification, renderListItem)
-              }
             </ul>
-          </> : <p className='note'>No Specification for item. - POdetail</p>
-        }
+          </div>
+          :
+          <p className='note'>No Items Inside this PO. - POdetail</p>
+      }
 
-        {itemList.length > 1 &&
-          <>
-            {navBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
-            {navBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
-          </>
-        }
-      </section>
-    </div>
+      {/* Nav Buttons */}
+      {itemList.length > 1 &&
+        <div className={concatStrings([styles.section, styles.controls])}>
+          {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
+          {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
+        </div>
+      }
+
+      {/* Specifications */}
+      {itemSpecification ?
+        <div className={styles.section}>
+          <h2 className={styles.subTitle} >Specifications</h2>
+          <ul className={concatStrings([styles.content, styles.specs])} >
+            {
+              transformEntries(itemSpecification, renderListItem)
+            }
+          </ul>
+        </div> : <p className='note'>No Specification for item. - POdetail</p>
+      }
+
+    </section>
   )
 }
 
 export function renderListItem(pair, pairIndex) {
-  return <li className={styles.pair} key={pairIndex}>
-    <h5 className={styles.pairField}>{camelToSentenceCase(pair[0])}: </h5>
-    <p className={styles.pairValue}>{pair[1]}</p>
+  return <li className='pair' key={pairIndex}>
+    <h5 className='pairField' >{camelToSentenceCase(pair[0])}: </h5>
+    <p className='pairValue' >{pair[1]}</p>
   </li>
 }
 
-export function navBtn(type = 'next', stateSetter, dataLength, curDataIndex, caption) {
+export function ctrlBtn(type = 'next', stateSetter, dataLength, curDataIndex, caption) {
   return <button
+    className={styles.btn}
     disabled={type === 'next' ? (curDataIndex === dataLength - 1) : (curDataIndex === 0)}
     onClick={
       (e) => {

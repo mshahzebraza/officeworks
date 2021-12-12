@@ -3,9 +3,13 @@ import Link from 'next/link'
 
 export default function Procurement(pProps) {
   return (
-    <div>
-      <Link href='/procurement/po' >POs</Link>
-      <Link href='/procurement/mwo' >MWOs</Link>
+    <div className='tempContainer' >
+      <Link href='/procurement/po' >
+        <a className="tempBox">POs</a>
+      </Link>
+      <Link href='/procurement/mwo'>
+        <a className="tempBox">MWOs</a>
+      </Link>
     </div>
   )
 }

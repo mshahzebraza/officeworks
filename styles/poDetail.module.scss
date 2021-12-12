@@ -14,48 +14,17 @@
 		"poNavList   poDetails  poDetails";
 
 	background: #000;
-	& > * {
-		border: 1px solid yellow;
-	}
 
 	&Header {
 		grid-area: poHeader;
-		padding: 1rem;
-		background: #bbb;
+		background: ghostwhite;
 	}
 	&NavList {
 		grid-area: poNavList;
+		// background: ghostwhite;
 	}
 	&Details {
 		grid-area: poDetails;
-	}
-
-	// &ItemList {
-	// 	grid-area: poItemList;
-	// 	padding: 1rem;
-	// }
-	// &ItemDetail {
-	// 	// will itself contain a grid
-	// 	grid-area: poItemDetail;
-	// 	padding: 1rem;
-	// }
-	// &ItemSpecs {
-	// 	// grid-area: poItemSpecs;
-	// 	// padding: 1rem;
-	// }
-	// &ItemForm {
-	// 	padding: 1rem;
-	// 	background: #000;
-	// }
-}
-.pair {
-	display: flex;
-	gap: 1rem;
-	padding: 0.5rem 0;
-	// background: red;
-	&Field {
-		flex: 0 0 20rem;
-	}
-	&Value {
+		// border: 1px solid yellow;
 	}
 }

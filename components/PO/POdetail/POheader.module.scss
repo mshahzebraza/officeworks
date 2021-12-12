@@ -3,35 +3,60 @@
 
 	&Header {
 		display: grid;
-		grid-template-columns: subgrid;
-		grid-template-areas: subgrid;
-		// grid-template-areas: "overview meta controls";
+		grid-template-rows: 20rem;
+		grid-template-columns: 30rem 1fr 15rem;
+		gap: 2rem;
+		// grid-template-columns: subgrid;
+		// grid-template-areas: subgrid;
+		grid-template-areas: "overview meta controls";
+		background: #000;
+
+		// grid
+		.pair {
+			// color: darkblue !important;
+			// color: red !important;
+			flex-direction: column;
+			gap: 0rem;
+			justify-content: center;
+			flex: 1;
+
+			&Field {
+				// font-size: 1.5rem;
+				flex: initial;
+			}
+			&Value {
+			}
+		}
 	}
-	// grid
 
 	&Overview {
-		grid-column: 0 / 1;
-		grid-row: 0 / 1;
-		// grid-area: overview;
-		background: grey;
+		display: flex;
+		flex-direction: column;
+		// justify-content: space-between;
+		gap: 0.5rem;
+		grid-area: overview;
+		padding: 1rem 2rem;
 	}
 
 	&Meta {
 		grid-area: meta;
+
+		// display: grid;
+		// grid-template-columns: 1fr 1fr;
+		// grid-template-rows: repeat(3, 1fr);
+		gap: 0.5rem;
+		display: flex;
+		flex-direction: column;
 		color: #222;
+		padding: 1rem 0.5rem;
+
+		// .pair {
+		// 	grid-column: 1/2;
+		// }
 	}
 	&Controls {
+		// background: crimson;
 		grid-area: controls;
 		color: #222;
-	}
-}
-
-.pair {
-	display: flex;
-	gap: 1rem;
-	&Field {
-		flex: 0 0 10rem;
-	}
-	&Value {
 	}
 }

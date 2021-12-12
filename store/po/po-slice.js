@@ -18,13 +18,25 @@ const poSlice = createSlice({
     },
 
     deletePO(poState, action) {
-      // Find PO entry index against the input poId
-      const poIndex = poState.findIndex(el => el.refId === action.payload)
 
-      // delete the PO from the poState slice
-      poIndex < 0 ?
-        console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
-        poState.splice(poIndex, 1);
+      // Confirmation deletion
+      console.log(`Request to delete ${action.payload} dispatched.`)
+      const answer = prompt(`You will not be able to retrieve it back! Type "DELETE ${action.payload}" if you really want to delete it.`)
+
+      if (answer === `DELETE ${action.payload}`) {
+
+        // Find PO entry index against the input poId
+        const poIndex = poState.findIndex(el => el.refId === action.payload)
+
+        // delete the PO from the poState slice
+        poIndex < 0 ?
+          console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
+          poState.splice(poIndex, 1);
+
+        console.log(`Deleted PO# ${action.payload}.`)
+      } else {
+        console.log(`Action Failed! Confirm the deletion of ${action.payload} by typing the required message.`)
+      }
     },
 
     updatePO(poState, action) {

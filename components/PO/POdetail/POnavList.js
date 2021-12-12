@@ -1,13 +1,14 @@
 import React from 'react'
-import { transformArray } from '../../../helpers/reusable';
+import { concatStrings, transformArray } from '../../../helpers/reusable';
 import styles from './POnavList.module.scss'
 
-export default function POnavList({ data: itemList, activeIndex, setActiveIndex }) {
+export default function POnavList({ classes, data: itemList, activeIndex, setActiveIndex }) {
 
   const nestedList = itemsVersionsList(itemList);
 
   return (
-    <section className={styles.itemList} >
+
+    <section className={concatStrings([...classes, styles.itemList])} >
 
       {itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
         transformArray(

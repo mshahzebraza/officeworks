@@ -24,14 +24,7 @@ export default function POentry(props) {
 
   // Ensures that the delete action is intentional by making the user type a DELETE PHRASE.
   function deletePoItem(refID) {
-    console.log(`Request to delete ${refID} received.`);
-    const answer = prompt('You will now be able to retrieve it back! Type "DELETE THIS PO" if you really want to delete it.')
-    if (answer === "DELETE THIS PO") {
-      dispatch(poActions.deletePO(refID))
-      console.log(`Deletion confirmed`);
-    } else {
-      console.log(`Confirm the deletion of ${refID} by typing the required message.`);
-    }
+    dispatch(poActions.deletePO(refID))
   }
 
   function goToPoDetail(refId) {

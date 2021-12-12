@@ -63,12 +63,47 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
-        // specification: {
-        //   type: 'Slot Head',
-        //   dimensions: '20 V',
-        //   material: '70 A',
-        //   details: 'All of the long long lorem ipsum goes in here if it is felt that the content does not fall in any other category',
-        // }
+        specification: {
+          type: 'Slot Head',
+          dimensions: 'M2 x 10',
+          material: 'SS A4',
+        }
+      },
+      {
+        name: 'Screw',
+        type: 'Standard',
+        id: 'RS-001200123',
+        qty: 100,
+        unitPrice: 100,
+        specification: {
+          type: 'Slot Head',
+          dimensions: 'M2 x 10',
+          material: 'SS A4',
+        }
+      },
+      {
+        name: 'Screw',
+        type: 'Standard',
+        id: 'RS-001200123',
+        qty: 100,
+        unitPrice: 100,
+        specification: {
+          type: 'Slot Head',
+          dimensions: 'M2 x 10',
+          material: 'SS A4',
+        }
+      },
+      {
+        name: 'Screw',
+        type: 'Standard',
+        id: 'RS-001200123',
+        qty: 100,
+        unitPrice: 100,
+        specification: {
+          type: 'Slot Head',
+          dimensions: 'M2 x 10',
+          material: 'SS A4',
+        }
       },
     ]
   },

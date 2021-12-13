@@ -20,6 +20,7 @@ const poSlice = createSlice({
     deletePO(poState, action) {
 
       // Confirmation deletion
+      console.log(action.payload);
       console.log(`Request to delete ${action.payload} dispatched.`)
       const answer = prompt(`You will not be able to retrieve it back! Type "DELETE ${action.payload}" if you really want to delete it.`)
 
@@ -40,7 +41,7 @@ const poSlice = createSlice({
     },
 
     updatePO(poState, action) {
-      // Input: PO-refId, Item-Details & Specs
+      // Input: PO-Details & Specs
       console.log(`update PO - reducer running`);
 
       // Find PO entry index against the input poId
@@ -50,7 +51,8 @@ const poSlice = createSlice({
 
       // delete the PO from the poState slice
       poUpdateIndex < 0 ?
-        console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
+        console.log(`Can't find item with the refId (${action.payload.refId}) in the redux state`) :
+        // returning the main poState after making the edit
         poState.splice(poUpdateIndex, 1, action.payload) && poState;
     },
 
@@ -63,7 +65,16 @@ const poSlice = createSlice({
       console.log(`add PO item - reducer running`, action.payload);
 
       // Check PO List for duplicates
-      // const duplicateIndex = poState.findIndex(el => el.refId === action.payload.refId)
+      const activePOitemIndex = poState.findIndex(el => el.refId === action.payload[0])
+      console.log(activePOitemIndex);
+
+      if (activePOitemIndex >= 0) {
+        const newPO = poState[activePOitemIndex].items.push(action.payload[1])
+        console.log(`Item Added to PO at #${newPO}`);
+
+      } else {
+        console.log('PO Not Found');
+      }
       // // Add the new PO
       // duplicateIndex < 0 ? poState.push(action.payload) : console.log(`Duplicate Found`);
     },
@@ -73,33 +84,52 @@ const poSlice = createSlice({
 
       // Find PO entry index against the input poId
       const poIndex = poState.findIndex(el => el.refId === action.payload[0])
-      const itemIndex = poState[poIndex].items.findIndex((el, elIdx) => elIdx === action.payload[1])
 
-      // delete the PO from the poState slice
-      poIndex < 0 ?
-        console.log(`Can't find item with the item id: (${action.payload[1]}) in the redux state`) :
-        poState[poIndex].items.splice(itemIndex, 1);
+      if (poIndex >= 0) { // PO-refId found ?
 
-      console.log(`Deleted item ID# ${action.payload[1]} from PO# ${action.payload[0]}.`)
+        // Find PO entry index against the input poId
+        const itemIndex = poState[poIndex].items.findIndex((el, elIdx) => elIdx === action.payload[1])
 
+        if (itemIndex >= 0) { // item-id found ?
+
+          poState[poIndex].items.splice(itemIndex, 1);
+          // delete the PO from the poState slice
+          console.log(`Deleted item ID# ${action.payload[1]} from PO# ${action.payload[0]}.`)
+
+        } else { // item-id not found ?
+          console.log(`Can't find item with the item id: (${action.payload[1]}) in the redux state`)
+        }
+      }
+      else { // PO-refId not found ?
+        console.log(`Can't find PO with the refId: (${action.payload[0]}) in the redux state`)
+      }
     },
+
     updatePOitem(poState, action) {
       // Input: PO-refId, Item-Details & Specs
       console.log(`update PO item - reducer running`);
 
       // Find PO entry index against the input poId
-      const poUpdateIndex = poState.findIndex(el => el.refId === action.payload.refId)
-      // Compare the prev and new
-      // poState[poUpdateIndex] v/s action.payload
+      const poUpdateIndex = poState.findIndex(el => el.refId === action.payload[0])
 
-      // delete the PO from the poState slice
-      poUpdateIndex < 0 ?
-        console.log(`Can't find item with the refId (${action.payload}) in the redux state`) :
-        poState.splice(poUpdateIndex, 1, action.payload) && poState;
+      if (poUpdateIndex >= 0) { // PO-refId found ?
+
+        const itemUpdateIndex = poState[poUpdateIndex].items.findIndex(el => el.id === action.payload[1].id)
+
+        if (itemUpdateIndex >= 0) { // PO-itemId found ?
+
+          // Update the PO item in the poState[idx].items slice and return the poState
+          poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, action.payload[1]) && poState
+
+        } else { // PO-itemId not found ?
+          console.log(`Can't find item with the ID (${action.payload[1].id}) in the PO# ${action.payload[0]} of redux state`)
+        }
+
+      } else { // PO-refId not found
+        console.log(`Can't find PO with the refId (${action.payload[0]}) in the redux state`)
+      }
+
     },
-
-
-
   },
 });
 

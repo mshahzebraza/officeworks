@@ -33,7 +33,7 @@
 
 	&ItemList {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 45%;
+		flex: 0 0 44%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
@@ -60,10 +60,10 @@
 
 	&Status {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 10%;
+		flex: 0 0 11%;
 		// flex: 0 1 10%;
 		display: flex;
-		// justify-content: center;
+		// justify-content: space-between;
 		// align-items: center;
 		gap: 1rem;
 		// color: royalblue;
@@ -87,10 +87,9 @@
 			}
 		}
 		&Text {
-			// background: #000;
-			// display: none;
+			flex: 1;
+			// text-align: center;
 			font-weight: 400;
-			// color: ivory;
 			transform: translateX(-1rem);
 			width: 0;
 			opacity: 0;
@@ -103,6 +102,7 @@
 				transform: translateX(0);
 				// background: red;
 				width: initial;
+				// width: max-content;
 				opacity: 1;
 			}
 		}

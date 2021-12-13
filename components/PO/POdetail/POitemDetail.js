@@ -1,13 +1,26 @@
-import React from 'react'
+// Dependency
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { poActions } from '../../../store/po/po-slice';
-import styles from './POdetails.module.scss'
 import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
 
-export default function POdetails({ classes, data: itemList, activePO, dataIndex, setDataIndex }) {
+// Store & Styles
+import { poActions } from '../../../store/po/po-slice';
+import styles from './POitemDetail.module.scss'
+
+// Components
+import AddPOitem_Modal from './AddPOitem_Modal';
+import UpdatePOitem_Modal from './UpdatePOitem_Modal.js';
+
+
+
+export default function POdetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
   const dispatch = useDispatch();
-  genLog('Active PO #', activePO)
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
+  const [showAddForm, setShowAddForm] = useState(false)
+
+  genLog('Active PO #', activePOid)
   genLog('Data Index', dataIndex)
+
   // Data used - Top Level
   /*
     Product Id        : {data[dataIndex].id}
@@ -41,7 +54,7 @@ export default function POdetails({ classes, data: itemList, activePO, dataIndex
 
 
   return (
-    <section className={concatStrings([...classes, styles.details])} >
+    <section className={concatStrings([...classes, styles.itemDetail])} >
 
       {/* Summary */}
       {
@@ -61,10 +74,20 @@ export default function POdetails({ classes, data: itemList, activePO, dataIndex
       {/* Nav Buttons */}
       {itemList.length > 1 &&
         <div className={concatStrings([styles.section, styles.controls])}>
+
           {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
           {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
-          <button onClick={() => dispatch(poActions.deletePOitem([activePO, dataIndex]))} >Delete Item</button>
-          <button onClick={() => dispatch(poActions.updatePOitem([activePO, dataIndex]))} >Delete Item</button>
+          <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex]))} >Delete Item</button>
+
+          <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
+          {showUpdateForm && console.log(`Showing Update Modal`)}
+          {/* {showAddForm && <UpdatePOitem_Modal closer={() => setShowUpdateForm(false)} activePOid={ } poItemData={ } />} */}
+          {/* Call a modal to trigger  dispatch(poActions.updatePOitem([activePOid, dataIndex, newData])) */}
+
+          <button onClick={() => setShowAddForm(true)} >Add Item</button>
+          {showAddForm && <AddPOitem_Modal closer={() => setShowAddForm(false)} activePOid={activePOid} />}
+          {/* Call a modal to trigger  dispatch(poActions.addPOitem([activePOid, newData])) */}
+
         </div>
       }
 

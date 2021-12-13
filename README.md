@@ -1,3 +1,5 @@
+<!-- Preview Shortcut [Ctrl+K V] [Ctrl+Shift+V] -->
+
 # App Hierarchy
 
 - Procurement
@@ -23,7 +25,7 @@
   - `MultiForm` (update items)
 - `POheader`
 - `POnavList`
-- `POdetails`
+- `POitemDetail`
 
 # Components Hierarchy
 
@@ -46,4 +48,4 @@
     <!-- - ### Meta Section -->
     <!-- - ### Controls Section -->
 
-## POdetails
+## POitemDetail

@@ -1,49 +1,81 @@
+// Dependency
 import Image from 'next/image'
-import React from 'react'
-import styles from './POentryBar.module.scss'
-import { transformArray } from '../../helpers/reusable'
+import React, { useState } from 'react'
+import { removeDuplicate } from '../../helpers/reusable'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
-export default function POentryBar(props) {
-  const pd = props.data;
-  const ph = props.handlers;
+// Store & Styles
+import styles from './POentryBar.module.scss';
+import { poActions } from '../../store/po/po-slice'
+
+// Components
+import SummaryPO_Modal from './SummaryPO_Modal'
+import UpdatePO_Modal from './UpdatePO_Modal'
+
+
+
+export default function POentryBar({ poData, poIndex }) {
+
+  const router = useRouter()
+  const dispatch = useDispatch();
+
+  const [showSummary, setShowSummary] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+
+  const poItems = poData.items;
+
+  // Removal of Duplicate Items
+  let refinedItemList = [];
+  if (poItems && poItems.length > 0) {
+    const itemListArray = poItems.map((el, elIdx) => el.name); // ['po_item1', 'po_item1', 'po_item2']
+    refinedItemList = removeDuplicate(itemListArray); // [{reusable: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
+  }
+
+
   /* 
   refType, refId, items (item-qty pair) , Status
    */
   return (
-    <div className={styles.entry} >
+    <li className={styles.entry} >
 
       {/* Serial */}
-      <span className={styles.entryIndex}>{pd.index}</span>
+      <span className={styles.entryIndex}>{poIndex}</span>
 
       {/* Ref Type */}
-      <span className={styles.entryType}>{pd.refType}</span>
+      <span className={styles.entryType}>{poData.refType}</span>
 
       {/* Ref ID */}
-      <span className={styles.entryId}>{pd.refId}</span>
+      <span className={styles.entryId}>{poData.refId}</span>
 
       {/* PO Items */}
       <span className={styles.entryItemList}>
         {
-          pd.itemList.length > 0
-            ? pd.itemList.map((el, idx) => <EntryItemName content={el.item} key={idx} />)
+          refinedItemList.length > 0
+            ? refinedItemList.map((el, idx) => <EntryItemName content={el.item} key={idx} />)
             : <EntryItemName isEmpty />
         }
       </span>
 
       {/* PO Status */}
       <span className={styles.entryStatus}>
-        <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${pd.status.trim().toLowerCase()}`]}`} />
-        <span className={styles.entryStatusText} >{pd.status}</span>
+        <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${poData.status.trim().toLowerCase()}`]}`} />
+        <span className={styles.entryStatusText} >{poData.status}</span>
       </span>
 
       {/* PO Commands */}
       <div className={styles.entryControls}>
-        <EntryCtrlBtn type={'Edit'} click={() => ph.edit(true)} ></EntryCtrlBtn>
-        <EntryCtrlBtn type={'Summary'} click={() => ph.summary(true)} ></EntryCtrlBtn>
-        <EntryCtrlBtn type={'Detail'} click={() => ph.detail(pd.refId)} ></EntryCtrlBtn>
-        <EntryCtrlBtn type={'Delete'} click={() => ph.delete(pd.refId)} ></EntryCtrlBtn>
+        <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
+        {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} poData={poData} />}
+
+        <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
+        {showSummary && <SummaryPO_Modal closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}
+
+        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poData.refId}`)} ></EntryCtrlBtn>
+
+        <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(poData.refId))} ></EntryCtrlBtn>
       </div>
-    </div>
+    </li>
   )
 }
 

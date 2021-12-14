@@ -77,3 +77,11 @@ Same was done for `specification` of PO-items.
 A Separate array for datalist may be created. the list Item may pick the dataList item in the array according to current index if it is not empty. Otherwise, the component may run without datalist.
 
 However,this may mean that there will a separate array for `req` and `disabled` field as well.
+
+# Tasks
+
+## Make the forms for editing, deleting, adding the specifications of PO-item as well.
+
+# Buttons for adding items must be visible in itemDetail component even when there is no items
+
+## Check what happens if i try to update an item which doesn't have specifications. (is an error returned from updatePOitem reducer that no specifications is found.)

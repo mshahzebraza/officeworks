@@ -126,7 +126,14 @@ const purchaseOrdersDb = [
     totalCost: 500,
     supplier: 'E-Tech',
     status: 'Delivered',
-    items: [ // 01 items in the PO
+    items: [ // 02 items in the PO
+      {
+        name: 'Fasteners',
+        type: 'Standard',
+        id: 'M5*15 SS A4',
+        qty: 200,
+        unitPrice: 45,
+      },
       {
         name: 'Fasteners',
         type: 'Standard',

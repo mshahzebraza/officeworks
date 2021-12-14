@@ -55,3 +55,14 @@ export default function AddPO_MFM({ closer }) {
     </Portal>
   )
 }
+
+
+// refType,             ['CST', 'Bill', 'PO'],
+// refId,
+// category,            ['Single Quotation', 'Repeat Order'],
+// fulfillmentSource,   ['Local', 'Foreign'],
+// currency,            ['PKR', 'USD', 'RMB'],
+// totalCost,
+// supplier,            ['Wuhan', 'E-Tech']
+// status,              'Active', 'Delivered', 'Closed'],
+// remarks                

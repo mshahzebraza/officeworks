@@ -68,14 +68,23 @@ const poSlice = createSlice({
       const activePOitemIndex = poState.findIndex(el => el.refId === action.payload[0])
       console.log(activePOitemIndex);
 
-      if (activePOitemIndex >= 0) {
-        const newPO = poState[activePOitemIndex].items.push(action.payload[1])
-        console.log(`Item Added to PO at #${newPO}`);
+      if (activePOitemIndex >= 0) { // Parent PO exists
+        // Check for duplicate PO item
+        const duplicateItemIndex = poState[activePOitemIndex].items.findIndex(el => el.id === action.payload[1].id)
+
+        if (duplicateItemIndex < 0) { // No Duplicate PO Item present already
+          // // Add the new PO Item
+          const newPOitemIndex = poState[activePOitemIndex].items.push(action.payload[1])
+          console.log(`Item Added to PO at #${newPOitemIndex}`);
+        } else {
+          console.log(`Item ID# ${action.payload[1].id} already exists in the PO# ${action.payload[0]}.`);
+
+        }
+
 
       } else {
-        console.log('PO Not Found');
+        console.log('Parent PO Not Found');
       }
-      // // Add the new PO
       // duplicateIndex < 0 ? poState.push(action.payload) : console.log(`Duplicate Found`);
     },
 

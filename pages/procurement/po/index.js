@@ -21,10 +21,10 @@ export default function PO(pProps) {
 
       <section className={styles.poData} >
         {
-          poList.map((itemData, idx) => {
+          poList.map((poData, idx) => {
             return <POentryBar
               key={idx}
-              poData={itemData}
+              poData={poData}
               poIndex={idx}
             />
           })

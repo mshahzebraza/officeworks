@@ -1,5 +1,7 @@
 <!-- Preview Shortcut [Ctrl+K V] [Ctrl+Shift+V] -->
 
+#### Staging a folder `git add .\components\PO\POdetail\/*`
+
 # App Hierarchy
 
 - Procurement

@@ -1,14 +1,29 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './Multiform.module.scss'
 import { guid, defaultPairMaker, multiFormDataTranslator } from '../../helpers/specific';
-import { useDispatch } from 'react-redux'
-import { poActions } from '../../store/po/po-slice'
+
+
+
+
 
 export default function MultiForm(props) {
 
-  // The default state to give the user predefined input boxes
+  // SUBMIT Function fetches the following data from form-inputs and converts it into POitem object to store it in state.
+  /* 
+    {
+      field, // decides the 'key-name' of POitem-object
+      value, // decides the 'value' of POitem-object
+      level, // decides the nesting of the pair in the item-object
+      
+      // REST OF THE KEYS BELOW ARE NOT IMPORTANT
+      isFixed,
+      req,
+      options: [ ... ]
+    }
+  */
+
+
   let initialState = [
-    // { field: 'New Field', value: '', level: 0, req: true },
     // { field: 'New Field', value: '', level: 0 },
   ];
 
@@ -40,19 +55,6 @@ export default function MultiForm(props) {
   }
 
 
-  // fetches the data from form-inputs and converts it into POitem object to store it in state.
-  /* 
-    {
-      field, // decides the 'key-name' of POitem-object
-      value, // decides the 'value' of POitem-object
-      level, // decides the nesting of the pair in the item-object
-      
-      // REST OF THE KEYS BELOW ARE NOT IMPORTANT
-      isFixed,
-      req,
-      options: [ ... ]
-    }
-   */
   const handleSubmit = (e) => {
     e.preventDefault();
     const result = multiFormDataTranslator(inputPairs, props.subLevels);
@@ -70,19 +72,10 @@ export default function MultiForm(props) {
   }
 
 
-  /* 
-  For each field, following data is passed
-    {
-      field, // decides the 'value' of the labelInput
-      value, // decides the 'value' of the valueInput
-      level, // used in placeholder to let the user know the hierarchal level of the label-input pair
-      req, // used to decide if the labelInput is disabled && if the delete (for input-label pair) button is shown
-      options: [ ... ], // used to display the datalist for a given input box
-      fixed // decides if the valueInput will remain disabled. (useful for update-functions) 
-    }
-     */
+
   return (
     <form
+
       className={styles.form}
       onSubmit={handleSubmit} >
       {
@@ -96,9 +89,7 @@ export default function MultiForm(props) {
             <input
               className={styles.formField}
               type="text"
-              // depends on 'level'
-              placeholder={`${pair.level}/field-${pairIndex + 1}`}
-              // depends on 'isFixed'
+              placeholder={`${pair.level}/field-${pairIndex + 1}`} // depends on 'level'
               value={pair.field}
               disabled={pair.req && true}
 
@@ -118,29 +109,64 @@ export default function MultiForm(props) {
             />
             {
               pair.options &&
-              <datalist id={`optionList-${pair.field}`} >
-                {
-                  pair.options.map((option, optionIndex) => {
-                    return <option key={`option-${optionIndex}`} value={option}> {option} </option>
-                  })
-                }
-              </datalist>
+              <DataList id={`optionList-${pair.field}`} options={pair.options} />
             }
 
-
-            {!pair.req && <button className={`${styles.formButton} ${styles.formButton_delete}`} onClick={e => handlerPairDelete(pairIndex, e)} > Delete </button>}
+            {
+              !pair.req && <button
+                type='button'
+                className={`${styles.formButton} ${styles.formButton_delete}`}
+                onClick={e => handlerPairDelete(pairIndex, e)}
+              >
+                Delete
+              </button>
+            }
 
           </div>
         })
       }
+
+
       <div className={`${styles.formControls}`}>
-        <button className={`${styles.formButton} ${styles.formButton_submit}`} type='submit' >Submit Data</button>
+
+        <button
+          type='submit'
+          className={`${styles.formButton} ${styles.formButton_submit}`}
+        >
+          Submit Data
+        </button>
+
         {props.subLevels && props.subLevels.map((subLevel, id) => {
-          return <button key={id} className={`${styles.formButton} ${styles.formButton_subLevel}`} onClick={e => handleFieldAdd(e, id + 1)} >Add {subLevel}</button>
+          return <button
+            type='button'
+            key={id}
+            className={`${styles.formButton} ${styles.formButton_subLevel}`}
+            onClick={e => handleFieldAdd(e, id + 1)}
+          >
+            Add {subLevel}
+          </button>
         })}
-        <button className={`${styles.formButton} ${styles.formButton_addPair}`} onClick={handleFieldAdd}>Add Field</button>
+
+        <button
+          type='button'
+          className={`${styles.formButton} ${styles.formButton_addPair}`}
+          onClick={handleFieldAdd}
+        >
+          Add Field
+        </button>
+
       </div>
 
     </form>
   )
+}
+
+
+
+function DataList({ id, options }) {
+  return (<datalist id={id}>
+    {options.map((option, optionIndex) => {
+      return <option key={`option-${optionIndex}`} value={option}> {option} </option>;
+    })}
+  </datalist>);
 }

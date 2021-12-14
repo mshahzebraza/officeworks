@@ -42,12 +42,12 @@ export default function AddPO_MFM({ closer }) {
           field: 'totalCost',
           req: true
         }, {
-          field: 'supplier',
-          dataList: ['Wuhan', 'E-Tech']
-        }, {
           field: 'status',
           dataList: ['Active', 'Delivered', 'Closed'],
           req: true
+        }, {
+          field: 'supplier',
+          dataList: ['Wuhan', 'E-Tech']
         }, {
           field: 'remarks'
         }]} subLevels={['specifications']} />

@@ -60,15 +60,15 @@ export default function UpdatePO_Modal({ closer, poData }) {
               defaultValue: poData.totalCost && poData.totalCost,
             },
             {
-              field: 'supplier',
-              defaultValue: poData.supplier && poData.supplier,
-              dataList: ['Wuhan', 'E-Tech']
-            },
-            {
               field: 'status',
               req: true,
               defaultValue: poData.status && poData.status,
               dataList: ['Closed', 'In Process', 'Delivered']
+            },
+            {
+              field: 'supplier',
+              defaultValue: poData.supplier && poData.supplier,
+              dataList: ['Wuhan', 'E-Tech']
             },
             {
               field: 'remarks',

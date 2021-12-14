@@ -56,13 +56,19 @@ Submitted data replaces the previous PO entry.
 
 ### Description
 
-New Submitted data only contains summary about the PO and not about the items in the PO. Therefore, as soon as the data replaces the previous PO entry, we lose the items mentioned in the last PO.
+- New Submitted data only contains summary about the PO and not about the items in the PO. Therefore, as soon as the data replaces the previous PO entry, we lose the items mentioned in the last PO.
+
+### Possible Fixes
+
+- Instead of replacing the previous PO. Try to replace the relevant fields only.
+- Try passing the whole data with the items so that they can be saved before replace-update. then the items will again be appended in the original list-item.
+- Or just make a reducer that fetches the relevant po-items before deletion and appends them again into the list. Use of Action-Thunks
 
 ### Fix
 
-Instead of replacing the previous PO. Try to replace the relevant fields only.
+`items` of PO were also passed in the dispatch function, which were saved in a variable prior to splice-update of PO. After the update, the saved items were appended to the PO-state again.
 
-...
+Same was done for `specification` of PO-items.
 
 # `Improve the code of Multiform modals`
 

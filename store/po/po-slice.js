@@ -40,20 +40,30 @@ const poSlice = createSlice({
       }
     },
 
-    updatePO(poState, action) {
+    updatePO(poState, { payload: [formData, oldItems] }) { // action.payload = [formData, oldItems]
+      // console.log(oldItems);
       // Input: PO-Details & Specs
       console.log(`update PO - reducer running`);
 
       // Find PO entry index against the input poId
-      const poUpdateIndex = poState.findIndex(el => el.refId === action.payload.refId)
+      const poUpdateIndex = poState.findIndex(el => el.refId === formData.refId)
       // Compare the prev and new
-      // poState[poUpdateIndex] v/s action.payload
+      // poState[poUpdateIndex] v/s formData
 
       // delete the PO from the poState slice
-      poUpdateIndex < 0 ?
-        console.log(`Can't find item with the refId (${action.payload.refId}) in the redux state`) :
-        // returning the main poState after making the edit
-        poState.splice(poUpdateIndex, 1, action.payload) && poState;
+      if (poUpdateIndex < 0) {
+        console.log(`Can't find PO with the refId (${formData.refId}) in the redux state`)
+      } else {
+        // Update PO
+        poState.splice(poUpdateIndex, 1, formData); // `&& poState` does not do anything, hence commented
+        // Append old PO items
+        poState[poUpdateIndex].items = oldItems;
+
+        // Generate log
+        const [oldPO] = poState.splice(poUpdateIndex, 1, formData);
+        console.log(`log of oldPO`, oldPO);
+      }
+
     },
 
 
@@ -114,28 +124,30 @@ const poSlice = createSlice({
       }
     },
 
-    updatePOitem(poState, action) {
+    updatePOitem(poState, { payload: [activePOid, itemFormData, oldItemSpecs] }) {
       // Input: PO-refId, Item-Details & Specs
       console.log(`update PO item - reducer running`);
 
       // Find PO entry index against the input poId
-      const poUpdateIndex = poState.findIndex(el => el.refId === action.payload[0])
+      const poUpdateIndex = poState.findIndex(el => el.refId === activePOid)
 
       if (poUpdateIndex >= 0) { // PO-refId found ?
 
-        const itemUpdateIndex = poState[poUpdateIndex].items.findIndex(el => el.id === action.payload[1].id)
+        const itemUpdateIndex = poState[poUpdateIndex].items.findIndex(el => el.id === itemFormData.id)
 
         if (itemUpdateIndex >= 0) { // PO-itemId found ?
 
           // Update the PO item in the poState[idx].items slice and return the poState
-          poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, action.payload[1]) && poState
+          poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, itemFormData); // `&& poState` doesn't do anything hence commented
+          // Append old specs in the PO item
+          poState[poUpdateIndex].items[itemUpdateIndex].specification = oldItemSpecs;
 
         } else { // PO-itemId not found ?
-          console.log(`Can't find item with the ID (${action.payload[1].id}) in the PO# ${action.payload[0]} of redux state`)
+          console.log(`Can't find item with the ID (${itemFormData.id}) in the PO# ${activePOid} of redux state`)
         }
 
       } else { // PO-refId not found
-        console.log(`Can't find PO with the refId (${action.payload[0]}) in the redux state`)
+        console.log(`Can't find PO with the refId (${activePOid}) in the redux state`)
       }
 
     },
@@ -144,6 +156,85 @@ const poSlice = createSlice({
 
 export const poActions = poSlice.actions;
 export default poSlice;
+
+
+
+
+// THUNKS
+
+// export const sendCartData = (cart) => {
+
+//   updatePO(poState, action) {
+//     // Input: PO-Details & Specs
+//     console.log(`update PO - reducer running`);
+
+//     // Find PO entry index against the input poId
+//     const poUpdateIndex = poState.findIndex(el => el.refId === action.payload.refId)
+//     // Compare the prev and new
+//     // poState[poUpdateIndex] v/s action.payload
+
+//     // delete the PO from the poState slice
+//     if (poUpdateIndex < 0) {
+//       console.log(`Can't find PO with the refId (${action.payload.refId}) in the redux state`)
+//     } else {
+//       poState.splice(poUpdateIndex, 1, action.payload); // `&& poState` does not do anything, hence commented
+
+//       // Generate log
+//       const [oldPO] = poState.splice(poUpdateIndex, 1, action.payload);
+//       console.log(`log of oldPO`, oldPO);
+//     }
+
+//   },
+
+// };
+
+// To download backend state
+// export const fetchCartData = () => {
+//   return async (dispatch) => {
+//     const fetchData = async () => {
+//       // fetch data
+//       const response = await fetch(
+//         "https://dummy-react-4111997-default-rtdb.firebaseio.com/cart.json"
+//       );
+
+//       // trigger fail response [contd below]
+//       // STOP execution
+//       if (!response.ok) {
+//         throw new Error("Could not fetch cart data!");
+//       }
+
+//       // parse JSON
+//       const data = await response.json();
+
+//       // Return JSON Data
+//       return data;
+//     };
+
+//     try {
+//       const cartData = await fetchData();
+
+//       // Handle successful response
+//       dispatch(
+//         cartActions.replaceCart({
+//           items: cartData.items || [],
+//           totalQuantity: cartData.totalQuantity,
+//         })
+//       );
+//     } catch (error) {
+//       // Handle failed response [contd from Error above]
+//       dispatch(
+//         uiActions.showNotification({
+//           status: "error",
+//           title: "Error!",
+//           message: "Fetching cart data failed!",
+//         })
+//       );
+//     }
+//   };
+// };
+
+
+
 
 // {
   //   refType: '',

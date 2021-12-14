@@ -22,7 +22,7 @@ export default function UpdatePOitem_Modal({ closer, activePOid, activePOindex, 
         closer={closer}
       >
         <MultiForm
-          submit={(formData) => { dispatch(poActions.updatePOitem([activePOid, formData])); }}
+          submit={(formData) => { dispatch(poActions.updatePOitem([activePOid, formData, itemData.specification])); }}
           // The field should be rendered automatically.
           // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.
           fields={[

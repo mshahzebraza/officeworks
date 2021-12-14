@@ -12,7 +12,6 @@ import AddPOitem_Modal from './AddPOitem_Modal';
 import UpdatePOitem_Modal from './UpdatePOitem_Modal.js';
 
 
-
 export default function POdetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
   const dispatch = useDispatch();
   const [showUpdateForm, setShowUpdateForm] = useState(false)
@@ -80,8 +79,14 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
           <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex]))} >Delete Item</button>
 
           <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
-          {showUpdateForm && console.log(`Showing Update Modal`)}
-          {/* {showAddForm && <UpdatePOitem_Modal closer={() => setShowUpdateForm(false)} activePOid={ } poItemData={ } />} */}
+          {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
+          {showUpdateForm &&
+            <UpdatePOitem_Modal
+              closer={() => setShowUpdateForm(false)}
+              activePOid={activePOid}
+              activeItemData={itemList[dataIndex]}
+            />
+          }
           {/* Call a modal to trigger  dispatch(poActions.updatePOitem([activePOid, dataIndex, newData])) */}
 
           <button onClick={() => setShowAddForm(true)} >Add Item</button>

@@ -39,18 +39,36 @@ export function addObjectPair(parentObj, entryPairArr) {
 
 
 // Input: {label1: 'value1', label2: 'value2'}
-// Output: [['label1': 'value1'], ['label2': 'value2']]
+// Output-phase1: [ 
+//   ['label1': 'value1'],
+//   ['label2': 'value2']
+//  ]
+// Output-phase2: [
+//   {
+//     label: "label1",
+//     value: "value1"
+// },
+// {
+//     label: "label2",
+//     value: "value2"
+// }
+// ]
 // performs transformation on each object-pair and returns an array.
 export function transformEntries(object, transformer = pairToEntry) {
   return Object.entries(object).map((el, idx) => {
     return transformer(el, idx)
   });
 }
-
+global.x = transformEntries;
+// returns transformed data from an array
 export function transformArray(array, transformer) {
   return array.map((el, idx) => {
     return transformer(el, idx)
   });
+}
+
+export function isObjEmpty(obj) {
+  return Object.entries(obj).length > 0
 }
 
 // Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {

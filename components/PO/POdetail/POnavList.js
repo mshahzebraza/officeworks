@@ -2,22 +2,32 @@ import React from 'react'
 import { concatStrings, transformArray } from '../../../helpers/reusable';
 import styles from './POnavList.module.scss'
 
-export default function POnavList({ classes, data: itemList, activeIndex, setActiveIndex }) {
+export default function POnavList({ classes, data: itemList = [], activeIndex, setActiveIndex }) {
 
-  const nestedList = itemsVersionsList(itemList);
+  if (itemList.length === 0) {
+    return ('s')
+  }
+
+  const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
 
   return (
+    <>
+      {
+        nestedList ?
+          <section className={concatStrings([...classes, styles.itemList])} >
 
-    <section className={concatStrings([...classes, styles.itemList])} >
-
-      {itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
-        transformArray(
-          nestedList,
-          (item, idx) => <NavItem key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        )
-        : <>No Items Available</>
+            {
+              itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
+                transformArray(
+                  nestedList,
+                  (item, idx) => <NavItem key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+                )
+                : <>No Items Available</>
+            }
+          </section >
+          : <p className='note'>No items - POnavList</p>
       }
-    </section>
+    </>
   )
 }
 

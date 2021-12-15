@@ -1,18 +1,15 @@
-## 1. Debugging in VSCode
+## 1. Debugging in VSCode not working
 
 ### Reason
 
-Tried using the internal debugging tool of VSCode
+...
 
 ### Description
 
-An error was throw
+- After trying to use VScode debugger, i couldn't use start the local-server again. `npm run dev` wouldn't work!
+- Had to delete the `.next` directory. and run `npm run dev` again.
 
-### Fix
-
-Had to delete the `.next` directory. and run `npm run dev` again.
-
-## 2. Can't delete the item in PO - sometimes
+## 2. Can't delete the current item in PO - partial
 
 ### Reason
 
@@ -20,18 +17,11 @@ Deleting current item means nothing can be rendered onto the DOM which breaks th
 
 ### Description
 
-Sometimes an error is thrown saying can't read the item (which is to be deleted).
-Happens only if next or prev buttons are pressed.
-bcz when we press next .... then the last item to be deleted is the one that we are currently standing on.
-This is not a problem if we are standing on the 1st item bcz when we delete it, the items next to it will replace it.
+- Sometimes an error is thrown saying can't read the item (which is to be deleted).
+- Happens for the curItemIndex > 0 .
+- Doesn't happen if current Item is the first item. But it happens if the current Item is the 2nd or more.
 
-### Fix
-
-...
-
-<!-- Had to delete the `.next` directory. and run `npm run dev` again. -->
-
-## 3. Pressing Enter Deletes the Detail Pair in Update Forms
+## 3. Pressing Enter Deletes the Detail Pair in Update Forms [FIXED]
 
 ### Reason
 
@@ -48,7 +38,7 @@ Enter key by-default connects to the first button (delete in this case) in the c
 
 - Added a `type='button'` to other buttons works.
 
-## 4. Update PO Form removes the items in the PO
+## 4. Update PO Form removes the items in the PO [FIXED]
 
 ### Reason
 
@@ -56,32 +46,52 @@ Submitted data replaces the previous PO entry.
 
 ### Description
 
-- New Submitted data only contains summary about the PO and not about the items in the PO. Therefore, as soon as the data replaces the previous PO entry, we lose the items mentioned in the last PO.
-
-### Possible Fixes
-
-- Instead of replacing the previous PO. Try to replace the relevant fields only.
-- Try passing the whole data with the items so that they can be saved before replace-update. then the items will again be appended in the original list-item.
-- Or just make a reducer that fetches the relevant po-items before deletion and appends them again into the list. Use of Action-Thunks
+- Submit Data from `updateForm` only contains PO data and not PO-items data.
+- Therefore, as soon as the data replaces the previous PO entry, we lose the items mentioned in the last PO.
 
 ### Fix
 
-`items` of PO were also passed in the dispatch function, which were saved in a variable prior to splice-update of PO. After the update, the saved items were appended to the PO-state again.
+- `PO-items` data for the current PO was passed in the dispatch function
+- The `PO-items` were then saved in a variable prior to splice-update of PO.
+- After the update, the saved items were appended to the PO-state again.
 
 Same was done for `specification` of PO-items.
 
-# `Improve the code of Multiform modals`
+<!--
+## 4. Title
 
-### How
+### Reason
+
+Reason here.
+
+### Description / Notes
+
+- Note # 01.
+
+### Possible / Other Fixes
+
+- Fix # 01.
+
+### Fix
+
+Final Solution here.
+ -->
+
+# Tasks
+
+## `Improve the code of Multiform modals`
 
 A Separate array for datalist may be created. the list Item may pick the dataList item in the array according to current index if it is not empty. Otherwise, the component may run without datalist.
 
 However,this may mean that there will a separate array for `req` and `disabled` field as well.
 
-# Tasks
-
 ## Make the forms for editing, deleting, adding the specifications of PO-item as well.
 
-# Buttons for adding items must be visible in itemDetail component even when there is no items
+## Buttons for adding items must be visible in itemDetail component even when there is no items
 
-## Check what happens if i try to update an item which doesn't have specifications. (is an error returned from updatePOitem reducer that no specifications is found.)
+## Remove the sublevel functionality from the MultiForm bcz the sublevel data not passed as the form data
+
+- Data shows that it contains the specs if it is logged directly from form. however not in the po-slice
+- Also, the updateItemForm lets you enter the specs but doesn't fetch the old specs in the form.
+
+## use fromEntries() in helper functions

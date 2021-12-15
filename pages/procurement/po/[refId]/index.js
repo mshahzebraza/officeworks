@@ -67,7 +67,7 @@ export default function POdetailPage(pProps) {
             classes={[styles.poNavList]}
             // const itemListArray = props.data.items.map((el, elIdx) => {el.name})
             data={poNavListData} // list of items in current PO - with item-name & item-ID 
-            activeItemVersion={poNavListData[activeItemIndex].id}
+            activeItemVersion={poNavListData[activeItemIndex] && poNavListData[activeItemIndex].id}
             activeIndex={activeItemIndex}
             setActiveIndex={setActiveItemIndex}
           />
@@ -76,7 +76,10 @@ export default function POdetailPage(pProps) {
 
       {/* Detail */}
       {
-        activePOdata.items
+        // console.log(activePOdata.items)
+      }
+      {
+        activePOdata.items && activePOdata.items.length > 0
           ? <POitemDetail
             classes={[styles.poItemDetail]}
             activePOid={poSummaryData.refId}

@@ -1,7 +1,7 @@
 // Dependency
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
+import { isObjEmpty, camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
 
 // Store & Styles
 import { poActions } from '../../../store/po/po-slice';
@@ -17,8 +17,8 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
   const [showUpdateForm, setShowUpdateForm] = useState(false)
   const [showAddForm, setShowAddForm] = useState(false)
 
-  genLog('Active PO #', activePOid)
-  genLog('Data Index', dataIndex)
+  // genLog('Active PO #', activePOid)
+  // genLog('Data Index', dataIndex)
 
   // Data used - Top Level
   /*
@@ -41,15 +41,16 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
   ]
 
-  const curItemData = itemList[dataIndex] ? itemList[dataIndex] : `No items found in PO`;
+  const curItemData = itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
-  // genLog(`Current Item Data`, curItemData)
+  // genLog(`Current Item Data - I.D`, curItemData);
 
-  const itemSummary = cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
+  const itemSpecification = isObjEmpty(curItemData.specification) && curItemData.specification;
+  genLog(`itemSpecification - I.D`, itemSpecification);
+  // genLog(`dataIndex`, dataIndex);
+
+  const itemSummary = curItemData && cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
   // genLog('itemSummary', itemSummary);
-
-  const itemSpecification = curItemData.specification;
-  // genLog(`itemSpecification`, itemSpecification);
 
 
   return (
@@ -71,7 +72,8 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
       }
 
       {/* Nav Buttons */}
-      {itemList.length > 1 &&
+      {
+        itemList.length > 0 &&
         <div className={concatStrings([styles.section, styles.controls])}>
 
           {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}

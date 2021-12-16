@@ -13,7 +13,6 @@ export default function MultiForm(props) {
     {
       field, // decides the 'key-name' of POitem-object
       value, // decides the 'value' of POitem-object
-      level, // decides the nesting of the pair in the item-object
       
       // REST OF THE KEYS BELOW ARE NOT IMPORTANT
       isFixed,
@@ -24,7 +23,7 @@ export default function MultiForm(props) {
 
 
   let initialState = [
-    // { field: 'New Field', value: '', level: 0 },
+    // { field: 'New Field', value: '' },
   ];
 
   // Override the default state if fields is given as props
@@ -34,19 +33,13 @@ export default function MultiForm(props) {
   const [inputPairs, setInputPairs] = useState(initialState);
 
 
-  const handleFieldAdd = (e, level = 0) => {
-    // Check the level of addition i.e. 1,2,3 etc.
+  const handleFieldAdd = (e) => {
     e.preventDefault();
     const tempInputPairs = [...inputPairs];
-    if (level > 0) {
-      tempInputPairs.push({ field: ``, value: ``, level: level })
-    } else {
-      tempInputPairs.unshift({ field: ``, value: ``, level: level })
-
-    }
+    tempInputPairs.push({ field: ``, value: `` })
     setInputPairs(tempInputPairs)
-
   }
+
   const handlerPairDelete = (pairIndex, e) => {
     e.preventDefault();
     const tempInputPairs = [...inputPairs];
@@ -57,7 +50,7 @@ export default function MultiForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = multiFormDataTranslator(inputPairs, props.subLevels);
+    const result = multiFormDataTranslator(inputPairs);
     props.submit(result)
 
   }
@@ -89,7 +82,7 @@ export default function MultiForm(props) {
             <input
               className={styles.formField}
               type="text"
-              placeholder={`${pair.level}/field-${pairIndex + 1}`} // depends on 'level'
+              placeholder={`field-${pairIndex + 1}`}
               value={pair.field}
               disabled={pair.req && true}
 
@@ -101,7 +94,7 @@ export default function MultiForm(props) {
               disabled={pair.isFixed}
               list={`optionList-${pair.field}`}
               type="text"
-              placeholder={`${pair.level}/value-${pairIndex + 1}`}
+              placeholder={`value-${pairIndex + 1}`}
               value={pair.value}
               // value={pair.fixedValue ? pair.fixedValue : pair.value}
               required={pair.req}
@@ -136,16 +129,6 @@ export default function MultiForm(props) {
           Submit Data
         </button>
 
-        {props.subLevels && props.subLevels.map((subLevel, id) => {
-          return <button
-            type='button'
-            key={id}
-            className={`${styles.formButton} ${styles.formButton_subLevel}`}
-            onClick={e => handleFieldAdd(e, id + 1)}
-          >
-            Add {subLevel}
-          </button>
-        })}
 
         <button
           type='button'

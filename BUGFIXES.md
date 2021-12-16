@@ -95,3 +95,7 @@ However,this may mean that there will a separate array for `req` and `disabled` 
 - Also, the updateItemForm lets you enter the specs but doesn't fetch the old specs in the form.
 
 ## use fromEntries() in helper functions
+
+## make the form generate the fields dynamically by reading the length of entries.
+
+## Deleting of certain specs work but adding new specs don't work in the updateForm.

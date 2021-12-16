@@ -9,10 +9,10 @@ import { poActions } from '../../../store/po/po-slice'
 import Portal from '../../UI/Portal'
 import Modal from '../../UI/Modal'
 import MultiForm from '../../MultiForm/MultiForm'
+import { genLog } from '../../../helpers/reusable'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function UpdatePOitem_Modal({ closer, activePOid, activePOindex, activeItemData: itemData }) {
-  console.log(`itemData`, itemData);
 
   const dispatch = useDispatch();
   return (
@@ -22,10 +22,18 @@ export default function UpdatePOitem_Modal({ closer, activePOid, activePOindex, 
         closer={closer}
       >
         <MultiForm
-          submit={(formData) => { dispatch(poActions.updatePOitem([activePOid, formData, itemData.specification])); }}
+          submit={(formData) => { dispatch(poActions.updatePOitem([activePOid, formData, itemData.specification])) }}
+          // submit={(formData) => { console.log(formData); }}
+          // submit={(formData) => { console.log([activePOid, formData, itemData.specification]); }}
           // The field should be rendered automatically.
           // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.
           fields={[
+            {
+              field: 'id',
+              req: true,
+              isFixed: true,
+              defaultValue: itemData.id && itemData.id,
+            },
             {
               field: 'name',
               req: true,
@@ -38,29 +46,25 @@ export default function UpdatePOitem_Modal({ closer, activePOid, activePOindex, 
               req: true,
             },
             {
-              field: 'id',
-              req: true,
-              isFixed: true,
-              defaultValue: itemData.id && itemData.id,
-            },
-            {
               field: 'qty',
               req: true,
               defaultValue: itemData.qty && itemData.qty,
-              // dataList: ['Local', 'Foreign'],
             },
             {
               field: 'unitPrice',
               req: true,
               defaultValue: itemData.unitPrice && itemData.unitPrice,
-              // dataList: ['PKR', 'USD', 'RMB'],
             },
-
+            {
+              field: 'remarks',
+              // req: true,
+              defaultValue: itemData.remarks && itemData.remarks,
+            },
           ]
-            // [
-            //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'
-            // ]
-          } />
+
+          }
+
+        />
       </Modal>
     </Portal>
   )

@@ -23,13 +23,13 @@ export default function AddPOitem_Modal({ closer, activePOid, activePOindex }) {
             dispatch(poActions.addPOitem([activePOid, formData]));
           }}
           fields={[{
+            field: 'id',
+            req: true
+          }, {
             field: 'name',
             req: true
           }, {
             field: 'type',
-            req: true
-          }, {
-            field: 'id',
             req: true
           }, {
             field: 'qty',
@@ -41,7 +41,6 @@ export default function AddPOitem_Modal({ closer, activePOid, activePOindex }) {
           {
             field: 'remarks'
           }]}
-          subLevels={['specification']} // this should match the name of sub level
         />
       </Modal>
     </Portal>

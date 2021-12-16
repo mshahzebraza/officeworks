@@ -106,11 +106,11 @@ const purchaseOrdersDb = [
         qty: 100,
         unitPrice: 100,
         remarks: '',
-        specification: {
-          // type: 'Slot Head',
-          // dimensions: 'M2 x 10',
-          // material: 'SS A4',
-        }
+        // specification: {
+        // type: 'Slot Head',
+        // dimensions: 'M2 x 10',
+        // material: 'SS A4',
+        // }
       },
     ]
   },

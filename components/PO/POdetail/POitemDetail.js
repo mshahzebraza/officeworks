@@ -85,11 +85,12 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
                   activeItemData={itemList[dataIndex]}
                 />
               }
-              {/* Call a modal to trigger  dispatch(poActions.updatePOitem([activePOid, dataIndex, newData])) */}
+            </>
+          }
 
-
-              {/* Call a modal to trigger  dispatch(poActions.addPOitem([activePOid, newData])) */}
-
+          {
+            itemList && itemList.length > 0 && itemList[dataIndex].specification &&
+            <>
               <button onClick={() => setShowUpdateSpecForm(true)} >Update Spec</button>
               {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
               {showUpdateSpecForm &&

@@ -8,8 +8,8 @@ import { poActions } from '../../../store/po/po-slice';
 import styles from './POitemDetail.module.scss'
 
 // Components
-import AddPOitem_Modal from './AddPOitem_Modal';
-import UpdatePOitem_Modal from './UpdatePOitem_Modal.js';
+import AddPOitem_Modal from './ItemForms/AddPOitem_Modal';
+import UpdatePOitem_Modal from './ItemForms/UpdatePOitem_Modal.js';
 import UpdatePOitemSpec_Modal from './SpecForms/UpdatePOitemSpec_Modal';
 
 
@@ -31,7 +31,7 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
   ]
 
-  const curItemData = itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
+  const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
   const itemSpecification = isObjEmpty(curItemData.specification) && curItemData.specification;
   // genLog(`itemSpecification - I.D`, itemSpecification);
@@ -59,39 +59,48 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
       {/* Nav Buttons */}
       {
-        itemList.length > 0 &&
         <div className={concatStrings([styles.section, styles.controls])}>
 
-          {/* {console.log(`itemList - I.D`, itemList)} */}
-          {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
-          {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
-          {/* The itemsLength is passed when delete is clicked here is before the deletion. therefore, it will be more than it actually is, bcz the data passed is the data before delete action. */}
-          <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex]))} >Delete Item</button>
-
-          <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
-          {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
-          {showUpdateForm &&
-            <UpdatePOitem_Modal
-              closer={() => setShowUpdateForm(false)}
-              activePOid={activePOid}
-              activeItemData={itemList[dataIndex]}
-            />
-          }
-          {/* Call a modal to trigger  dispatch(poActions.updatePOitem([activePOid, dataIndex, newData])) */}
 
           <button onClick={() => setShowAddForm(true)} >Add Item</button>
           {showAddForm && <AddPOitem_Modal closer={() => setShowAddForm(false)} activePOid={activePOid} />}
-          {/* Call a modal to trigger  dispatch(poActions.addPOitem([activePOid, newData])) */}
 
-          <button onClick={() => setShowUpdateSpecForm(true)} >Update Spec</button>
-          {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
-          {showUpdateSpecForm &&
-            <UpdatePOitemSpec_Modal
-              closer={() => setShowUpdateSpecForm(false)}
-              activePOid={activePOid}
-              activeItemIndex={dataIndex}
-              activeItemSpecData={itemList[dataIndex].specification}
-            />
+
+          {
+            itemList && itemList.length > 0 &&
+            <>
+
+              {/* {console.log(`itemList - I.D`, itemList)} */}
+              {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
+              {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
+              {/* The itemsLength is passed when delete is clicked here is before the deletion. therefore, it will be more than it actually is, bcz the data passed is the data before delete action. */}
+              <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex]))} >Delete Item</button>
+
+              <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
+              {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
+              {showUpdateForm &&
+                <UpdatePOitem_Modal
+                  closer={() => setShowUpdateForm(false)}
+                  activePOid={activePOid}
+                  activeItemData={itemList[dataIndex]}
+                />
+              }
+              {/* Call a modal to trigger  dispatch(poActions.updatePOitem([activePOid, dataIndex, newData])) */}
+
+
+              {/* Call a modal to trigger  dispatch(poActions.addPOitem([activePOid, newData])) */}
+
+              <button onClick={() => setShowUpdateSpecForm(true)} >Update Spec</button>
+              {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
+              {showUpdateSpecForm &&
+                <UpdatePOitemSpec_Modal
+                  closer={() => setShowUpdateSpecForm(false)}
+                  activePOid={activePOid}
+                  activeItemIndex={dataIndex}
+                  activeItemSpecData={itemList[dataIndex].specification}
+                />
+              }
+            </>
           }
 
         </div>

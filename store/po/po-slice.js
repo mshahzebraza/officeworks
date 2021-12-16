@@ -71,32 +71,42 @@ const poSlice = createSlice({
 
     // Item reducers
 
-    addPOitem(poState, action) {
-      // Input: PO-refId, Item-Details & Specs
-      console.log(`add PO item - reducer running`, action.payload);
+    addPOitem(poState, { payload: [activePOid, formData] }) {
+      // 1. find the current PO index
+      // 1-T. check for items array inside
+      // 1-T-T. Check for duplicate item-id in the items
+      // 1-T-T-T. "Item already exists. Try updating the item"
+      // 1-T-T-F. Push the items inside
+      // 1-T-F. create items array and push the form-data inside
+      // 1-F. 'PO not found'
 
-      // Check PO List for duplicates
-      const activePOitemIndex = poState.findIndex(el => el.refId === action.payload[0])
-      console.log(activePOitemIndex);
+      const activePOIndex = poState.findIndex(el => el.refId === activePOid)
 
-      if (activePOitemIndex >= 0) { // Parent PO exists
-        // Check for duplicate PO item
-        const duplicateItemIndex = poState[activePOitemIndex].items.findIndex(el => el.id === action.payload[1].id)
+      if (activePOIndex >= 0) { // Parent PO exists
 
-        if (duplicateItemIndex < 0) { // No Duplicate PO Item present already
-          // // Add the new PO Item
-          const newPOitemIndex = poState[activePOitemIndex].items.push(action.payload[1])
-          console.log(`Item Added to PO at #${newPOitemIndex}`);
-        } else {
-          console.log(`Item ID# ${action.payload[1].id} already exists in the PO# ${action.payload[0]}.`);
+        const activePOitems = poState[activePOIndex].items;
 
+        if (!!activePOitems) {
+          const duplicateItemIndex = activePOitems && activePOitems.findIndex(el => el.id === formData.id)
+
+          if (duplicateItemIndex < 0) { // No Duplicate PO Item present already
+            // // Add the new PO Item
+            const newPOitemIndex = activePOitems.push(formData)
+            console.log(`Item Added to PO at #${newPOitemIndex}`);
+
+          } else {
+            console.log(`Item ID# ${formData.id} already exists in the PO# ${activePOid}.`);
+          }
+        }
+        else {
+          poState[activePOIndex].items = [formData]
+          console.log(`Item Added to PO at #1`);
         }
 
 
       } else {
         console.log('Parent PO Not Found');
       }
-      // duplicateIndex < 0 ? poState.push(action.payload) : console.log(`Duplicate Found`);
     },
 
     deletePOitem(poState, { payload: [activePOid, dataIndex, dataLength, setDataIndex] }) {

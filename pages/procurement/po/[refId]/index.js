@@ -55,7 +55,6 @@ export default function POdetailPage(pProps) {
 
       {/* Header */}
       <POheader
-        // poId={pProps.pid}
         classes={[styles.poHeader]}
         data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
       />
@@ -78,17 +77,13 @@ export default function POdetailPage(pProps) {
       {
         // console.log(activePOdata.items)
       }
-      {
-        activePOdata.items && activePOdata.items.length > 0
-          ? <POitemDetail
-            classes={[styles.poItemDetail]}
-            activePOid={poSummaryData.refId}
-            data={activePOdata.items} // detail for the current PO items- nested/item/detail level
-            dataIndex={activeItemIndex}
-            setDataIndex={setActiveItemIndex}
-          />
-          : <p className='note'>No Items Inside - detailPage</p>
-      }
+      <POitemDetail
+        classes={[styles.poItemDetail]}
+        activePOid={poSummaryData.refId}
+        data={activePOdata.items} // detail for the current PO items- nested/item/detail level
+        dataIndex={activeItemIndex}
+        setDataIndex={setActiveItemIndex}
+      />
 
     </main>)
 }

@@ -3,13 +3,13 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 // Store & Styles
-import { poActions } from '../../../store/po/po-slice'
+import { poActions } from '../../../../store/po/po-slice'
 
 // Components
-import Portal from '../../UI/Portal'
-import Modal from '../../UI/Modal'
-import MultiForm from '../../MultiForm/MultiForm'
-import { genLog } from '../../../helpers/reusable'
+import Portal from '../../../UI/Portal'
+import Modal from '../../../UI/Modal'
+import MultiForm from '../../../MultiForm/MultiForm'
+import { genLog } from '../../../../helpers/reusable'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function UpdatePOitem_Modal({ closer, activePOid, activePOindex, activeItemData: itemData }) {

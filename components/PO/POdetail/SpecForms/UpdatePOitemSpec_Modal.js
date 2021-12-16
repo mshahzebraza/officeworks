@@ -13,8 +13,17 @@ import { genLog } from '../../../../helpers/reusable'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function UpdatePOitemSpec_Modal({ closer, activePOid, activeItemIndex, activeItemSpecData: specData }) {
-  genLog(`dataform - Form`, specData);
-  const specFields = genFormFields(Object.entries(specData))
+
+
+  // [
+  //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'
+  // ]
+  console.log(specData);
+  const specFields = genFormFields(
+    Object.entries(
+      specData
+    )
+  )
 
   const dispatch = useDispatch();
   return (
@@ -29,9 +38,6 @@ export default function UpdatePOitemSpec_Modal({ closer, activePOid, activeItemI
             ...specFields
           ]
 
-            // [
-            //   'refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'supplier', 'status', 'remarks'
-            // ]
           }
 
         />
@@ -40,16 +46,6 @@ export default function UpdatePOitemSpec_Modal({ closer, activePOid, activeItemI
   )
 }
 
-// [
-//   {
-//     spec1='x001'
-//   },
-//   {
-//     spec2='x001'
-//   }
-// ]
-
-// [[spec1, x001]]
 function genFormFields(objData) {
   return objData.map((el, elIdx) => {
     return {

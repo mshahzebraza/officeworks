@@ -11,6 +11,7 @@ import styles from './POitemDetail.module.scss'
 import AddPOitem_Modal from './ItemForms/AddPOitem_Modal';
 import UpdatePOitem_Modal from './ItemForms/UpdatePOitem_Modal.js';
 import UpdatePOitemSpec_Modal from './SpecForms/UpdatePOitemSpec_Modal';
+import AddPOitemSpec_Modal from './SpecForms/AddPOitemSpec_Modal';
 
 
 export default function POdetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
@@ -19,6 +20,7 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
   const [showAddForm, setShowAddForm] = useState(false)
 
   const [showUpdateSpecForm, setShowUpdateSpecForm] = useState(false)
+  const [showAddSpecForm, setShowAddSpecForm] = useState(false)
 
   const itemLabels = [
     'Item Id',
@@ -77,7 +79,6 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
               <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex]))} >Delete Item</button>
 
               <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
-              {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
               {showUpdateForm &&
                 <UpdatePOitem_Modal
                   closer={() => setShowUpdateForm(false)}
@@ -85,9 +86,24 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
                   activeItemData={itemList[dataIndex]}
                 />
               }
+
+
             </>
           }
 
+          {
+            itemList && itemList.length > 0 && !itemList[dataIndex].specification &&
+            <>
+              <button onClick={() => setShowAddSpecForm(true)} >Add Spec</button>
+              {showAddSpecForm &&
+                <AddPOitemSpec_Modal
+                  closer={() => setShowAddSpecForm(false)}
+                  activePOid={activePOid}
+                  activeItemIndex={dataIndex}
+                />
+              }
+            </>
+          }
           {
             itemList && itemList.length > 0 && itemList[dataIndex].specification &&
             <>

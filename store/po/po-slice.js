@@ -71,7 +71,7 @@ const poSlice = createSlice({
 
     // Item reducers
 
-    addPOitem(poState, { payload: [activePOid, formData] }) {
+    addPOitem(poState, { payload: [activePOid, itemFormData] }) {
       // 1. find the current PO index
       // 1-T. check for items array inside
       // 1-T-T. Check for duplicate item-id in the items
@@ -87,19 +87,19 @@ const poSlice = createSlice({
         const activePOitems = poState[activePOIndex].items;
 
         if (!!activePOitems) {
-          const duplicateItemIndex = activePOitems && activePOitems.findIndex(el => el.id === formData.id)
+          const duplicateItemIndex = activePOitems && activePOitems.findIndex(el => el.id === itemFormData.id)
 
           if (duplicateItemIndex < 0) { // No Duplicate PO Item present already
             // // Add the new PO Item
-            const newPOitemIndex = activePOitems.push(formData)
+            const newPOitemIndex = activePOitems.push(itemFormData)
             console.log(`Item Added to PO at #${newPOitemIndex}`);
 
           } else {
-            console.log(`Item ID# ${formData.id} already exists in the PO# ${activePOid}.`);
+            console.log(`Item ID# ${itemFormData.id} already exists in the PO# ${activePOid}.`);
           }
         }
         else {
-          poState[activePOIndex].items = [formData]
+          poState[activePOIndex].items = [itemFormData]
           console.log(`Item Added to PO at #1`);
         }
 
@@ -180,14 +180,10 @@ const poSlice = createSlice({
 
         const activeItem = poState[poUpdateIndex].items[activeItemIndex]
 
-        genLog('dataform - slice', JSON.parse(JSON.stringify(specFormData, undefined, 2)));
-        genLog('items - slice', JSON.parse(JSON.stringify(activeItem, undefined, 2)));
-        // genLog('items - slice', JSON.parse(JSON.stringify(activeItem.sp, undefined, 2)));
         if (activeItem) { // PO-itemId found ?
 
           // Update the PO item in the poState[idx].items slice and return the poState
           activeItem.specification = specFormData
-          // activeItem.specification = newItemSpecs
 
         } else { // PO-itemId not found ?
           console.log(`Can't find item with the ID (${specFormData.id}) in the PO# ${activePOid} of redux state`)
@@ -199,6 +195,26 @@ const poSlice = createSlice({
 
     },
 
+    addPOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData] }) {
+      // 1. find the current PO index
+      // 1-T. Find the item & push the specs inside it (and maybe check if there are already any specs)
+      // 1-T-T. "Item already exists. Try updating the item"
+      // 1-T-F. Push the items inside
+      // 1-F. 'PO not found'
+
+      const activePOIndex = poState.findIndex(el => el.refId === activePOid)
+
+      if (activePOIndex >= 0) { // Parent PO exists
+
+        const activePOitems = poState[activePOIndex].items;
+
+        const activeItem = activePOitems[activeItemIndex];
+        activeItem.specification = specFormData
+
+      } else {
+        console.log('Parent PO Not Found');
+      }
+    },
   },
 });
 

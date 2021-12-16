@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import purchaseOrdersDb from '../../db/purchaseOrders'
+import { genLog } from "../../helpers/reusable";
 
 const initialState = [
   ...purchaseOrdersDb
@@ -98,35 +99,37 @@ const poSlice = createSlice({
       // duplicateIndex < 0 ? poState.push(action.payload) : console.log(`Duplicate Found`);
     },
 
-    deletePOitem(poState, action) {
+    deletePOitem(poState, { payload: [activePOid, dataIndex, dataLength, setDataIndex] }) {
       // action.payload = [po-refId, item-id]
 
+      console.log(dataLength);
       // Find PO entry index against the input poId
-      const poIndex = poState.findIndex(el => el.refId === action.payload[0])
+      const poIndex = poState.findIndex(el => el.refId === activePOid)
 
       if (poIndex >= 0) { // PO-refId found ?
 
         // Find PO entry index against the input poId
-        const itemIndex = poState[poIndex].items.findIndex((el, elIdx) => elIdx === action.payload[1])
+        const itemIndex = poState[poIndex].items.findIndex((el, elIdx) => elIdx === dataIndex)
 
         if (itemIndex >= 0) { // item-id found ?
 
           poState[poIndex].items.splice(itemIndex, 1);
           // delete the PO from the poState slice
-          console.log(`Deleted item ID# ${action.payload[1]} from PO# ${action.payload[0]}.`)
+          console.log(`Deleted item ID# ${dataIndex} from PO# ${activePOid}.`)
+          dataIndex > dataLength - 1 && setDataIndex(dataIndex - 1)
 
         } else { // item-id not found ?
-          console.log(`Can't find item with the item id: (${action.payload[1]}) in the redux state`)
+          console.log(`Can't find item with the item id: (${dataIndex}) in the redux state`)
         }
       }
       else { // PO-refId not found ?
-        console.log(`Can't find PO with the refId: (${action.payload[0]}) in the redux state`)
+        console.log(`Can't find PO with the refId: (${activePOid}) in the redux state`)
       }
     },
 
     updatePOitem(poState, { payload: [activePOid, itemFormData, oldItemSpecs] }) {
       // Input: PO-refId, Item-Details & Specs
-      console.log(`update PO item - reducer running`);
+      genLog('itemFormData - slice', itemFormData);
 
       // Find PO entry index against the input poId
       const poUpdateIndex = poState.findIndex(el => el.refId === activePOid)
@@ -140,7 +143,11 @@ const poSlice = createSlice({
           // Update the PO item in the poState[idx].items slice and return the poState
           poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, itemFormData); // `&& poState` doesn't do anything hence commented
           // Append old specs in the PO item
-          poState[poUpdateIndex].items[itemUpdateIndex].specification = oldItemSpecs;
+          const activeItem = poState[poUpdateIndex].items[itemUpdateIndex];
+
+          const newItemSpecs = { ...activeItem.specification, ...oldItemSpecs }
+
+          activeItem.specification = newItemSpecs
 
         } else { // PO-itemId not found ?
           console.log(`Can't find item with the ID (${itemFormData.id}) in the PO# ${activePOid} of redux state`)
@@ -151,6 +158,37 @@ const poSlice = createSlice({
       }
 
     },
+
+    // Spec reducers
+    updatePOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData, oldItemSpecs] }) {
+      // Input: PO-refId, Item-Details & Specs
+
+      // Find PO entry index against the input poId
+      const poUpdateIndex = poState.findIndex(el => el.refId === activePOid)
+
+      if (poUpdateIndex >= 0) { // PO-refId found ?
+
+        const activeItem = poState[poUpdateIndex].items[activeItemIndex]
+
+        genLog('dataform - slice', JSON.parse(JSON.stringify(specFormData, undefined, 2)));
+        genLog('items - slice', JSON.parse(JSON.stringify(activeItem, undefined, 2)));
+        // genLog('items - slice', JSON.parse(JSON.stringify(activeItem.sp, undefined, 2)));
+        if (activeItem) { // PO-itemId found ?
+
+          // Update the PO item in the poState[idx].items slice and return the poState
+          activeItem.specification = specFormData
+          // activeItem.specification = newItemSpecs
+
+        } else { // PO-itemId not found ?
+          console.log(`Can't find item with the ID (${specFormData.id}) in the PO# ${activePOid} of redux state`)
+        }
+
+      } else { // PO-refId not found
+        console.log(`Can't find PO with the refId (${activePOid}) in the redux state`)
+      }
+
+    },
+
   },
 });
 

@@ -40,17 +40,17 @@ export function addObjectPair(parentObj, entryPairArr) {
 
 // Input: {label1: 'value1', label2: 'value2'}
 // Output-phase1: [ 
-//   ['label1': 'value1'],
-//   ['label2': 'value2']
+//   ['label1': 'name'],
+//   ['label2': 'John Doe']
 //  ]
 // Output-phase2: [
 //   {
 //     label: "label1",
-//     value: "value1"
+//     value: "name"
 // },
 // {
 //     label: "label2",
-//     value: "value2"
+//     value: "John Doe"
 // }
 // ]
 // performs transformation on each object-pair and returns an array.
@@ -68,7 +68,8 @@ export function transformArray(array, transformer) {
 }
 
 export function isObjEmpty(obj) {
-  return Object.entries(obj).length > 0
+  console.log(obj);
+  return obj && Object.entries(obj).length > 0
 }
 
 // Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {
@@ -80,10 +81,9 @@ export function isObjEmpty(obj) {
 
 // Input: ['label1', 'value1']
 // Input: {label1: 'value1'}
-export function pairToEntry(pairArr, pairIndex) {
-  return {
-    label: pairArr[0], value: pairArr[1]
-  }
+function pairToEntry(pairArr, pairIndex) {
+  return Object.fromEntries(pairArr)
+
 }
 
 export function genLog(label, data, background = '#78f086', padding = '0.5rem 1rem', color = '#000') {
@@ -130,4 +130,16 @@ export function removeDuplicate(list, label = 'item') {
   }
 
   return result;
+}
+
+
+
+
+function genFormFields(objData) {
+  return objData.map((el, elIdx) => {
+    return {
+      field: el[0],
+      defaultValue: el[1],
+    }
+  })
 }

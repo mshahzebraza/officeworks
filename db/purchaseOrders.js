@@ -22,6 +22,7 @@ const purchaseOrdersDb = [
         id: 'NRS BF 220x2 1502',
         qty: 200,
         unitPrice: 450,
+        remarks: '',
         specification: {
           // Input received as [key, value]=['Pitch','0.02mm'] & then transformed to { [key]: value }
           // the quantity of the specification parameters can be adjusted by the user. User can generated more custom fields or choose not to fill any, in which case the specification object will be an empty one.
@@ -37,6 +38,7 @@ const purchaseOrdersDb = [
         id: 'NRS BF 200x4 1002',
         qty: 100,
         unitPrice: 500,
+        remarks: '',
         specification: {
           pitch: '0.04 mm',
           threadedLength: '200 mm',
@@ -50,6 +52,7 @@ const purchaseOrdersDb = [
         id: 'J48ZWX01',
         qty: 100,
         unitPrice: 500,
+        remarks: '',
         specification: {
           type: 'Brush-less DC',
           voltage: '20 V',
@@ -63,6 +66,7 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
+        remarks: '',
         specification: {
           type: 'Slot Head',
           dimensions: 'M2 x 10',
@@ -75,6 +79,7 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
+        remarks: '',
         specification: {
           type: 'Slot Head',
           dimensions: 'M2 x 10',
@@ -87,6 +92,7 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
+        remarks: '',
         specification: {
           type: 'Slot Head',
           dimensions: 'M2 x 10',
@@ -99,6 +105,7 @@ const purchaseOrdersDb = [
         id: 'RS-001200123',
         qty: 100,
         unitPrice: 100,
+        remarks: '',
         specification: {
           // type: 'Slot Head',
           // dimensions: 'M2 x 10',
@@ -133,6 +140,7 @@ const purchaseOrdersDb = [
         id: 'M5*15 SS A4',
         qty: 200,
         unitPrice: 45,
+        remarks: '',
       },
       {
         name: 'Fasteners',
@@ -140,6 +148,7 @@ const purchaseOrdersDb = [
         id: 'M5*25 SS A4',
         qty: 200,
         unitPrice: 45,
+        remarks: '',
       },
     ]
   },

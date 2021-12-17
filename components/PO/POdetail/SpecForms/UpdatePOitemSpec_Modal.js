@@ -8,7 +8,7 @@ import { poActions } from '../../../../store/po/po-slice'
 // Components
 import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
-import MultiForm from '../../../MultiForm/MultiForm'
+import Form from '../../../Form/Form'
 import { genLog } from '../../../../helpers/reusable'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -32,7 +32,7 @@ export default function UpdatePOitemSpec_Modal({ closer, activePOid, activeItemI
         title='Edit Entry'
         closer={closer}
       >
-        <MultiForm
+        <Form
           submit={(formData) => { dispatch(poActions.updatePOitemSpec([activePOid, activeItemIndex, formData, specData])) }}
           fields={[
             ...specFields

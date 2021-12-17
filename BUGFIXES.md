@@ -79,25 +79,14 @@ Final Solution here.
 
 # Tasks
 
-## `Improve the code of Multiform modals`
+## `Improve the code of Form modals`
 
-A Separate array for datalist may be created. the list Item may pick the dataList item in the array according to current index if it is not empty. Otherwise, the component may run without datalist.
+- A Separate array for datalist may be created. the list Item may pick the dataList item in the array according to current index if it is not empty. Otherwise, the component may run without datalist.
 
-However,this may mean that there will a separate array for `req` and `disabled` field as well.
+- However,this may mean that there will a separate array for `req` and `disabled` field as well.
 
-## Make the forms for editing, deleting, adding the specifications of PO-item as well.
-
-## Buttons for adding items must be visible in itemDetail component even when there is no items
-
-## Remove the sublevel functionality from the MultiForm bcz the sublevel data not passed as the form data
-
-- Data shows that it contains the specs if it is logged directly from form. however not in the po-slice
-- Also, the updateItemForm lets you enter the specs but doesn't fetch the old specs in the form.
-
-## use fromEntries() in helper functions
-
-## make the form generate the fields dynamically by reading the length of entries.
-
-## Deleting of certain specs work but adding new specs don't work in the updateForm.
+- make the form generate the fields dynamically by reading the length of entries.
 
 ## Update/Add Spec behaves differently if there is an empty object inside the item.specs
+
+## Improve the styling & layout of item Detail components (preferably by segregation of POheader)

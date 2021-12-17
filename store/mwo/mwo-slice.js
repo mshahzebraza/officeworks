@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import workOrdersDb from '../../db/workOrders'
 
-const initialState = {
+const initialState = [
   // Initial State Here
-};
+  ...workOrdersDb
+];
 
 const mwoSlice = createSlice({
   name: "mwo",

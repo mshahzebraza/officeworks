@@ -8,7 +8,7 @@ import { poActions } from '../../../../store/po/po-slice'
 // Components
 import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
-import MultiForm from '../../../MultiForm/MultiForm'
+import Form from '../../../Form/Form'
 
 
 export default function AddPOitem_Modal({ closer, activePOid, activePOindex }) {
@@ -18,7 +18,7 @@ export default function AddPOitem_Modal({ closer, activePOid, activePOindex }) {
     <Portal>
 
       <Modal title='New PO Entry' closer={closer}>
-        <MultiForm
+        <Form
           submit={formData => {
             dispatch(poActions.addPOitem([activePOid, formData]));
           }}

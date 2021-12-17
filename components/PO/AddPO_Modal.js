@@ -8,7 +8,7 @@ import { poActions } from '../../store/po/po-slice'
 // Components
 import Portal from '../UI/Portal'
 import Modal from '../UI/Modal'
-import MultiForm from '../MultiForm/MultiForm'
+import Form from '../Form/Form'
 
 export default function AddPO_MFM({ closer }) {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function AddPO_MFM({ closer }) {
     <Portal>
 
       <Modal title='New PO Entry' closer={closer}>
-        <MultiForm submit={formData => {
+        <Form submit={formData => {
           dispatch(poActions.addPO(formData));
         }} fields={[{
           field: 'refType',

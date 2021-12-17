@@ -8,7 +8,7 @@ import { poActions } from '../../../../store/po/po-slice'
 // Components
 import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
-import MultiForm from '../../../MultiForm/MultiForm'
+import Form from '../../../Form/Form'
 
 
 export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemIndex }) {
@@ -18,7 +18,7 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
     <Portal>
 
       <Modal title='New Item Specifications' closer={closer}>
-        <MultiForm
+        <Form
           submit={formData => {
             dispatch(poActions.addPOitemSpec([activePOid, activeItemIndex, formData]));
           }}

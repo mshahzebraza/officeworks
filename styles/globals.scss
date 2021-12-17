@@ -5,7 +5,7 @@ body,
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	color: rgb(72, 68, 72);
+	color: rgb(112, 112, 112);
 }
 
 html,
@@ -120,8 +120,10 @@ p {
 // E.g if itemList is not available then instead of the component-map a note with the info will be rendered.
 .note {
 	// margin: 0 auto;
+	border: 1px dashed #0986ac;
+	height: 100%;
 	padding: 0.5rem 1rem;
-	color: rgb(172, 156, 9);
+	color: #0986ac;
 
 	display: flex;
 	flex-direction: column;

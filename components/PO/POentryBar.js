@@ -59,7 +59,7 @@ export default function POentryBar({ poData, poIndex }) {
 
       {/* PO Status */}
       <span className={styles.entryStatus}>
-        <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${poData.status.trim().toLowerCase()}`]}`} />
+        <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${poData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
         <span className={styles.entryStatusText} >{poData.status}</span>
       </span>
 
@@ -82,8 +82,6 @@ export default function POentryBar({ poData, poIndex }) {
 
 // Edit,Summary,Detail,Delete
 function EntryCtrlBtn(props) { // Pass the `TYPE` in sentence case
-  // console.log('props', props);
-  // console.log(props.type.toLowerCase());
 
   return (
     <button

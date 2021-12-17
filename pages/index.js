@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import MultiForm from '../components/MultiForm/MultiForm';
+import Form from '../components/Form/Form';
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { poActions } from '../store/po/po-slice'
@@ -20,7 +20,7 @@ export default function Home() {
         <Link href='/procurement' ><a className='tempBox' >Procurement</a></Link>
         <Link href='/inventory' ><a className='tempBox' >Inventory</a></Link>
         {/* 
-        <MultiForm
+        <Form
           submitter={(formData) => { console.log(formData); }}
           fields={[
             'Type', 'Remarks'

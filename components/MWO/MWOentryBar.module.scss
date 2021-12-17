@@ -1,4 +1,9 @@
 @import "../../styles/abstracts/abstracts";
+
+.bgred {
+	background: #000;
+}
+
 .entry {
 	// margin: auto;
 	// max-width: 80rem;
@@ -14,48 +19,56 @@
 	border-radius: 0.5rem;
 
 	&Index {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
+		flex: 0 0 3%;
 		// color: royalblue;
 	}
 
-	&Type {
+	&MWOid {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
+		flex: 0 0 9%;
 		// color: royalblue;
 	}
 
-	&Id {
+	&ItemName {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 15%;
-		// color: royalblue;
-	}
-
-	&ItemList {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 44%;
+		flex: 0 0 20%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
 		// color: royalblue;
 	}
 
-	&Item {
+	&Qty {
+		flex: 0 0 4%;
+		display: flex;
+		gap: 1rem;
 		// border: 1px dotted saddlebrown;
 		// flex: 0 0 35%;
 		// color: royalblue;
-		padding: 0.25em 0.5em;
 		border-radius: 0.5rem;
-		background: hsla(0, 0%, 0%, 0.15);
+		// background: hsla(0, 0%, 0%, 0.15);
 
 		&Empty {
 			color: $red;
 		}
 
+		padding: 0.25em 0.5em;
 		&:hover {
 			cursor: pointer;
 			background: hsla(0, 0%, 0%, 0.45);
 		}
+	}
+
+	&ItemId {
+		// border: 1px dotted saddlebrown;
+		flex: 0 0 9%;
+		// color: royalblue;
+	}
+
+	&Application {
+		// border: 1px dotted saddlebrown;
+		flex: 0 0 14%;
+		// color: royalblue;
 	}
 
 	&Status {
@@ -76,6 +89,9 @@
 			height: 2rem;
 			border-radius: 0.35rem;
 
+			&-notstarted {
+				background-color: hsl(0, 80%, 61%);
+			}
 			&-active {
 				background-color: rgb(235, 179, 76);
 			}

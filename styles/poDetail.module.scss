@@ -5,6 +5,7 @@
 	display: grid;
 	gap: 2rem;
 
+	// background: crimson;
 	grid-template-rows: 20rem 50rem;
 	grid-template-columns: 30rem 1fr 15rem;
 	grid-template-areas: 
@@ -17,7 +18,7 @@
 
 	&Header {
 		grid-area: poHeader;
-		background: ghostwhite;
+		// background: ghostwhite;
 	}
 	&NavList {
 		grid-area: poNavList;

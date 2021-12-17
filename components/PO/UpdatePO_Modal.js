@@ -8,7 +8,7 @@ import { poActions } from '../../store/po/po-slice'
 // Components
 import Portal from '../UI/Portal'
 import Modal from '../UI/Modal'
-import MultiForm from '../MultiForm/MultiForm'
+import Form from '../Form/Form'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function UpdatePO_Modal({ closer, poData }) {
@@ -20,7 +20,7 @@ export default function UpdatePO_Modal({ closer, poData }) {
         title='Edit Entry'
         closer={closer}
       >
-        <MultiForm
+        <Form
           submit={(formData) => { dispatch(poActions.updatePO([formData, poData.items])); }}
           // The field should be rendered automatically.
           // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.

@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react'
-import styles from './Multiform.module.scss'
+import React, { useState } from 'react'
+import styles from './Form.module.scss'
 import { guid, defaultPairMaker, multiFormDataTranslator } from '../../helpers/specific';
 
 
 
 
 
-export default function MultiForm(props) {
+export default function Form(props) {
 
   // SUBMIT Function fetches the following data from form-inputs and converts it into POitem object to store it in state.
   /* 
@@ -30,38 +30,38 @@ export default function MultiForm(props) {
   if (props.fields) {
     initialState = defaultPairMaker(props.fields)
   }
-  const [inputPairs, setInputPairs] = useState(initialState);
+  const [inputPairsData, setInputPairsData] = useState(initialState);
 
 
   const handleFieldAdd = (e) => {
     e.preventDefault();
-    const tempInputPairs = [...inputPairs];
-    tempInputPairs.push({ field: ``, value: `` })
-    setInputPairs(tempInputPairs)
+    const tempInputPairsData = [...inputPairsData];
+    tempInputPairsData.push({ field: ``, value: `` })
+    setInputPairsData(tempInputPairsData)
   }
 
   const handlerPairDelete = (pairIndex, e) => {
     e.preventDefault();
-    const tempInputPairs = [...inputPairs];
-    tempInputPairs.splice(pairIndex, 1)
-    setInputPairs(tempInputPairs)
+    const tempInputPairsData = [...inputPairsData];
+    tempInputPairsData.splice(pairIndex, 1)
+    setInputPairsData(tempInputPairsData)
   }
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = multiFormDataTranslator(inputPairs);
+    const result = multiFormDataTranslator(inputPairsData);
     props.submit(result)
 
   }
 
   // Changes the values in the 'labelInput' & 'valueInput' and saves it in the state as well.
   const handlePairChange = (inputLabel, pairIndex, evt) => {
-    const tempInputPairs = [...inputPairs];
+    const tempInputPairsData = [...inputPairsData];
     inputLabel === 'field'
-      ? tempInputPairs[pairIndex].field = evt.target.value
-      : tempInputPairs[pairIndex].value = evt.target.value;
-    setInputPairs(tempInputPairs)
+      ? tempInputPairsData[pairIndex].field = evt.target.value
+      : tempInputPairsData[pairIndex].value = evt.target.value;
+    setInputPairsData(tempInputPairsData)
   }
 
 
@@ -72,7 +72,7 @@ export default function MultiForm(props) {
       className={styles.form}
       onSubmit={handleSubmit} >
       {
-        inputPairs.map((pair, pairIndex) => {
+        inputPairsData.map((pair, pairIndex) => {
           return <div
             key={`pair-${pairIndex + 1}`}
             className={styles.formGroup}

@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 // Store & Styles
 import styles from './MWOentryBar.module.scss';
 import { mwoActions } from '../../store/mwo/mwo-slice'
-import { Row, Col, Container } from 'react-bootstrap'
 
 // Components
 import SummaryMWO_Modal from './SummaryMWO_Modal'
@@ -24,19 +23,7 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
   const [showSummary, setShowSummary] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-  // const poItems = mwoData.items;
 
-  // Shortened version of Item Name (50 chars)
-  // let refinedItemList = [];
-  // if (mwoItems && poItems.length > 0) {
-  //   const itemListArray = poItems.map((el, elIdx) => el.name); // ['po_item1', 'po_item1', 'po_item2']
-  //   refinedItemList = removeDuplicate(itemListArray); // [{reusable: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
-  // }
-
-
-  /* 
-  refType, refId, items (item-qty pair) , Status
-   */
   return (
 
     <li className={styles.entry} >
@@ -78,7 +65,8 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
         {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} mwoData={mwoData} />}
 
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
-        {showSummary && <SummaryMWO_Modal closer={() => setShowSummary(false)} mwoData={mwoData} itemList={refinedItemList} />}
+        {showSummary && <SummaryMWO_Modal closer={() => setShowSummary(false)} mwoData={mwoData} />}
+        {/* itemList={refinedItemList} */}
 
         <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${mwoData.refId}`)} ></EntryCtrlBtn>
 
@@ -106,13 +94,5 @@ function EntryCtrlBtn(props) { // Pass the `TYPE` in sentence case
         height={20} />
       <span className={`tooltipContent`}>{props.type}</span>
     </button>
-  )
-}
-
-function EntryItemName(props) {
-  return (
-    <span className={`${styles.entryItem} ${props.isEmpty && styles.entryItemEmpty}`}>
-      {props.isEmpty ? 'No Item Found' : props.content}
-    </span>
   )
 }

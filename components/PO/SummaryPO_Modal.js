@@ -10,6 +10,17 @@ import Modal from '../UI/Modal'
 
 
 export default function SummaryPO_MFM({ closer, poData, itemList }) {
+
+  const poItemData = itemList && itemList.length > 0
+    ? itemList.map(
+      (item, itemIdx) => <li
+        className={styles.dataItem}
+        key={itemIdx}
+      >
+        <span className={styles.dataItemQty}> {item.qty} </span>
+        <span className={styles.dataItemType} >{item.item}</span>
+      </li>)
+    : <span>No items</span>;
   return (
     <Portal>
       <Modal
@@ -18,47 +29,29 @@ export default function SummaryPO_MFM({ closer, poData, itemList }) {
       >
         {<div className={styles.body}>
 
-          <p className={styles.data} >
-            <span className={styles.dataField} >Reference ID:</span>
-            <span className={styles.dataValue} >{poData.refId}</span>
-          </p>
-          <p className={styles.data} >
-            <span className={styles.dataField} >Total Cost:</span>
-            <span className={styles.dataValue} >{poData.totalCost}</span>
-          </p>
-          <p className={styles.data} >
-            <span className={styles.dataField} >Supplier:</span>
-            <span className={styles.dataValue} >{poData.supplier}</span>
-          </p>
-          <p className={styles.data} >
-            <span className={styles.dataField} >PO Category:</span>
-            <span className={styles.dataValue} >{poData.category}</span>
-          </p>
-          <p className={styles.data} >
-            <span className={styles.dataField} >Source:</span>
-            <span className={styles.dataValue} >{poData.fulfillmentSource}</span>
-          </p>
-
-          <div className={styles.data}>
-            <span className={styles.dataField}>Items Procured:</span>
-            <ul className={styles.dataValue} >
-              {
-                itemList && itemList.length > 0
-                  ? itemList.map(
-                    (item, itemIdx) => <li
-                      className={styles.dataItem}
-                      key={itemIdx}
-                    >
-                      <span className={styles.dataItemQty}> {item.qty} </span>
-                      <span className={styles.dataItemType} >{item.item}</span>
-                    </li>)
-                  : <span>No items</span>
-              }
-            </ul>
-          </div>
+          <SummaryItem field={`Reference ID`} value={poData.refId} />
+          <SummaryItem field={`Total Cost`} value={poData.totalCost} />
+          <SummaryItem field={`Supplier`} value={poData.supplier} />
+          <SummaryItem field={`PO Category`} value={poData.category} />
+          <SummaryItem field={`Source`} value={poData.fulfillmentSource} />
+          <SummaryItem field={`Items Procured`} value={poItemData} isList />
 
         </div>}
       </Modal>
     </Portal>
   )
+}
+
+
+
+function SummaryItem({ field, value, isList }) {
+  return (<p className={styles.data}>
+    <span className={styles.dataField}>{field}:</span>
+    {
+      !isList
+        ? <span className={styles.dataValue}>{value}</span>
+        // To accommodate list items in case of nested items
+        : <ul className={styles.dataValue}>{value}</ul>
+    }
+  </p>);
 }

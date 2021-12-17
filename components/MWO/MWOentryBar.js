@@ -66,7 +66,7 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
 
         <EntryCtrlBtn type={'Detail'} click={() => router.push(`mwo/${mwoData.mwoId}`)} ></EntryCtrlBtn>
 
-        <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(mwoData.refId))} ></EntryCtrlBtn>
+        <EntryCtrlBtn type={'Delete'} click={() => dispatch(mwoActions.deleteMWO(mwoData.mwoId))} ></EntryCtrlBtn>
       </div>
     </li>
   )

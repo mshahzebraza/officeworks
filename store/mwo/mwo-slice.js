@@ -23,7 +23,14 @@ const mwoSlice = createSlice({
 
     addMWO(mwoState, action) {
     },
-    removeMWO(mwoState, action) {
+    deleteMWO(mwoState, { payload: deleteMWOid }) {
+      // Get the related mwoId
+      // map the mwoList for matching mwo
+      const matchIndex = mwoState.findIndex(MWO => {
+        return MWO.mwoId === deleteMWOid
+      })
+      mwoState.splice(matchIndex, 1)
+      console.log(deleteMWOid);
     },
   },
 });

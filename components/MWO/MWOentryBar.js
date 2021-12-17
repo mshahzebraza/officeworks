@@ -11,7 +11,7 @@ import { mwoActions } from '../../store/mwo/mwo-slice'
 
 // Components
 import SummaryMWO_Modal from './SummaryMWO_Modal'
-// import UpdatePO_Modal from './UpdatePO_Modal'
+import UpdateMWO_Modal from './UpdateMWO_Modal'
 
 
 
@@ -45,10 +45,6 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
         }
       </span>
 
-      {/* Ref/Dwg ID */}
-      {/* <span className={styles.entryItemId}>
-        {mwoData.itemId}
-      </span> */}
       <span className={styles.entryApplication}>
         {mwoData.application}
       </span>
@@ -62,13 +58,13 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
       {/* PO Commands */}
       <div className={styles.entryControls}>
         <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
-        {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} mwoData={mwoData} />}
+        {showUpdateForm && <UpdateMWO_Modal closer={() => setShowUpdateForm(false)} mwoData={mwoData} />}
 
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
         {showSummary && <SummaryMWO_Modal closer={() => setShowSummary(false)} mwoData={mwoData} />}
         {/* itemList={refinedItemList} */}
 
-        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${mwoData.refId}`)} ></EntryCtrlBtn>
+        <EntryCtrlBtn type={'Detail'} click={() => router.push(`mwo/${mwoData.mwoId}`)} ></EntryCtrlBtn>
 
         <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(mwoData.refId))} ></EntryCtrlBtn>
       </div>

@@ -90,3 +90,8 @@ Final Solution here.
 ## Update/Add Spec behaves differently if there is an empty object inside the item.specs
 
 ## Improve the styling & layout of item Detail components (preferably by segregation of POheader)
+
+## Refactoring the styles of Entry-Bar
+
+- Make the space of entry bar dependent on helper classes that can be added from js files. otherwise generate items according to no. of item-components in the js-files.
+- This will ensure that no repeating html code is written.

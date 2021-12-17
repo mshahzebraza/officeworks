@@ -22,7 +22,7 @@ const workOrdersDb = [
     application: 'LAB',
     status: 'Not Started',
     title: 'Testing fixture for R380 Load Test',
-    remarks: '',
+    // remarks: '',
     // Project,
     // type,
   }

@@ -11,11 +11,19 @@ const mwoSlice = createSlice({
   initialState,
 
   reducers: {
-    updateItem(state, action) {
+    updateMWO(mwoState, { payload: formData }) {
+      // Get the data and related mwoId
+      // map the mwoList for matching mwo
+      // Change the data of prev MWO
+      const matchIndex = mwoState.findIndex(MWO => {
+        return MWO.mwoId === formData.mwoId
+      })
+      mwoState[matchIndex] = formData
     },
-    addItem(state, action) {
+
+    addMWO(mwoState, action) {
     },
-    removeItem(state, action) {
+    removeMWO(mwoState, action) {
     },
   },
 });

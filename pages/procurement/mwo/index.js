@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import styles from '../../../styles/po.module.scss'
 
 // Components
-import AddPO_Modal from '../../../components/PO/AddPO_Modal'
+import AddMWO_Modal from '../../../components/MWO/AddMWO_Modal'
 import MWOentryBar from '../../../components/MWO/MWOentryBar'
 
 
@@ -27,22 +27,15 @@ export default function MWO(pProps) {
               mwoData={poData}
             />
           })
-          // poList.map((poData, idx) => {
-          //   return <POentryBar
-          //     key={idx}
-          //     poData={poData}
-          //     poIndex={idx}
-          //   />
-          // })
         }
       </section>
 
-      {/* <section className={styles.poForm} >
-        <button onClick={() => setShowModal(true)} >Add a PO</button>
+      <section className={styles.poForm} >
+        <button onClick={() => setShowModal(true)} >Add a MWO</button>
         {showModal &&
-          <AddPO_Modal closer={() => setShowModal(false)} />}
+          <AddMWO_Modal closer={() => setShowModal(false)} />}
 
-      </section> */}
+      </section>
     </main>
   )
 

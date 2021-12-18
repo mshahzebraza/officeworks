@@ -21,7 +21,13 @@ const mwoSlice = createSlice({
       mwoState[matchIndex] = formData
     },
 
-    addMWO(mwoState, action) {
+    addMWO(mwoState, { payload: formData }) {
+      // Check Duplicate
+      // Add MWO to MWOList
+      const DupeIndex = mwoState.findIndex((el) => el.mwoId === formData.mwoId)
+      DupeIndex < 0 ? mwoState.push(formData) : console.log(`Duplicate found`);
+      // formData.mwoId
+
     },
     deleteMWO(mwoState, { payload: deleteMWOid }) {
       // Get the related mwoId
@@ -30,7 +36,6 @@ const mwoSlice = createSlice({
         return MWO.mwoId === deleteMWOid
       })
       mwoState.splice(matchIndex, 1)
-      console.log(deleteMWOid);
     },
   },
 });

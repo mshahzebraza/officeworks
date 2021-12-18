@@ -10,7 +10,7 @@ import Portal from '../UI/Portal'
 import Modal from '../UI/Modal'
 import Form from '../Form/Form'
 
-export default function AddPO_MFM({ closer }) {
+export default function AddPO_Modal({ closer }) {
   const dispatch = useDispatch();
 
   return (
@@ -19,38 +19,39 @@ export default function AddPO_MFM({ closer }) {
       <Modal title='New PO Entry' closer={closer}>
         <Form submit={formData => {
           dispatch(poActions.addPO(formData));
-        }} fields={[{
-          field: 'refType',
-          dataList: ['CST', 'Bill', 'PO'],
-          req: true
-        }, {
-          field: 'refId',
-          req: true
-        }, {
-          field: 'category',
-          dataList: ['Single Quotation', 'Repeat Order'],
-          req: true
-        }, {
-          field: 'fulfillmentSource',
-          dataList: ['Local', 'Foreign'],
-          req: true
-        }, {
-          field: 'currency',
-          dataList: ['PKR', 'USD', 'RMB'],
-          req: true
-        }, {
-          field: 'totalCost',
-          req: true
-        }, {
-          field: 'status',
-          dataList: ['Active', 'Delivered', 'Closed'],
-          req: true
-        }, {
-          field: 'supplier',
-          dataList: ['Wuhan', 'E-Tech']
-        }, {
-          field: 'remarks'
-        }]} subLevels={['specifications']} />
+        }} fields={[
+          { // Ref Type
+            field: 'refType',
+            dataList: ['CST', 'Bill', 'PO'],
+            req: true
+          }, { // Ref ID
+            field: 'refId',
+            req: true
+          }, { // Category
+            field: 'category',
+            dataList: ['Single Quotation', 'Repeat Order'],
+            req: true
+          }, { // Source
+            field: 'fulfillmentSource',
+            dataList: ['Local', 'Foreign'],
+            req: true
+          }, { // Currency
+            field: 'currency',
+            dataList: ['PKR', 'USD', 'RMB'],
+            req: true
+          }, { // Total Cost
+            field: 'totalCost',
+            req: true
+          }, { // Status
+            field: 'status',
+            dataList: ['Active', 'Delivered', 'Closed'],
+            req: true
+          }, { // Supplier
+            field: 'supplier',
+            dataList: ['Wuhan', 'E-Tech']
+          }, { // Remarks
+            field: 'remarks'
+          }]} />
       </Modal>
     </Portal>
   )

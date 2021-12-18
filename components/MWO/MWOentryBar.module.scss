@@ -19,19 +19,19 @@
 	border-radius: 0.5rem;
 
 	&Index {
-		flex: 0 0 3%;
+		flex: 0 0 5%;
 		// color: royalblue;
 	}
 
 	&MWOid {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 9%;
+		flex: 0 0 13%;
 		// color: royalblue;
 	}
 
 	&ItemName {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 20%;
+		flex: 0 0 30%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
@@ -39,7 +39,7 @@
 	}
 
 	&Qty {
-		flex: 0 0 4%;
+		flex: 0 0 5%;
 		display: flex;
 		gap: 1rem;
 		// border: 1px dotted saddlebrown;
@@ -48,10 +48,6 @@
 		border-radius: 0.5rem;
 		// background: hsla(0, 0%, 0%, 0.15);
 
-		&Empty {
-			color: $red;
-		}
-
 		padding: 0.25em 0.5em;
 		&:hover {
 			cursor: pointer;
@@ -59,21 +55,21 @@
 		}
 	}
 
-	&ItemId {
-		// border: 1px dotted saddlebrown;
-		flex: 0 0 9%;
-		// color: royalblue;
-	}
+	// &ItemId {
+	// 	// border: 1px dotted saddlebrown;
+	// 	flex: 0 0 14%;
+	// 	// color: royalblue;
+	// }
 
 	&Application {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 14%;
+		flex: 0 0 20%;
 		// color: royalblue;
 	}
 
 	&Status {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 11%;
+		flex: 0 0 12%;
 		// flex: 0 1 10%;
 		display: flex;
 		// justify-content: space-between;
@@ -126,7 +122,7 @@
 
 	&Controls {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 20%;
+		flex: 0 0 15%;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -135,7 +131,7 @@
 			border-radius: 0.35rem;
 			padding: 0.65rem;
 			// padding: 0.65rem 0.5rem 0.5rem;
-			flex-basis: 20%;
+			flex-basis: 25%;
 			border: 1.5px solid rgb(74, 104, 145);
 			box-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.25);
 			&:active,

@@ -37,25 +37,23 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
       {/* MWO Type */}
       <span className={styles.entryItemName}>{mwoData.itemName}</span>
 
+      {/* MWO Item Id */}
+      {/* <span className={styles.entryItemId}>{mwoData.itemId}</span> */}
 
-      {/* PO Items */}
-      <span className={styles.entryQty}>
-        {
-          mwoData.qty
-        }
-      </span>
+      {/* MWO Qty */}
+      <span className={styles.entryQty}>{mwoData.qty}</span>
 
       <span className={styles.entryApplication}>
         {mwoData.application}
       </span>
 
-      {/* PO Status */}
+      {/* MWO Status */}
       <span className={styles.entryStatus}>
         <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${mwoData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
         <span className={styles.entryStatusText} >{mwoData.status}</span>
       </span>
 
-      {/* PO Commands */}
+      {/* MWO Commands */}
       <div className={styles.entryControls}>
         <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
         {showUpdateForm && <UpdateMWO_Modal closer={() => setShowUpdateForm(false)} mwoData={mwoData} />}
@@ -64,7 +62,7 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
         {showSummary && <SummaryMWO_Modal closer={() => setShowSummary(false)} mwoData={mwoData} />}
         {/* itemList={refinedItemList} */}
 
-        <EntryCtrlBtn type={'Detail'} click={() => router.push(`mwo/${mwoData.mwoId}`)} ></EntryCtrlBtn>
+        {/* <EntryCtrlBtn type={'Detail'} click={() => router.push(`mwo/${mwoData.mwoId}`)} ></EntryCtrlBtn> */}
 
         <EntryCtrlBtn type={'Delete'} click={() => dispatch(mwoActions.deleteMWO(mwoData.mwoId))} ></EntryCtrlBtn>
       </div>

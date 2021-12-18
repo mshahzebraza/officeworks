@@ -95,3 +95,5 @@ Final Solution here.
 
 - Make the space of entry bar dependent on helper classes that can be added from js files. otherwise generate items according to no. of item-components in the js-files.
 - This will ensure that no repeating html code is written.
+
+## Pass a type prop to inputs of form modals to decided the type of input.

@@ -60,13 +60,12 @@ export default function UpdateMWO_Modal({ closer, mwoData }) {
               field: 'status',
               req: true,
               defaultValue: mwoData.status && mwoData.status,
-              dataList: ['Not Started', 'In Process', 'Delivered']
+              dataList: ['Not Started', 'Active', 'Delivered']
             },
             {
               field: 'title',
               req: true,
               defaultValue: mwoData.title && mwoData.title,
-              dataList: ['Closed', 'In Process', 'Delivered']
             },
             // mwoData.remarks.length > 0 &&
             // mwoData.remarks &&

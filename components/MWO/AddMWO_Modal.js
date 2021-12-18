@@ -29,18 +29,19 @@ export default function AddMWO_Modal({ closer }) {
             req: true
           }, { // Category
             field: 'itemId',
-            dataList: ['Single Quotation', 'Repeat Order'],
             req: true
           }, { // Currency
             field: 'itemName',
-            dataList: ['PKR', 'USD', 'RMB'],
             req: true
           }, { // Total Cost
             field: 'qty',
             req: true
           }, { // Status
             field: 'status',
-            dataList: ['Active', 'Delivered', 'Closed'],
+            dataList: ['Not Started', 'Active', 'Delivered'],
+            req: true
+          }, { // Title
+            field: 'title',
             req: true
           }, { // Remarks
             field: 'remarks'

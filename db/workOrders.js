@@ -9,7 +9,7 @@ const workOrdersDb = [
     itemName: 'Sliding Bearing',
     qty: 20,
     title: 'Widening of pulley shaft cavity with a tolerance of  +0.01 mm using CNC Milling Machine.',
-    status: 'Active', // Active, Milling, Turning, STUCK
+    status: 'Active', // Not Started, Active, Delivered, Milling, Turning, STUCK
     // Remark / Update
     remarks:
       'PCMB Meeting discussion concluded that an IHD is to be conducted in presence of Representatives from Metallurgical, Q&A  and SETUPSX. IHD will be focussed on the benefits of the said increase in cavity of the module. The decision will be formulated after the return of MD-SETUPX from COUNTRY AMINO.'

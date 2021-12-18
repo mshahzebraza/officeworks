@@ -25,17 +25,17 @@ import POitemDetail from '../../../../components/PO/POdetail/POitemDetail'
 // }
 
 export async function getServerSideProps(context) {
-  const pid = context.params.refId;
+  const pageId = context.params.refId;
   return {
     props: {
-      pid
+      pageId
     }
   }
 }
 
-export default function POdetailPage(pProps) {
+export default function POdetailPage({ pageId }) {
   // Find the po-data against the ID in URL
-  const activePOdata = useSelector(state => { return state.po.find(item => item.refId === pProps.pid) })
+  const activePOdata = useSelector(state => { return state.po.find(item => item.refId === pageId) })
 
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
 

@@ -10,7 +10,7 @@ import styles from '../../../../styles/poDetail.module.scss'
 import POheader from '../../../../components/PO/POdetail/POheader'
 import POnavList from '../../../../components/PO/POdetail/POnavList'
 import POitemDetail from '../../../../components/PO/POdetail/POitemDetail'
-
+import Layout from '../../../../components/Layout/Layout'
 
 
 // export async function getStaticPaths() {
@@ -51,7 +51,8 @@ export default function POdetailPage({ pageId }) {
 
 
   return (
-    <main className={styles.po} >
+    <Layout pageClasses={[styles.po]} >
+
 
       {/* Header */}
       <POheader
@@ -85,5 +86,7 @@ export default function POdetailPage({ pageId }) {
         setDataIndex={setActiveItemIndex}
       />
 
-    </main>)
+
+    </Layout>
+  )
 }

@@ -8,7 +8,7 @@ import styles from '../../../styles/po.module.scss'
 // Components
 import AddMWO_Modal from '../../../components/MWO/AddMWO_Modal'
 import MWOentryBar from '../../../components/MWO/MWOentryBar'
-
+import Layout from '../../../components/Layout/Layout';
 
 export default function MWO(pProps) {
   const [showModal, setShowModal] = useState(false);
@@ -16,8 +16,7 @@ export default function MWO(pProps) {
   console.log(mwoList);
 
   return (
-    <main>
-
+    <Layout>
       <section className={styles.poData} >
         {
           mwoList.map((poData, idx) => {
@@ -34,9 +33,9 @@ export default function MWO(pProps) {
         <button onClick={() => setShowModal(true)} >Add a MWO</button>
         {showModal &&
           <AddMWO_Modal closer={() => setShowModal(false)} />}
-
       </section>
-    </main>
+
+    </Layout>
   )
 
 }

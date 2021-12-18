@@ -1,0 +1,34 @@
+.header {
+	height: 7rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 calc((100vw - 120rem) / 2);
+
+	background: rgb(224, 224, 224);
+	color: #000;
+	& > * {
+		color: #222;
+	}
+}
+
+.brand {
+	font-size: 2.4rem;
+	letter-spacing: 0.018em;
+	font-weight: 800;
+	text-transform: uppercase;
+
+	text-shadow: 0 0 15px rgba($color: #111, $alpha: 0.35);
+}
+.nav {
+	&List {
+		display: flex;
+		gap: 1rem;
+	}
+	&Item {
+	}
+	&Link {
+	}
+}
+.toolbox {
+}

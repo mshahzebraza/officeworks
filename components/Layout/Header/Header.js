@@ -1,0 +1,43 @@
+import React from 'react'
+import styles from './Header.module.scss'
+import Link from 'next/link'
+
+
+
+
+export default function Header() {
+  return (
+    <header className={styles.header}>
+      {/* Logo */}
+      <div className={styles.brand}>
+        <Link href={'/'}>
+          <a>Office Works</a>
+        </Link>
+      </div>
+      {/* Nav */}
+      <nav className={styles.nav}>
+        {/* Nav */}
+        <ul className={styles.navList}>
+          <NavItem text={'Procurement'} path={`/procurement`}></NavItem>
+          <NavItem text={'Purchase Orders'} path={`/procurement/po`}></NavItem>
+          <NavItem text={'Mfg Work Orders'} path={`/procurement/mwo`}></NavItem>
+
+          {/* <NavItem text={'Inventory'} path={`/inventory`}></NavItem> */}
+          {/* <NavItem text={'Projects'} path={`/projects`}></NavItem> */}
+        </ul>
+      </nav>
+      {/* toolbox */}
+      <div className={styles.toolbox}>
+        toolbox
+      </div>
+    </header>
+  )
+}
+
+function NavItem({ text, path }) {
+  return (<li className={styles.navItem}>
+    <Link href={path}>
+      <a className={styles.navLink}>{text}</a>
+    </Link>
+  </li>);
+}

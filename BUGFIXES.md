@@ -97,3 +97,5 @@ Final Solution here.
 - This will ensure that no repeating html code is written.
 
 ## Pass a type prop to inputs of form modals to decided the type of input.
+
+## There should be breadcrumbs at the top of each page.

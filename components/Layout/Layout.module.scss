@@ -1,0 +1,11 @@
+.layoutContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	background: #1f1f1f;
+	min-height: 100vh;
+}
+.main {
+	flex: 1;
+	// background: #ccc;
+}

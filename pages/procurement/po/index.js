@@ -8,6 +8,7 @@ import styles from '../../../styles/po.module.scss'
 // Components
 import AddPO_Modal from '../../../components/PO/AddPO_Modal'
 import POentryBar from '../../../components/PO/POentryBar'
+import Layout from '../../../components/Layout/Layout';
 
 
 
@@ -17,8 +18,7 @@ export default function PO(pProps) {
   const poList = useSelector((state) => state.po);
 
   return (
-    <main>
-
+    <Layout>
       <section className={styles.poData} >
         {
           poList.map((poData, idx) => {
@@ -37,6 +37,6 @@ export default function PO(pProps) {
           <AddPO_Modal closer={() => setShowModal(false)} />}
 
       </section>
-    </main>
+    </Layout>
   )
 }

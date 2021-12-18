@@ -28,7 +28,7 @@ export default function Header() {
       </nav>
       {/* toolbox */}
       <div className={styles.toolbox}>
-        toolbox
+        Signup
       </div>
     </header>
   )

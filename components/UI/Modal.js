@@ -2,13 +2,22 @@ import React from 'react'
 import styles from './Modal.module.scss'
 import Image from 'next/image'
 
-export default function Modal(props) {
+
+function BackDrop({ closer, children }) {
+  return (
+    <div
+      className={`${styles.backdrop} ${styles.active}`}
+      onClick={closer}
+    >
+      {children}
+    </div>);
+}
+
+
+export default function Modal({ title, closer, children }) {
   return (
     <>
-      <div
-        onClick={() => props.closer()}
-        className={`${styles.backdrop} ${styles.active}`}
-      >
+      <BackDrop closer={() => closer()}>
         <div
           className={`${styles.content}`}
           onClick={(e) => e.stopPropagation()}
@@ -16,20 +25,20 @@ export default function Modal(props) {
           {/* content header */}
           <div className={styles.contentHeader}>
             <h2 className={styles.contentTitle}>
-              {props.title && props.title}
+              {title && title}
             </h2>
             <button
               className={`${styles.closeBtn} ${`tooltip`}`}
-              onClick={props.closer}
+              onClick={closer}
             >
               <Image src="/icons/close.png" alt="close" width={20} height={20} />
               {/* <span className={`tooltipContent`} >Edit Record</span> */}
             </button>
           </div>
           {/* content body */}
-          {props.children}
+          {children}
         </div>
-      </div>
+      </BackDrop>
     </>
   )
 }

@@ -13,13 +13,35 @@ import Layout from '../../../components/Layout/Layout';
 
 
 
-export default function PO(pProps) {
+export default function PO(pageProps) {
+
   const [showModal, setShowModal] = useState(false);
   const poList = useSelector((state) => state.po);
 
+  function filterPO(evt) {
+    evt.preventDefault()
+    const searchTerm = evt.target[0].value;
+    evt.target[0].value = ''
+    console.log(searchTerm);
+  }
+
   return (
-    <Layout>
-      <section className={styles.poData} >
+    <Layout pageClasses={[styles.container]} >
+      <section className={styles.header}>
+
+        <h1 className={styles.title} > Purchase Orders</h1>
+
+        <form className={styles.searchForm} onSubmit={filterPO} >
+          <input type="text" minLength={8} className={styles.searchInput} required />
+          <button className={styles.searchBtn} >Search by ID</button>
+        </form>
+
+        <button type='button' onClick={() => setShowModal(true)} >Add a PO</button>
+        {showModal && <AddPO_Modal closer={() => setShowModal(false)} />}
+
+      </section>
+
+      <section className={styles.body} >
         {
           poList.map((poData, idx) => {
             return <POentryBar
@@ -29,13 +51,6 @@ export default function PO(pProps) {
             />
           })
         }
-      </section>
-
-      <section className={styles.poForm} >
-        <button onClick={() => setShowModal(true)} >Add a PO</button>
-        {showModal &&
-          <AddPO_Modal closer={() => setShowModal(false)} />}
-
       </section>
     </Layout>
   )

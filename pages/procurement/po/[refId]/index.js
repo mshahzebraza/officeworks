@@ -51,12 +51,12 @@ export default function POdetailPage({ pageId }) {
 
 
   return (
-    <Layout pageClasses={[styles.po]} >
+    <Layout pageClasses={[styles.page]} >
 
 
       {/* Header */}
       <POheader
-        classes={[styles.poHeader]}
+        classes={[styles.header]}
         data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
       />
 
@@ -64,7 +64,7 @@ export default function POdetailPage({ pageId }) {
       {
         activePOdata.items
           ? <POnavList
-            classes={[styles.poNavList]}
+            classes={[styles.navList]}
             // const itemListArray = props.data.items.map((el, elIdx) => {el.name})
             data={poNavListData} // list of items in current PO - with item-name & item-ID 
             activeItemVersion={poNavListData[activeItemIndex] && poNavListData[activeItemIndex].id}
@@ -79,7 +79,7 @@ export default function POdetailPage({ pageId }) {
         // console.log(activePOdata.items)
       }
       <POitemDetail
-        classes={[styles.poItemDetail]}
+        classes={[styles.itemDetail]}
         activePOid={poSummaryData.refId}
         data={activePOdata.items} // detail for the current PO items- nested/item/detail level
         dataIndex={activeItemIndex}

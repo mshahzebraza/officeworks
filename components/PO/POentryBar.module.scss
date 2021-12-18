@@ -2,15 +2,15 @@
 .entry {
 	// margin: auto;
 	// max-width: 80rem;
-	padding: 1rem calc((100vw - 120rem) / 2);
-	// padding: 1rem;
+	padding: 1rem 2rem;
 	// (100vw - desiredContentWidth)/2
+	// padding: 1rem calc((100vw - 120rem) / 2);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
 	// padding: 1rem;
-	background: $lite;
+	background: $nuteLite7;
 	border-radius: 0.5rem;
 
 	&Index {
@@ -33,7 +33,7 @@
 
 	&ItemList {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 44%;
+		flex: 0 1 44%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
@@ -46,15 +46,17 @@
 		// color: royalblue;
 		padding: 0.25em 0.5em;
 		border-radius: 0.5rem;
-		background: hsla(0, 0%, 0%, 0.15);
+		// background: hsla(0, 0%, 0%, 0.15);
+		background: $nuteLite5;
 
 		&Empty {
-			color: $red;
+			color: $redAccent;
 		}
 
 		&:hover {
 			cursor: pointer;
-			background: hsla(0, 0%, 0%, 0.45);
+			background: $nuteLite4;
+			// background: $nuteLite1;
 		}
 	}
 
@@ -77,13 +79,13 @@
 			border-radius: 0.35rem;
 
 			&-active {
-				background-color: rgb(235, 179, 76);
+				background-color: $orangeAccent;
 			}
 			&-delivered {
-				background-color: rgb(78, 134, 247);
+				background-color: $prime;
 			}
 			&-closed {
-				background-color: rgb(71, 220, 41);
+				background-color: $greenAccent;
 			}
 		}
 		&Text {
@@ -96,7 +98,7 @@
 			transition: 0.2s ease all;
 		}
 		&:hover {
-			background: hsla(0, 0%, 0%, 0.15);
+			background: $nuteLite5;
 			cursor: pointer;
 			*:nth-child(n + 2) {
 				transform: translateX(0);
@@ -116,21 +118,23 @@
 		justify-content: space-between;
 		// align-items: center;
 		button {
-			border-radius: 0.35rem;
-			padding: 0.65rem;
-			// padding: 0.65rem 0.5rem 0.5rem;
 			flex-basis: 20%;
-			border: 1.5px solid rgb(74, 104, 145);
-			box-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.25);
+			padding: 0.65rem;
+
+			border-radius: 0.35rem;
+			box-shadow: 0.2rem 0.2rem 1rem $nuteLite4;
+			transition: 0.2s ease all;
+
 			&:active,
 			&:hover {
+				box-shadow: 0.2rem 0.2rem 0.2rem $nuteLite4;
 				cursor: pointer;
 			}
 			&:hover {
-				background-color: hsla(0, 0%, 0%, 15%);
+				// background-color: $nuteLite4;
 			}
 			&:active {
-				background-color: hsla(0, 0%, 0%, 45%);
+				// background-color: $nuteLite2;
 				// background-color: darken($color: black, $amount: 0.01);
 			}
 		}

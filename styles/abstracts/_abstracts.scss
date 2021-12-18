@@ -1,3 +1,98 @@
-$lite: #333;
-$red: #c54040;
-$accent: #489760;
+$dark: #000;
+$dark1: #111;
+$dark2: #222;
+
+$lite: #fff;
+$lite1: #eee;
+$lite2: #ddd;
+// $nute0: hsl(0, 0%, 0%);
+// $nute1: hsl(0, 0%, 10%);
+// $nute2: hsl(0, 0%, 20%);
+// $nute3: hsl(0, 0%, 30%);
+// $nute4: hsl(0, 0%, 40%);
+// $nute5: hsl(0, 0%, 60%);
+// $nute6: hsl(0, 0%, 60%);
+// $nute8: hsl(0, 0%, 80%);
+// $nute7: hsl(0, 0%, 70%);
+// $nute9: hsl(0, 0%, 90%);
+// $nute10: hsl(0, 0%, 100%);
+
+$prime: #2b67b4;
+
+$primeDark1: darken($prime, 8%);
+$primeDark2: darken($prime, 16%);
+$primeDark3: darken($prime, 24%);
+$primeDark4: darken($prime, 32%);
+$primeDark5: darken($prime, 40%);
+
+$primeLite1: lighten($prime, 8%);
+$primeLite2: lighten($prime, 16%);
+$primeLite3: lighten($prime, 24%);
+$primeLite4: lighten($prime, 32%);
+$primeLite5: lighten($prime, 40%);
+
+$redAccent: #c54040;
+
+$redAccentDark1: darken($redAccent, 8%);
+$redAccentDark2: darken($redAccent, 16%);
+$redAccentDark3: darken($redAccent, 24%);
+$redAccentDark4: darken($redAccent, 32%);
+$redAccentDark5: darken($redAccent, 40%);
+
+$redAccentLite1: lighten($redAccent, 8%);
+$redAccentLite2: lighten($redAccent, 16%);
+$redAccentLite3: lighten($redAccent, 24%);
+$redAccentLite4: lighten($redAccent, 32%);
+$redAccentLite5: lighten($redAccent, 40%);
+
+$greenAccent: #489760;
+
+$greenAccentDark1: darken($greenAccent, 8%);
+$greenAccentDark2: darken($greenAccent, 16%);
+$greenAccentDark3: darken($greenAccent, 24%);
+$greenAccentDark4: darken($greenAccent, 32%);
+$greenAccentDark5: darken($greenAccent, 40%);
+
+$greenAccentLite1: lighten($greenAccent, 8%);
+$greenAccentLite2: lighten($greenAccent, 16%);
+$greenAccentLite3: lighten($greenAccent, 24%);
+$greenAccentLite4: lighten($greenAccent, 32%);
+$greenAccentLite5: lighten($greenAccent, 40%);
+
+$orangeAccent: #ebb34c;
+
+$orangeAccentDark1: darken($orangeAccent, 8%);
+$orangeAccentDark2: darken($orangeAccent, 16%);
+$orangeAccentDark3: darken($orangeAccent, 24%);
+$orangeAccentDark4: darken($orangeAccent, 32%);
+$orangeAccentDark5: darken($orangeAccent, 40%);
+
+$orangeAccentLite1: lighten($orangeAccent, 8%);
+$orangeAccentLite2: lighten($orangeAccent, 16%);
+$orangeAccentLite3: lighten($orangeAccent, 24%);
+$orangeAccentLite4: lighten($orangeAccent, 32%);
+$orangeAccentLite5: lighten($orangeAccent, 40%);
+
+$nute: #818181;
+$nuteDark1: darken($nute, 8%);
+$nuteDark2: darken($nute, 16%);
+$nuteDark3: darken($nute, 24%);
+$nuteDark4: darken($nute, 32%);
+$nuteDark5: darken($nute, 40%);
+$nuteDark6: darken($nute, 43%);
+$nuteDark7: darken($nute, 46%);
+
+$nuteLite1: lighten($nute, 8%);
+$nuteLite2: lighten($nute, 16%);
+$nuteLite3: lighten($nute, 24%);
+$nuteLite4: lighten($nute, 32%);
+$nuteLite5: lighten($nute, 40%);
+$nuteLite6: lighten($nute, 43%);
+$nuteLite7: lighten($nute, 46%);
+
+// $lite: #e9e9e9;
+
+// $red: #c54040;
+// $accent: #489760;
+
+// $prime: #125083;

@@ -10,7 +10,7 @@ export default function Layout({ children, pageClasses = [] }) {
     <div className={styles.layoutContainer} >
       <Header />
       {/* <nav>Nav</nav> */}
-      <main className={concatStrings([styles.main, ...pageClasses])}>
+      <main className={concatStrings([...pageClasses, styles.page])}>
         {children}
       </main>
     </div>

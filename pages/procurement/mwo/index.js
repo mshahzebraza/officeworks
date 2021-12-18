@@ -15,9 +15,33 @@ export default function MWO(pProps) {
   const mwoList = useSelector((state) => state.mwo);
   console.log(mwoList);
 
+
+
+  function filterMWO(evt) {
+    evt.preventDefault()
+    const searchTerm = evt.target[0].value;
+    evt.target[0].value = ''
+    console.log(searchTerm);
+  }
+
+
   return (
-    <Layout>
-      <section className={styles.poData} >
+    <Layout pageClasses={[styles.container]} >
+      <section className={styles.header}>
+
+        <h1 className={styles.title} > Mfg Work Orders</h1>
+
+        <form className={styles.searchForm} onSubmit={filterMWO} >
+          <input type="text" minLength={8} className={styles.searchInput} required />
+          <button className={styles.searchBtn} >Search by ID</button>
+        </form>
+
+        <button onClick={() => setShowModal(true)} >Add a MWO</button>
+        {showModal && <AddMWO_Modal closer={() => setShowModal(false)} />}
+
+      </section>
+
+      <section className={styles.body} >
         {
           mwoList.map((poData, idx) => {
             return <MWOentryBar
@@ -27,12 +51,6 @@ export default function MWO(pProps) {
             />
           })
         }
-      </section>
-
-      <section className={styles.poForm} >
-        <button onClick={() => setShowModal(true)} >Add a MWO</button>
-        {showModal &&
-          <AddMWO_Modal closer={() => setShowModal(false)} />}
       </section>
 
     </Layout>

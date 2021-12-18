@@ -1,6 +1,6 @@
-.po {
-	margin: 3rem auto;
-	max-width: 120rem;
+main.page {
+	// margin: 3rem auto;
+	// max-width: 120rem;
 
 	display: grid;
 	gap: 2rem;
@@ -14,18 +14,20 @@
 		"poHeader     poHeader      poHeader"
 		"poNavList   poDetails  poDetails";
 
-	background: #000;
+	& > * {
+		// border: 1px dashed darkolivegreen;
+	}
+}
 
-	&Header {
-		grid-area: poHeader;
-		// background: ghostwhite;
-	}
-	&NavList {
-		grid-area: poNavList;
-		// background: ghostwhite;
-	}
-	&ItemDetail {
-		grid-area: poDetails;
-		// border: 1px solid yellow;
-	}
+.header {
+	grid-area: poHeader;
+	// background: ghostwhite;
+}
+.navList {
+	grid-area: poNavList;
+	// background: ghostwhite;
+}
+.itemDetail {
+	grid-area: poDetails;
+	// border: 1px solid yellow;
 }

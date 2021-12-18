@@ -1,13 +1,9 @@
 @import "../../styles/abstracts/abstracts";
-
-.bgred {
-	background: #000;
-}
-
 .entry {
 	// margin: auto;
 	// max-width: 80rem;
-	padding: 1rem calc((100vw - 120rem) / 2);
+	padding: 1rem 2rem;
+	// padding: 1rem calc((100vw - 120rem) / 2);
 	// padding: 1rem;
 	// (100vw - desiredContentWidth)/2
 	display: flex;
@@ -15,7 +11,7 @@
 	align-items: center;
 	gap: 1rem;
 	// padding: 1rem;
-	background: $lite;
+	background: $nuteLite7;
 	border-radius: 0.5rem;
 
 	&Index {
@@ -31,7 +27,7 @@
 
 	&ItemName {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 30%;
+		flex: 0 1 30%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
@@ -128,21 +124,23 @@
 		justify-content: space-between;
 		// align-items: center;
 		button {
-			border-radius: 0.35rem;
-			padding: 0.65rem;
-			// padding: 0.65rem 0.5rem 0.5rem;
 			flex-basis: 25%;
-			border: 1.5px solid rgb(74, 104, 145);
-			box-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.25);
+			padding: 0.65rem;
+
+			border-radius: 0.35rem;
+			box-shadow: 0.2rem 0.2rem 0.2rem $nuteLite4;
+			transition: 0.2s ease all;
+
 			&:active,
 			&:hover {
+				box-shadow: 0.2rem 0.2rem 0.2rem $nuteLite4;
 				cursor: pointer;
 			}
 			&:hover {
-				background-color: hsla(0, 0%, 0%, 15%);
+				// background-color: hsla(0, 0%, 0%, 15%);
 			}
 			&:active {
-				background-color: hsla(0, 0%, 0%, 45%);
+				// background-color: hsla(0, 0%, 0%, 45%);
 				// background-color: darken($color: black, $amount: 0.01);
 			}
 		}

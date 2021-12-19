@@ -45,7 +45,8 @@
 }
 
 .itemName {
-	padding: 1rem 1.5rem;
+	padding: 1rem;
+	padding-left: 1.5rem;
 	// background: #333;
 }
 .versionList {
@@ -54,12 +55,16 @@
 	gap: 1rem;
 
 	// background: #444;
-	padding: 0 1.5rem;
+	padding-left: 1.5rem;
 	// font-weight: 100;
 }
 
 .version {
-	padding: 1rem 1.5rem;
+	// padding: 1rem 1.5rem;
+	font-weight: 500;
+	padding: 1rem;
+	padding-left: 1.5rem;
+
 	// background: #555;
 	cursor: pointer;
 	display: flex;

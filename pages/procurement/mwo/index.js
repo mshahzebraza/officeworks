@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux'
 
 // Store & Styles
-import styles from '../../../styles/po.module.scss'
+import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
 import AddMWO_Modal from '../../../components/MWO/AddMWO_Modal'
@@ -27,13 +27,13 @@ export default function MWO(pProps) {
 
   return (
     <Layout pageClasses={[styles.container]} >
-      <section className={styles.header}>
+      <section className={`pageHeader`}>
 
-        <h1 className={styles.title} > Mfg Work Orders</h1>
+        <h1 className={`pageTitle`} > Mfg Work Orders</h1>
 
-        <form className={styles.searchForm} onSubmit={filterMWO} >
-          <input type="text" minLength={8} className={styles.searchInput} required />
-          <button className={styles.searchBtn} >Search by ID</button>
+        <form className={`pageSearchForm`} onSubmit={filterMWO} >
+          <input type="text" minLength={8} className={`pageSearchInput`} required />
+          <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
         <button onClick={() => setShowModal(true)} >Add a MWO</button>
@@ -41,7 +41,7 @@ export default function MWO(pProps) {
 
       </section>
 
-      <section className={styles.body} >
+      <section className={`pageBody`} >
         {
           mwoList.map((poData, idx) => {
             return <MWOentryBar

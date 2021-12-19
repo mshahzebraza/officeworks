@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux'
 
 // Store & Styles
-import styles from '../../../styles/po.module.scss'
+import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
 import AddPO_Modal from '../../../components/PO/AddPO_Modal'
@@ -27,13 +27,13 @@ export default function PO(pageProps) {
 
   return (
     <Layout pageClasses={[styles.container]} >
-      <section className={styles.header}>
+      <section className={`pageHeader`}>
 
-        <h1 className={styles.title} > Purchase Orders</h1>
+        <h1 className={`pageTitle`} > Purchase Orders</h1>
 
-        <form className={styles.searchForm} onSubmit={filterPO} >
-          <input type="text" minLength={8} className={styles.searchInput} required />
-          <button className={styles.searchBtn} >Search by ID</button>
+        <form className={`pageSearchForm`} onSubmit={filterPO} >
+          <input type="text" minLength={8} className={`pageSearchInput`} required />
+          <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
         <button type='button' onClick={() => setShowModal(true)} >Add a PO</button>
@@ -41,7 +41,7 @@ export default function PO(pageProps) {
 
       </section>
 
-      <section className={styles.body} >
+      <section className={`pageBody`} >
         {
           poList.map((poData, idx) => {
             return <POentryBar

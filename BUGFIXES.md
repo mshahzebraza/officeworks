@@ -99,3 +99,13 @@ Final Solution here.
 ## Pass a type prop to inputs of form modals to decided the type of input.
 
 ## There should be breadcrumbs at the top of each page.
+
+## create the Primary Inventory Page
+
+- will contain the Special Purchase parts + Mfg parts
+
+## Create the project Page.
+
+- First the data will have to be created
+- then a redux slice
+- the layout

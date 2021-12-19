@@ -96,3 +96,18 @@ $nuteLite7: lighten($nute, 46%);
 // $accent: #489760;
 
 // $prime: #125083;
+
+%noHighlights {
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+%cardShadow1 {
+	border-radius: 0.5rem;
+	box-shadow: 0 0 2rem rgba($color: $nuteLite4, $alpha: 0.75);
+}

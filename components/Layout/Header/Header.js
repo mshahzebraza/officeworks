@@ -23,7 +23,7 @@ export default function Header() {
           <NavItem text={'Mfg Work Orders'} path={`/procurement/mwo`}></NavItem>
 
           {/* <NavItem text={'Inventory'} path={`/inventory`}></NavItem> */}
-          {/* <NavItem text={'Projects'} path={`/projects`}></NavItem> */}
+          <NavItem text={'Projects'} path={`/projects`}></NavItem>
         </ul>
       </nav>
       {/* toolbox */}

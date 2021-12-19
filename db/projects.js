@@ -3,8 +3,8 @@ const projectsDb = [
     nomenclature: 'PEMA-L3K-BD',
     application: 'AbWS',
     // !NOTE: The fetching in the following two properties can be made easy if objects are created using classes
-    // target: '55', // fetched dynamically from targets based on the project nomenclature
-    // stockInventory: '15', // fetched dynamically from inventory based on the project nomenclature
+    target: '55', // fetched dynamically from targets based on the project nomenclature
+    stockInventory: '15', // fetched dynamically from inventory based on the project nomenclature
     projectStatus: 'Production', // OR 'R&D' OR 'Closed'
 
     // Needs to be input before the input of parts

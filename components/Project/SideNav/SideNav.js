@@ -24,6 +24,7 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
         list.length > 0 && list.map(
           (projCat, projCatIdx) =>
             <Detail
+              key={projCatIdx}
               title={projCat.name}
               click={
                 () => {
@@ -37,6 +38,7 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
                 projCat.projects.map(
                   (project, catItemIdx) =>
                     <DetailItem
+                      key={catItemIdx}
                       click={() => {
                         setActiveDetailItem(project.nomenclature)
                         activeDetail !== projCat.name && setActiveDetail(projCat.name)

@@ -1,9 +1,30 @@
-import React from 'react'
-import Layout from '../../components/Layout/Layout'
-import SideNav from '../../components/SideNav/SideNav'
+// Dependency & Helpers
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { concatStrings } from '../../helpers/reusable'
+
+// Store
+
+// Styles
 import styles from '../../styles/projectDirectory.module.scss'
 
+// Components
+import Layout from '../../components/Layout/Layout'
+import SideNav from '../../components/Project/SideNav/SideNav'
+import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
+
+
 export default function ProjectDirectory() {
+
+
+  // const [activeDetailItem, setActiveDetailItem] = useState('')
+  // const [activeDetail, setActiveDetail] = useState('')
+  const [activeProjectCategory, setActiveProjectCategory] = useState('')
+  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState('')
+
+  const projectList = useSelector(state => state.project)
+  console.log(projectList);
+
   const filterProjects = (evt) => {
     evt.preventDefault();
     console.log(evt.target[0].value);
@@ -11,8 +32,8 @@ export default function ProjectDirectory() {
   }
 
   return (
-    <Layout pageClasses={styles.container}>
-      <section className={`pageHeader`}>
+    <Layout pageClasses={[styles.container]}>
+      <section className={concatStrings([`pageHeader`, styles.header])}>
 
         <h1 className={`pageTitle`} > Projects</h1>
 
@@ -25,43 +46,17 @@ export default function ProjectDirectory() {
         {/* {showModal && <AddPO_Modal closer={() => setShowModal(false)} />} */}
 
       </section>
-      <SideNav />
-      {/* <section className={styles.body}>
+      <SideNav
+        outerClasses={[styles.sideNav]}
+        list={projectList}
+        activeDetail={activeProjectCategory}
+        setActiveDetail={setActiveProjectCategory}
+        activeDetailItem={activeProjectNomenclature}
+        setActiveDetailItem={setActiveProjectNomenclature}
+      />
+      {/* <div className={styles.body}>sad</div> */}
+      <ProjectDetail outerClasses={[styles.body]} />
 
-        <span>ProjectsNav</span>
-        <span>Project Overview</span>
-        <span>Project Target</span>
-        <span>Project Part Details</span>
-
-        <details>
-          <summary>Spec Parts</summary>
-          <p>Spec Part 1</p>
-          <p>Spec Part 2</p>
-          <p>Spec Part 3</p>
-        </details>
-        <details>
-          <summary>Mfg Parts</summary>
-          <p>Mfg Part 1</p>
-          <p>Mfg Part 2</p>
-          <p>Mfg Part 3</p>
-        </details>
-        <details>
-          <summary>Fasteners</summary>
-          <details>
-            <summary>Screws</summary>
-            <p>Screw 1</p>
-            <p>Screw 2</p>
-            <p>Screw 3</p>
-          </details>
-          <details>
-            <summary>Washers</summary>
-            <p>Washer 1</p>
-            <p>Washer 2</p>
-            <p>Washer 3</p>
-          </details>
-        </details>
-
-      </section> */}
     </Layout>
   )
 }

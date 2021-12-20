@@ -9,6 +9,7 @@ export default function POnavList({ classes, data: itemList = [], activeIndex, s
   }
 
   const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
+  console.log(nestedList);
 
   return (
     <>
@@ -20,7 +21,7 @@ export default function POnavList({ classes, data: itemList = [], activeIndex, s
               itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
                 transformArray(
                   nestedList,
-                  (item, idx) => <NavItem key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+                  (item, idx) => <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
                 )
                 : <>No Items Available</>
             }
@@ -112,7 +113,7 @@ function itemsVersionsList(items) {
     ]
   }
  */
-function NavItem({ item, activeIndex, setActiveIndex }) {
+function Category({ item, activeIndex, setActiveIndex }) {
   return <h4
     className={styles.item}
   >

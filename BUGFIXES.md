@@ -109,3 +109,7 @@ Final Solution here.
 - First the data will have to be created
 - then a redux slice
 - the layout
+
+## the summary item of another summary can be opened while the first summary is highlighted.
+
+## Separate page for Project & ProjectDetail

@@ -112,4 +112,6 @@ Final Solution here.
 
 ## the summary item of another summary can be opened while the first summary is highlighted.
 
-## Separate page for Project & ProjectDetail
+## Separate page for Project Page & ProjectDetail Page
+
+## create a function to create a different list of std ,spec & mfg parts and create separate components for them

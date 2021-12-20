@@ -22,8 +22,12 @@ export default function ProjectDirectory() {
   const [activeProjectCategory, setActiveProjectCategory] = useState('')
   const [activeProjectNomenclature, setActiveProjectNomenclature] = useState('')
 
-  const projectList = useSelector(state => state.project)
-  console.log(projectList);
+  const allProjects = useSelector(state => state.project)
+
+  const activeCategoryObject = allProjects.find(category => category.name === activeProjectCategory);
+  const activeCategoryProjects = activeCategoryObject && activeCategoryObject.projects;
+  const activeProject = activeCategoryProjects && activeCategoryProjects.find(project => project.nomenclature === activeProjectNomenclature);
+  console.log(activeProject);
 
   const filterProjects = (evt) => {
     evt.preventDefault();
@@ -48,14 +52,19 @@ export default function ProjectDirectory() {
       </section>
       <SideNav
         outerClasses={[styles.sideNav]}
-        list={projectList}
+        list={allProjects}
         activeDetail={activeProjectCategory}
         setActiveDetail={setActiveProjectCategory}
         activeDetailItem={activeProjectNomenclature}
         setActiveDetailItem={setActiveProjectNomenclature}
       />
       {/* <div className={styles.body}>sad</div> */}
-      <ProjectDetail outerClasses={[styles.body]} />
+      <ProjectDetail
+        outerClasses={[styles.body]}
+        activeCategory={activeProjectCategory}
+        activeNomenclature={activeProjectNomenclature}
+        activeProject={activeProject}
+      />
 
     </Layout>
   )

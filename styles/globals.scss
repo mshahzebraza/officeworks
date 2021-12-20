@@ -23,6 +23,7 @@ body {
 }
 
 a {
+	cursor: pointer;
 	color: inherit;
 	text-decoration: none;
 	transition: 0.2s ease all;
@@ -54,9 +55,9 @@ button {
 	background: $nuteDark5;
 	color: $lite2;
 	border-color: transparent;
+	cursor: pointer;
 
 	&:hover {
-		cursor: pointer;
 		color: $greenAccentLite3;
 	}
 

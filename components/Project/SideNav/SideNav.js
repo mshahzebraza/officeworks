@@ -24,14 +24,14 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
         list.length > 0 && list.map(
           (projCat, projCatIdx) =>
             <Detail
-              title={projCat.projectCategory}
+              title={projCat.name}
               click={
                 () => {
                   setActiveDetailItem('')
-                  setActiveDetail(projCat.projectCategory)
+                  setActiveDetail(projCat.name)
                 }
               }
-              isActive={activeDetail == projCat.projectCategory}
+              isActive={activeDetail == projCat.name}
             >
               {
                 projCat.projects.map(
@@ -39,7 +39,7 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
                     <DetailItem
                       click={() => {
                         setActiveDetailItem(project.nomenclature)
-                        activeDetail !== projCat.projectCategory && setActiveDetail(projCat.projectCategory)
+                        activeDetail !== projCat.name && setActiveDetail(projCat.name)
                       }}
 
                       isActive={activeDetailItem == project.nomenclature}

@@ -29,7 +29,7 @@ export function cloneAndPluck(sourceObject, keys) {
 };
 
 
-// Input: {label1: 'value1'}, ['label2', 'value2']
+// Input: {label1: 'value1'} (parent Obj), ['label2', 'value2'] (entry Pair Arr)
 // Output: {label1: 'value1', label2: 'value2'}
 export function addObjectPair(parentObj, entryPairArr) {
   const newParent = deepClone(parentObj);

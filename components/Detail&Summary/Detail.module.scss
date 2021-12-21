@@ -2,7 +2,7 @@
 
 .detail {
 	& + & {
-		// margin-top: 1rem;
+		margin-top: 1rem;
 	}
 
 	&Header {
@@ -20,6 +20,13 @@
 			background: $orangeAccent;
 			&:hover {
 				background: $orangeAccentDark1;
+			}
+		}
+		&Empty {
+			background: $redAccentLite1;
+			cursor: not-allowed;
+			&:hover {
+				background: $redAccent;
 			}
 		}
 		// border: 1px solid $nuteLite4;

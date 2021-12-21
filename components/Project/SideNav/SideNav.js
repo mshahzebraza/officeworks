@@ -14,8 +14,9 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 
 
-export default function SideNav({ list = [], outerClasses = [], activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem }) {
+export default function SideNav({ list = [], outerClasses = [], detailSummaryStates }) {
 
+  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
 
   return (
     <section className={concatStrings([styles.nav, ...outerClasses])} >
@@ -24,10 +25,11 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
         list.length > 0 && list.map(
           (projCat, projCatIdx) =>
             <Detail
+              key={projCatIdx}
               title={projCat.name}
               click={
                 () => {
-                  setActiveDetailItem('')
+                  setActiveDetailItem('') // do this only if the activeDetailItem doesn't start with the parent detail
                   setActiveDetail(projCat.name)
                 }
               }
@@ -37,6 +39,7 @@ export default function SideNav({ list = [], outerClasses = [], activeDetail, se
                 projCat.projects.map(
                   (project, catItemIdx) =>
                     <DetailItem
+                      key={catItemIdx}
                       click={() => {
                         setActiveDetailItem(project.nomenclature)
                         activeDetail !== projCat.name && setActiveDetail(projCat.name)

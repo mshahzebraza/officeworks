@@ -1,5 +1,5 @@
 // Dependency & Helpers
-import React from 'react'
+import React, { useState } from 'react'
 import { concatStrings, camelToSentenceCase } from '../../../helpers/reusable'
 // Store
 // Styles
@@ -11,35 +11,27 @@ import Detail from '../../Detail&Summary/Detail'
 
 
 
+export default function ProjectDetail({ outerClasses, activeProject = {} }) {
 
-export default function ProjectDetail({ outerClasses, activeCategory, activeNomenclature, activeProject = {} }) {
 
+  const [activeSpecialModuleType, setActiveSpecialModuleType] = useState('') // Purchase or Manufactured
 
-  const specialParts = [];
-  const manufacturedParts = [];
-  const standardParts = [];
+  const segregatedPartTypes = {
+    purchased: [],
+    manufactured: [],
+    standard: []
+  }
 
+  // includes the DOM code also - REMOVE IT
   activeProject.parts && Array.isArray(activeProject.parts) && activeProject.parts.forEach(
     (part, idx) => {
-      part.type === 'Special' && specialParts.push(
-        <DetailItem>
-          {part.nomenclature}
-        </DetailItem>
-      )
-      part.type === 'Manufactured' && manufacturedParts.push(
-        <DetailItem>
-          {part.nomenclature}
-        </DetailItem>
-      )
-      part.type === 'Standard' && standardParts.push(
+      segregatedPartTypes[part.type].push(
         <DetailItem>
           {part.nomenclature}
         </DetailItem>
       )
     }
   )
-
-  console.log(activeProject);
 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
@@ -55,38 +47,29 @@ export default function ProjectDetail({ outerClasses, activeCategory, activeNome
       </DetailSection>
 
       {/* Part List */}
-      <DetailSection title='Part List' >
+      <DetailSection title='Special Modules' >
 
 
-        <Detail
-          title='Special Parts'
-        >
-          {specialParts}
-        </Detail>
 
-        <Detail
-          title='Manufactured Parts'
-        >
-          {manufacturedParts}
-        </Detail>
 
-        <Detail
-          title='Standard Parts'
-        >
-          {standardParts}
-        </Detail>
+        <SpecialModuleList
+          partsList={segregatedPartTypes}
+          activeDetailId={activeSpecialModuleType}
+          setActiveDetailId={setActiveSpecialModuleType}
+        />
+
 
       </DetailSection>
 
       {/* Fastener List */}
-      <DetailSection title='Fastener List' >
+      <DetailSection title='Standard Modules' >
+        {/* 
         <Detail
-          title='Screws'
+          title='Standard Parts'
         >
-          <DetailItem>
-            M5x15
-          </DetailItem>
-        </Detail>
+          {standardParts}
+        </Detail> */}
+
       </DetailSection>
 
       {/* 
@@ -128,6 +111,23 @@ export default function ProjectDetail({ outerClasses, activeCategory, activeNome
 }
 
 
+
+
+
+
+function SpecialModuleList({ partsList, activeDetailId, setActiveDetailId }) {
+  return (
+    ['purchased', 'manufactured'].map(
+      el => <Detail
+        title={`${partsList[el].length}x ${camelToSentenceCase(el)} Parts`}
+        click={() => { setActiveDetailId(el) }}
+        isActive={activeDetailId === el}
+      >
+        {partsList[el]}
+      </Detail>
+    )
+  );
+}
 
 function DetailSection({ title, children }) {
   return (

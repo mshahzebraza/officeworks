@@ -17,17 +17,17 @@ import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 export default function ProjectDirectory() {
 
 
-  // const [activeDetailItem, setActiveDetailItem] = useState('')
-  // const [activeDetail, setActiveDetail] = useState('')
-  const [activeProjectCategory, setActiveProjectCategory] = useState('')
+  const [activeProjectType, setActiveProjectType] = useState('')
   const [activeProjectNomenclature, setActiveProjectNomenclature] = useState('')
 
+  // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
 
-  const activeCategoryObject = allProjects.find(category => category.name === activeProjectCategory);
-  const activeCategoryProjects = activeCategoryObject && activeCategoryObject.projects;
-  const activeProject = activeCategoryProjects && activeCategoryProjects.find(project => project.nomenclature === activeProjectNomenclature);
-  console.log(activeProject);
+  // Fetching data of selected Project Id (highlighted in the SideNav)
+  const activeTypeProjectObject = allProjects.find(category => category.name === activeProjectType);
+  const activeTypeProjectList = activeTypeProjectObject && activeTypeProjectObject.projects;
+  const activeProject = activeTypeProjectList && activeTypeProjectList.find(project => project.nomenclature === activeProjectNomenclature);
+
 
   const filterProjects = (evt) => {
     evt.preventDefault();
@@ -53,16 +53,13 @@ export default function ProjectDirectory() {
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
-        activeDetail={activeProjectCategory}
-        setActiveDetail={setActiveProjectCategory}
-        activeDetailItem={activeProjectNomenclature}
-        setActiveDetailItem={setActiveProjectNomenclature}
+        detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
       {/* <div className={styles.body}>sad</div> */}
       <ProjectDetail
         outerClasses={[styles.body]}
-        activeCategory={activeProjectCategory}
-        activeNomenclature={activeProjectNomenclature}
+        // activeCategory={activeProjectType}
+        // activeNomenclature={activeProjectNomenclature}
         activeProject={activeProject}
       />
 

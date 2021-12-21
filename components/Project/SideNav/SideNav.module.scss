@@ -5,7 +5,7 @@
 	display: flex;
 	background: $lite;
 	flex-direction: column;
-	gap: 1rem;
+	// gap: 1rem;
 
 	@extend %cardShadow1;
 }

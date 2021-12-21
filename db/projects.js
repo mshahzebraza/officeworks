@@ -17,12 +17,12 @@ const L3K = {
     { nomenclature: 'Housing Assembly', id: '0300', parent: 'Main Assembly' },
     { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: 'Main Assembly' } // This is also a default sub-assembly created by project instance
   ],
-  parts: [
+  parts: [ // can be segregated in two ways. 1. FamilyTree 2. Part-type  
     {
       parentAssemblyId: '0100', // '0000' by default
       // Assembly name may/not included.
       // parentAssemblyName: 'Ball Lead Screw Assembly', // should be shown automatically on parentAssemblyInput but not saved
-      type: 'Special', // OR Standard OR Manufactured
+      type: 'purchased', // OR Standard OR Manufactured
       nomenclature: 'Ball Lead Screw',
       // Input shows a drop-down of Assemblies' nomenclature but saves the assemblies' ID.
       // Relative id cannot be used as the special parts are given Numerical IDs. They are called by their standard nomenclatures.
@@ -31,7 +31,7 @@ const L3K = {
     },
     {
       parentAssemblyId: '0100',
-      type: 'Manufactured',
+      type: 'manufactured',
 
       nomenclature: 'Pulley Shaft',
       id: 'PEMA-L3K-BD-0100-02',
@@ -39,7 +39,7 @@ const L3K = {
     },
     {
       parentAssemblyId: '0200',
-      type: 'Special',
+      type: 'purchased',
 
       nomenclature: 'Potentiometer',
       id: 'MLS-130-100-S-N',
@@ -47,7 +47,7 @@ const L3K = {
     },
     {
       parentAssemblyId: 'FAST', // all fastener items are set in 'FAST' OR 'XXXX' OR '0000' Assembly be default
-      type: 'Standard',
+      type: 'standard',
 
       nomenclature: 'Bearing', // OR Screws, Washers etc
       // Different id input types will be provided to the user in forms based on type of fastener 

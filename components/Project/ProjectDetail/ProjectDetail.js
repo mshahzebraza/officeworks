@@ -13,8 +13,9 @@ import Detail from '../../Detail&Summary/Detail'
 
 export default function ProjectDetail({ outerClasses, activeProject = {} }) {
 
+  const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured
+  const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc.
 
-  const [activeSpecialModuleType, setActiveSpecialModuleType] = useState('') // Purchase or Manufactured
 
   const segregatedPartTypes = {
     purchased: [],
@@ -22,16 +23,13 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
     standard: []
   }
 
-  // includes the DOM code also - REMOVE IT
-  activeProject.parts && Array.isArray(activeProject.parts) && activeProject.parts.forEach(
-    (part, idx) => {
-      segregatedPartTypes[part.type].push(
-        <DetailItem>
-          {part.nomenclature}
-        </DetailItem>
-      )
-    }
-  )
+  activeProject.parts && Array.isArray(activeProject.parts) &&
+    activeProject.parts.forEach(
+      (part, idx) => {
+        segregatedPartTypes[part.type].push(part)
+      }
+    )
+
 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
@@ -49,13 +47,11 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
       {/* Part List */}
       <DetailSection title='Special Modules' >
 
-
-
-
         <SpecialModuleList
-          partsList={segregatedPartTypes}
-          activeDetailId={activeSpecialModuleType}
-          setActiveDetailId={setActiveSpecialModuleType}
+          partsListData={segregatedPartTypes}
+          detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
+          activeDetailId={activeModuleType}
+          setActiveDetailId={setActiveModuleType}
         />
 
 
@@ -115,15 +111,39 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
 
 
 
-function SpecialModuleList({ partsList, activeDetailId, setActiveDetailId }) {
+function SpecialModuleList({ partsListData, detailSummaryStates }) {
+
+  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
+
   return (
-    ['purchased', 'manufactured'].map(
-      el => <Detail
-        title={`${partsList[el].length}x ${camelToSentenceCase(el)} Parts`}
-        click={() => { setActiveDetailId(el) }}
-        isActive={activeDetailId === el}
+    ['purchased', 'manufactured'].map( // searches the partListData for each category mentioned in the array
+      partCat => <Detail // add a detailId field
+        title={`${partsListData[partCat].length}x ${camelToSentenceCase(partCat)} Parts`} // -> 2x Special Modules
+        // click={() => { setActiveDetail(partCat) }} // -> selection Color on activate
+        // isActive={activeDetail === partCat} // -> related to active Detail
+        click={
+          () => {
+            setActiveDetailItem('') // do this only if the activeDetailItem doesn't start with the parent detail
+            setActiveDetail(partCat)
+          }
+        }
+        isActive={activeDetail == partCat}
       >
-        {partsList[el]}
+        {
+          partsListData[partCat].map(
+            (partData, idx2) =>
+              <DetailItem
+                key={idx2}
+                click={() => {
+                  setActiveDetailItem(partData.nomenclature)
+                  activeDetail !== partCat && setActiveDetail(partCat)
+                }}
+                isActive={activeDetailItem == partData.nomenclature}
+              >
+                {partData.nomenclature}
+              </DetailItem>
+          )
+        }
       </Detail>
     )
   );

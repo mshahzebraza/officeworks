@@ -115,3 +115,8 @@ Final Solution here.
 ## Separate page for Project Page & ProjectDetail Page
 
 ## create a function to create a different list of std ,spec & mfg parts and create separate components for them
+
+## create an object to make the versions of an object based on the difference of a specific key inside the main object
+
+- An Object containing Many projects with 3 different values for the type key
+- When transformed, turns into 3 different objects each with the relevant projects.

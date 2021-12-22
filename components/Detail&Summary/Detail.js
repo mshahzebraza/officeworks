@@ -8,7 +8,7 @@ export default function Detail({ defaultOpen = false, title, isActive = false, c
   const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = selectionStates
 
   // if all the params have been received
-  isActive = activeDetail && detailId ? activeDetail == detailId : null;
+  isActive = (activeDetail && detailId) ? activeDetail == detailId : null;
 
   function clickHandler() {
     setActiveDetailItem && setActiveDetailItem('');

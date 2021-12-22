@@ -27,25 +27,18 @@ export default function SideNav({ list = [], outerClasses = [], detailSummarySta
             <Detail
               key={projCatIdx}
               title={projCat.name}
-              click={
-                () => {
-                  setActiveDetailItem('') // do this only if the activeDetailItem doesn't start with the parent detail
-                  setActiveDetail(projCat.name)
-                }
-              }
-              isActive={activeDetail == projCat.name}
+              detailId={projCat.name}
+              selectionStates={detailSummaryStates}
+
             >
               {
                 projCat.projects.map(
                   (project, catItemIdx) =>
                     <DetailItem
                       key={catItemIdx}
-                      click={() => {
-                        setActiveDetailItem(project.nomenclature)
-                        activeDetail !== projCat.name && setActiveDetail(projCat.name)
-                      }}
-
-                      isActive={activeDetailItem == project.nomenclature}
+                      detailId={projCat.name}
+                      detailItemId={project.nomenclature}
+                      selectionStates={detailSummaryStates}
                     >
                       {project.nomenclature}
                     </DetailItem>

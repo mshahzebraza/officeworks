@@ -89,8 +89,6 @@ Final Solution here.
 
 ## Update/Add Spec behaves differently if there is an empty object inside the item.specs
 
-## Improve the styling & layout of item Detail components (preferably by segregation of POheader)
-
 ## Refactoring the styles of Entry-Bar
 
 - Make the space of entry bar dependent on helper classes that can be added from js files. otherwise generate items according to no. of item-components in the js-files.
@@ -110,8 +108,6 @@ Final Solution here.
 - then a redux slice
 - the layout
 
-## the summary item of another summary can be opened while the first summary is highlighted.
-
 ## Separate page for Project Page & ProjectDetail Page
 
 ## create a function to create a different list of std ,spec & mfg parts and create separate components for them
@@ -120,3 +116,5 @@ Final Solution here.
 
 - An Object containing Many projects with 3 different values for the type key
 - When transformed, turns into 3 different objects each with the relevant projects.
+
+## make the detail items such that they show colors only if they are empty or if they are opened

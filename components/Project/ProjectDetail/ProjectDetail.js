@@ -16,20 +16,27 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
   const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured
   const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc.
 
-
   const segregatedPartTypes = {
     purchased: [],
     manufactured: [],
     standard: []
   }
 
-  activeProject.parts && Array.isArray(activeProject.parts) &&
-    activeProject.parts.forEach(
+  // Perform the spec to purchase & mfg separation
+  // Perform the std to screws,washers,bearings and misc separation
+
+  // save  if activeProj.parts is defined and is an array
+  const activeProjectPartList =
+    Array.isArray(activeProject.parts)
+    && activeProject.parts;
+
+  // type-based separation of all std,spec & mfg parts
+  activeProjectPartList &&
+    activeProjectPartList.forEach(
       (part, idx) => {
         segregatedPartTypes[part.type].push(part)
       }
     )
-
 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
@@ -48,7 +55,7 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
       <DetailSection title='Special Modules' >
 
         <SpecialModuleList
-          partsListData={segregatedPartTypes}
+          specPartList={segregatedPartTypes}
           detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
           activeDetailId={activeModuleType}
           setActiveDetailId={setActiveModuleType}
@@ -59,6 +66,12 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
 
       {/* Fastener List */}
       <DetailSection title='Standard Modules' >
+        <StandardModuleList
+          stdPartList={segregatedPartTypes}
+          detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
+          activeDetailId={activeModuleType}
+          setActiveDetailId={setActiveModuleType}
+        />
         {/* 
         <Detail
           title='Standard Parts'
@@ -111,29 +124,75 @@ export default function ProjectDetail({ outerClasses, activeProject = {} }) {
 
 
 
-function SpecialModuleList({ partsListData, detailSummaryStates }) {
+function StandardModuleList({ stdPartList, detailSummaryStates }) {
+
+
+  const stdParts = {
+    bearings: [],
+    screws: [],
+    washers: [],
+    misc: [],
+  }
+
+  // type-based separation of all std,spec & mfg parts
+  // activeProject.parts && Array.isArray(activeProject.parts) &&
+  //   activeProject.parts.forEach(
+  //     (part, idx) => {
+  //       segregatedPartTypes[part.type].push(part)
+  //     }
+  //   )
+  console.log(stdParts);
 
   const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
 
   return (
-    ['purchased', 'manufactured'].map( // searches the partListData for each category mentioned in the array
-      partCat => <Detail // add a detailId field
-        title={`${partsListData[partCat].length}x ${camelToSentenceCase(partCat)} Parts`} // -> 2x Special Modules
-        detailId={partCat}
-        selectionStates={detailSummaryStates}
+    <h1>s</h1>
+    // stdPartList.map( // searches the partListData for each category mentioned in the array
+    //   partCat => <Detail // add a detailId field
+    //     title={`${partsListData[partCat].length}x ${camelToSentenceCase(partCat)} Parts`} // -> 2x Special Modules
+    //     detailId={partCat}
+    //     selectionStates={[activeDetail, setActiveDetail]}
+    //   >
+    //     {
+    //       partsListData[partCat].map(
+    //         (partData, idx2) =>
+    //           <DetailItem
+    //             key={idx2}
+    //             detailId={partCat}
+    //             detailItemId={partData.nomenclature}
+    //             selectionStates={detailSummaryStates}
+    //           >
+    //             {partData.nomenclature}
+    //           </DetailItem>
+    //       )
+    //     }
+    //   </Detail>
+    // )
+  );
+}
+
+function SpecialModuleList({ specPartList, detailSummaryStates }) {
+
+  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
+  const partCTGs = ['purchased', 'manufactured'];
+
+  return (
+    partCTGs.map( // searches the partListData for each category mentioned in the array
+      partCTG => <Detail // add a detailId field
+        title={`${specPartList[partCTG].length}x ${camelToSentenceCase(partCTG)} Parts`} // -> 2x Special Modules
+        detailId={partCTG}
+        selectionStates={[activeDetail, setActiveDetail]}
       >
         {
-          partsListData[partCat].map(
-            (partData, idx2) =>
+          specPartList[partCTG].map(
+            (specPart, idx2) =>
               <DetailItem
                 key={idx2}
-                click={() => {
-                  setActiveDetailItem(partData.nomenclature)
-                  activeDetail !== partCat && setActiveDetail(partCat)
-                }}
-                isActive={activeDetailItem == partData.nomenclature}
+                detailId={partCTG}
+                detailItemId={specPart.nomenclature}
+                selectionStates={detailSummaryStates}
               >
-                {partData.nomenclature}
+                {specPart.nomenclature}
               </DetailItem>
           )
         }

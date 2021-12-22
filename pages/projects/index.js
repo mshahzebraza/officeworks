@@ -46,21 +46,18 @@ export default function ProjectDirectory() {
           <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
-        {/* <button type='button' onClick={() => setShowModal(true)} >Add a PO</button> */}
-        {/* {showModal && <AddPO_Modal closer={() => setShowModal(false)} />} */}
 
       </section>
+
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
         detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
-      {/* <div className={styles.body}>sad</div> */}
+
       <ProjectDetail
         outerClasses={[styles.body]}
-        // activeCategory={activeProjectType}
-        // activeNomenclature={activeProjectNomenclature}
-        activeProject={activeProject}
+        activeProjectData={activeProject}
       />
 
     </Layout>

@@ -120,4 +120,4 @@ Final Solution here.
 ## make the detail items such that they show colors only if they are empty or if they are opened
 
 - detail styles shall be applied if it is open or empty (not when a child item is clicked or active)
-- active item styles should applicable based on a prop passed with the conditional logic for activation like `isActiveFor`
+- active item styles should applicable based on a prop passed with the conditional logic for activation like `isActiveFor` or according to the click (state toggles on each click)

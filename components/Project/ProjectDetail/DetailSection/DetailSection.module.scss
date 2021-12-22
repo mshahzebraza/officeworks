@@ -1,0 +1,11 @@
+@import "../../../../styles/abstracts/abstracts";
+
+.detailSection {
+	@extend %cardShadow1;
+	padding: 1rem 2rem;
+}
+.detailTitle {
+}
+.detailBody {
+	margin-top: 1rem;
+}

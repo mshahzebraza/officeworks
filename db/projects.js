@@ -27,7 +27,7 @@ const L3K = {
       // Input shows a drop-down of Assemblies' nomenclature but saves the assemblies' ID.
       // Relative id cannot be used as the special parts are given Numerical IDs. They are called by their standard nomenclatures.
       id: 'PEMA-L3K-BD-0100-01', // PEMA-L3K-BD-0100- (ProjectId + AssemblyId) prefix is suggested in the form inputs if part type is manufactured. However, they are still saved in full form. 
-      qtyUsed: 1,
+      qty: 1,
     },
     {
       parentAssemblyId: '0100',
@@ -35,7 +35,7 @@ const L3K = {
 
       nomenclature: 'Pulley Shaft',
       id: 'PEMA-L3K-BD-0100-02',
-      qtyUsed: 2,
+      qty: 2,
     },
     {
       parentAssemblyId: '0200',
@@ -43,7 +43,7 @@ const L3K = {
 
       nomenclature: 'Potentiometer',
       id: 'MLS-130-100-S-N',
-      qtyUsed: 1,
+      qty: 1,
     },
     {
       parentAssemblyId: 'FAST', // all fastener items are set in 'FAST' OR 'XXXX' OR '0000' Assembly be default
@@ -52,7 +52,7 @@ const L3K = {
       nomenclature: 'bearing', // OR Screws, Washers etc
       // Different id input types will be provided to the user in forms based on type of fastener 
       id: '7201 AC', // M5 x 12 (Screws) OR M4 (Washers)
-      qtyUsed: 2,
+      qty: 2,
     },
   ],
 

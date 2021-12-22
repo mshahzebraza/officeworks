@@ -1,0 +1,9 @@
+.ovInfo {
+	display: flex;
+	gap: 1rem;
+	// background: #000;
+
+	&Label {
+		flex: 0 0 15rem;
+	}
+}

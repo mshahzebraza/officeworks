@@ -6,22 +6,3 @@
 	flex-direction: column;
 	gap: 1rem;
 }
-
-.detailSection {
-	@extend %cardShadow1;
-	padding: 1rem 2rem;
-}
-.detailTitle {
-}
-.detailBody {
-	margin-top: 1rem;
-}
-.detailPair {
-	display: flex;
-	gap: 1rem;
-	// background: #000;
-
-	&Label {
-		flex: 0 0 15rem;
-	}
-}

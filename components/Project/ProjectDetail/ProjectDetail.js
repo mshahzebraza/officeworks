@@ -119,15 +119,8 @@ function SpecialModuleList({ partsListData, detailSummaryStates }) {
     ['purchased', 'manufactured'].map( // searches the partListData for each category mentioned in the array
       partCat => <Detail // add a detailId field
         title={`${partsListData[partCat].length}x ${camelToSentenceCase(partCat)} Parts`} // -> 2x Special Modules
-        // click={() => { setActiveDetail(partCat) }} // -> selection Color on activate
-        // isActive={activeDetail === partCat} // -> related to active Detail
-        click={
-          () => {
-            setActiveDetailItem('') // do this only if the activeDetailItem doesn't start with the parent detail
-            setActiveDetail(partCat)
-          }
-        }
-        isActive={activeDetail == partCat}
+        detailId={partCat}
+        selectionStates={detailSummaryStates}
       >
         {
           partsListData[partCat].map(

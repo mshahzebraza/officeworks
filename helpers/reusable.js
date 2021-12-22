@@ -171,3 +171,75 @@ function checkDataType(testEl) {
   return result;
 }
 
+
+// Input: 
+/* 
+[
+  { type: 'x', num: 1 }, 
+  { type: 'y', num: 2 }, 
+  { type: 'z', num: 3 }
+]
+ */
+// Output: 
+/* 
+{ 
+  x: { 
+    num: 1
+  } , 
+  y: { 
+    num: 2
+  }, 
+  z: { 
+    num: 3
+ } 
+}
+ */
+
+export function mapDataToCategory(dataList = [], categories = false, filter = 'type', fallbackCtg = 'others') {
+
+
+  // categories = ['purchased', 'manufactured']; 
+  if (dataList && Array.isArray(dataList)) {
+
+
+    const result = {}
+
+    // create an array of all possible catagories
+    const allCategories = categories ? categories.concat(fallbackCtg) : [fallbackCtg]
+    allCategories.forEach(
+      ctgName => result[ctgName] = []
+    )
+
+
+    // check if the input data list is valid & array
+    if (dataList && Array.isArray(dataList)) {
+
+      dataList.forEach(
+        (dataEl, idx) => {
+
+          // Check if categories are provided as Valid & Array
+          if (categories && Array.isArray(categories) && categories.length > 0) {
+            // Yes: add the matching in categories and others in fallbackCtg
+
+            // check given categories include the Value-at-filter-key (V.A.F.K)
+            categories.includes(dataEl[filter])
+              // Yes: add the current item in the matching category
+              ? result[dataEl[filter]].push(dataEl)
+              // No: add the current item in the misc(fallbackCtg) category
+              : result[fallbackCtg].push(dataEl)
+
+          }
+          else {
+            // No: add every item in the fallbackCtgCategory
+            result[fallbackCtg].push(dataEl)
+          }
+        }
+      )
+    }
+
+    return result;
+
+  } else {
+    console.log(`Input is not valid`);
+  }
+}

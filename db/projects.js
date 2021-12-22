@@ -49,7 +49,7 @@ const L3K = {
       parentAssemblyId: 'FAST', // all fastener items are set in 'FAST' OR 'XXXX' OR '0000' Assembly be default
       type: 'standard',
 
-      nomenclature: 'Bearing', // OR Screws, Washers etc
+      nomenclature: 'bearing', // OR Screws, Washers etc
       // Different id input types will be provided to the user in forms based on type of fastener 
       id: '7201 AC', // M5 x 12 (Screws) OR M4 (Washers)
       qtyUsed: 2,

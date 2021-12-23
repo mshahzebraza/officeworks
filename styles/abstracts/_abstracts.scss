@@ -111,3 +111,19 @@ $nuteLite7: lighten($nute, 46%);
 	border-radius: 0.5rem;
 	box-shadow: 0 0 2rem rgba($color: $nuteLite4, $alpha: 0.75);
 }
+
+// %colorText {
+// 	border-radius: 0.5rem;
+// 	box-shadow: 0 0 2rem rgba($color: $nuteLite4, $alpha: 0.75);
+// }
+%colorText {
+	position: relative;
+	&::before {
+		content: "";
+		position: absolute;
+		display: flex;
+		background: $nuteLite5;
+		width: 0.15rem;
+		height: 0.15rem;
+	}
+}

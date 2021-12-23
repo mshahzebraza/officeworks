@@ -5,9 +5,6 @@
 		margin-top: 1rem;
 	}
 
-	&Header {
-		// background: $orangeAccent !important; // doesn't work
-	}
 	&Title {
 		font-size: 1.6rem;
 		padding: 1rem 1.5rem;
@@ -16,21 +13,36 @@
 		&:hover {
 			background: $nuteLite5;
 		}
-		&Active {
-			background: $orangeAccent;
-			&:hover {
-				background: $orangeAccentDark1;
-			}
-		}
+
 		&Empty {
-			background: $redAccentLite1;
+			color: $redAccentDark1;
 			cursor: not-allowed;
 			&:hover {
+				color: $dark;
 				background: $redAccent;
 			}
 		}
 		// border: 1px solid $nuteLite4;
 	}
+
+	&[open] &Title {
+		// background: #000;
+		background: $orangeAccent;
+		&:hover {
+			background: $orangeAccentDark1;
+		}
+
+		&Empty {
+			background: $nuteLite7;
+			color: $redAccentLite1;
+
+			&:hover {
+				background: $redAccent;
+				color: $dark;
+			}
+		}
+	}
+
 	&Body {
 		font-weight: 500;
 		// font-size: 1.5rem;

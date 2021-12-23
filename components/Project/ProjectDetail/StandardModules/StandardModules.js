@@ -10,15 +10,9 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
 
   const stdBtnDataList = [
     {
-      caption: 'Edit',
+      caption: 'Add',
       click: () => {
-        console.log(`Hey Edit`);
-      }
-    },
-    {
-      caption: 'Delete',
-      click: () => {
-        console.log(`Hey Delete`);
+        console.log(`Hey Add`);
       }
     }
   ]

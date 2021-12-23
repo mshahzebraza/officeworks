@@ -1,28 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { camelToSentenceCase } from '../../../../helpers/reusable';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Overview.module.scss'
-
-
-
+import UpdateProjOV_Modal from './UpdateProjOV_Modal';
 
 
 export default function Overview({ projectData }) {
 
+  const projectData = {
+    type: 'type',
+    nomenclature: 'nomenclature',
+    application: 'application',
+    status: 'status',
+    stock: 'stock',
+    target: 'target',
+  }
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
+
   const ovBtnDataList = [
     {
-      caption: 'Edit',
+      caption: 'Edit Overview',
       click: () => {
+        setShowUpdateForm(state => !state)
         console.log(`Hey Edit`);
       }
     },
-
+    {
+      caption: 'Delete Project',
+      click: () => {
+        console.log(`Hey Delete`);
+      }
+    }
   ]
 
 
   return (
     <DetailSection title='Overview' outerClasses={[styles.container]} btnDataList={ovBtnDataList} >
+      {
+        showUpdateForm && <UpdateProjOV_Modal
+          closer={() => setShowUpdateForm(false)}
+          projData={projectData}
+        // activePOid={activePOid}
+        // activeItemData={itemList[dataIndex]}
+        />
+      }
       <div className={styles.summary}>
         {
           ['type', 'nomenclature', 'application', 'status', 'stock'].map(

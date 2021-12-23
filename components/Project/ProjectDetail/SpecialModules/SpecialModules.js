@@ -12,15 +12,9 @@ export default function SpecialModules({ specParts, detailSummaryStates }) {
 
   const specBtnDataList = [
     {
-      caption: 'Edit',
+      caption: 'Add',
       click: () => {
-        console.log(`Hey Edit`);
-      }
-    },
-    {
-      caption: 'Delete',
-      click: () => {
-        console.log(`Hey Delete`);
+        console.log(`Hey Add`);
       }
     }
   ]

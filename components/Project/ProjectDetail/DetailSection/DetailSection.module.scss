@@ -2,8 +2,28 @@
 
 .detailSection {
 	@extend %cardShadow1;
-	padding: 1rem 2rem;
+	padding: 2rem 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
+.detailHeader {
+	display: flex;
+	justify-content: space-between;
+	// background: #000;
+	// padding: 1rem 0;
+}
+.detailTitle {
+	background: linear-gradient(to right bottom, $dark, $primeDark2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.detailControls {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
 .detailTitle {
 }
 .detailBody {

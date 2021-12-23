@@ -1,0 +1,19 @@
+.entry {
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	// background: red;
+	// color: red;
+	&Index {
+		flex: 1;
+	}
+	&Id {
+		flex: 4;
+	}
+	&Other {
+		flex: 5;
+	}
+	&Qty {
+		flex: 1.5;
+	}
+}

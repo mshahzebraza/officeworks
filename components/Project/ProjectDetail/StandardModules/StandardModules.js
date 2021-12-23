@@ -1,20 +1,34 @@
 import React from 'react'
-import { camelToSentenceCase } from '../../../helpers/reusable';
-import Detail from '../../Detail&Summary/Detail';
-import DetailItem from '../../Detail&Summary/DetailItem';
-import DetailSection from './DetailSection/DetailSection';
-
+import { camelToSentenceCase } from '../../../../helpers/reusable';
+import Detail from '../../../Detail&Summary/Detail';
+import DetailItem from '../../../Detail&Summary/DetailItem';
+import DetailSection from '../DetailSection/DetailSection';
+import styles from './StandardModules.module.scss'
 
 
 export default function StandardModules({ stdParts, detailSummaryStates }) {
 
+  const stdBtnDataList = [
+    {
+      caption: 'Edit',
+      click: () => {
+        console.log(`Hey Edit`);
+      }
+    },
+    {
+      caption: 'Delete',
+      click: () => {
+        console.log(`Hey Delete`);
+      }
+    }
+  ]
 
-  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
+  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates;
   const stdPartCTGs = ['bearing', 'screw', 'washer', 'misc'];
 
   return (
 
-    <DetailSection title='Standard Modules' >
+    <DetailSection title='Standard Modules' btnDataList={stdBtnDataList} >
       {
         stdParts &&
         stdPartCTGs.map(
@@ -25,15 +39,19 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
           >
             {
               stdParts[stdPartCat].map(
-                (partData, idx2) =>
+                (stdPart, idx2) =>
                   <DetailItem
                     key={idx2}
                     detailId={stdPartCat}
-                    detailItemId={partData.id}
+                    detailItemId={stdPart.id}
                     selectionStates={detailSummaryStates}
+                    outerClasses={[styles.entry]}
                   >
-                    {partData.id}------------
-                    {partData.qty}
+                    <span className={styles.entryIndex}> {idx2 + 1}.</span>
+                    <span className={styles.entryId}> {stdPart.id}</span>
+                    <span className={styles.entryOther}> ---</span>
+                    <span className={styles.entryQty}> {stdPart.qty}/Act</span>
+
                   </DetailItem>
               )
             }

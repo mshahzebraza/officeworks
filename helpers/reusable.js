@@ -243,3 +243,22 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
     console.log(`Input is not valid`);
   }
 }
+
+
+// Input
+/* 
+{
+  caption,
+  click,
+  styleArr
+}
+ */
+
+export function buttonGenerator(caption = 'Button', click = () => { }, styleArr = []) {
+  return <button
+    onClick={click}
+    className={concatStrings(styleArr)}
+  >
+    {caption}
+  </button>
+}

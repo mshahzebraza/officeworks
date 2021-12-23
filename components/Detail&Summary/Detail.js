@@ -30,7 +30,7 @@ export default function Detail({ defaultOpen = false, title, isActive = false, c
       </summary>
 
       {
-        <div className={styles.detailBody}>
+        children.length > 0 && <div className={styles.detailBody}>
           {children}
         </div>
       }

@@ -8,8 +8,8 @@ import styles from './ProjectDetail.module.scss'
 import DetailItem from '../../Detail&Summary/DetailItem'
 import Detail from '../../Detail&Summary/Detail'
 import DetailSection from './DetailSection/DetailSection'
-import SpecialModules from './SpecialModules'
-import StandardModules from './StandardModules'
+import SpecialModules from './SpecialModules/SpecialModules'
+import StandardModules from './StandardModules/StandardModules'
 import Overview from './Overview/Overview'
 
 

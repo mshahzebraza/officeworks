@@ -19,10 +19,7 @@ export default function DetailItem({ children, selectionStates = [], detailId = 
     <div
       onClick={clickHandler}
       className={concatStrings([styles.detailItem, !!isActive && styles.detailItemActive, ...outerClasses])}
-    // className={
-    //   `${styles.detailItem} 
-    //   ${!!isActive && styles.detailItemActive}`
-    // }
+
     >
       {children}
     </div >

@@ -10,7 +10,7 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
 
 
   const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
-  const stdPartCTGs = ['bearing', 'screw', 'misc'];
+  const stdPartCTGs = ['bearing', 'screw', 'washer', 'misc'];
 
   return (
 
@@ -32,7 +32,8 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
                     detailItemId={partData.id}
                     selectionStates={detailSummaryStates}
                   >
-                    {partData.id}
+                    {partData.id}------------
+                    {partData.qty}
                   </DetailItem>
               )
             }

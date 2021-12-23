@@ -121,3 +121,14 @@ Final Solution here.
 
 - detail styles shall be applied if it is open or empty (not when a child item is clicked or active)
 - active item styles should applicable based on a prop passed with the conditional logic for activation like `isActiveFor` or according to the click (state toggles on each click)
+
+## give a category key in th screws data structure
+
+- either a strict data entry protocol must be used for the entry of standard parts OR
+<!--
+id: [id_headType] M {id_head}x{id_length}
+  and the data shall be collected by 3 separate input fields of screw entry
+
+ -->
+
+- a new field must be add to

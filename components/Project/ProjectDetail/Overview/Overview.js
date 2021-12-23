@@ -1,38 +1,34 @@
 import React, { useState } from 'react'
-import { camelToSentenceCase } from '../../../../helpers/reusable';
+import { camelToSentenceCase, cloneAndPluck } from '../../../../helpers/reusable';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Overview.module.scss'
 import UpdateProjOV_Modal from './UpdateProjOV_Modal';
 
 
+
 export default function Overview({ projectData }) {
 
-  const projectData = {
-    type: 'type',
-    nomenclature: 'nomenclature',
-    application: 'application',
-    status: 'status',
-    stock: 'stock',
-    target: 'target',
-  }
   const [showUpdateForm, setShowUpdateForm] = useState(false)
 
-  const ovBtnDataList = [
-    {
-      caption: 'Edit Overview',
-      click: () => {
-        setShowUpdateForm(state => !state)
-        console.log(`Hey Edit`);
+  const projectDataOV = cloneAndPluck(projectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target']);
+
+  const ovBtnDataList = projectDataOV.type && projectDataOV.nomenclature &&
+    [
+      {
+        caption: 'Edit Overview',
+        click: () => {
+          setShowUpdateForm(state => !state)
+          console.log(`Hey Edit`);
+        }
+      },
+      {
+        caption: 'Delete Project',
+        click: () => {
+          console.log(`Hey Delete`);
+        }
       }
-    },
-    {
-      caption: 'Delete Project',
-      click: () => {
-        console.log(`Hey Delete`);
-      }
-    }
-  ]
+    ]
 
 
   return (
@@ -40,23 +36,21 @@ export default function Overview({ projectData }) {
       {
         showUpdateForm && <UpdateProjOV_Modal
           closer={() => setShowUpdateForm(false)}
-          projData={projectData}
-        // activePOid={activePOid}
-        // activeItemData={itemList[dataIndex]}
+          projData={projectDataOV}
         />
       }
       <div className={styles.summary}>
         {
           ['type', 'nomenclature', 'application', 'status', 'stock'].map(
             (el, idx) =>
-              <OVitem key={idx} label={camelToSentenceCase(el)} value={projectData[el]}></OVitem>
+              <OVitem key={idx} label={camelToSentenceCase(el)} value={projectDataOV[el]}></OVitem>
           )
         }
 
       </div>
       <div className={styles.target}>
         <span className={styles.targetCaption} >Target</span>
-        <span className={styles.targetValue} >00</span>
+        <span className={styles.targetValue} >{projectDataOV.target || 0}</span>
         <button className={styles.targetBtn} > Reset Target</button>
       </div>
     </DetailSection >

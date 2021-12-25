@@ -27,9 +27,6 @@ export default function SideNav({ list = [], outerClasses = [], detailSummarySta
             <Detail
               key={projCatIdx}
               title={projCat.name}
-              detailId={projCat.name}
-              selectionStates={detailSummaryStates}
-
             >
               {
                 projCat.projects.map(

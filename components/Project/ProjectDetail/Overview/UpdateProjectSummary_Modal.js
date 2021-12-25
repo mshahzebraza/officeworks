@@ -11,7 +11,7 @@ import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function UpdateProjOV_Modal({ closer, projData }) {
+export default function UpdateProjectSummary_Modal({ closer, projData }) {
 
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ export default function UpdateProjOV_Modal({ closer, projData }) {
         closer={closer}
       >
         <Form
-          submit={(formData) => { dispatch(projectActions.updateProjectOV([formData])); }}
+          submit={(formData) => { dispatch(projectActions.updateProjectSummary([formData])); }}
           // The field should be rendered automatically.
           // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.
           fields={[

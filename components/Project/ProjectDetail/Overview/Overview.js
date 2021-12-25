@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { camelToSentenceCase, cloneAndPluck } from '../../../../helpers/reusable';
+import { camelToSentenceCase } from '../../../../helpers/reusable';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Overview.module.scss'
-import UpdateProjOV_Modal from './UpdateProjOV_Modal';
+import UpdateProjectSummary_Modal from './UpdateProjectSummary_Modal';
 
 
 
-export default function Overview({ projectData }) {
+export default function Overview({ projectSummary }) {
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
 
-  const projectDataOV = cloneAndPluck(projectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target']);
 
-  const ovBtnDataList = projectDataOV.type && projectDataOV.nomenclature &&
+  const summaryBtnDataList = projectSummary.type && projectSummary.nomenclature &&
     [
       {
         caption: 'Edit Overview',
@@ -32,25 +31,25 @@ export default function Overview({ projectData }) {
 
 
   return (
-    <DetailSection title='Overview' outerClasses={[styles.container]} btnDataList={ovBtnDataList} >
+    <DetailSection title='Overview' outerClasses={[styles.container]} btnDataList={summaryBtnDataList} >
       {
-        showUpdateForm && <UpdateProjOV_Modal
+        showUpdateForm && <UpdateProjectSummary_Modal
           closer={() => setShowUpdateForm(false)}
-          projData={projectDataOV}
+          projData={projectSummary}
         />
       }
       <div className={styles.summary}>
         {
           ['type', 'nomenclature', 'application', 'status', 'stock'].map(
             (el, idx) =>
-              <OVitem key={idx} label={camelToSentenceCase(el)} value={projectDataOV[el]}></OVitem>
+              <SummaryItem key={idx} label={camelToSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
           )
         }
 
       </div>
       <div className={styles.target}>
         <span className={styles.targetCaption} >Target</span>
-        <span className={styles.targetValue} >{projectDataOV.target || 0}</span>
+        <span className={styles.targetValue} >{projectSummary.target || 0}</span>
         <button className={styles.targetBtn} > Reset Target</button>
       </div>
     </DetailSection >
@@ -58,7 +57,7 @@ export default function Overview({ projectData }) {
 }
 
 
-function OVitem({ label, value }) {
+function SummaryItem({ label, value }) {
   return (<DetailItem>
     <p className={styles.ovInfo}>
       <span className={styles.ovInfoLabel}>{label}</span>

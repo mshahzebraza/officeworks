@@ -6,9 +6,10 @@ export default function DetailItem({ children, selectionStates = [], detailId = 
   // IMPORT of detailId can still be avoided
   const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = selectionStates
 
-  const isActive = (activeDetailItem && detailItemId)
-    ? activeDetailItem == detailItemId
-    : null;
+
+  const isActive =
+    detailItemId != undefined && activeDetailItem == detailItemId
+
 
   function clickHandler() {
     setActiveDetailItem && setActiveDetailItem(detailItemId)

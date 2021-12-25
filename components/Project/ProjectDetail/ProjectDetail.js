@@ -1,6 +1,6 @@
 // Dependency & Helpers
 import React, { useState } from 'react'
-import { concatStrings, camelToSentenceCase, mapDataToCategory } from '../../../helpers/reusable'
+import { concatStrings, camelToSentenceCase, mapDataToCategory, cloneAndPluck } from '../../../helpers/reusable'
 // Store
 // Styles
 import styles from './ProjectDetail.module.scss'
@@ -19,6 +19,7 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc.
 
 
+  const overviewData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target']);
 
   const specialModuleCategories = ['purchased', 'manufactured', 'standard'];
   const allParts = mapDataToCategory(activeProjectData.parts, specialModuleCategories)
@@ -32,7 +33,7 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
 
       {/* Overview */}
       <Overview
-        projectData={activeProjectData}
+        projectSummary={overviewData}
       />
 
 
@@ -40,6 +41,7 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
       <SpecialModules
         specParts={allParts}
         detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
+        breadCrumbs={[overviewData.type, overviewData.nomenclature]}
       />
 
       {/* Std Part List */}

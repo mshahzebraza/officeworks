@@ -2,19 +2,17 @@ import React from 'react'
 import { concatStrings } from '../../helpers/reusable';
 import styles from './Detail.module.scss'
 
-export default function Detail({ defaultOpen = false, title, isActive = false, click = () => { }, children = '', selectionStates = [], detailId = title }) {
+export default function Detail({ defaultOpen = false, title, click = () => { }, children = '', states = [] }) {
 
-  // receives detailId
-  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = selectionStates
-
-  // if all the params have been received
-  isActive = (activeDetail && detailId) ? activeDetail == detailId : null;
+  // If the click is to mutate the state, then setter function along with the value for the current instance is passes. and onclick sets the state to current instance value
+  const [itemValue, setValueState] = states || [];
 
   function clickHandler() {
-    setActiveDetailItem && setActiveDetailItem('');
-    setActiveDetail && setActiveDetail(detailId);
+    if (states.length === 2) {
+      setValueState(itemValue);
+    }
   }
-  // if not received
+
 
   return (
     <details className={styles.detail} open={defaultOpen} >
@@ -22,7 +20,7 @@ export default function Detail({ defaultOpen = false, title, isActive = false, c
       <summary className={styles.detailHeader} onClick={clickHandler} >
         {
           title && <h3 className={
-            concatStrings([styles.detailTitle, !!isActive && styles.detailTitleActive, !children.length > 0 && styles.detailTitleEmpty])
+            concatStrings([styles.detailTitle, !children.length > 0 && styles.detailTitleEmpty])
           } >
             {title}
           </h3>

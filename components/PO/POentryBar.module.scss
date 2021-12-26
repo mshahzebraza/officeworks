@@ -6,6 +6,7 @@
 	// (100vw - desiredContentWidth)/2
 	// padding: 1rem calc((100vw - 120rem) / 2);
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
@@ -15,25 +16,29 @@
 
 	&Index {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
+		flex: 1;
+		// flex: 0 0 5%;
 		// color: royalblue;
 	}
 
 	&Type {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 5%;
+		flex: 1;
+		// flex: 0 0 5%;
 		// color: royalblue;
 	}
 
 	&Id {
 		// border: 1px dotted saddlebrown;
-		flex: 0 0 15%;
+		flex: 3;
+		// flex: 0 0 15%;
 		// color: royalblue;
 	}
 
 	&ItemList {
 		// border: 1px dotted saddlebrown;
-		flex: 0 1 44%;
+		flex: 6;
+		// flex: 0 1 44%;
 		display: flex;
 		gap: 1rem;
 		// justify-content: space-between;
@@ -62,6 +67,7 @@
 
 	&Status {
 		// border: 1px dotted saddlebrown;
+		flex: 2;
 		flex: 0 0 11%;
 		// flex: 0 1 10%;
 		display: flex;
@@ -112,6 +118,7 @@
 
 	&Controls {
 		// border: 1px dotted saddlebrown;
+		flex: 4;
 		flex: 0 0 20%;
 		display: flex;
 		flex-wrap: wrap;

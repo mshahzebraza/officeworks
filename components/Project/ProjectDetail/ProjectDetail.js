@@ -15,11 +15,17 @@ import Summary from './Summary/Summary'
 
 export default function ProjectDetail({ outerClasses, activeProjectData = {} }) {
 
-  const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured
-  const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc.
+  // Following state is related to project (name & category)
+  // const [activeProjectType, activeProjectNomenclature] = projectSelectionStates
 
+  // Following state is related to module (name & category)
+  const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured // not related to sideNav
+  const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc. // not related to sideNav
 
-  const overviewData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target']);
+  // console.log('activeModuleType', activeModuleType);
+  // console.log('activeModule', activeModule);
+
+  const summaryData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target']);
 
   const specialModuleCategories = ['purchased', 'manufactured', 'standard'];
   const allParts = mapDataToCategory(activeProjectData.parts, specialModuleCategories)
@@ -38,7 +44,7 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
       {/* Overview */}
 
       <Summary
-        projectSummary={overviewData}
+        projectSummary={summaryData}
       />
 
 
@@ -47,13 +53,14 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
       <SpecialModules
         specParts={specParts}
         detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
-        breadCrumbs={[overviewData.type, overviewData.nomenclature]}
+        isProjectValid={!!summaryData.type && !!summaryData.nomenclature}
       />
 
       {/* Std Part List */}
       <StandardModules
         stdParts={stdParts}
         detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
+        isProjectValid={!!summaryData.type && !!summaryData.nomenclature}
       />
 
     </section>

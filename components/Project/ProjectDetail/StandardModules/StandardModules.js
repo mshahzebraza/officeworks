@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { camelToSentenceCase } from '../../../../helpers/reusable';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './StandardModules.module.scss'
+import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
 
 
-export default function StandardModules({ stdParts, detailSummaryStates }) {
+export default function StandardModules({ stdParts, detailSummaryStates, isProjectValid }) {
+
+  const [showAddForm, setShowAddForm] = useState(false)
 
   const stdPartsExist =
     stdParts.bearing.length > 0 ||
@@ -16,7 +19,7 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
 
   const stdBtnDataList = [
     {
-      caption: 'Add',
+      caption: 'Add Part',
       click: () => {
         console.log(`Hey Add`);
       }
@@ -27,7 +30,14 @@ export default function StandardModules({ stdParts, detailSummaryStates }) {
 
   return (
 
-    <DetailSection title='Standard Modules' btnDataList={stdBtnDataList} >
+    <DetailSection title='Standard Modules' btnDataList={isProjectValid && stdBtnDataList} >
+      {
+        showAddForm && <AddProjectPart_Modal
+          closer={() => setShowAddForm(false)}
+          projectCatName={projectType}
+          projectId={projectId}
+        />
+      }
       {
         stdParts &&
           stdPartsExist ?

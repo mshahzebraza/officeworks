@@ -12,11 +12,42 @@ const projectSlice = createSlice({
   reducers: {
     addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
-      // console.log(pjType, pjId, formData);
       // // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
       const matchCat = pjState[matchCatIdx];
-      console.log(pjCatName, matchCat);
+
+
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+      if (matchPj.parts) { // if parts array exists
+
+        // Check for duplicates id
+        const matchModuleIdx = matchPj.parts.findIndex(part =>
+          part.id === formData.id
+        )
+
+        if (matchModuleIdx < 0) { // if no duplicate exists 
+          pjState[matchCatIdx].projects[matchPjIdx].parts.push(formData)
+        }
+
+        else {
+          console.log(`Module Id already exists`);
+        }
+
+
+      } else {
+        // create a new parts array
+        pjState[matchCatIdx].projects[matchPjIdx].parts = [
+          formData
+        ]
+
+
+      }
+
+      // matchPj.parts
+
+      // console.log(pjCatName, matchCat);
 
       // if (matchCatIdx >= 0) {
       //   // Type match: Find the matching nomenclature

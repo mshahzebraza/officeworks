@@ -17,6 +17,11 @@ import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 export default function ProjectDirectory() {
 
 
+  const [projectSelectionState, setProjectSelectionState] = useState({
+    activeProjectType: null,
+    activeProjectNomenclature: null
+  })
+
   const [activeProjectType, setActiveProjectType] = useState(false)
   const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
 
@@ -52,11 +57,14 @@ export default function ProjectDirectory() {
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
+        projectSelectionState={projectSelectionState}
         detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
       <ProjectDetail
         outerClasses={[styles.body]}
-        activeProjectData={activeProject} />
+        activeProjectData={activeProject}
+      // projectSelectionStates={[activeProjectType, activeProjectNomenclature]}
+      />
 
 
 

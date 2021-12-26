@@ -3,7 +3,7 @@ import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Summary.module.scss'
-import UpdateProjectSummary_Modal from './UpdateProjectSummary_Modal';
+import UpdateProjectSummary_Modal from '../ProjectForms/UpdateProjectSummary_Modal';
 
 
 

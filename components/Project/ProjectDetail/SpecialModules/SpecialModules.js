@@ -3,19 +3,18 @@ import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
-import AddProjectPart_Modal from './AddProjectPart_Modal';
+import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
 import styles from './SpecialModules.module.scss'
 
 
-export default function SpecialModules({ specParts, detailSummaryStates, breadCrumbs }) {
+export default function SpecialModules({ specParts, detailSummaryStates, breadCrumbs, isProjectValid }) {
 
   const [showAddForm, setShowAddForm] = useState(false)
-  const [projectType, projectId] = breadCrumbs;
+  // const [projectType, projectId] = breadCrumbs;
 
   const specPartsExist = specParts.manufactured.length > 0 || specParts.purchased.length > 0;
-  // console.log('spec Parts - specModComp', specParts);
 
-  // const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
+
   const partCTGs = ['purchased', 'manufactured'];
 
   const specBtnDataList = [
@@ -30,7 +29,7 @@ export default function SpecialModules({ specParts, detailSummaryStates, breadCr
 
 
   return (
-    <DetailSection title='Special Modules' btnDataList={specBtnDataList} >
+    <DetailSection title='Special Modules' btnDataList={isProjectValid && specBtnDataList} >
       {
         showAddForm && <AddProjectPart_Modal
           closer={() => setShowAddForm(false)}

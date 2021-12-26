@@ -16,7 +16,6 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 export default function SideNav({ list = [], outerClasses = [], detailSummaryStates }) {
 
-  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
 
   return (
     <section className={concatStrings([styles.nav, ...outerClasses])} >

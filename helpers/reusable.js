@@ -68,8 +68,17 @@ export function transformArray(array, transformer) {
 }
 
 export function isObjEmpty(obj) {
-  console.log(obj);
-  return obj && Object.entries(obj).length > 0
+  return obj && // is it defined
+    Object.entries(obj).length === 0 || // entries exists ?
+    Object.values(obj).every( // check all attributes for the following checks
+      attribute => (
+        // Checks for attributes
+        attribute === null ||
+        attribute === undefined ||
+        attribute === ''
+        // || attribute === false // optional
+      )
+    )
 }
 
 // Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {

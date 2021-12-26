@@ -17,8 +17,13 @@ import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 export default function ProjectDirectory() {
 
 
-  const [activeProjectType, setActiveProjectType] = useState('')
-  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState('')
+  const [projectSelectionState, setProjectSelectionState] = useState({
+    activeProjectType: null,
+    activeProjectNomenclature: null
+  })
+
+  const [activeProjectType, setActiveProjectType] = useState(false)
+  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
 
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
@@ -52,13 +57,16 @@ export default function ProjectDirectory() {
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
+        projectSelectionState={projectSelectionState}
         detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
-
       <ProjectDetail
         outerClasses={[styles.body]}
         activeProjectData={activeProject}
+      // projectSelectionStates={[activeProjectType, activeProjectNomenclature]}
       />
+
+
 
     </Layout>
   )

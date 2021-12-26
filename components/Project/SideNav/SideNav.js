@@ -16,7 +16,6 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 export default function SideNav({ list = [], outerClasses = [], detailSummaryStates }) {
 
-  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = detailSummaryStates
 
   return (
     <section className={concatStrings([styles.nav, ...outerClasses])} >
@@ -27,9 +26,6 @@ export default function SideNav({ list = [], outerClasses = [], detailSummarySta
             <Detail
               key={projCatIdx}
               title={projCat.name}
-              detailId={projCat.name}
-              selectionStates={detailSummaryStates}
-
             >
               {
                 projCat.projects.map(

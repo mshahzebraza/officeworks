@@ -73,7 +73,7 @@ const projectsDb = [ // contains different project categories
   {
     name: 'EM-Rotary',
     projects: [
-      R380,
+      // R380,
     ]
   },
   {

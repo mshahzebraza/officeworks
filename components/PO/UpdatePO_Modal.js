@@ -11,7 +11,7 @@ import Modal from '../UI/Modal'
 import Form from '../Form/Form'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function UpdatePO_Modal({ closer, poData }) {
+export default function UpdatePO_Modal({ closer, oldPOdata }) {
 
   const dispatch = useDispatch();
   return (
@@ -21,58 +21,58 @@ export default function UpdatePO_Modal({ closer, poData }) {
         closer={closer}
       >
         <Form
-          submit={(formData) => { dispatch(poActions.updatePO([formData, poData.items])); }}
+          submit={(formData) => { dispatch(poActions.updatePO([formData, oldPOdata.items])); }}
           // The field should be rendered automatically.
           // The req should be dependant on the req-prop of the original PO-entry. BUT for this case, we can duplicate the keys like in add-PO form bcz after all every PO needs to define some BASIC things, and those WILL be needed in case of update-PO too.
           fields={[
             {
               field: 'refType',
               req: true,
-              defaultValue: poData.refType && poData.refType,
+              defaultValue: oldPOdata.refType && oldPOdata.refType,
               dataList: ['CST', 'Bill', 'PO']
             },
             {
               field: 'refId',
-              defaultValue: poData.refId && poData.refId,
+              defaultValue: oldPOdata.refId && oldPOdata.refId,
               req: true,
               isFixed: true
             },
             {
               field: 'category',
               req: true,
-              defaultValue: poData.category && poData.category,
+              defaultValue: oldPOdata.category && oldPOdata.category,
             },
             {
               field: 'fulfillmentSource',
               req: true,
-              defaultValue: poData.fulfillmentSource && poData.fulfillmentSource,
+              defaultValue: oldPOdata.fulfillmentSource && oldPOdata.fulfillmentSource,
               dataList: ['Local', 'Foreign'],
             },
             {
               field: 'currency',
               req: true,
-              defaultValue: poData.currency && poData.currency,
+              defaultValue: oldPOdata.currency && oldPOdata.currency,
               dataList: ['PKR', 'USD', 'RMB'],
             },
             {
               field: 'totalCost',
               req: true,
-              defaultValue: poData.totalCost && poData.totalCost,
+              defaultValue: oldPOdata.totalCost && oldPOdata.totalCost,
             },
             {
               field: 'status',
               req: true,
-              defaultValue: poData.status && poData.status,
+              defaultValue: oldPOdata.status && oldPOdata.status,
               dataList: ['Closed', 'In Process', 'Delivered']
             },
             {
               field: 'supplier',
-              defaultValue: poData.supplier && poData.supplier,
+              defaultValue: oldPOdata.supplier && oldPOdata.supplier,
               dataList: ['Wuhan', 'E-Tech']
             },
             {
               field: 'remarks',
-              defaultValue: poData.remarks && poData.remarks,
+              defaultValue: oldPOdata.remarks && oldPOdata.remarks,
             }
           ]
             // [

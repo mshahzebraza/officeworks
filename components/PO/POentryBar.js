@@ -71,9 +71,9 @@ export default function POentryBar({ poData, poIndex }) {
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
         {showSummary && <SummaryPO_Modal closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}
 
-        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poData.refId}`)} ></EntryCtrlBtn>
+        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poData.refId}`)} />
 
-        <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(poData.refId))} ></EntryCtrlBtn>
+        <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(poData.refId))} />
       </div>
     </li>
   )

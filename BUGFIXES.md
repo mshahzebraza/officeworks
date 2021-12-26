@@ -132,3 +132,5 @@ id: [id_headType] M {id_head}x{id_length}
  -->
 
 - a new field must be add to
+
+## otherParts are not being used in projectDetail.js

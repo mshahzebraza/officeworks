@@ -16,4 +16,11 @@
 	&Qty {
 		flex: 1.5;
 	}
+	&Commands {
+		flex: 2;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 1rem;
+	}
 }

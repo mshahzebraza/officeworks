@@ -1,16 +1,28 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
+import { projectActions } from '../../../../store/project/project-slice';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
+import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
 import styles from './SpecialModules.module.scss'
 
 
-export default function SpecialModules({ specParts, detailSummaryStates, breadCrumbs, isProjectValid }) {
+export default function SpecialModules({ specParts, moduleState, projectState }) {
 
+  // let activeModuleData = {};
+  // console.log('activeModuleData', activeModuleData);
+  const initialUpdateFormState = { show: false, data: null };
+
+  const dispatch = useDispatch();
   const [showAddForm, setShowAddForm] = useState(false)
-  // const [projectType, projectId] = breadCrumbs;
+  const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
+
+
+  const [projectType, projectId] = projectState;
+  const isProjectValid = !!projectType && !!projectId;
 
   const specPartsExist = specParts.manufactured.length > 0 || specParts.purchased.length > 0;
 
@@ -38,6 +50,15 @@ export default function SpecialModules({ specParts, detailSummaryStates, breadCr
         />
       }
       {
+        updateFormState.show && <UpdateProjectPart_Modal
+          closer={() => setUpdateFormState(initialUpdateFormState)}
+          projectCatName={projectType}
+          projectId={projectId}
+          oldModuleData={updateFormState.data}
+        />
+      }
+
+      {
         specPartsExist ?
           partCTGs.map( // searches the partListData for each category mentioned in the array
             partCTG => <Detail // add a detailId field
@@ -46,19 +67,24 @@ export default function SpecialModules({ specParts, detailSummaryStates, breadCr
             >
               {
                 specParts[partCTG].map(
-                  (specPart, idx2) =>
-                    <DetailItem
+                  (specPart, idx2) => {
+                    return <DetailItem
                       key={idx2}
                       detailId={partCTG}
                       detailItemId={specPart.nomenclature}
-                      selectionStates={detailSummaryStates}
+                      selectionStates={moduleState}
                       outerClasses={[styles.entry]}
                     >
                       <span className={styles.entryIndex}> {idx2 + 1}.</span>
                       <span className={styles.entryNomenclature}> {specPart.nomenclature}</span>
                       <span className={styles.entryId}> {specPart.id}</span>
                       <span className={styles.entryQty}> {specPart.qty}/Act</span>
+                      <div className={styles.entryCommands}>
+                        <EntryCtrlBtn type={'Update'} click={() => { setUpdateFormState({ show: true, data: specPart }) }} />
+                        <EntryCtrlBtn type={'Delete'} click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, specPart.id])) }} />
+                      </div>
                     </DetailItem>
+                  }
                 )
               }
             </Detail>
@@ -66,4 +92,24 @@ export default function SpecialModules({ specParts, detailSummaryStates, breadCr
       }
     </DetailSection>
   );
+}
+
+
+
+function EntryCtrlBtn(props) { // Pass the `TYPE` in sentence case
+
+  return (
+    <button
+      className={`${styles[`entryCommands${props.type}`]} ${`tooltip`}`}
+      onClick={props.click}
+    >
+      {/* <Image
+        src={`/icons/${props.type}.png`}
+        alt={props.type}
+        width={20}
+        height={20} /> */}
+      {props.type.split('')[0]}
+      <span className={`tooltipContent`}>{props.type}</span>
+    </button>
+  )
 }

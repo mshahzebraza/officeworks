@@ -10,6 +10,7 @@ const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
+
     addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
       // // Check the matching type
@@ -35,12 +36,56 @@ const projectSlice = createSlice({
           console.log(`Module Id already exists`);
         }
 
-
       } else {
         // create a new parts array
         pjState[matchCatIdx].projects[matchPjIdx].parts = [
           formData
         ]
+
+
+      }
+
+    },
+    updateProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
+      // formData should contain the id and type of module.
+      // also the project data should be passes
+      // project data should help us reach the relevant project.
+      // check if the Id of the new part doesn't replace or in conflict.
+      // 
+      // // Check the matching type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
+
+
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+
+
+
+      if (matchPj.parts) { // always exist in case of update
+
+        // Check for duplicates id
+        const matchModuleIdx = matchPj.parts.findIndex(part =>
+          part.id === formData.id
+        )
+
+
+
+        if (matchModuleIdx >= 0) { // if module is found 
+          pjState[matchCatIdx].projects[matchPjIdx].parts.splice(matchModuleIdx, 1, formData)
+        }
+
+        else { // never happens  // unless ID itself is changed
+          // pjState[matchCatIdx].projects[matchPjIdx].parts.push(formData)
+        }
+
+
+      } else { // never happens
+        // create a new parts array
+        // pjState[matchCatIdx].projects[matchPjIdx].parts = [
+        //   formData
+        // ]
 
 
       }
@@ -80,6 +125,32 @@ const projectSlice = createSlice({
 
     },
 
+    deleteProjectPart(pjState, { payload: [pjCatName, pjId, partId] }) {
+
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
+
+
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+      const matchPartIdx = matchPj.parts.findIndex(part => part.id === partId)
+      const matchPart = matchPj.parts[matchPartIdx];
+
+      if (matchPartIdx >= 0) {
+
+        const confirmText = `Delete ${matchPart.nomenclature}`
+        const inputText = prompt(`Type "${confirmText}"`)
+        inputText === confirmText
+          && pjState[matchCatIdx].projects[matchPjIdx].parts.splice(matchPartIdx, 1)
+          || console.log(`Deletion Failed! Confirmation Text didn't match the input`);
+      }
+      else {
+        console.log(`Deletion failed! ${pjId} doesn't contain any part of ID: ${partId}`);
+      }
+
+
+    },
     updateProjectSummary(pjState, { payload: [ovData] }) {
 
       // Check the matching type

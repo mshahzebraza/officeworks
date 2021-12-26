@@ -11,39 +11,46 @@ import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
 
 
-export default function AddProjectPart_Modal({ closer, projectCatName, projectId }) {
+export default function updateProjectPart_Modal({ closer, projectCatName, projectId, oldModuleData }) {
   const dispatch = useDispatch();
 
   return (
     <Portal>
 
-      <Modal title='New Project Module Entry' closer={closer}>
+      <Modal title='Update Project Module Entry' closer={closer}>
         <Form
           submit={formData => {
-            dispatch(projectActions.addProjectPart([projectCatName, projectId, formData]));
+            dispatch(projectActions.updateProjectPart([projectCatName, projectId, formData]));
           }}
           fields={[{
             field: 'parentAssemblyId',
-            defaultValue: '0000',
+            defaultValue: oldModuleData.parentAssemblyId,
             req: true
           }, {
             field: 'type',
+            defaultValue: oldModuleData.type,
             dataList: ['purchased', 'manufactured', 'standard'],
             req: true
           }, {
             field: 'nomenclature',
+            defaultValue: oldModuleData.nomenclature,
             req: true
           }, {
             field: 'id',
+            defaultValue: oldModuleData.id,
             dataList: [`${projectId}-`],
+            isFixed: true,
             req: true
           }, {
             field: 'qty',
+            defaultValue: oldModuleData.qty,
             req: true
           },
           {
-            field: 'remarks'
-          }]}
+            field: 'remarks',
+            defaultValue: oldModuleData.remarks,
+          }]
+          }
         />
       </Modal>
     </Portal>

@@ -17,8 +17,8 @@ import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 export default function ProjectDirectory() {
 
 
-  const [activeProjectType, setActiveProjectType] = useState('')
-  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState('')
+  const [activeProjectType, setActiveProjectType] = useState(false)
+  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
 
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
@@ -54,11 +54,11 @@ export default function ProjectDirectory() {
         list={allProjects}
         detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
-
       <ProjectDetail
         outerClasses={[styles.body]}
-        activeProjectData={activeProject}
-      />
+        activeProjectData={activeProject} />
+
+
 
     </Layout>
   )

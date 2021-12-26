@@ -11,7 +11,7 @@ import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
 
 
-export default function AddProjectPart_Modal({ closer, projectType, projectId }) {
+export default function AddProjectPart_Modal({ closer, projectCatName, projectId }) {
   const dispatch = useDispatch();
 
   return (
@@ -20,7 +20,7 @@ export default function AddProjectPart_Modal({ closer, projectType, projectId })
       <Modal title='New Project Module Entry' closer={closer}>
         <Form
           submit={formData => {
-            dispatch(projectActions.addProjectPart([projectType, projectId, formData]));
+            dispatch(projectActions.addProjectPart([projectCatName, projectId, formData]));
           }}
           fields={[{
             field: 'parentAssemblyId',

@@ -10,11 +10,13 @@ const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
-    addProjectPart(pjState, { payload: [pjType, pjId, formData] }) {
+    addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
+      // console.log(pjType, pjId, formData);
       // // Check the matching type
-      // const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === ovData.type)
-      // const matchCat = pjState[matchCatIdx];
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
+      console.log(pjCatName, matchCat);
 
       // if (matchCatIdx >= 0) {
       //   // Type match: Find the matching nomenclature

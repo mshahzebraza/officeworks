@@ -1,6 +1,6 @@
 // Dependency & Helpers
 import React, { useState } from 'react'
-import { concatStrings, camelToSentenceCase, mapDataToCategory, cloneAndPluck } from '../../../helpers/reusable'
+import { concatStrings, camelToSentenceCase, mapDataToCategory, cloneAndPluck, isObjEmpty } from '../../../helpers/reusable'
 // Store
 // Styles
 import styles from './ProjectDetail.module.scss'
@@ -10,7 +10,7 @@ import Detail from '../../Detail&Summary/Detail'
 import DetailSection from './DetailSection/DetailSection'
 import SpecialModules from './SpecialModules/SpecialModules'
 import StandardModules from './StandardModules/StandardModules'
-import Overview from './Overview/Overview'
+import Summary from './Summary/Summary'
 
 
 export default function ProjectDetail({ outerClasses, activeProjectData = {} }) {
@@ -24,22 +24,28 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   const specialModuleCategories = ['purchased', 'manufactured', 'standard'];
   const allParts = mapDataToCategory(activeProjectData.parts, specialModuleCategories)
 
+  const specParts = cloneAndPluck(allParts, ['purchased', 'manufactured'])
+  const otherParts = cloneAndPluck(allParts, ['others'])
+
   const standardModuleCategories = ['bearing', 'screw', 'washer', 'misc'];
   const stdParts = mapDataToCategory(allParts.standard, standardModuleCategories, 'nomenclature', 'misc')
+
 
 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
 
       {/* Overview */}
-      <Overview
+
+      <Summary
         projectSummary={overviewData}
       />
 
 
+
       {/* Spec Part List */}
       <SpecialModules
-        specParts={allParts}
+        specParts={specParts}
         detailSummaryStates={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
         breadCrumbs={[overviewData.type, overviewData.nomenclature]}
       />

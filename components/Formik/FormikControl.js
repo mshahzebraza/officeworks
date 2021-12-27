@@ -7,6 +7,8 @@ import CheckboxGroup from './CheckboxGroup'
 // import DatePicker from './DatePicker'
 
 function FormikControl(props) {
+  // Extract the following
+  // labelStyles, errorStyles, inputStyles, controlStyles
   const { control, ...rest } = props
   switch (control) {
     case 'input':

@@ -20,7 +20,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
-  const [projectType, projectId] = projectState;
+  const [projectType, projectId, assemblies] = projectState;
   const isProjectValid = !!projectType && !!projectId;
 
   const stdPartsExist =
@@ -49,6 +49,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
           closer={() => setShowAddForm(false)}
           projectCatName={projectType}
           projectId={projectId}
+          assemblies={assemblies}
         />
       }
       {
@@ -56,6 +57,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
           closer={() => setUpdateFormState(initialUpdateFormState)}
           projectCatName={projectType}
           projectId={projectId}
+          assemblies={assemblies}
           oldModuleData={updateFormState.data}
         />
       }
@@ -83,6 +85,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
                       <span className={styles.entryOther}> ---</span>
                       <span className={styles.entryQty}> {stdPart.qty}/Act</span>
                       <div className={styles.entryCommands}>
+                        <EntryCtrlBtn type={'Summary'} click={() => { setUpdateFormState({ show: true, data: stdPart }) }} />
                         <EntryCtrlBtn type={'Update'} click={() => { setUpdateFormState({ show: true, data: stdPart }) }} />
                         <EntryCtrlBtn type={'Delete'} click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, stdPart.id])) }} />
                       </div>

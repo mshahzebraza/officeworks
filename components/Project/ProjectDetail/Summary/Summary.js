@@ -13,6 +13,8 @@ export default function Summary({ projectSummary }) {
   const isSummaryValid = !isObjEmpty(projectSummary);
 
 
+  const assemblyListString = projectSummary.assemblies && projectSummary.assemblies.reduce((prev, cur) => prev.concat(` ${cur.nomenclature},`), '') || 'No items found'
+
   const summaryBtnDataList = isSummaryValid &&
     [
       {
@@ -49,6 +51,9 @@ export default function Summary({ projectSummary }) {
                   <SummaryItem key={idx} label={camelToSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
               )
             }
+            <SummaryItem label={`Assemblies`} value={assemblyListString}>
+
+            </SummaryItem>
 
           </div>
           <div className={styles.target}>

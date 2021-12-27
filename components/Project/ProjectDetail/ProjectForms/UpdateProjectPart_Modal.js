@@ -11,8 +11,9 @@ import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
 
 
-export default function updateProjectPart_Modal({ closer, projectCatName, projectId, oldModuleData }) {
+export default function updateProjectPart_Modal({ closer, projectCatName, projectId, assemblies = [], oldModuleData }) {
   const dispatch = useDispatch();
+  console.log('assemblies', assemblies);
 
   return (
     <Portal>

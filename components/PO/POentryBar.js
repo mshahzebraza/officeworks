@@ -66,7 +66,7 @@ export default function POentryBar({ poData, poIndex }) {
       {/* PO Commands */}
       <div className={styles.entryControls}>
         <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
-        {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} poData={poData} />}
+        {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} oldPOdata={poData} />}
 
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
         {showSummary && <SummaryPO_Modal closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}

@@ -1,7 +1,7 @@
 
 // Input: ['c1','c2','c3']
 // Output: 'c1 c2 c3'
-export function concatStrings(strArr) {
+export function concatStrings(strArr = []) {
   return strArr.reduce((acc, cur, arr) => {
     return acc.concat(` ${cur}`);
   }, '');

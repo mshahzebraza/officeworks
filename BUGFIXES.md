@@ -134,3 +134,11 @@ id: [id_headType] M {id_head}x{id_length}
 - a new field must be add to
 
 ## otherParts are not being used in projectDetail.js
+
+## create a replica of a pre made form with formik
+
+first the key value generator (with delete option) must be created
+
+## CANNOT GO TO DETAIL PAGE OF LAST 2 POs
+
+## Summary should have a uniform styling all over

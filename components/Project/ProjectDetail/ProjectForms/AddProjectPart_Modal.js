@@ -9,10 +9,11 @@ import { projectActions } from '../../../../store/project/project-slice'
 import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
+// ChangeItASAP
 
-
-export default function AddProjectPart_Modal({ closer, projectCatName, projectId }) {
+export default function AddProjectPart_Modal({ closer, projectCatName, projectId, assemblies = [] }) {
   const dispatch = useDispatch();
+  console.log('assemblies', assemblies);
 
   return (
     <Portal>
@@ -25,6 +26,7 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
           fields={[{
             field: 'parentAssemblyId',
             defaultValue: '0000',
+            // dataList: assemblies,
             req: true
           }, {
             field: 'type',

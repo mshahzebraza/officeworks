@@ -20,12 +20,12 @@ export default function SpecialModules({ specParts, moduleState, projectState })
   const dispatch = useDispatch();
   const [showAddForm, setShowAddForm] = useState(false)
   // Formik Code
-  // const [showAddFormCopy, setShowAddFormCopy] = useState(false)
+  const [showAddFormCopy, setShowAddFormCopy] = useState(false)
   // Formik Code End
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
-  const [projectType, projectId] = projectState;
+  const [projectType, projectId, assemblies] = projectState;
   const isProjectValid = !!projectType && !!projectId;
 
   const specPartsExist = specParts.manufactured.length > 0 || specParts.purchased.length > 0;
@@ -42,13 +42,13 @@ export default function SpecialModules({ specParts, moduleState, projectState })
       }
     },
     // Formik code
-    // {
-    //   caption: 'Add Part Copy',
-    //   click: () => {
-    //     setShowAddFormCopy(state => !state)
-    //     console.log(`Hey Add`);
-    //   }
-    // }
+    {
+      caption: 'Add Part Copy',
+      click: () => {
+        setShowAddFormCopy(state => !state)
+        console.log(`Hey Add`);
+      }
+    }
     // Formik code end
   ]
 
@@ -60,22 +60,24 @@ export default function SpecialModules({ specParts, moduleState, projectState })
           closer={() => setShowAddForm(false)}
           projectCatName={projectType}
           projectId={projectId}
+          assemblies={assemblies}
         />
       }
       {/* Formik code */}
-      {/* {
+      {
         showAddFormCopy && <AddProjectPart_ModalCopy
           closer={() => setShowAddFormCopy(false)}
           projectCatName={projectType}
           projectId={projectId}
         />
-      } */}
+      }
       {/* Formik code End */}
       {
         updateFormState.show && <UpdateProjectPart_Modal
           closer={() => setUpdateFormState(initialUpdateFormState)}
           projectCatName={projectType}
           projectId={projectId}
+          assemblies={assemblies}
           oldModuleData={updateFormState.data}
         />
       }
@@ -102,6 +104,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
                       <span className={styles.entryId}> {specPart.id}</span>
                       <span className={styles.entryQty}> {specPart.qty}/Act</span>
                       <div className={styles.entryCommands}>
+                        <EntryCtrlBtn type={'Summary'} click={() => { setUpdateFormState({ show: true, data: specPart }) }} />
                         <EntryCtrlBtn type={'Update'} click={() => { setUpdateFormState({ show: true, data: specPart }) }} />
                         <EntryCtrlBtn type={'Delete'} click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, specPart.id])) }} />
                       </div>

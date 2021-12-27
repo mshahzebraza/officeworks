@@ -39,6 +39,7 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
   //   { key: 'Option 2', value: 'cOption2' },
   //   { key: 'Option 3', value: 'cOption3' }
   // ]
+
   const initialValues = {
     parentAssemblyId: '',
     type: '',
@@ -58,7 +59,7 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
 
   const onSubmit = values => {
     console.log('Form data', values)
-    console.log('Saved data', JSON.parse(JSON.stringify(values)))
+    // console.log('Saved data', JSON.parse(JSON.stringify(values)))
   }
 
 
@@ -78,37 +79,37 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='parentAssemblyId'
               />
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='type'
               />
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='nomenclature'
               />
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='id'
               />
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='qty'
               />
               <FormikControl
                 control='input'
                 type='text'
-                label='Parent Assembly Id'
+                // label='Parent Assembly Id'
                 name='remarks'
               />
 

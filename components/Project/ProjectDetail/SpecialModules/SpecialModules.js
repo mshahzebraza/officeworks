@@ -19,7 +19,9 @@ export default function SpecialModules({ specParts, moduleState, projectState })
 
   const dispatch = useDispatch();
   const [showAddForm, setShowAddForm] = useState(false)
-  const [showAddFormCopy, setShowAddFormCopy] = useState(false)
+  // Formik Code
+  // const [showAddFormCopy, setShowAddFormCopy] = useState(false)
+  // Formik Code End
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
@@ -39,13 +41,15 @@ export default function SpecialModules({ specParts, moduleState, projectState })
         console.log(`Hey Add`);
       }
     },
-    {
-      caption: 'Add Part Copy',
-      click: () => {
-        setShowAddFormCopy(state => !state)
-        console.log(`Hey Add`);
-      }
-    }
+    // Formik code
+    // {
+    //   caption: 'Add Part Copy',
+    //   click: () => {
+    //     setShowAddFormCopy(state => !state)
+    //     console.log(`Hey Add`);
+    //   }
+    // }
+    // Formik code end
   ]
 
 
@@ -58,13 +62,15 @@ export default function SpecialModules({ specParts, moduleState, projectState })
           projectId={projectId}
         />
       }
-      {
+      {/* Formik code */}
+      {/* {
         showAddFormCopy && <AddProjectPart_ModalCopy
           closer={() => setShowAddFormCopy(false)}
           projectCatName={projectType}
           projectId={projectId}
         />
-      }
+      } */}
+      {/* Formik code End */}
       {
         updateFormState.show && <UpdateProjectPart_Modal
           closer={() => setUpdateFormState(initialUpdateFormState)}

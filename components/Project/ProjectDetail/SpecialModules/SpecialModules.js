@@ -6,6 +6,7 @@ import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
+import AddProjectPart_ModalCopy from '../ProjectForms/AddProjectPart_ModalCopy';
 import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
 import styles from './SpecialModules.module.scss'
 
@@ -18,6 +19,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
 
   const dispatch = useDispatch();
   const [showAddForm, setShowAddForm] = useState(false)
+  const [showAddFormCopy, setShowAddFormCopy] = useState(false)
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
@@ -36,6 +38,13 @@ export default function SpecialModules({ specParts, moduleState, projectState })
         setShowAddForm(state => !state)
         console.log(`Hey Add`);
       }
+    },
+    {
+      caption: 'Add Part Copy',
+      click: () => {
+        setShowAddFormCopy(state => !state)
+        console.log(`Hey Add`);
+      }
     }
   ]
 
@@ -45,6 +54,13 @@ export default function SpecialModules({ specParts, moduleState, projectState })
       {
         showAddForm && <AddProjectPart_Modal
           closer={() => setShowAddForm(false)}
+          projectCatName={projectType}
+          projectId={projectId}
+        />
+      }
+      {
+        showAddFormCopy && <AddProjectPart_ModalCopy
+          closer={() => setShowAddFormCopy(false)}
           projectCatName={projectType}
           projectId={projectId}
         />

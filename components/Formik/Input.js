@@ -7,8 +7,9 @@ function Input(props) {
   // Extract the following
   // labelStyles, errorStyles, inputStyles, controlStyles
   const { label, name, labelStyles, errorStyles, inputStyles, controlStyles, ...rest } = props
+
   return (
-    <div className={concatStrings(['form-control', ...concatStrings(errorStyles)])}>
+    <div className={concatStrings(['form-control', ...concatStrings(controlStyles)])}>
       <label htmlFor={name} className={concatStrings(labelStyles)}>{label}</label>
       <Field id={name} name={name} {...rest} className={concatStrings(inputStyles)} />
       <ErrorMessage component={TextError} name={name} className={concatStrings(errorStyles)} />

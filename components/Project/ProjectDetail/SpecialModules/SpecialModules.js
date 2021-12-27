@@ -69,6 +69,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
           closer={() => setShowAddFormCopy(false)}
           projectCatName={projectType}
           projectId={projectId}
+          assemblies={assemblies}
         />
       }
       {/* Formik code End */}

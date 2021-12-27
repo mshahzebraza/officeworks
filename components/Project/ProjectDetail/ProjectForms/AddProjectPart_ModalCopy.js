@@ -16,29 +16,32 @@ import FormikControl from '../../../Formik/FormikControl'
 
 
 
+// Extract the following
+// labelStyles, errorStyles, inputStyles, controlStyles
 
 
 
-
-export default function AddProjectPart_Modal({ closer, projectCatName, projectId }) {
+export default function AddProjectPart_Modal({ closer, projectCatName, projectId, assemblies = [] }) {
   const dispatch = useDispatch();
 
-  // const dropdownOptions = [
-  //   { key: 'Select an option', value: '' },
-  //   { key: 'Option 1', value: 'option1' },
-  //   { key: 'Option 2', value: 'option2' },
-  //   { key: 'Option 3', value: 'option3' }
-  // ]
-  // const radioOptions = [
-  //   { key: 'Option 1', value: 'rOption1' },
-  //   { key: 'Option 2', value: 'rOption2' },
-  //   { key: 'Option 3', value: 'rOption3' }
-  // ]
-  // const checkboxOptions = [
-  //   { key: 'Option 1', value: 'cOption1' },
-  //   { key: 'Option 2', value: 'cOption2' },
-  //   { key: 'Option 3', value: 'cOption3' }
-  // ]
+  const assemblyOptionsList = assemblies.map(
+    (assemblyObj) => {
+      return { key: `${assemblyObj.nomenclature}`, value: `${assemblyObj.id}` }
+    }
+  )
+
+  const assemblyDropdownOptions = [
+    { key: 'Select an option', value: '' },
+    ...assemblyOptionsList
+  ]
+
+  const partTypeRadioOptions = [
+    { key: 'Purchased', value: 'purchased' },
+    { key: 'manufactured', value: 'manufactured' },
+    { key: 'Standard', value: 'standard' }
+  ]
+
+
 
   const initialValues = {
     parentAssemblyId: '',
@@ -58,8 +61,7 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
   })
 
   const onSubmit = values => {
-    console.log('Form data', values)
-    // console.log('Saved data', JSON.parse(JSON.stringify(values)))
+    dispatch(projectActions.addProjectPart([projectCatName, projectId, values]));
   }
 
 
@@ -77,75 +79,50 @@ export default function AddProjectPart_Modal({ closer, projectCatName, projectId
           {formik => (
             <Form>
               <FormikControl
-                control='input'
-                type='text'
-                // label='Parent Assembly Id'
+                label='Parent Assembly Id'
                 name='parentAssemblyId'
+                control='select'
+                options={assemblyDropdownOptions}
               />
+
               <FormikControl
-                control='input'
-                type='text'
-                // label='Parent Assembly Id'
+                label='Part Type'
                 name='type'
+                control='radio'
+                options={partTypeRadioOptions}
               />
               <FormikControl
-                control='input'
-                type='text'
-                // label='Parent Assembly Id'
+                label='Nomenclature'
                 name='nomenclature'
+                control='input'
+                type='text'
+              />
+              {/* Custom validation component using render props */}
+              {/* Prefix inserted if part is 'manufactured' && 'assemblyId' provided */}
+              <FormikControl
+                label='Part ID'
+                name='id' // needs prefixed project ID
+                control='input'
+                type='text'
               />
               <FormikControl
                 control='input'
-                type='text'
-                // label='Parent Assembly Id'
-                name='id'
-              />
-              <FormikControl
-                control='input'
-                type='text'
-                // label='Parent Assembly Id'
+                type='number'
+                label='Qty / Assembly'
                 name='qty'
               />
               <FormikControl
-                control='input'
+                control='textarea'
                 type='text'
-                // label='Parent Assembly Id'
+                label='Part Description'
+                placeholder='The Part has a very good surface finish'
                 name='remarks'
               />
-
 
               <button type='submit'>Submit</button>
             </Form>
           )}
         </Formik>
-        {/*         
-        <Form
-          submit={formData => {
-            dispatch(projectActions.addProjectPart([projectCatName, projectId, formData]));
-          }}
-          fields={[{
-            field: 'parentAssemblyId',
-            defaultValue: '0000',
-            req: true
-          }, {
-            field: 'type',
-            dataList: ['purchased', 'manufactured', 'standard'],
-            req: true
-          }, {
-            field: 'nomenclature',
-            req: true
-          }, {
-            field: 'id',
-            dataList: [`${projectId}-`],
-            req: true
-          }, {
-            field: 'qty',
-            req: true
-          },
-          {
-            field: 'remarks'
-          }]}
-        /> */}
       </Modal>
     </Portal>
   )

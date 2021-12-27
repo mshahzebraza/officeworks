@@ -13,6 +13,7 @@ const projectSlice = createSlice({
 
     addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
+      console.log(`adding`);
       // // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
       const matchCat = pjState[matchCatIdx];

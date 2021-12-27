@@ -142,3 +142,5 @@ first the key value generator (with delete option) must be created
 ## CANNOT GO TO DETAIL PAGE OF LAST 2 POs
 
 ## Summary should have a uniform styling all over
+
+## Define separate styling for FormikControls in the Formik Folder

@@ -1,14 +1,46 @@
 import React from 'react'
 import { Field, ErrorMessage } from 'formik'
-import TextError from './TextError'
+import styles from './formik.module.scss'
 
-function Textarea (props) {
+function Textarea(props) {
   const { label, name, ...rest } = props
+
   return (
-    <div className='form-control'>
-      <label htmlFor={name}>{label}</label>
-      <Field as='textarea' id={name} name={name} {...rest} />
-      <ErrorMessage component={TextError} name={name} />
+
+    <div className={styles.formControl}>
+
+      <label
+        htmlFor={name}
+        className={styles.formKey}
+      >
+        {label}
+      </label>
+
+
+      <Field
+        name={name}
+      >
+        {
+          ({ field, form, meta }) => {
+            return (
+              <textarea
+                id={name}
+                name={name}
+                className={`
+                  ${styles.formField}
+                  ${styles.formFieldArea}
+                  ${meta.touched && meta.error ? styles.formFieldError : ''}
+                  `}
+                {...rest}
+                {...field}
+              />
+            )
+          }
+        }
+      </Field>
+
+      <ErrorMessage component='div' name={name} className={styles.formError} />
+
     </div>
   )
 }

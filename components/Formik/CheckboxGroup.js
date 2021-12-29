@@ -1,32 +1,42 @@
 import React from 'react'
 import { Field, ErrorMessage } from 'formik'
-import TextError from './TextError'
+import styles from './formik.module.scss'
 
-function CheckboxGroup (props) {
+function CheckboxGroup(props) {
   const { label, name, options, ...rest } = props
   return (
-    <div className='form-control'>
-      <label>{label}</label>
-      <Field name={name}>
-        {({ field }) => {
-          return options.map(option => {
-            return (
-              <React.Fragment key={option.key}>
-                <input
-                  type='checkbox'
-                  id={option.value}
-                  {...field}
-                  {...rest}
-                  value={option.value}
-                  checked={field.value.includes(option.value)}
-                />
-                <label htmlFor={option.value}>{option.key}</label>
-              </React.Fragment>
-            )
-          })
+    <div className={styles.formControl}>
+
+      <label className={styles.formKey} htmlFor={name} > {label} </label>
+
+      <Field name={name} >
+        {({ field, form, meta }) => {
+          return <div className={`${styles.formField} ${styles.formFieldGroup}`} >
+            {
+              options.map(option => {
+                return (
+                  <div key={option.key} className={styles.formFieldGroupItem} >
+                    <input
+                      type='checkbox'
+                      id={option.value}
+                      {...rest} // do not move it below 'value' and 'checked' prop otherwise it will override it
+                      {...field}
+                      className={styles.formFieldGroupItemLabel}
+                      value={option.value}
+                      checked={field.value.includes(option.value)}
+                    />
+                    <label htmlFor={option.value} className={styles.formFieldGroupItemInput} >{option.key}</label>
+                  </div>
+                )
+              })
+            }
+          </div>
+
         }}
       </Field>
-      <ErrorMessage component={TextError} name={name} />
+
+      <ErrorMessage name={name} component='div' className={styles.formError} />
+
     </div>
   )
 }

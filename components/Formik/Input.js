@@ -1,20 +1,47 @@
 import React from 'react'
 import { Field, ErrorMessage } from 'formik'
-import TextError from './TextError'
-import { concatStrings } from '../../helpers/reusable'
+import styles from './formik.module.scss'
 
 function Input(props) {
-  // Extract the following
-  // labelStyles, errorStyles, inputStyles, controlStyles
-  const { label, name, labelStyles, errorStyles, inputStyles, controlStyles, ...rest } = props
-
+  const { label, name, ...rest } = props
   return (
-    <div className={concatStrings(['form-control', ...concatStrings(controlStyles)])}>
-      <label htmlFor={name} className={concatStrings(labelStyles)}>{label}</label>
-      <Field id={name} name={name} {...rest} className={concatStrings(inputStyles)} />
-      <ErrorMessage component={TextError} name={name} className={concatStrings(errorStyles)} />
+    <div className={styles.formControl}>
+
+      <label
+        htmlFor={name}
+        className={styles.formKey}
+      >
+        {label}
+      </label>
+
+      <Field
+        name={name}
+      >
+        {
+          ({ field, form, meta }) => {
+            return (
+              <input
+                id={name}
+                name={name}
+                className={`
+              ${styles.formField}
+              ${meta.touched && meta.error ? styles.formFieldError : ''}
+              `}
+                {...rest} // type attribute
+                {...field}
+              />
+            )
+          }
+        }
+      </Field>
+
+      <ErrorMessage component='div' name={name} className={styles.formError} />
+
     </div>
   )
 }
 
 export default Input
+
+// ${formik.errors[name] && styles.formFieldError}
+

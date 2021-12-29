@@ -2,6 +2,7 @@ import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import FormikControl from './FormikControl'
+import styles from './formik.module.scss';
 
 function FormikContainer() {
   const dropdownOptions = [
@@ -26,18 +27,15 @@ function FormikContainer() {
     selectOption: '',
     radioOption: '',
     checkboxOption: [],
-    birthDate: null
   }
   const validationSchema = Yup.object({
-    email: Yup.string().required('Required'),
+    email: Yup.string().email('Must be a valid email').required('Required'),
     description: Yup.string().required('Required'),
     selectOption: Yup.string().required('Required'),
     radioOption: Yup.string().required('Required'),
-    checkboxOption: Yup.array().required('Required'),
-    birthDate: Yup.date()
-      .required('Required')
-      .nullable()
-  })
+    checkboxOption: Yup.array().min(1, 'Select at-least 01 option').max(2, 'Select 02 options at max'),
+  }
+  )
   const onSubmit = values => {
     console.log('Form data', values)
     console.log('Saved data', JSON.parse(JSON.stringify(values)))
@@ -50,7 +48,8 @@ function FormikContainer() {
       onSubmit={onSubmit}
     >
       {formik => (
-        <Form>
+
+        <Form className={styles.form} >
           <FormikControl
             control='input'
             type='email'
@@ -58,7 +57,7 @@ function FormikContainer() {
             name='email'
           />
           <FormikControl
-            control='textarea'
+            control='textarea' // type of textarea is 'text' by default
             label='Description'
             name='description'
           />
@@ -80,12 +79,7 @@ function FormikContainer() {
             name='checkboxOption'
             options={checkboxOptions}
           />
-          {/* <FormikControl
-            control='date'
-            label='Pick a date'
-            name='birthDate'
-          /> */}
-          <button type='submit'>Submit</button>
+          <button type='submit' className={styles.formSubmit} >Submit</button>
         </Form>
       )}
     </Formik>

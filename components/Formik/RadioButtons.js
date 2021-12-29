@@ -1,32 +1,43 @@
 import React from 'react'
 import { Field, ErrorMessage } from 'formik'
-import TextError from './TextError'
+import styles from './formik.module.scss'
 
-function RadioButtons (props) {
+function RadioButtons(props) {
   const { label, name, options, ...rest } = props
   return (
-    <div className='form-control'>
-      <label>{label}</label>
+    <div className={styles.formControl}>
+
+      <label className={styles.formKey} > {label} </label>
+
       <Field name={name} >
         {({ field }) => {
-          return options.map(option => {
-            return (
-              <React.Fragment key={option.key}>
-                <input
-                  type='radio'
-                  id={option.value}
-                  {...field}
-                  {...rest}
-                  value={option.value}
-                  checked={field.value === option.value}
-                />
-                <label htmlFor={option.value}>{option.key}</label>
-              </React.Fragment>
-            )
-          })
+
+          return <div className={`${styles.formField} ${styles.formFieldGroup}`} >
+            {
+              options.map(option => {
+                return (
+                  <div key={option.key} className={styles.formFieldGroupItem} >
+                    <input
+                      type='radio'
+                      id={option.value}
+                      {...field}
+                      {...rest} // do not move it below 'value' and 'checked' prop otherwise it will override it
+                      className={styles.formFieldGroupItemLabel}
+                      value={option.value}
+                      checked={field.value === option.value}
+                    />
+                    <label htmlFor={option.value} className={styles.formFieldGroupItemInput} >{option.key}</label>
+                  </div>
+                )
+              })
+            }
+          </div>
+
         }}
       </Field>
-      <ErrorMessage component={TextError} name={name} />
+
+      <ErrorMessage component='div' name={name} className={styles.formError} />
+
     </div>
   )
 }

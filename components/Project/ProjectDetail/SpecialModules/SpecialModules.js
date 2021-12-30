@@ -5,8 +5,9 @@ import { projectActions } from '../../../../store/project/project-slice';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
-import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
-import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
+// import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
+// import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
+import ProjectModule_Form from '../ProjectForms/ProjectModule_Form';
 import styles from './SpecialModules.module.scss'
 
 
@@ -45,7 +46,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
   return (
     <DetailSection title='Special Modules' btnDataList={isProjectValid && specBtnDataList} >
       {
-        showAddForm && <AddProjectPart_Modal
+        showAddForm && <ProjectModule_Form
           closer={() => setShowAddForm(false)}
           projectCatName={projectType}
           projectId={projectId}
@@ -54,7 +55,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
       }
 
       {
-        updateFormState.show && <UpdateProjectPart_Modal
+        updateFormState.show && <ProjectModule_Form
           closer={() => setUpdateFormState(initialUpdateFormState)}
           projectCatName={projectType}
           projectId={projectId}
@@ -66,7 +67,8 @@ export default function SpecialModules({ specParts, moduleState, projectState })
       {
         specPartsExist ?
           partCTGs.map( // searches the partListData for each category mentioned in the array
-            partCTG => <Detail // add a detailId field
+            (partCTG, partCTGkey) => <Detail // add a detailId field
+              key={partCTGkey}
               title={`${specParts[partCTG].length}x ${camelToSentenceCase(partCTG)} Parts`} // -> 2x Special Modules
               defaultOpen
             >

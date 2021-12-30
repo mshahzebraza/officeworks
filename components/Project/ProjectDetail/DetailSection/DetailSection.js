@@ -5,8 +5,8 @@ import styles from './DetailSection.module.scss'
 export default function DetailSection({ title, children, outerClasses = [], btnDataList = false }) {
 
   const controlsButtons = btnDataList &&
-    btnDataList.map(btnData => {
-      return buttonGenerator(btnData.caption, btnData.click)
+    btnDataList.map((btnData, btnDataKey) => {
+      return buttonGenerator(btnData.caption, btnData.click, [], btnDataKey)
     })
 
   return (

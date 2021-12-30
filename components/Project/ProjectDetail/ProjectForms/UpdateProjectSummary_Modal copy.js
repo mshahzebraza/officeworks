@@ -9,9 +9,14 @@ import { projectActions } from '../../../../store/project/project-slice'
 import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
 import Form from '../../../Form/Form'
+import FormikForm from '../../../Formik/FormikForm'
+import FormikControl from '../../../Formik/FormikControl'
+import FormikSubmit from '../../../Formik/FormikSubmit'
+// import { isObjEmpty } from '../../../../helpers/reusable'
+
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function UpdateProjectSummary_Modal({ closer, projData }) {
+export default function UpdateProjectSummary_Modal({ closer, projData: oldProjectData }) {
 
   const dispatch = useDispatch();
 

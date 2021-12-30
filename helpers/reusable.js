@@ -144,7 +144,7 @@ export function removeDuplicate(list, label = 'item') {
 
 
 
-function genFormFields(objData) {
+export function genFormFields(objData) {
   return objData.map((el, elIdx) => {
     return {
       field: el[0],
@@ -154,7 +154,7 @@ function genFormFields(objData) {
 }
 
 
-function checkDataType(testEl) {
+export function checkDataType(testEl) {
   const elType = typeof (testEl)
   let result;
 
@@ -263,8 +263,9 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
 }
  */
 
-export function buttonGenerator(caption = 'Button', click = () => { }, styleArr = []) {
+export function buttonGenerator(caption = 'Button', click = () => { }, styleArr = [], btnDataKey) {
   return <button
+    key={btnDataKey}
     onClick={click}
     className={concatStrings(styleArr)}
   >

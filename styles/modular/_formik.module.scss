@@ -1,93 +1,155 @@
-@import "../../styles/abstracts/abstracts";
+// Form
+// FormControl
+// FormKey = FormLabel
+// FormField
+// FormField.FormFieldError
 
-.formik {
+.form {
+	// border: 1px solid teal;
+	// padding: 2rem 1rem;
 	display: flex;
 	flex-direction: column;
-	gap: 0.75rem;
-	color: whitesmoke;
-
-	&Group {
-		display: flex;
-		gap: 1rem;
-
-		& > * {
-			padding: 0.65rem 1.25rem;
-		}
-	}
-
-	&Controls {
-		display: flex;
-		gap: 1rem;
-		// justify-content: center;
-		// align-self: flex-start;
-		// align-items: flex-start;
-		// display: flex;
-		// gap: 1rem;
-		// color: whitesmoke;
-	}
-	&Field {
-		flex: 0 0 30%;
-		background: transparent;
-		// width: 30%;
-	}
-	&Value {
-		flex: 0 0 50%;
-		background: transparent;
-	}
-	&Button {
-		// flex: 1 1 0%;
-		padding: 0.65rem 1.25rem;
-		// padding: 0.5rem 1rem;
-		background: #000;
-		&:hover {
-			background: #000;
-			color: cornflowerblue;
-		}
-
-		&_delete {
-			flex: 1;
-			&:hover {
-				color: $redAccent;
-			}
-		}
-		&_submit {
-			flex: 0 0 32%;
-		}
-		&_subLevel {
-		}
-		&_addPair {
-		}
-	}
-	// color: blue;
-}
-
-.form-control {
-	display: flex;
-	flex-wrap: wrap;
 	gap: 1rem;
 
-	label {
-		// color: red;
-		flex: 1;
+	&Submit {
+		background: #000;
+		color: whitesmoke;
+		padding: 0.5rem 1rem;
 	}
 
-	input {
-		flex: 3;
-		// color: yellow;
+	&Control {
+		display: grid;
+		// flex-direction: column;
+		gap: 0.5rem;
+		width: 30rem;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: min-content 1fr;
+		grid-template-areas:
+			"caption error"
+			"field field";
+		// flex-wrap: wrap;
+
+		// & + & {
+		// 	margin-top: 1rem;
+		// }
 	}
-	select {
-		flex: 3;
+	&Key {
+		// all labels
+		grid-area: caption;
+		color: teal;
+		// background: #000;
+		// flex: 0 0 30%;
+		// flex: 1;
 	}
-	textarea {
-		flex: 3;
+	&Field {
+		// all input tags
+		grid-area: field;
+		padding: 0.5rem;
+		// flex: 0 0 70%;
+		// border: 1px solid green;
+
+		// flex: 3;
+
+		&Error {
+			// touched & errors input
+			border: 1px solid crimson;
+		}
+		&Area {
+			// text area
+		}
+
+		/* // Select & Dropdown
+
+    // Label - FFlabel
+    // Select - FF.FF-List
+    //    Dropdown Item #1 - FF-ListItem
+
+  */
+
+		&List {
+			// Select Tag
+			&Item {
+				// Option Tag (of Select Tag)
+			}
+		}
+
+		/* // Radio & Checkboxes
+
+        // Label - FFlabel
+        // Container - FF.FF-Group
+        //    Field Group #1 - FF-GroupItem
+        //        Input Field - FF-GroupItemInput
+        //        Radio/CB Label  - FF-GroupItemLabel
+
+    */
+
+		&Group {
+			// Group for radio & checkbox options (collection of Labels and Inputs)
+			display: flex;
+			flex-direction: column;
+
+			// border: 1px solid green;
+			&Item {
+				// Radio/Checkbox Pair of Labels and Inputs
+				display: flex;
+				gap: 1rem;
+				align-items: center;
+				&Label {
+					// Radio/Checkbox Labels
+				}
+				&Input {
+					// Radio/Checkbox Inputs
+				}
+			}
+		}
+
+		/* // FieldArray
+
+    // Label - FFlabel
+    // Container - FF.FF-Array
+    //    Field Group #1 - FF-ArrayItem
+    //        Input Field - FF-ArrayItemInput
+    //        '-' Button  - FF-ArrayItemButton
+    //    Field Group #2
+    //        Input Field - FF-ArrayItemInput
+    //        '-' Button  - FF-ArrayItemButton
+    // Add Button - FF-ArrayButton (can be multiple)
+
+  */
+		&Array {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			// color: #000;
+			&Item {
+				display: flex;
+				gap: 1rem;
+				// background-color: #111;
+				&Input {
+					flex: 9;
+					color: #000;
+					padding: 0.5rem;
+				}
+				&Button {
+					flex: 1;
+					background: #ccc;
+					// border: transparent;
+					padding: 0.5rem 1rem;
+				}
+			}
+			&Button {
+				background: #ccc;
+				// border: transparent;
+				padding: 0.5rem 1rem;
+			}
+		}
 	}
 
-	.field-error {
-		flex: 0 0 100%;
-		color: crimson;
-	}
-	// background: #000;
-	& + & {
-		margin-top: 1rem;
+	&Error {
+		grid-area: error;
+		justify-self: end;
+		color: red;
+		// flex: 1 0 10%;
+		// flex: 0.5;
 	}
 }

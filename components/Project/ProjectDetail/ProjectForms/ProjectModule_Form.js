@@ -14,39 +14,27 @@ import Modal from '../../../UI/Modal'
 import FormikControl from '../../../Formik/FormikControl'
 import FormikForm from '../../../Formik/FormikForm'
 import FormikSubmit from '../../../Formik/FormikSubmit'
+import { isObjEmpty } from '../../../../helpers/reusable'
 
 
-export default function updateProjectPart_Modal({ closer, projectCatName, projectId, assemblies = [], oldModuleData }) {
+export default function ProjectModule_Form({ closer, projectCatName, projectId, assemblies = [], oldModuleData = {} }) {
   const dispatch = useDispatch();
 
-  const assemblyOptionsList = assemblies.map(
-    (assemblyObj) => {
-      return { key: `${assemblyObj.nomenclature}`, value: `${assemblyObj.id}` }
-    }
-  )
-
-  const assemblyDropdownOptions = [
-    { key: 'Select an option', value: '' }, // default value
-    ...assemblyOptionsList // populated values
-  ]
-
-  const partTypeRadioOptions = [
-    { key: 'Purchased', value: 'purchased' },
-    { key: 'manufactured', value: 'manufactured' },
-    { key: 'Standard', value: 'standard' }
-  ]
+  const isNewSubmission = isObjEmpty(oldModuleData);
 
 
-
+  // Initial Values
   const initialValues = {
     parentAssemblyId: '',
     type: 'purchased',
     nomenclature: '',
     id: '',
     qty: '',
-    remarks: ''
+    remarks: '',
+    ...oldModuleData
   }
 
+  // Validation Schema
   const validationSchema = Yup.object({
     parentAssemblyId: Yup.string().required('Required'),
     type: Yup.string().required('Required'),
@@ -56,55 +44,47 @@ export default function updateProjectPart_Modal({ closer, projectCatName, projec
     remarks: Yup.string()
   })
 
+  // Options (Radio,Checkboxes,Dropdown) 
+
+  const assemblyOptionsList = assemblies.map(
+    (assemblyObj) => {
+      return { key: `${assemblyObj.nomenclature}`, value: `${assemblyObj.id}` }
+    }
+  )
+
+  const assemblyDropdownOptions = [
+    { key: 'Select an option', value: '' },
+    ...assemblyOptionsList
+  ]
+
+  const partTypeRadioOptions = [
+    { key: 'Purchased', value: 'purchased' },
+    { key: 'manufactured', value: 'manufactured' },
+    { key: 'Standard', value: 'standard' }
+  ]
+
+  // On Submit
   const onSubmit = values => {
-    console.log('submitted values', values);
-    // dispatch(projectActions.updateProjectPart([projectCatName, projectId, values]));
+    isNewSubmission ?
+      dispatch(projectActions.addProjectPart([projectCatName, projectId, values]))
+      : dispatch(projectActions.updateProjectPart([projectCatName, projectId, values]));
+
   }
+
+
 
   return (
     <Portal>
 
-      <Modal title='Update Project Module Entry' closer={closer}>
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`} closer={closer}>
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {formik => (
-            <FormikForm
-            // submit={formData => {
-            //   dispatch(projectActions.updateProjectPart([projectCatName, projectId, formData]));
-            // }}
-            // fields={[{
-            //   field: 'parentAssemblyId',
-            //   defaultValue: oldModuleData.parentAssemblyId,
-            //   req: true
-            // }, {
-            //   field: 'type',
-            //   defaultValue: oldModuleData.type,
-            //   dataList: ['purchased', 'manufactured', 'standard'],
-            //   req: true
-            // }, {
-            //   field: 'nomenclature',
-            //   defaultValue: oldModuleData.nomenclature,
-            //   req: true
-            // }, {
-            //   field: 'id',
-            //   defaultValue: oldModuleData.id,
-            //   dataList: [`${projectId}-`],
-            //   isFixed: true,
-            //   req: true
-            // }, {
-            //   field: 'qty',
-            //   defaultValue: oldModuleData.qty,
-            //   req: true
-            // },
-            // {
-            //   field: 'remarks',
-            //   defaultValue: oldModuleData.remarks,
-            // }]
-            // }
-            >
+            <FormikForm>
               <FormikControl
                 label='Parent Assembly Id'
                 name='parentAssemblyId'
@@ -154,9 +134,3 @@ export default function updateProjectPart_Modal({ closer, projectCatName, projec
     </Portal>
   )
 }
-// Project Type
-// Project ID
-
-// Part Type
-// Part Details
-// Part Remarks

@@ -154,6 +154,7 @@ const projectSlice = createSlice({
     },
     updateProjectSummary(pjState, { payload: [ovData] }) {
 
+      console.log('received Data', ovData);
       // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === ovData.type)
       const matchCat = pjState[matchCatIdx];

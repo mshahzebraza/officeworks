@@ -144,3 +144,9 @@ first the key value generator (with delete option) must be created
 ## Summary should have a uniform styling all over
 
 ## Define separate styling for FormikControls in the Formik Folder
+
+## Why do items go back to the same index in the list when they are updated and reverted back (even after id change)? What decides the order of items?
+
+## standardize all data base strings to be of lowercase and camelCase and apply transformations when displaying and saving.
+
+## Change the formikSubmit such that the form submission is disabled until the form is dirty

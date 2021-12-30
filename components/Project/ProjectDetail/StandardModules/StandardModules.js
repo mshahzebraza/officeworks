@@ -4,8 +4,8 @@ import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './StandardModules.module.scss'
-import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
-import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
+import ProjectModule_Form from '../ProjectForms/ProjectModule_Form';
+// import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
 import { useDispatch } from 'react-redux';
 import { projectActions } from '../../../../store/project/project-slice';
 
@@ -45,7 +45,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
 
     <DetailSection title='Standard Modules' btnDataList={isProjectValid && stdBtnDataList} >
       {
-        showAddForm && <AddProjectPart_Modal
+        showAddForm && <ProjectModule_Form
           closer={() => setShowAddForm(false)}
           projectCatName={projectType}
           projectId={projectId}
@@ -53,7 +53,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
         />
       }
       {
-        updateFormState.show && <UpdateProjectPart_Modal
+        updateFormState.show && <ProjectModule_Form
           closer={() => setUpdateFormState(initialUpdateFormState)}
           projectCatName={projectType}
           projectId={projectId}
@@ -66,7 +66,8 @@ export default function StandardModules({ stdParts, moduleState, projectState })
         stdParts &&
           stdPartsExist ?
           stdPartCTGs.map(
-            stdPartCat => <Detail
+            (stdPartCat, stdPartCatKey) => <Detail
+              key={stdPartCatKey}
               title={`${stdParts[stdPartCat].length}x ${camelToSentenceCase(stdPartCat)} Parts`} // -> 2x Special Modules
               defaultOpen
             >

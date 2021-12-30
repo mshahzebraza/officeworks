@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
+import { camelToSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Summary.module.scss'
-import UpdateProjectSummary_Modal from '../ProjectForms/UpdateProjectSummary_Modal';
+import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 
 
 
@@ -36,9 +36,9 @@ export default function Summary({ projectSummary }) {
   return (
     <DetailSection title='Summary' outerClasses={[styles.container]} btnDataList={summaryBtnDataList} >
       {
-        showUpdateForm && <UpdateProjectSummary_Modal
+        showUpdateForm && <ProjectSummary_Form
           closer={() => setShowUpdateForm(false)}
-          projData={projectSummary}
+          oldProjectData={projectSummary}
         />
       }
 
@@ -72,10 +72,19 @@ export default function Summary({ projectSummary }) {
 
 
 function SummaryItem({ label, value }) {
+  let dataReturned;
+  if (value) {
+    dataReturned = checkDataType(value) === 'array' ?
+      value.reduce((prev, cur) => prev.concat(`${cur}, `), '')
+      : value
+  } else {
+    dataReturned = '-'
+  }
+
   return (<DetailItem>
     <p className={styles.ovInfo}>
       <span className={styles.ovInfoLabel}>{label}</span>
-      <span className={styles.ovInfoValue}>{value}</span>
+      <span className={styles.ovInfoValue}>{dataReturned}</span>
     </p>
   </DetailItem>);
 }

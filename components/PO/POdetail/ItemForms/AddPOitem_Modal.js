@@ -1,6 +1,8 @@
 // Dependency
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import * as Yup from 'yup'
+import { Formik } from 'formik'
 
 // Store & Styles
 import { poActions } from '../../../../store/po/po-slice'
@@ -17,7 +19,7 @@ export default function AddPOitem_Modal({ closer, activePOid, activePOindex }) {
   return (
     <Portal>
 
-      <Modal title='New PO Entry' closer={closer}>
+      <Modal title='New PO Item Entry' closer={closer}>
         <Form
           submit={formData => {
             dispatch(poActions.addPOitem([activePOid, formData]));

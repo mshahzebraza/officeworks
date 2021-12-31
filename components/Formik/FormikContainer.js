@@ -27,6 +27,8 @@ function FormikContainer() {
     selectOption: '',
     radioOption: '',
     checkboxOption: [],
+    fieldArr: [''],
+    fieldArrPair: [['', '']],
   }
   const validationSchema = Yup.object({
     email: Yup.string().email('Must be a valid email').required('Required'),
@@ -34,11 +36,13 @@ function FormikContainer() {
     selectOption: Yup.string().required('Required'),
     radioOption: Yup.string().required('Required'),
     checkboxOption: Yup.array().min(1, 'Select at-least 01 option').max(2, 'Select 02 options at max'),
+    fieldArr: Yup.array().min(1, 'Cannot be empty'),
+    fieldArrPair: Yup.array().min(1, 'Cannot be empty'),
   }
   )
   const onSubmit = values => {
     console.log('Form data', values)
-    console.log('Saved data', JSON.parse(JSON.stringify(values)))
+    // console.log('Saved data', JSON.parse(JSON.stringify(values)))
   }
 
   return (
@@ -78,6 +82,18 @@ function FormikContainer() {
             label='Checkbox topics'
             name='checkboxOption'
             options={checkboxOptions}
+          />
+          <FormikControl
+            control='fieldList'
+            label='Field Array'
+            name='fieldArr'
+            type='text'
+          />
+          <FormikControl
+            control='fieldListPair'
+            label='Field Array Pair'
+            name='fieldArrPair'
+            type='text'
           />
           <button type='submit' className={styles.formSubmit} >Submit</button>
         </Form>

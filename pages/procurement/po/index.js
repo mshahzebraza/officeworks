@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
-import AddPO_Modal from '../../../components/PO/AddPO_Modal'
+import AddPO_Modal from '../../../components/PO/PO_Form'
 import POentryBar from '../../../components/PO/POentryBar'
 import Layout from '../../../components/Layout/Layout';
 

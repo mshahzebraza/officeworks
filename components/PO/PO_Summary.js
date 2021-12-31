@@ -45,7 +45,7 @@ export default function SummaryPO_MFM({ closer, poData, itemList }) {
 
 
 function SummaryItem({ field, value, isList }) {
-  return (<p className={styles.data}>
+  return (<div className={styles.data}>
     <span className={styles.dataField}>{field}:</span>
     {
       !isList
@@ -53,5 +53,5 @@ function SummaryItem({ field, value, isList }) {
         // To accommodate list items in case of nested items
         : <ul className={styles.dataValue}>{value}</ul>
     }
-  </p>);
+  </div>);
 }

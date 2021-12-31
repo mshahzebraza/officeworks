@@ -41,7 +41,7 @@ const poSlice = createSlice({
       }
     },
 
-    updatePO(poState, { payload: [formData, oldItems] }) { // action.payload = [formData, oldItems]
+    updatePO(poState, { payload: [formData] }) { // action.payload = [formData, oldItems]
       // console.log(oldItems);
       // Input: PO-Details & Specs
       console.log(`update PO - reducer running`);
@@ -58,7 +58,7 @@ const poSlice = createSlice({
         // Update PO
         poState.splice(poUpdateIndex, 1, formData); // `&& poState` does not do anything, hence commented
         // Append old PO items
-        poState[poUpdateIndex].items = oldItems;
+        // poState[poUpdateIndex].items = oldItems;
 
         // Generate log
         const [oldPO] = poState.splice(poUpdateIndex, 1, formData);
@@ -153,11 +153,11 @@ const poSlice = createSlice({
           // Update the PO item in the poState[idx].items slice and return the poState
           poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, itemFormData); // `&& poState` doesn't do anything hence commented
           // Append old specs in the PO item
-          const activeItem = poState[poUpdateIndex].items[itemUpdateIndex];
+          // const activeItem = poState[poUpdateIndex].items[itemUpdateIndex];
 
-          const newItemSpecs = { ...activeItem.specification, ...oldItemSpecs }
+          // const newItemSpecs = { ...activeItem.specification, ...oldItemSpecs }
 
-          activeItem.specification = newItemSpecs
+          // activeItem.specification = newItemSpecs
 
         } else { // PO-itemId not found ?
           console.log(`Can't find item with the ID (${itemFormData.id}) in the PO# ${activePOid} of redux state`)

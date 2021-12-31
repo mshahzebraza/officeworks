@@ -150,3 +150,5 @@ first the key value generator (with delete option) must be created
 ## standardize all data base strings to be of lowercase and camelCase and apply transformations when displaying and saving.
 
 ## Change the formikSubmit such that the form submission is disabled until the form is dirty
+
+## standardize all the parts to Special-Standard, Standard, Manufactured

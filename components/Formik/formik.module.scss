@@ -5,6 +5,8 @@
 // FormField.FormFieldError
 
 .form {
+	// border: 1px solid teal;
+	// padding: 2rem 1rem;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -46,7 +48,159 @@
 		// border: 1px solid green;
 
 		// flex: 3;
+
+		&Error {
+			// touched & errors input
+			border: 1px solid crimson;
+		}
+		&Area {
+			// text area
+		}
+
+		/* // Select & Dropdown
+
+    // Label - FFlabel
+    // Select - FF.FF-List
+    //    Dropdown Item #1 - FF-ListItem
+
+  */
+
+		&List {
+			// Select Tag
+			&Item {
+				// Option Tag (of Select Tag)
+			}
+		}
+
+		/* // Radio & Checkboxes
+
+        // Label - FFlabel
+        // Container - FF.FF-Group
+        //    Field Group #1 - FF-GroupItem
+        //        Input Field - FF-GroupItemInput
+        //        Radio/CB Label  - FF-GroupItemLabel
+
+    */
+
+		&Group {
+			// Group for radio & checkbox options (collection of Labels and Inputs)
+			display: flex;
+			flex-direction: column;
+
+			// border: 1px solid green;
+			&Item {
+				// Radio/Checkbox Pair of Labels and Inputs
+				display: flex;
+				gap: 1rem;
+				align-items: center;
+				&Label {
+					// Radio/Checkbox Labels
+				}
+				&Input {
+					// Radio/Checkbox Inputs
+				}
+			}
+		}
+
+		/* // FieldArray
+
+    // Label - FFlabel
+    // Container - FF.FF-Array
+    //    Field Group #1 - FF-ArrayItem
+    //        Input Field - FF-ArrayItemInput
+    //        '-' Button  - FF-ArrayItemButton
+    //    Field Group #2
+    //        Input Field - FF-ArrayItemInput
+    //        '-' Button  - FF-ArrayItemButton
+    // Add Button - FF-ArrayButton (can be multiple)
+
+  */
+		&Array {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			// color: #000;
+			&Item {
+				display: flex;
+				gap: 1rem;
+				// background-color: #111;
+				&Input {
+					flex: 0 0 85%;
+					color: #000;
+					padding: 0.5rem;
+				}
+				&Button {
+					flex: 0 1 15%;
+					background: #ccc;
+					// border: transparent;
+					padding: 0.5rem 1rem;
+				}
+			}
+			&Button {
+				background: #ccc;
+				// border: transparent;
+				padding: 0.5rem 1rem;
+			}
+		}
+		/* // FieldArrayPair
+
+    // Label - FFlabel
+    // Container - FF.FF-ArrayPair
+    //    Field Group #1 - FF-ArrayPairItem
+    //        Input Label - FF-ArrayPairItemLabel
+    //        Input Field - FF-ArrayPairItemInput
+    //        '-' Button  - FF-ArrayPairItemButton
+    //    Field Group #2
+    //        Input Label - FF-ArrayPairItemLabel
+    //        Input Field - FF-ArrayPairItemInput
+    //        '-' Button  - FF-ArrayPairItemButton
+    // Add Button - FF-ArrayPairButton (can be multiple)
+
+  */
+		&PairArray {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			// color: #000;
+			&Item {
+				display: grid;
+				grid-template-columns: 2fr 1fr 2rem;
+				// grid-template-rows: repeat(2, min-content);
+				grid-auto-rows: min-content;
+				grid-template-areas:
+					"label . button"
+					"input input input";
+				gap: 0.25rem 1rem;
+				// background-color: #111;
+				&Label {
+					grid-area: label;
+					// flex: 9;
+					padding: 0.25rem 0.5rem;
+				}
+				&Input {
+					grid-area: input;
+					// flex: 9;
+					color: #000;
+					padding: 0.5rem;
+				}
+				&Button {
+					grid-area: button;
+					background: #ccc;
+					// border: transparent;
+					// padding: 0.5rem 1rem;
+				}
+			}
+			&Button {
+				background: #ccc;
+				// border: transparent;
+				padding: 0.5rem 1rem;
+			}
+		}
 	}
+	&Test {
+		background: red;
+	}
+
 	&Error {
 		grid-area: error;
 		justify-self: end;
@@ -54,48 +208,4 @@
 		// flex: 1 0 10%;
 		// flex: 0.5;
 	}
-	&FieldError {
-		// touched & errors input
-		border: 1px solid crimson;
-	}
-	&FieldArea {
-		// text area
-	}
-	&FieldList {
-		// Select Tag
-		&Item {
-			// Option Tag (of Select Tag)
-		}
-	}
-
-	&FieldGroup {
-		// Group for radio & checkbox options (collection of Labels and Inputs)
-		display: flex;
-		flex-direction: column;
-
-		// border: 1px solid green;
-		&Item {
-			// Radio/Checkbox Pair of Labels and Inputs
-			display: flex;
-			gap: 1rem;
-			align-items: center;
-		}
-		&ItemLabel {
-			// Radio/Checkbox Labels
-		}
-		&ItemInput {
-			// Radio/Checkbox Inputs
-		}
-	}
 }
-
-// FormRadioControl // may be assigned to .FormField
-// FormRadioButton
-// FormRadioLabel
-
-// FormCheckboxControl // may be assigned to .FormField
-// FormCheckboxButton
-// FormCheckboxLabel
-
-// FormSelect
-// FormDropdown

@@ -1,15 +1,15 @@
 // Dependency
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { isObjEmpty, camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings } from '../../../helpers/reusable'
+import { isObjEmpty, camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings, checkDataType } from '../../../helpers/reusable'
 
 // Store & Styles
 import { poActions } from '../../../store/po/po-slice';
 import styles from './POitemDetail.module.scss'
 
 // Components
-import AddPOitem_Modal from './ItemForms/AddPOitem_Modal';
-import UpdatePOitem_Modal from './ItemForms/UpdatePOitem_Modal.js';
+// import AddPOitem_Modal from './ItemForms/AddPOitem_Modal';
+import POitem_Form from './ItemForms/POitem_Form.js';
 import UpdatePOitemSpec_Modal from './SpecForms/UpdatePOitemSpec_Modal';
 import AddPOitemSpec_Modal from './SpecForms/AddPOitemSpec_Modal';
 
@@ -35,8 +35,7 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
   const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
-  const itemSpecification = isObjEmpty(curItemData.specification) && curItemData.specification;
-  // genLog(`itemSpecification - I.D`, itemSpecification);
+  const itemSpecification = checkDataType(curItemData.specification) === 'object' && !isObjEmpty(curItemData.specification) && curItemData.specification;
 
   const itemSummary = curItemData && cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
 
@@ -65,14 +64,13 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
 
           <button onClick={() => setShowAddForm(true)} >Add Item</button>
-          {showAddForm && <AddPOitem_Modal closer={() => setShowAddForm(false)} activePOid={activePOid} />}
+          {showAddForm && <POitem_Form closer={() => setShowAddForm(false)} activePOid={activePOid} />}
 
 
           {
             itemList && itemList.length > 0 &&
             <>
 
-              {/* {console.log(`itemList - I.D`, itemList)} */}
               {ctrlBtn('prev', setDataIndex, itemList.length, dataIndex, 'Prev Item')}
               {ctrlBtn('next', setDataIndex, itemList.length, dataIndex, 'Next Item')}
               {/* The itemsLength is passed when delete is clicked here is before the deletion. therefore, it will be more than it actually is, bcz the data passed is the data before delete action. */}
@@ -80,10 +78,10 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
 
               <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
               {showUpdateForm &&
-                <UpdatePOitem_Modal
+                <POitem_Form
                   closer={() => setShowUpdateForm(false)}
                   activePOid={activePOid}
-                  activeItemData={itemList[dataIndex]}
+                  activePOitemData={itemList[dataIndex]}
                 />
               }
 

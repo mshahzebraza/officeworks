@@ -9,7 +9,6 @@ export default function POnavList({ classes, data: itemList = [], activeIndex, s
   }
 
   const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
-  console.log(nestedList);
 
   return (
     <>

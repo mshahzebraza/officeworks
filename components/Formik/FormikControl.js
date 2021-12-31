@@ -4,6 +4,8 @@ import Textarea from './Textarea'
 import Select from './Select'
 import RadioButtons from './RadioButtons'
 import CheckboxGroup from './CheckboxGroup'
+import FieldList from './FieldList.js'
+import FieldListPair from './FieldListPair.js'
 
 function FormikControl(props) {
   const { control, ...rest } = props
@@ -18,6 +20,10 @@ function FormikControl(props) {
       return <RadioButtons {...rest} />
     case 'checkbox':
       return <CheckboxGroup {...rest} />
+    case 'fieldList':
+      return <FieldList {...rest} />
+    case 'fieldListPair':
+      return <FieldListPair {...rest} />
     default:
       return null
   }

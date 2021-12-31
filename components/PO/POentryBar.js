@@ -10,8 +10,8 @@ import styles from './POentryBar.module.scss';
 import { poActions } from '../../store/po/po-slice'
 
 // Components
-import SummaryPO_Modal from './SummaryPO_Modal'
-import UpdatePO_Modal from './UpdatePO_Modal'
+import PO_Summary from './PO_Summary'
+import PO_Form from './PO_Form'
 
 
 
@@ -66,10 +66,10 @@ export default function POentryBar({ poData, poIndex }) {
       {/* PO Commands */}
       <div className={styles.entryControls}>
         <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
-        {showUpdateForm && <UpdatePO_Modal closer={() => setShowUpdateForm(false)} oldPOdata={poData} />}
+        {showUpdateForm && <PO_Form closer={() => setShowUpdateForm(false)} oldPOdata={poData} />}
 
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
-        {showSummary && <SummaryPO_Modal closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}
+        {showSummary && <PO_Summary closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}
 
         <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poData.refId}`)} />
 

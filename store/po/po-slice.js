@@ -57,8 +57,6 @@ const poSlice = createSlice({
       } else {
         // Update PO
         poState.splice(poUpdateIndex, 1, formData); // `&& poState` does not do anything, hence commented
-        // Append old PO items
-        // poState[poUpdateIndex].items = oldItems;
 
         // Generate log
         const [oldPO] = poState.splice(poUpdateIndex, 1, formData);
@@ -152,12 +150,6 @@ const poSlice = createSlice({
 
           // Update the PO item in the poState[idx].items slice and return the poState
           poState[poUpdateIndex].items.splice(itemUpdateIndex, 1, itemFormData); // `&& poState` doesn't do anything hence commented
-          // Append old specs in the PO item
-          // const activeItem = poState[poUpdateIndex].items[itemUpdateIndex];
-
-          // const newItemSpecs = { ...activeItem.specification, ...oldItemSpecs }
-
-          // activeItem.specification = newItemSpecs
 
         } else { // PO-itemId not found ?
           console.log(`Can't find item with the ID (${itemFormData.id}) in the PO# ${activePOid} of redux state`)
@@ -170,7 +162,7 @@ const poSlice = createSlice({
     },
 
     // Spec reducers
-    updatePOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData, oldItemSpecs] }) {
+    updatePOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData] }) {
       // Input: PO-refId, Item-Details & Specs
 
       // Find PO entry index against the input poId
@@ -195,26 +187,26 @@ const poSlice = createSlice({
 
     },
 
-    addPOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData] }) {
-      // 1. find the current PO index
-      // 1-T. Find the item & push the specs inside it (and maybe check if there are already any specs)
-      // 1-T-T. "Item already exists. Try updating the item"
-      // 1-T-F. Push the items inside
-      // 1-F. 'PO not found'
+    // addPOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData] }) {
+    //   // 1. find the current PO index
+    //   // 1-T. Find the item & push the specs inside it (and maybe check if there are already any specs)
+    //   // 1-T-T. "Item already exists. Try updating the item"
+    //   // 1-T-F. Push the items inside
+    //   // 1-F. 'PO not found'
 
-      const activePOIndex = poState.findIndex(el => el.refId === activePOid)
+    //   const activePOIndex = poState.findIndex(el => el.refId === activePOid)
 
-      if (activePOIndex >= 0) { // Parent PO exists
+    //   if (activePOIndex >= 0) { // Parent PO exists
 
-        const activePOitems = poState[activePOIndex].items;
+    //     const activePOitems = poState[activePOIndex].items;
 
-        const activeItem = activePOitems[activeItemIndex];
-        activeItem.specification = specFormData
+    //     const activeItem = activePOitems[activeItemIndex];
+    //     activeItem.specification = specFormData
 
-      } else {
-        console.log('Parent PO Not Found');
-      }
-    },
+    //   } else {
+    //     console.log('Parent PO Not Found');
+    //   }
+    // },
   },
 });
 

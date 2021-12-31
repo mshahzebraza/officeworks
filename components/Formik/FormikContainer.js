@@ -93,7 +93,6 @@ function FormikContainer() {
             control='fieldListPair'
             label='Field Array Pair'
             name='fieldArrPair'
-            type='text'
           />
           <button type='submit' className={styles.formSubmit} >Submit</button>
         </Form>

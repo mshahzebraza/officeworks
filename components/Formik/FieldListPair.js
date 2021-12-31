@@ -2,8 +2,11 @@ import React from 'react'
 import { FieldArray, Field, ErrorMessage } from 'formik'
 import styles from './formik.module.scss'
 
-function KeyFieldList(props) {
-  const { label, name, options, ...rest } = props
+function FieldListPair(props) {
+  let { label, name, options, placeholders, types, ...rest } = props
+  placeholders = !placeholders ? ['key', 'value'] : placeholders
+  types = !types ? ['text', 'textarea'] : types
+
   return (
     <div className={styles.formControl}>
 
@@ -22,16 +25,16 @@ function KeyFieldList(props) {
 
                 <div key={index} className={styles.formFieldPairArrayItem}>
 
-                  <Field name={`${name}[${index}][0]`} placeholder='key' {...rest} className={styles.formFieldPairArrayItemLabel} />
-                  <Field name={`${name}[${index}][1]`} placeholder='value' {...rest} className={styles.formFieldPairArrayItemInput} />
+                  <Field name={`${name}[${index}][0]`} placeholder={placeholders[0]} type={types[0]} {...rest} className={styles.formFieldPairArrayItemLabel} />
+                  <Field name={`${name}[${index}][1]`} placeholder={placeholders[1]} type={types[1]} {...rest} className={styles.formFieldPairArrayItemInput} />
 
-                  {index > 0 && <Button click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > - </Button>
+                  {index > 0 && <Button click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > Remove </Button>
                   }
 
                 </div>
               ))}
 
-              <Button click={() => push(['', ''])} className={styles.formFieldPairArrayButton} > + </Button>
+              <Button click={() => push(['', ''])} className={styles.formFieldPairArrayButton} > Add </Button>
 
             </div>
           )
@@ -41,7 +44,7 @@ function KeyFieldList(props) {
   )
 }
 
-export default KeyFieldList
+export default FieldListPair
 
 
 export function Button({ type = 'button', click = () => { console.log('clicked me!') }, children, ...rest }) {

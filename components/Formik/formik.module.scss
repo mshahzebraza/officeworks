@@ -1,3 +1,10 @@
+@import "../../styles/abstracts/abstracts";
+
+%hoverRed {
+	&:hover {
+		color: $redAccent;
+	}
+}
 // Form
 // FormControl
 // FormKey = FormLabel
@@ -131,13 +138,12 @@
 				}
 				&Button {
 					flex: 0 1 15%;
-					background: #ccc;
 					// border: transparent;
 					padding: 0.5rem 1rem;
+					@extend %hoverRed;
 				}
 			}
 			&Button {
-				background: #ccc;
 				// border: transparent;
 				padding: 0.5rem 1rem;
 			}
@@ -164,7 +170,7 @@
 			// color: #000;
 			&Item {
 				display: grid;
-				grid-template-columns: 2fr 1fr 2rem;
+				grid-template-columns: 3fr 1fr 1fr;
 				// grid-template-rows: repeat(2, min-content);
 				grid-auto-rows: min-content;
 				grid-template-areas:
@@ -185,14 +191,16 @@
 				}
 				&Button {
 					grid-area: button;
-					background: #ccc;
 					// border: transparent;
+					@extend %hoverRed;
 					// padding: 0.5rem 1rem;
 				}
 			}
 			&Button {
-				background: #ccc;
 				// border: transparent;
+				// justify-content: flex-end;
+				min-width: 15rem;
+				align-self: flex-start;
 				padding: 0.5rem 1rem;
 			}
 		}

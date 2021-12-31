@@ -152,3 +152,5 @@ first the key value generator (with delete option) must be created
 ## Change the formikSubmit such that the form submission is disabled until the form is dirty
 
 ## standardize all the parts to Special-Standard, Standard, Manufactured
+
+## Move the Add Item button in POItemDetail in the header or in the top.

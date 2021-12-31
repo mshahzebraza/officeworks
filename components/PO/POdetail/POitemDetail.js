@@ -11,7 +11,7 @@ import styles from './POitemDetail.module.scss'
 // import AddPOitem_Modal from './ItemForms/AddPOitem_Modal';
 import POitem_Form from './ItemForms/POitem_Form.js';
 import UpdatePOitemSpec_Modal from './SpecForms/UpdatePOitemSpec_Modal';
-import AddPOitemSpec_Modal from './SpecForms/AddPOitemSpec_Modal';
+import POitemSpecs_Form from './SpecForms/POitemSpecs_Form';
 
 
 export default function POdetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
@@ -22,22 +22,18 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
   const [showUpdateSpecForm, setShowUpdateSpecForm] = useState(false)
   const [showAddSpecForm, setShowAddSpecForm] = useState(false)
 
-  const itemLabels = [
-    'Item Id',
-    'Item Name',
-    'Item Quantity',
-    'Item Type',
-    'Unit Price'
-  ]
-  const specLabels = [
-
-  ]
-
   const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
-  const itemSpecification = checkDataType(curItemData.specification) === 'object' && !isObjEmpty(curItemData.specification) && curItemData.specification;
+  const itemSpecification = checkDataType(curItemData.specification) === 'object'
+    && !isObjEmpty(curItemData.specification)
+    && curItemData.specification;
 
   const itemSummary = curItemData && cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
+
+  const oldSpecData = itemList && itemList[dataIndex].specification
+    && !isObjEmpty(itemList[dataIndex].specification)
+    && itemList[dataIndex].specification
+    || false;
 
 
   return (
@@ -90,29 +86,17 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
           }
 
           {
-            itemList && itemList.length > 0 && !itemList[dataIndex].specification &&
+            itemList && itemList.length > 0 &&
             <>
-              <button onClick={() => setShowAddSpecForm(true)} >Add Spec</button>
+              <button onClick={() => setShowAddSpecForm(true)} >
+                {oldSpecData && `Update` || `Add`} Spec
+              </button>
               {showAddSpecForm &&
-                <AddPOitemSpec_Modal
+                <POitemSpecs_Form
                   closer={() => setShowAddSpecForm(false)}
                   activePOid={activePOid}
                   activeItemIndex={dataIndex}
-                />
-              }
-            </>
-          }
-          {
-            itemList && itemList.length > 0 && itemList[dataIndex].specification &&
-            <>
-              <button onClick={() => setShowUpdateSpecForm(true)} >Update Spec</button>
-              {/* {showUpdateForm && console.log(`Showing Update Modal`)} */}
-              {showUpdateSpecForm &&
-                <UpdatePOitemSpec_Modal
-                  closer={() => setShowUpdateSpecForm(false)}
-                  activePOid={activePOid}
-                  activeItemIndex={dataIndex}
-                  activeItemSpecData={itemList[dataIndex].specification}
+                  activePOitemSpecs={oldSpecData && oldSpecData}
                 />
               }
             </>

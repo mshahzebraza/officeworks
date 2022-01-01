@@ -1,0 +1,28 @@
+@import "../../../../styles/abstracts/abstracts";
+
+.assemblies {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	@extend %cardShadow1;
+	padding: 1rem;
+}
+
+.assembly {
+	display: flex;
+	gap: 3rem;
+	padding: 1rem 1rem;
+	& + & {
+		border-top: 1px solid $nute;
+	}
+
+	&_nomenclature {
+		flex: 4;
+	}
+	&_id {
+		flex: 1;
+	}
+	&_parent {
+		flex: 4;
+	}
+}

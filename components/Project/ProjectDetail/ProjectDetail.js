@@ -11,18 +11,15 @@ import DetailSection from './DetailSection/DetailSection'
 import SpecialModules from './SpecialModules/SpecialModules'
 import StandardModules from './StandardModules/StandardModules'
 import Summary from './Summary/Summary'
+import Assemblies from './Assemblies/Assemblies'
 
 
 export default function ProjectDetail({ outerClasses, activeProjectData = {} }) {
-
-  // Following state is related to project (name & category)
-  // const [activeProjectType, activeProjectNomenclature] = projectSelectionStates
 
   // Following state is related to module (name & category)
   const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured // not related to sideNav
   const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc. // not related to sideNav
 
-  // console.log('activeModuleType', activeModuleType);
 
   const summaryData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target', 'assemblies']);
 
@@ -36,8 +33,6 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   const standardModuleCategories = ['bearing', 'screw', 'washer', 'misc'];
   const stdParts = mapDataToCategory(allParts.standard, standardModuleCategories, 'nomenclature', 'misc')
 
-  const activeAssemblies = activeProjectData.assemblies && activeProjectData.assemblies || [];
-
 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
@@ -49,7 +44,9 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
       />
 
 
-
+      <Assemblies
+        assembliesData={summaryData.assemblies}
+      />
       {/* Spec Part List */}
       <SpecialModules
         specParts={specParts}

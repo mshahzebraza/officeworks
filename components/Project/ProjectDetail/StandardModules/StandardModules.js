@@ -8,6 +8,7 @@ import ProjectModule_Form from '../ProjectForms/ProjectModule_Form';
 // import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
 import { useDispatch } from 'react-redux';
 import { projectActions } from '../../../../store/project/project-slice';
+import Button from '../../../UI/Button';
 
 export default function StandardModules({ stdParts, moduleState, projectState }) {
 
@@ -16,7 +17,6 @@ export default function StandardModules({ stdParts, moduleState, projectState })
   const dispatch = useDispatch();
 
   const [showAddForm, setShowAddForm] = useState(false)
-  const [showUpdateForm, setShowUpdateForm] = useState(false)
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
@@ -29,21 +29,16 @@ export default function StandardModules({ stdParts, moduleState, projectState })
     stdParts.washer.length > 0 ||
     stdParts.misc.length > 0;
 
-  const stdBtnDataList = [
-    {
-      caption: 'Add Part',
-      click: () => {
-        setShowAddForm(state => !state)
-        console.log(`Hey Add`);
-      }
-    }
-  ]
+
+  const buttonsJSX = <>
+    <Button caption='Add Part' click={() => { setShowAddForm(state => !state) }} />,
+  </>
 
   const stdPartCTGs = ['bearing', 'screw', 'washer', 'misc'];
 
   return (
 
-    <DetailSection title='Standard Modules' btnDataList={isProjectValid && stdBtnDataList} >
+    <DetailSection title='Standard Modules' buttonsJSX={isProjectValid && buttonsJSX} >
       {
         showAddForm && <ProjectModule_Form
           closer={() => setShowAddForm(false)}

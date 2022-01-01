@@ -4,6 +4,7 @@ import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
 import { projectActions } from '../../../../store/project/project-slice';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
+import Button from '../../../UI/Button';
 import DetailSection from '../DetailSection/DetailSection';
 // import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
 // import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
@@ -31,20 +32,15 @@ export default function SpecialModules({ specParts, moduleState, projectState })
 
   const partCTGs = ['purchased', 'manufactured'];
 
-  const specBtnDataList = [
-    {
-      caption: 'Add Part',
-      click: () => {
-        setShowAddForm(state => !state)
-        console.log(`Hey Add`);
-      }
-    },
 
-  ]
+  const buttonsJSX = <>
+    <Button caption='Add Part' click={() => { setShowAddForm(state => !state) }} />,
+  </>
+
 
 
   return (
-    <DetailSection title='Special Modules' btnDataList={isProjectValid && specBtnDataList} >
+    <DetailSection title='Special Modules' buttonsJSX={isProjectValid && buttonsJSX} >
       {
         showAddForm && <ProjectModule_Form
           closer={() => setShowAddForm(false)}

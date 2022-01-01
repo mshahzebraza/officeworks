@@ -40,9 +40,9 @@ export default function ProjectSummary_Form({ closer, oldProjectData }) {
     type: Yup.string().required('Required'),
     nomenclature: Yup.string().required('Required'),
     application: Yup.array().nullable(), //.min('Select at least one Application'), 
-    status: Yup.string().required('Required'),
-    stock: Yup.number().required('Required'),
-    target: Yup.number().required('Required'),
+    status: Yup.string()/* .required('Required') */,
+    stock: Yup.number()/* .required('Required') */,
+    target: Yup.number()/* .required('Required') */,
   })
 
   const onSubmit = (values) => {
@@ -104,6 +104,7 @@ export default function ProjectSummary_Form({ closer, oldProjectData }) {
                 name='status'
                 control='select'
                 options={[
+                  { key: 'Select One ...', value: '' },
                   { key: 'R&D', value: 'R&D' },
                   { key: 'Production', value: 'Production' },
                   { key: 'Closed', value: 'Closed' }

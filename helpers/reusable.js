@@ -24,7 +24,10 @@ export function deepClone(original) {
 // copy only a few keys from an object // equivalent to _.pick()
 export function cloneAndPluck(sourceObject = {}, keys = []) {
   const newObject = {};
-  keys.forEach((obj) => { newObject[obj] = sourceObject[obj]; });
+  keys.forEach((key) => {
+    if (sourceObject[key] === undefined) return;
+    newObject[key] = sourceObject[key]
+  });
   return newObject;
 };
 

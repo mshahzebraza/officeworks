@@ -34,6 +34,7 @@ export default function SideNav({ list = [], outerClasses = [], detailSummarySta
                       key={catItemIdx}
                       detailId={projCat.name}
                       detailItemId={project.nomenclature}
+                      // detailItemId={catItemIdx}
                       selectionStates={detailSummaryStates}
                     >
                       {project.nomenclature}

@@ -141,9 +141,9 @@ first the key value generator (with delete option) must be created
 
 ## CANNOT GO TO DETAIL PAGE OF LAST 2 POs
 
-## Summary should have a uniform styling all over
+solved: was caused because items in POs were not being read if they were empty...And last two were empty
 
-## Define separate styling for FormikControls in the Formik Folder
+## Summary should have a uniform styling all over
 
 ## Why do items go back to the same index in the list when they are updated and reverted back (even after id change)? What decides the order of items?
 
@@ -153,4 +153,6 @@ first the key value generator (with delete option) must be created
 
 ## standardize all the parts to Special-Standard, Standard, Manufactured
 
-## Move the Add Item button in POItemDetail in the header or in the top.
+## Make the Project Detail fetch the project data based on the ActiveProjectIndex instead of ActiveProjectID
+
+this would result in the display of index instead of the nomenclature in the side nav... Therefore changes in the detail & detailItem have to be made in order to accommodate an object instead of a string of type {key,value}... The data storage would be handled by the key but the only the value would be rendered on screen.

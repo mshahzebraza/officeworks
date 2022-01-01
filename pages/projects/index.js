@@ -17,10 +17,7 @@ import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 export default function ProjectDirectory() {
 
 
-  const [projectSelectionState, setProjectSelectionState] = useState({
-    activeProjectType: null,
-    activeProjectNomenclature: null
-  })
+  const [showModal, setShowModal] = useState(false);
 
   const [activeProjectType, setActiveProjectType] = useState(false)
   const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
@@ -51,13 +48,15 @@ export default function ProjectDirectory() {
           <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
+        <button type='button' onClick={() => setShowModal(true)} >Add a Project</button>
+        {showModal && <AddPO_Modal closer={() => setShowModal(false)} />}
 
       </section>
 
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
-        projectSelectionState={projectSelectionState}
+        // projectSelectionState={projectSelectionState}
         detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
       />
       <ProjectDetail

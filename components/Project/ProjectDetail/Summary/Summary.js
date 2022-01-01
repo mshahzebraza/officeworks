@@ -4,6 +4,7 @@ import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Summary.module.scss'
 import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
+import Button from '../../../UI/Button';
 
 
 
@@ -13,28 +14,14 @@ export default function Summary({ projectSummary }) {
   const isSummaryValid = !isObjEmpty(projectSummary);
 
 
-  const assemblyListString = projectSummary.assemblies && projectSummary.assemblies.reduce((prev, cur) => prev.concat(` ${cur.nomenclature},`), '') || 'No items found'
-
-  const summaryBtnDataList = isSummaryValid &&
-    [
-      {
-        caption: 'Edit Overview',
-        click: () => {
-          setShowUpdateForm(state => !state)
-          console.log(`Hey Edit`);
-        }
-      },
-      {
-        caption: 'Delete Project',
-        click: () => {
-          console.log(`Hey Delete`);
-        }
-      }
-    ]
+  const buttonsJSX = <>
+    <Button caption='Edit Overview' click={() => { setShowUpdateForm(state => !state) }} />,
+    <Button caption='Delete Project' click={() => { console.log('New Delete') }} />,
+  </>
 
 
   return (
-    <DetailSection title='Summary' outerClasses={[styles.container]} btnDataList={summaryBtnDataList} >
+    <DetailSection title='Summary' outerClasses={[styles.container]} buttonsJSX={isSummaryValid && buttonsJSX} >
       {
         showUpdateForm && <ProjectSummary_Form
           closer={() => setShowUpdateForm(false)}
@@ -51,9 +38,6 @@ export default function Summary({ projectSummary }) {
                   <SummaryItem key={idx} label={camelToSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
               )
             }
-            <SummaryItem label={`Assemblies`} value={assemblyListString}>
-
-            </SummaryItem>
 
           </div>
           <div className={styles.target}>

@@ -5,7 +5,11 @@ export default function DetailItem({ children, selectionStates = [], detailId = 
 
   // IMPORT of detailId can still be avoided
   const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = selectionStates
-
+  /* 
+  // Try to implement this pattern
+    activeDetail = {key:'the data property', value:'the display property '}
+    activeDetailItem = {key:'the data property', value:'the display property '}
+   */
 
   const isActive =
     detailItemId != undefined && activeDetailItem == detailItemId

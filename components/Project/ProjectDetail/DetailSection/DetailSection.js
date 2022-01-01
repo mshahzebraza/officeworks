@@ -2,12 +2,8 @@ import React from 'react'
 import { buttonGenerator, concatStrings } from '../../../../helpers/reusable';
 import styles from './DetailSection.module.scss'
 
-export default function DetailSection({ title, children, outerClasses = [], btnDataList = false }) {
+export default function DetailSection({ title, children, outerClasses = [], buttonsJSX = null }) {
 
-  const controlsButtons = btnDataList &&
-    btnDataList.map((btnData, btnDataKey) => {
-      return buttonGenerator(btnData.caption, btnData.click, [], btnDataKey)
-    })
 
   return (
     <section className={styles.detailSection} >
@@ -17,9 +13,8 @@ export default function DetailSection({ title, children, outerClasses = [], btnD
           {title}
         </h2>
         <div className={styles.detailControls}>
-          {
-            controlsButtons
-          }
+
+          {buttonsJSX}
         </div>
       </div>
 

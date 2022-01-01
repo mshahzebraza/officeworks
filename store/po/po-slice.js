@@ -137,7 +137,7 @@ const poSlice = createSlice({
 
     updatePOitem(poState, { payload: [activePOid, itemFormData, oldItemSpecs] }) {
       // Input: PO-refId, Item-Details & Specs
-      genLog('itemFormData - slice', itemFormData);
+      // genLog('itemFormData - slice', itemFormData);
 
       // Find PO entry index against the input poId
       const poUpdateIndex = poState.findIndex(el => el.refId === activePOid)

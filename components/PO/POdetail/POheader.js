@@ -4,9 +4,19 @@ import React from 'react'
 import styles from './POheader.module.scss'
 // Components
 import { concatStrings, transformEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
+import POitem_Form from '../POForms/POitem_Form'
+import { useState } from 'react'
+
+
+
+
+
 
 export default function POheader({ poId, data, classes }) {
   // console.log(data);
+  const [showAddForm, setShowAddForm] = useState(false)
+  console.log();
+
   const OV_data = cloneAndPluck(data, ['refId', 'refType', 'totalCost'])
   const meta_data = cloneAndPluck(data, ['fulfillmentSource', 'category', 'supplier'])
 
@@ -22,7 +32,14 @@ export default function POheader({ poId, data, classes }) {
         {transformEntries(meta_data, entryCallback)}
       </div>
       {/* Controls */}
-      {/* <section className={styles.poControls}>
+      <section className={styles.poControls}>
+
+
+        <button onClick={() => setShowAddForm(true)} >Add Item</button>
+        {showAddForm && <POitem_Form closer={() => setShowAddForm(false)} activePOid={data.refId} />}
+
+
+
         <button
           onClick={
             (e) => {
@@ -42,7 +59,7 @@ export default function POheader({ poId, data, classes }) {
           }
         >Edit Item# {poId}</button>
 
-      </section> */}
+      </section>
     </section>
   )
 }

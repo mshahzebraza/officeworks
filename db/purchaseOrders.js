@@ -23,14 +23,19 @@ const purchaseOrdersDb = [
         qty: 200,
         unitPrice: 450,
         remarks: '',
-        specification: {
-          // Input received as [key, value]=['Pitch','0.02mm'] & then transformed to { [key]: value }
-          // the quantity of the specification parameters can be adjusted by the user. User can generated more custom fields or choose not to fill any, in which case the specification object will be an empty one.
+        specification:
+        {
           pitch: '0.02 mm',
           threadedLength: '220 mm',
           backlash: '0.001 %',
-          details: 'All of the long long lorem ipsum goes in here if it is felt that the content does not fall in any other category',
+          details: 'Other details ',
         }
+        // [
+        // ['pitch', '0.02 mm'],
+        // ['threadedLength', '220 mm'],
+        // ['backlash', '0.001 %'],
+        // ['details', 'Other details'],
+        // ]
       },
       {
         name: 'Ball Lead Screw',

@@ -5,24 +5,43 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 // Store & Styles
-import { poActions } from '../../../../store/po/po-slice'
+import { poActions } from '../../../store/po/po-slice'
 
 // Components
-import Portal from '../../../UI/Portal'
-import Modal from '../../../UI/Modal'
-import Form from '../../../Form/Form'
-import FormikForm from '../../../Formik/FormikForm'
-import FormikControl from '../../../Formik/FormikControl'
-import FormikSubmit from '../../../Formik/FormikSubmit'
-import { isObjEmpty } from '../../../../helpers/reusable'
+import Portal from '../../UI/Portal'
+import Modal from '../../UI/Modal'
+import FormikForm from '../../Formik/FormikForm'
+import FormikControl from '../../Formik/FormikControl'
+import FormikSubmit from '../../Formik/FormikSubmit'
+import { checkDataType, isObjEmpty } from '../../../helpers/reusable'
 // import { genLog } from '../../../../helpers/reusable'
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function POitem_Form({ closer, activePOid, activePOindex, activePOitemData: oldPOitemData = {} }) {
 
   const dispatch = useDispatch();
-  // Old PO Item Data
-  const isNewSubmission = isObjEmpty(oldPOitemData);
+
+  console.log(' ');
+  console.log('PO Item Form');
+
+  // is item an object - ASSUMED
+  const isNewSubmission = isObjEmpty(oldPOitemData); // is item a non-empty object
+
+  const oldItemSpecs = oldPOitemData.specification; // may or may not be defined
+  console.log('oldItemSpecs', oldItemSpecs);
+  /* 
+    // Refactoring the Specification Form - 1/5
+  
+    const validItemSpecs = oldItemSpecs // is item.specs defined
+      && checkDataType(oldItemSpecs) === 'object' // is item.specs an object
+      && !isObjEmpty(oldItemSpecs) // is item.specs is non-empty object
+      && oldItemSpecs
+      || { '': '' }
+  
+      const validItemSpecsArray = Object.entries(validItemSpecs)
+      console.log('validItemSpecsArray', validItemSpecsArray);
+   */
+
 
   const initialValues = {
     id: '',
@@ -31,7 +50,8 @@ export default function POitem_Form({ closer, activePOid, activePOindex, activeP
     qty: '',
     unitPrice: '',
     remarks: '',
-    ...oldPOitemData
+    ...oldPOitemData,
+    // specification: isNewSubmission ? [['', '']] : validItemSpecsArray, // Refactoring the Specification Form - 2/5
   }
 
   const validationSchema = Yup.object({
@@ -40,14 +60,20 @@ export default function POitem_Form({ closer, activePOid, activePOindex, activeP
     type: Yup.string().required('Required'),
     qty: Yup.number().required('Required'),
     unitPrice: Yup.number().required('Required'),
+    // specification: Yup.array()/* .min(1, 'At least 01 entry Required') */,  // Refactoring the Specification Form - 3/5
     remarks: Yup.string(),
   })
 
 
   const onSubmit = (values) => {
-    console.log(`values`, values);
+    console.log(`Form values`, values);
+    /* 
+      // Refactoring the Specification Form - 4/5
+        const specsObject = Object.fromEntries(values.specification)
+        values.specification = specsObject
+        console.log(`Dispatched values`, values);
+     */
     isNewSubmission ? dispatch(poActions.addPOitem([activePOid, values])) : dispatch(poActions.updatePOitem([activePOid, values]));
-    // submit={(formData) => {  }}
   }
 
   return (
@@ -109,7 +135,16 @@ export default function POitem_Form({ closer, activePOid, activePOindex, activeP
               label='Remarks / Description'
               name='remarks'
             />
+            {/* // Refactoring the Specification Form - 5/5 */}
 
+            {/* 
+                <FormikControl
+                  control='fieldListPair'
+                  label='Add the Specification in pairs'
+                  name='specification'
+                  placeholders={['E.g Shelf Life', 'E.g 10 years']}
+                />
+            */}
             <FormikSubmit />
 
           </FormikForm>

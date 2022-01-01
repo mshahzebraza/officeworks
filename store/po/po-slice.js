@@ -124,7 +124,8 @@ const poSlice = createSlice({
           poState[poIndex].items.splice(itemIndex, 1);
           // delete the PO from the poState slice
           console.log(`Deleted item ID# ${dataIndex} from PO# ${activePOid}.`)
-          dataIndex > dataLength - 1 && setDataIndex(dataIndex - 1)
+          // check if index is greater than array length
+          // dataIndex > dataLength - 1 && setDataIndex(dataIndex - 1) // will be triggered after the reducer ends
 
         } else { // item-id not found ?
           console.log(`Can't find item with the item id: (${dataIndex}) in the redux state`)
@@ -214,7 +215,13 @@ export const poActions = poSlice.actions;
 export default poSlice;
 
 
+export const thunks = {
+  deletePOitem: (payload) => {
+    return (dispatch) => {
 
+    }
+  }
+}
 
 // THUNKS
 

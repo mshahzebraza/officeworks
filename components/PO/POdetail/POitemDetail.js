@@ -12,7 +12,7 @@ import POitem_Form from '../POForms/POitem_Form';
 import POitemSpecs_Form from '../POForms/POitemSpecs_Form';
 
 
-export default function POdetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
+export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
   const dispatch = useDispatch();
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
@@ -31,6 +31,15 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
     && itemList[dataIndex].specification
     || false;
 
+
+  function deleteItemHandler() {
+    console.log(dataIndex);
+    // setDataIndex(dataIndex - 1)
+    // console.log(dataIndex);
+    dispatch(
+      poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex])
+    )
+  }
 
   return (
     <section className={concatStrings([...classes, styles.itemDetail])} >
@@ -61,7 +70,10 @@ export default function POdetails({ classes, data: itemList, activePOid, dataInd
             itemList && itemList.length > 0 &&
             <>
               {/* The itemsLength is passed when delete is clicked here is before the deletion. therefore, it will be more than it actually is, bcz the data passed is the data before delete action. */}
-              <button onClick={() => dispatch(poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex]))} >Delete Item</button>
+              <button
+                onClick={deleteItemHandler} >
+                Delete Item
+              </button>
 
               <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
               {showUpdateForm &&

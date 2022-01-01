@@ -39,6 +39,18 @@ export default function POdetailPage({ pageId }) {
 
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
 
+  // item index >= items length
+  activePOdata.items
+    && activeItemIndex >= activePOdata.items.length
+    && setActiveItemIndex(activePOdata.items.length - 1);
+
+  // item index < 0
+  activeItemIndex < 0
+    && console.log('Cannot happen');
+
+  // console.log(`Items Length`, activePOdata.items.length);
+  // console.log(`Items Index State`, activeItemIndex);
+
   const poSummaryData = cloneAndPluck(activePOdata, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
 
   const poNavListData = activePOdata.items
@@ -77,14 +89,18 @@ export default function POdetailPage({ pageId }) {
       {/* Detail */}
       {
         // console.log(activePOdata.items)
+
+        // items length === 0
+        activePOdata.items
+        && activePOdata.items.length !== 0
+        && <POitemDetail
+          classes={[styles.itemDetail]}
+          activePOid={poSummaryData.refId}
+          data={activePOdata.items} // detail for the current PO items- nested/item/detail level
+          dataIndex={activeItemIndex}
+          setDataIndex={setActiveItemIndex}
+        /> || <p className='note'>No Items Inside - detailPage</p>
       }
-      <POitemDetail
-        classes={[styles.itemDetail]}
-        activePOid={poSummaryData.refId}
-        data={activePOdata.items} // detail for the current PO items- nested/item/detail level
-        dataIndex={activeItemIndex}
-        setDataIndex={setActiveItemIndex}
-      />
 
 
     </Layout>

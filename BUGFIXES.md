@@ -222,3 +222,7 @@ The display would still look the same because that is controlled by whatever is 
  {project.nomenclature} // remains same, displayed on screen
 </DetailItem>
 ```
+
+### NOTE:
+
+This is Name to Index conversion is still to be implemented on all the dispatch functions as well. Or maybe not....

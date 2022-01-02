@@ -18,8 +18,9 @@ import { isObjEmpty } from '../../../../helpers/reusable'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function ProjectSummary_Form({ closer, oldProjectData }) {
+export default function ProjectSummary_Form({ closer, oldProjectData = {} }) {
 
+  console.log('oldProjectData', oldProjectData);
   const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldProjectData);
@@ -52,13 +53,13 @@ export default function ProjectSummary_Form({ closer, oldProjectData }) {
 
 
     isNewSubmission ?
-      console.log('')
+      dispatch(projectActions.addProjectSummary([values]))
       : dispatch(projectActions.updateProjectSummary([values]));
   }
 
   return (
     <Portal>
-      <Modal title='Edit Entry' closer={closer} >
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`} closer={closer} >
 
         <Formik
           initialValues={initialValues}

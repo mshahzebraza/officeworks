@@ -16,21 +16,22 @@ import Button from '../../../UI/Button';
 export default function Summary({ projectSummary }) {
   const dispatch = useDispatch();
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false)
+  const [showSummaryForm, setShowSummaryForm] = useState(false)
   const isSummaryValid = !isObjEmpty(projectSummary);
 
+  const { type, nomenclature } = projectSummary
 
   const buttonsJSX = <>
-    <Button caption='Edit Overview' click={() => { setShowUpdateForm(state => !state) }} />,
-    <Button caption='Delete Project' click={() => { console.log('New Delete') }} />,
+    <Button caption='Edit Overview' click={() => { setShowSummaryForm(state => !state) }} />,
+    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject([type, nomenclature])) }} />,
   </>
 
 
   return (
     <DetailSection title='Summary' outerClasses={[styles.container]} buttonsJSX={isSummaryValid && buttonsJSX} >
       {
-        showUpdateForm && <ProjectSummary_Form
-          closer={() => setShowUpdateForm(false)}
+        showSummaryForm && <ProjectSummary_Form
+          closer={() => setShowSummaryForm(false)}
           oldProjectData={projectSummary}
         />
       }
@@ -65,7 +66,7 @@ function SummaryItem({ label, value }) {
   let dataReturned;
   if (value) {
     dataReturned = checkDataType(value) === 'array' ?
-      value.reduce((prev, cur) => prev.concat(`${cur}, `), '')
+      (!!value.length ? value.reduce((prev, cur) => prev.concat(`${cur}, `), '') : '-')
       : value
   } else {
     dataReturned = '-'

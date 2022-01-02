@@ -13,7 +13,6 @@ export default function Assemblies({ assembliesData = [] }) {
   const [showUpdateForm, setShowUpdateForm] = useState(false)
   const isAssembliesValid = assembliesData && assembliesData.length > 0;
 
-  console.log(assembliesData);
   const assemblyListString = assembliesData
     && assembliesData.reduce((prev, cur) => prev.concat(` ${cur.nomenclature},`), '') || 'No items found'
 

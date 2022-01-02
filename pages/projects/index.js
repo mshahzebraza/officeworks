@@ -12,17 +12,17 @@ import styles from '../../styles/projectDirectory.module.scss'
 import Layout from '../../components/Layout/Layout'
 import SideNav from '../../components/Project/SideNav/SideNav'
 import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
+import ProjectSummary_Form from '../../components/Project/ProjectDetail/ProjectForms/ProjectSummary_Form'
 
 
 export default function ProjectDirectory() {
 
 
-  const [showModal, setShowModal] = useState(false);
+  const [showSummaryForm, setShowSummaryForm] = useState(false);
 
   const [activeProjectTypeIndex, setActiveProjectTypeIndex] = useState(false)
   const [activeProjectIndex, setActiveProjectIndex] = useState(false)
 
-  console.log(activeProjectTypeIndex, activeProjectIndex);
 
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
@@ -51,9 +51,16 @@ export default function ProjectDirectory() {
           <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
-        <button type='button' onClick={() => setShowModal(true)} >Add a Project</button>
-        {showModal && <AddPO_Modal closer={() => setShowModal(false)} />}
-
+        <button type='button' onClick={() => setShowSummaryForm(true)} >Add a Project</button>
+        {showSummaryForm && <ProjectSummary_Form closer={() => setShowSummaryForm(false)} />}
+        {/* 
+            {
+              showUpdateForm && <ProjectSummary_Form
+                closer={() => setShowUpdateForm(false)}
+                oldProjectData={projectSummary}
+              />
+            }
+        */}
       </section>
 
       <SideNav

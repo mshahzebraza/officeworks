@@ -97,7 +97,7 @@ const projectSlice = createSlice({
 
       // if (matchCatIdx >= 0) {
       //   // Type match: Find the matching nomenclature
-      //   const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === ovData.nomenclature)
+      //   const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === summaryData.nomenclature)
       //   const matchPj = matchCat.projects[matchPjIdx];
 
       //   if (matchPjIdx >= 0) {
@@ -105,7 +105,7 @@ const projectSlice = createSlice({
 
       //     pjState[matchCatIdx].projects[matchPjIdx] = {
       //       ...matchPj,
-      //       ...ovData
+      //       ...summaryData
       //     }
 
 
@@ -153,16 +153,17 @@ const projectSlice = createSlice({
 
     },
 
-    updateProjectSummary(pjState, { payload: [ovData] }) {
+    // aka editProject
+    updateProjectSummary(pjState, { payload: [summaryData] }) {
 
-      console.log('received Data', ovData);
+      console.log('received Data', summaryData);
       // Check the matching type
-      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === ovData.type)
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === summaryData.type)
       const matchCat = pjState[matchCatIdx];
 
       if (matchCatIdx >= 0) {
         // Type match: Find the matching nomenclature
-        const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === ovData.nomenclature)
+        const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === summaryData.nomenclature)
         const matchPj = matchCat.projects[matchPjIdx];
 
         if (matchPjIdx >= 0) {
@@ -170,7 +171,7 @@ const projectSlice = createSlice({
 
           pjState[matchCatIdx].projects[matchPjIdx] = {
             ...matchPj,
-            ...ovData
+            ...summaryData
           }
 
 
@@ -191,21 +192,75 @@ const projectSlice = createSlice({
 
     },
 
-    addProject(pjState, action) {
+    // aka addProject
+    addProjectSummary(pjState, { payload: [summaryData] }) {
+
+      console.log('received Data', summaryData);
+
+      // Check the matching type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === summaryData.type)
+      const matchCat = pjState[matchCatIdx];
+
+      if (matchCatIdx >= 0) {
+        console.log('matchPjCat', deepClone(matchCatIdx));
+        // Type match: Find the matching nomenclature
+        const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === summaryData.nomenclature)
+
+        console.log('matchPj', deepClone(matchPjIdx));
+        if (matchPjIdx === -1) {
+          // Nomenclature Unique: add the project
+
+          pjState[matchCatIdx].projects.push({
+            ...summaryData
+          })
+
+
+        } else {
+          // Nomenclature found: log the error 
+          alert(`Project Id matches one of existing Projects`);
+          // and Ask to dispatch the addPJov action with the received form Data
+
+        }
+
+      } else {
+        // Type Mismatch : Create a new type and add the project to the list.
+        // Or just log the error
+        alert(`Category doesn't match existing Categories`);
+        // and Ask to dispatch the addPJov action with the received form Data (in a newly created category as well)
+      }
+
+
+
       // Check PO List for duplicates
       // const duplicateIndex = projectState.findIndex(el => el.refId === action.payload.refId)
       // Add the new PO
       // duplicateIndex < 0 ? projectState.push(action.payload) : console.log(`Duplicate Found`);
     },
 
-    deleteProject(pjState, action) {
-      // Delete the whole category if there is the element to be deleted is the last element of the category
+    deleteProject(pjState, { payload: [pjCatName, pjId] }) {
+      // // Check the matching Project type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
 
-      // Confirmation deletion
+      // // Check the matching Project ID
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
 
-      // Find PO entry index against the input poId
+      if (matchPjIdx >= 0) {
 
-      // delete the PO from the projectState slice
+        // Optional: Delete the whole category if there is the element to be deleted is the last element of the category
+        // Confirmation deletion
+        const confirmText = `Delete ${matchCat.name} ${matchPj.nomenclature}`
+        const inputText = prompt(`Type "${confirmText}"`)
+
+        inputText === confirmText
+          // delete the project from the projectState slice
+          && pjState[matchCatIdx].projects.splice(matchPjIdx, 1)
+          || console.log(`Deletion Failed! Confirmation Text didn't match the input`);
+      }
+      else {
+        console.log(`Deletion failed! ${pjId} doesn't contain any part of ID: ${partId}`);
+      }
     },
 
     updateProject(pjState, { payload: [formData, oldItems] }) { // action.payload = [formData, oldItems]

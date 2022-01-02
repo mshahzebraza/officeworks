@@ -8,7 +8,7 @@ export default function Detail({ defaultOpen = false, title, click = () => { }, 
   const [itemValue, setValueState] = states || [];
 
   function clickHandler() {
-    if (states.length === 2) {
+    if (states.length === 2) { // check if the state & setState for detail has been passed? 
       setValueState(itemValue);
     }
   }

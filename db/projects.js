@@ -73,14 +73,14 @@ const projectsDb = [ // all projects
   { // categorized projects
     name: 'EM-Rotary',
     projects: [
-      // R380,
+      R380,
     ]
   },
   { // categorized projects
     name: 'EM-Linear',
     projects: [
       L3K,
-      // L9_5K,
+      L9_5K,
     ]
   },
 ]

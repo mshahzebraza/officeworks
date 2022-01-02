@@ -19,16 +19,19 @@ export default function ProjectDirectory() {
 
   const [showModal, setShowModal] = useState(false);
 
-  const [activeProjectType, setActiveProjectType] = useState(false)
-  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
+  const [activeProjectTypeIndex, setActiveProjectTypeIndex] = useState(false)
+  const [activeProjectIndex, setActiveProjectIndex] = useState(false)
+
+  console.log(activeProjectTypeIndex, activeProjectIndex);
 
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
 
   // Fetching data of selected Project Id (highlighted in the SideNav)
-  const activeTypeProjectObject = allProjects.find(category => category.name === activeProjectType);
+  const activeTypeProjectObject = allProjects[activeProjectTypeIndex];
   const activeTypeProjectList = activeTypeProjectObject && activeTypeProjectObject.projects;
-  const activeProject = activeTypeProjectList && activeTypeProjectList.find(project => project.nomenclature === activeProjectNomenclature);
+  const activeProject = activeTypeProjectList && activeTypeProjectList[activeProjectIndex];
+
 
 
   const filterProjects = (evt) => {
@@ -56,13 +59,11 @@ export default function ProjectDirectory() {
       <SideNav
         outerClasses={[styles.sideNav]}
         list={allProjects}
-        // projectSelectionState={projectSelectionState}
-        detailSummaryStates={[activeProjectType, setActiveProjectType, activeProjectNomenclature, setActiveProjectNomenclature]}
+        detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
       />
       <ProjectDetail
         outerClasses={[styles.body]}
         activeProjectData={activeProject}
-      // projectSelectionStates={[activeProjectType, activeProjectNomenclature]}
       />
 
 

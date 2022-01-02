@@ -152,6 +152,7 @@ const projectSlice = createSlice({
 
 
     },
+
     updateProjectSummary(pjState, { payload: [ovData] }) {
 
       console.log('received Data', ovData);

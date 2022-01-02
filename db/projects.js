@@ -69,18 +69,18 @@ const R380 = {
 }
 
 
-const projectsDb = [ // contains different project categories
-  {
+const projectsDb = [ // all projects
+  { // categorized projects
     name: 'EM-Rotary',
     projects: [
       // R380,
     ]
   },
-  {
+  { // categorized projects
     name: 'EM-Linear',
     projects: [
       L3K,
-      L9_5K,
+      // L9_5K,
     ]
   },
 ]

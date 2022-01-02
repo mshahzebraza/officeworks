@@ -15,7 +15,7 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 
 export default function SideNav({ list = [], outerClasses = [], detailSummaryStates }) {
-
+  console.log(list);
 
   return (
     <section className={concatStrings([styles.nav, ...outerClasses])} >
@@ -32,9 +32,10 @@ export default function SideNav({ list = [], outerClasses = [], detailSummarySta
                   (project, catItemIdx) =>
                     <DetailItem
                       key={catItemIdx}
-                      detailId={projCat.name}
-                      detailItemId={project.nomenclature}
-                      // detailItemId={catItemIdx}
+                      // detailId={projCat.name}
+                      detailId={projCatIdx}
+                      // detailItemId={project.nomenclature}
+                      detailItemId={catItemIdx}
                       selectionStates={detailSummaryStates}
                     >
                       {project.nomenclature}

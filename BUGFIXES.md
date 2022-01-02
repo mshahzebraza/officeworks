@@ -156,3 +156,69 @@ solved: was caused because items in POs were not being read if they were empty..
 ## Make the Project Detail fetch the project data based on the ActiveProjectIndex instead of ActiveProjectID
 
 this would result in the display of index instead of the nomenclature in the side nav... Therefore changes in the detail & detailItem have to be made in order to accommodate an object instead of a string of type {key,value}... The data storage would be handled by the key but the only the value would be rendered on screen.
+WHY??
+Bcz after deleting the project, the active Project needs to be changed. And it is easier to change the activeItem based on the index and array length, just like we've done in purchase Order parts.
+
+## Master Detail State Flow Conversion (IDs & Names to Indexes)
+
+Earlier, the details of the active project would be extracted based on two states passed as a prop from the Projects Page.
+
+1. ActiveProjectType
+2. ActiveProjectNomenclature
+
+These states were defined in the Page Component of Projects and passed down to `SideNav` and `ProjectDetail` components. `SideNav` had the access to change the state setting functions which allowed user to navigate between different projects.
+
+At any given time, the states would have the values like `EM-Linear` and `PEMA-L3K-BD` etc. This was not a problem until delete feature was to be added.
+After deleting current project, the UI would not be able to fetch the details of current project and an error would be thrown saying something like that the current project doesn't exist.
+
+To avoid that, as soon as the current project is deleted, we must navigate to the project before the current project.
+While using the projectName & projectType as states, it would not be difficult to navigate to project before the current project. However it is doable if the state stores the index of current project instead of project-name. Because then we would simply tell the app to read the project(n-1) instead of project(n) when a project is deleted and set the same as active project.
+
+This will also help us in the scenario when user deletes the last project as well.Then there wouldn't be any project left in the list.
+So we can simple ask the app to check if the activeProjectIndex is 0 at any point and if it is 0 then the next delete operation would simply state to false(which is the initial state as well )
+
+### Code Changed in the process
+
+#### Index.js
+
+**Old**
+
+```
+  const [activeProjectType, setActiveProjectType] = useState(false)
+  const [activeProjectNomenclature, setActiveProjectNomenclature] = useState(false)
+```
+
+**Updated**
+
+```
+
+  const [activeProjectTypeIndex, setActiveProjectTypeIndex] = useState(false)
+  const [activeProjectIndex, setActiveProjectIndex] = useState(false)
+```
+
+#### SideNav.js
+
+The display would still look the same because that is controlled by whatever is passed as children. However, the state is updated to contain the projectType and project Indexes.
+
+**Old**
+
+```
+ <DetailItem
+    detailId={projCat.name}
+    detailItemId={project.nomenclature}
+>
+ {project.nomenclature}
+</DetailItem>
+
+```
+
+**Updated**
+
+```
+ <DetailItem
+    detailId={projCatIdx}
+    detailItemId={catItemIdx}
+>
+ {project.nomenclature} // remains same, displayed on screen
+</DetailItem>
+```

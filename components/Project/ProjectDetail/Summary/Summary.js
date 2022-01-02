@@ -1,14 +1,20 @@
+// Dependency & Helpers
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { camelToSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
+// Store
+import { projectActions } from '../../../../store/project/project-slice';
+// Styles
+import styles from './Summary.module.scss'
+// Components
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
-import styles from './Summary.module.scss'
 import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 import Button from '../../../UI/Button';
 
 
-
 export default function Summary({ projectSummary }) {
+  const dispatch = useDispatch();
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)
   const isSummaryValid = !isObjEmpty(projectSummary);

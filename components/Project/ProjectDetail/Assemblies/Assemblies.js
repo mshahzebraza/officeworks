@@ -3,32 +3,32 @@ import { camelToSentenceCase, checkDataType, isObjEmpty } from '../../../../help
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import styles from './Assemblies.module.scss'
-import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 import Button from '../../../UI/Button';
-
+import ProjectAssembly_Form from '../ProjectForms/ProjectAssembly_Form';
 
 
 export default function Assemblies({ assembliesData = [] }) {
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false)
+  const [showAssemblyForm, setShowAssemblyForm] = useState(false)
   const isAssembliesValid = assembliesData && assembliesData.length > 0;
 
   const assemblyListString = assembliesData
     && assembliesData.reduce((prev, cur) => prev.concat(` ${cur.nomenclature},`), '') || 'No items found'
 
   const buttonsJSX = <>
-    <Button caption='Add Assembly' click={() => { setShowUpdateForm(state => !state) }} />,
+    <Button caption='Add Assembly' click={() => { setShowAssemblyForm(state => !state) }} />,
   </>
 
 
   return (
     <DetailSection title='Assemblies' outerClasses={[styles.container]} buttonsJSX={isAssembliesValid && buttonsJSX} >
       {
-        showUpdateForm && `No form`
-        // <ProjectSummary_Form
-        //   closer={() => setShowUpdateForm(false)}
-        //   oldProjectData={projectSummary}
-        // />
+        showAssemblyForm &&
+        < ProjectAssembly_Form
+          closer={() => setShowAssemblyForm(false)}
+          activeAssembliesData={assembliesData}
+          activeAssemblyData={assembliesData}
+        />
       }
 
       {

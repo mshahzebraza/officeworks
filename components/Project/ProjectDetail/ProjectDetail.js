@@ -45,7 +45,8 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
 
 
       <Assemblies
-        assembliesData={summaryData.assemblies}
+        projectState={[summaryData.type, summaryData.nomenclature, summaryData.assemblies]}
+      // assembliesData={summaryData.assemblies}
       />
       {/* Spec Part List */}
       <SpecialModules

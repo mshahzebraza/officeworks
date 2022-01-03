@@ -32,7 +32,7 @@ export default function Summary({ projectSummary }) {
       {
         showSummaryForm && <ProjectSummary_Form
           closer={() => setShowSummaryForm(false)}
-          oldProjectData={projectSummary}
+          activeSummaryData={projectSummary}
         />
       }
 

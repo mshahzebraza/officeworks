@@ -11,6 +11,7 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
 
+    // Project Part
     addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
       console.log(`adding`);
@@ -61,16 +62,12 @@ const projectSlice = createSlice({
       const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
       const matchPj = matchCat.projects[matchPjIdx];
 
-
-
-
       if (matchPj.parts) { // always exist in case of update
 
         // Check for duplicates id
         const matchModuleIdx = matchPj.parts.findIndex(part =>
           part.id === formData.id
         )
-
 
 
         if (matchModuleIdx >= 0) { // if module is found 
@@ -87,42 +84,7 @@ const projectSlice = createSlice({
         // pjState[matchCatIdx].projects[matchPjIdx].parts = [
         //   formData
         // ]
-
-
       }
-
-      // matchPj.parts
-
-      // console.log(pjCatName, matchCat);
-
-      // if (matchCatIdx >= 0) {
-      //   // Type match: Find the matching nomenclature
-      //   const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === summaryData.nomenclature)
-      //   const matchPj = matchCat.projects[matchPjIdx];
-
-      //   if (matchPjIdx >= 0) {
-      //     // Nomenclature Match: override the old keys
-
-      //     pjState[matchCatIdx].projects[matchPjIdx] = {
-      //       ...matchPj,
-      //       ...summaryData
-      //     }
-
-
-      //   } else {
-      //     // Nomenclature Mismatch: create a new project with the nomenclature given
-      //     // Or just log the error 
-      //     alert(`Project Id doesn't match existing Projects`);
-      //     // and Ask to dispatch the addPJov action with the received form Data
-
-      //   }
-
-      // } else {
-      //   // Type Mismatch : Create a new type and add the project to the list.
-      //   // Or just log the error
-      //   alert(`Category doesn't match existing Categories`);
-      //   // and Ask to dispatch the addPJov action with the received form Data (in a newly created category as well)
-      // }
 
     },
 
@@ -153,7 +115,8 @@ const projectSlice = createSlice({
 
     },
 
-    // aka editProject
+    // Project / ProjectSummary
+    // aka updateProject
     updateProjectSummary(pjState, { payload: [summaryData] }) {
 
       console.log('received Data', summaryData);
@@ -191,7 +154,6 @@ const projectSlice = createSlice({
       }
 
     },
-
     // aka addProject
     addProjectSummary(pjState, { payload: [summaryData] }) {
 
@@ -211,7 +173,12 @@ const projectSlice = createSlice({
           // Nomenclature Unique: add the project
 
           pjState[matchCatIdx].projects.push({
-            ...summaryData
+            ...summaryData,
+            assemblies: [
+              // these are default assemblies that every project must have
+              { nomenclature: 'Main Assembly', id: '0000', parent: null },
+              { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: 'Main Assembly' }
+            ]
           })
 
 
@@ -263,17 +230,55 @@ const projectSlice = createSlice({
       }
     },
 
-    updateProject(pjState, { payload: [formData, oldItems] }) { // action.payload = [formData, oldItems]
+    addAssembly(pjState, { payload: [pjCatName, pjId, formData] }) { // action.payload = [formData, oldItems]
 
-      // Find PO entry index against the input poId
+      // // Check the matching type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
 
-      // Compare the prev and new
-      // projectState[poUpdateIndex] v/s formData
 
-      // delete the PO from the projectState slice
-      // Update PO
-      // Append old PO items
-      // Generate log
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+      // Break if duplicate assembly Id is found
+      const duplicateIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === formData.id)
+      if (duplicateIndex !== -1) return;
+
+      pjState[matchCatIdx].projects[matchPjIdx].assemblies.push(formData)
+
+    },
+    updateAssembly(pjState, { payload: [pjCatName, pjId, formData] }) { // action.payload = [formData, oldItems]
+
+      // // Check the matching type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
+
+
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+      // Break if duplicate assembly Id is found
+      const duplicateIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === formData.id)
+      if (duplicateIndex === -1) { console.log('sss'); return };
+
+      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(duplicateIndex, 1, formData)
+
+    },
+    deleteAssembly(pjState, { payload: [pjCatName, pjId, removeAssemblyId] }) { // action.payload = [formData, oldItems]
+
+      // // Check the matching type
+      const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
+      const matchCat = pjState[matchCatIdx];
+
+
+      const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
+      const matchPj = matchCat.projects[matchPjIdx];
+
+      // Break if duplicate assembly Id is found
+      const duplicateIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === removeAssemblyId)
+      if (duplicateIndex === -1) return;
+
+      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(duplicateIndex, 1)
 
     },
 

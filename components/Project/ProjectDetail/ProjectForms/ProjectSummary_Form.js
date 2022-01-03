@@ -18,12 +18,12 @@ import { isObjEmpty } from '../../../../helpers/reusable'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function ProjectSummary_Form({ closer, oldProjectData = {} }) {
+export default function ProjectSummary_Form({ closer, activeSummaryData: oldSummaryData = {} }) {
 
-  console.log('oldProjectData', oldProjectData);
+  console.log('oldSummaryData', oldSummaryData);
   const dispatch = useDispatch();
 
-  const isNewSubmission = isObjEmpty(oldProjectData);
+  const isNewSubmission = isObjEmpty(oldSummaryData);
 
   // Initial Values
   const initialValues = {
@@ -33,7 +33,7 @@ export default function ProjectSummary_Form({ closer, oldProjectData = {} }) {
     status: '', // Production (Dropdown)
     stock: '', // fetched dynamically from inventory based on the project nomenclature
     target: '', // fetched dynamically from targets based on the project nomenclature
-    ...oldProjectData
+    ...oldSummaryData
   }
 
   // Validation Schema

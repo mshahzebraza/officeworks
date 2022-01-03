@@ -64,7 +64,11 @@ button {
 		color: $greenAccentLite3;
 	}
 
-	// background-color: $nuteLite6;
+	&:disabled {
+		background-color: $nuteDark1;
+		cursor: not-allowed;
+		color: $redAccentLite4;
+	}
 
 	// &
 }

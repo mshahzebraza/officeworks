@@ -226,3 +226,18 @@ The display would still look the same because that is controlled by whatever is 
 ### NOTE:
 
 This is Name to Index conversion is still to be implemented on all the dispatch functions as well. Or maybe not....
+
+## Change Assembly Form
+
+Current Assembly Data needs to be passed (Or the current index) when the form is opened in update mode.
+Currently the data being passed is not about the current list but about the overall assembly data
+
+The update format form will need one extra prop `activeAssemblyData` which will be available in the `Assembly` Component
+
+```
+< ProjectAssembly_Form
+ closer={() => setShowAssemblyForm(false)}
+ activeAssembliesData={assembliesData} // this will be a compulsory one...
+ activeAssemblyData={assemblyData} // will be available in assembly component only
+/>
+```

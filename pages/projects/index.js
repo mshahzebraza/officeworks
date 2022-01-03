@@ -1,7 +1,7 @@
 // Dependency & Helpers
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { concatStrings } from '../../helpers/reusable'
+import { concatStrings, deepClone } from '../../helpers/reusable'
 
 // Store
 
@@ -17,6 +17,7 @@ import ProjectSummary_Form from '../../components/Project/ProjectDetail/ProjectF
 
 export default function ProjectDirectory() {
 
+  const [filterState, setFilterState] = useState(false)
 
   const [showSummaryForm, setShowSummaryForm] = useState(false);
 
@@ -27,8 +28,22 @@ export default function ProjectDirectory() {
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
 
+  let filteredProjects = deepClone(allProjects);
+
+  if (filterState) {
+    // Filtering Projects w.r.t search ID 
+    filteredProjects = filteredProjects.map((curCatList) => {
+      curCatList.projects = curCatList.projects.filter((curProject) => {
+        return curProject.nomenclature.includes(filterState);
+      });
+      return curCatList;
+    });
+  }
+
+
+
   // Fetching data of selected Project Id (highlighted in the SideNav)
-  const activeTypeProjectObject = allProjects[activeProjectTypeIndex];
+  const activeTypeProjectObject = filteredProjects[activeProjectTypeIndex];
   const activeTypeProjectList = activeTypeProjectObject && activeTypeProjectObject.projects;
   const activeProject = activeTypeProjectList && activeTypeProjectList[activeProjectIndex];
 
@@ -36,8 +51,9 @@ export default function ProjectDirectory() {
 
   const filterProjects = (evt) => {
     evt.preventDefault();
+    setFilterState(evt.target[0].value)
     console.log(evt.target[0].value);
-    evt.target[0].value = ''
+    // evt.target[0].value = ''
   }
 
   return (
@@ -47,25 +63,18 @@ export default function ProjectDirectory() {
         <h1 className={`pageTitle`} > Projects</h1>
 
         <form className={`pageSearchForm`} onSubmit={filterProjects} >
-          <input type="text" minLength={8} className={`pageSearchInput`} required />
+          <input type="text" minLength={8} value={filterState || ''} onChange={(evt) => setFilterState(evt.target.value)} className={`pageSearchInput`} required />
           <button className={`pageSearchBtn`} >Search by ID</button>
         </form>
 
         <button type='button' onClick={() => setShowSummaryForm(true)} >Add a Project</button>
         {showSummaryForm && <ProjectSummary_Form closer={() => setShowSummaryForm(false)} />}
-        {/* 
-            {
-              showUpdateForm && <ProjectSummary_Form
-                closer={() => setShowUpdateForm(false)}
-                oldProjectData={projectSummary}
-              />
-            }
-        */}
+
       </section>
 
       <SideNav
         outerClasses={[styles.sideNav]}
-        list={allProjects}
+        list={filteredProjects}
         detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
       />
       <ProjectDetail

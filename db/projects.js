@@ -11,11 +11,11 @@ const L3K = {
   // Needs to be input before the input of parts
   assemblies: [
     // function of the sub-assembly can also be added later
+    { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: '0000' }, // This is also a default sub-assembly created by project instance
     { nomenclature: 'Main Assembly', id: '0000', parent: null }, // 'parent: null' means it is the default assembly and all the others are sub-assemblies
-    { nomenclature: 'Ball Lead Screw Assembly', id: '0100', parent: 'Main Assembly' },
-    { nomenclature: 'Output Shaft Assembly', id: '0200', parent: 'Main Assembly' },
-    { nomenclature: 'Housing Assembly', id: '0300', parent: 'Main Assembly' },
-    { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: 'Main Assembly' } // This is also a default sub-assembly created by project instance
+    { nomenclature: 'Ball Lead Screw Assembly', id: '0100', parent: '0000' },
+    { nomenclature: 'Output Shaft Assembly', id: '0200', parent: '0000' },
+    { nomenclature: 'Housing Assembly', id: '0300', parent: '0000' },
   ],
   parts: [ // can be segregated in two ways. 1. FamilyTree 2. Part-type  
     {

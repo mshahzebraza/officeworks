@@ -6,16 +6,19 @@ import styles from './POheader.module.scss'
 import { concatStrings, transformEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
 import POitem_Form from '../POForms/POitem_Form'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { poActions } from '../../../store/po/po-slice'
+import PO_Form from '../PO_Form'
 
 
 
 
 
+export default function POheader({ activePOid, data, classes }) {
+  const dispatch = useDispatch();
 
-export default function POheader({ poId, data, classes }) {
-  // console.log(data);
-  const [showAddForm, setShowAddForm] = useState(false)
-  console.log();
+  const [showPOitemForm, setShowPOitemForm] = useState(false)
+  const [showPOform, setShowPOform] = useState(false)
 
   const OV_data = cloneAndPluck(data, ['refId', 'refType', 'totalCost'])
   const meta_data = cloneAndPluck(data, ['fulfillmentSource', 'category', 'supplier'])
@@ -35,29 +38,23 @@ export default function POheader({ poId, data, classes }) {
       <section className={styles.poControls}>
 
 
-        <button onClick={() => setShowAddForm(true)} >Add Item</button>
-        {showAddForm && <POitem_Form closer={() => setShowAddForm(false)} activePOid={data.refId} />}
+        <button onClick={() => setShowPOitemForm(true)} >Add PO Item</button>
+        {showPOitemForm && <POitem_Form closer={() => setShowPOitemForm(false)} activePOid={data.refId} />}
 
 
 
         <button
           onClick={
             (e) => {
-              dispatch(poActions.deletePO(poId)) // To make it work, first make the app handle empty pages and show fallback
+              dispatch(poActions.deletePO(activePOid)) // To make it work, first make the app handle empty pages and show fallback
             }
           }
-        >Delete PO# {poId}</button>
-        <button
-          className={styles.btn}
-          // disabled={type === 'next' ? (curDataIndex === dataLength - 1) : (curDataIndex === 0)}
-          onClick={
-            (e) => {
-              // console.log(poId);
-              dispatch(poActions.deletePO(poId))
-              // router.replace('/procurement/po')
-            }
-          }
-        >Edit Item# {poId}</button>
+        >Delete PO</button>
+
+
+        <button className={styles.btn} onClick={() => setShowPOform(true)} >Edit PO Summary</button>
+
+        {showPOform && <PO_Form closer={() => setShowPOform(false)} oldPOdata={data} />}
 
       </section>
     </section>

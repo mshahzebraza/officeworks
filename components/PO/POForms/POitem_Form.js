@@ -21,14 +21,11 @@ export default function POitem_Form({ closer, activePOid, activePOindex, activeP
 
   const dispatch = useDispatch();
 
-  console.log(' ');
-  console.log('PO Item Form');
 
   // is item an object - ASSUMED
   const isNewSubmission = isObjEmpty(oldPOitemData); // is item a non-empty object
 
-  const oldItemSpecs = oldPOitemData.specification; // may or may not be defined
-  console.log('oldItemSpecs', oldItemSpecs);
+  // const oldItemSpecs = oldPOitemData.specification; // may or may not be defined
   /* 
     // Refactoring the Specification Form - 1/5
   

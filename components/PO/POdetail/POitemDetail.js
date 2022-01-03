@@ -37,7 +37,7 @@ export default function POitemDetails({ classes, data: itemList, activePOid, dat
     // setDataIndex(dataIndex - 1)
     // console.log(dataIndex);
     dispatch(
-      poActions.deletePOitem([activePOid, dataIndex, itemList.length - 1, setDataIndex])
+      poActions.deletePOitem([activePOid, dataIndex])
     )
   }
 

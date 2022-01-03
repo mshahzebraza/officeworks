@@ -64,7 +64,7 @@ export default function ProjectAssembly_Form(
 
   return (
     <Portal>
-      <Modal title='Edit Entry' closer={closer} >
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`} closer={closer} >
 
         <Formik
           initialValues={initialValues}

@@ -14,7 +14,6 @@ const projectSlice = createSlice({
     // Project Part
     addProjectPart(pjState, { payload: [pjCatName, pjId, formData] }) {
 
-      console.log(`adding`);
       // // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === pjCatName)
       const matchCat = pjState[matchCatIdx];
@@ -119,7 +118,6 @@ const projectSlice = createSlice({
     // aka updateProject
     updateProjectSummary(pjState, { payload: [summaryData] }) {
 
-      console.log('received Data', summaryData);
       // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === summaryData.type)
       const matchCat = pjState[matchCatIdx];
@@ -157,18 +155,15 @@ const projectSlice = createSlice({
     // aka addProject
     addProjectSummary(pjState, { payload: [summaryData] }) {
 
-      console.log('received Data', summaryData);
 
       // Check the matching type
       const matchCatIdx = pjState.findIndex(pjCat => pjCat.name === summaryData.type)
       const matchCat = pjState[matchCatIdx];
 
       if (matchCatIdx >= 0) {
-        console.log('matchPjCat', deepClone(matchCatIdx));
         // Type match: Find the matching nomenclature
         const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === summaryData.nomenclature)
 
-        console.log('matchPj', deepClone(matchPjIdx));
         if (matchPjIdx === -1) {
           // Nomenclature Unique: add the project
 
@@ -257,11 +252,11 @@ const projectSlice = createSlice({
       const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
       const matchPj = matchCat.projects[matchPjIdx];
 
-      // Break if duplicate assembly Id is found
-      const duplicateIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === formData.id)
-      if (duplicateIndex === -1) { console.log('sss'); return };
+      const updateAssemblyIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === formData.id)
+      // Break if duplicate assembly is not found
+      if (updateAssemblyIndex === -1) return;
 
-      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(duplicateIndex, 1, formData)
+      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(updateAssemblyIndex, 1, formData)
 
     },
     deleteAssembly(pjState, { payload: [pjCatName, pjId, removeAssemblyId] }) { // action.payload = [formData, oldItems]
@@ -274,11 +269,11 @@ const projectSlice = createSlice({
       const matchPjIdx = matchCat.projects.findIndex(pj => pj.nomenclature === pjId)
       const matchPj = matchCat.projects[matchPjIdx];
 
-      // Break if duplicate assembly Id is found
-      const duplicateIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === removeAssemblyId)
-      if (duplicateIndex === -1) return;
+      // Break if duplicate assembly is not found
+      const deleteAssemblyIndex = matchPj.assemblies.findIndex(assemblyItem => assemblyItem.id === removeAssemblyId)
+      if (deleteAssemblyIndex === -1) return;
 
-      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(duplicateIndex, 1)
+      pjState[matchCatIdx].projects[matchPjIdx].assemblies.splice(deleteAssemblyIndex, 1)
 
     },
 

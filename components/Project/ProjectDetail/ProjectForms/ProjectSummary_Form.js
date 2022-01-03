@@ -20,7 +20,6 @@ import { isObjEmpty } from '../../../../helpers/reusable'
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function ProjectSummary_Form({ closer, activeSummaryData: oldSummaryData = {} }) {
 
-  console.log('oldSummaryData', oldSummaryData);
   const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldSummaryData);

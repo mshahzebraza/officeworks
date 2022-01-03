@@ -11,7 +11,7 @@ import { mwoActions } from '../../store/mwo/mwo-slice'
 
 // Components
 import SummaryMWO_Modal from './SummaryMWO_Modal'
-import UpdateMWO_Modal from './UpdateMWO_Modal'
+import MWO_Form from './MWO_Form'
 
 
 
@@ -56,7 +56,7 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
       {/* MWO Commands */}
       <div className={styles.entryControls}>
         <EntryCtrlBtn type={'Edit'} click={() => setShowUpdateForm(true)} ></EntryCtrlBtn>
-        {showUpdateForm && <UpdateMWO_Modal closer={() => setShowUpdateForm(false)} mwoData={mwoData} />}
+        {showUpdateForm && <MWO_Form closer={() => setShowUpdateForm(false)} activeMWOdata={mwoData} />}
 
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
         {showSummary && <SummaryMWO_Modal closer={() => setShowSummary(false)} mwoData={mwoData} />}

@@ -24,7 +24,6 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
   const dispatch = useDispatch();
   const isNewSubmission = isObjEmpty(oldPOdata);
 
-  console.log('Before Edit', oldPOdata);
   const initialValues = {
     refType: '',
     refId: '',

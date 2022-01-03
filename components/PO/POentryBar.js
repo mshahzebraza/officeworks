@@ -40,7 +40,7 @@ export default function POentryBar({ poData, poIndex }) {
     <li className={styles.entry} >
 
       {/* Serial */}
-      <span className={styles.entryIndex}>{poIndex}</span>
+      <span className={styles.entryIndex}>{poIndex + 1}</span>
 
       {/* Ref Type */}
       <span className={styles.entryType}>{poData.refType}</span>
@@ -71,7 +71,7 @@ export default function POentryBar({ poData, poIndex }) {
         <EntryCtrlBtn type={'Summary'} click={() => setShowSummary(true)} ></EntryCtrlBtn>
         {showSummary && <PO_Summary closer={() => setShowSummary(false)} poData={poData} itemList={refinedItemList} />}
 
-        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poData.refId}`)} />
+        <EntryCtrlBtn type={'Detail'} click={() => router.push(`po/${poIndex}`)} />
 
         <EntryCtrlBtn type={'Delete'} click={() => dispatch(poActions.deletePO(poData.refId))} />
       </div>

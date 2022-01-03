@@ -107,10 +107,9 @@ const poSlice = createSlice({
       }
     },
 
-    deletePOitem(poState, { payload: [activePOid, dataIndex, dataLength, setDataIndex] }) {
+    deletePOitem(poState, { payload: [activePOid, dataIndex] }) {
       // action.payload = [po-refId, item-id]
 
-      console.log(dataLength);
       // Find PO entry index against the input poId
       const poIndex = poState.findIndex(el => el.refId === activePOid)
 
@@ -214,100 +213,3 @@ const poSlice = createSlice({
 export const poActions = poSlice.actions;
 export default poSlice;
 
-
-export const thunks = {
-  deletePOitem: (payload) => {
-    return (dispatch) => {
-
-    }
-  }
-}
-
-// THUNKS
-
-// export const sendCartData = (cart) => {
-
-//   updatePO(poState, action) {
-//     // Input: PO-Details & Specs
-//     console.log(`update PO - reducer running`);
-
-//     // Find PO entry index against the input poId
-//     const poUpdateIndex = poState.findIndex(el => el.refId === action.payload.refId)
-//     // Compare the prev and new
-//     // poState[poUpdateIndex] v/s action.payload
-
-//     // delete the PO from the poState slice
-//     if (poUpdateIndex < 0) {
-//       console.log(`Can't find PO with the refId (${action.payload.refId}) in the redux state`)
-//     } else {
-//       poState.splice(poUpdateIndex, 1, action.payload); // `&& poState` does not do anything, hence commented
-
-//       // Generate log
-//       const [oldPO] = poState.splice(poUpdateIndex, 1, action.payload);
-//       console.log(`log of oldPO`, oldPO);
-//     }
-
-//   },
-
-// };
-
-// To download backend state
-// export const fetchCartData = () => {
-//   return async (dispatch) => {
-//     const fetchData = async () => {
-//       // fetch data
-//       const response = await fetch(
-//         "https://dummy-react-4111997-default-rtdb.firebaseio.com/cart.json"
-//       );
-
-//       // trigger fail response [contd below]
-//       // STOP execution
-//       if (!response.ok) {
-//         throw new Error("Could not fetch cart data!");
-//       }
-
-//       // parse JSON
-//       const data = await response.json();
-
-//       // Return JSON Data
-//       return data;
-//     };
-
-//     try {
-//       const cartData = await fetchData();
-
-//       // Handle successful response
-//       dispatch(
-//         cartActions.replaceCart({
-//           items: cartData.items || [],
-//           totalQuantity: cartData.totalQuantity,
-//         })
-//       );
-//     } catch (error) {
-//       // Handle failed response [contd from Error above]
-//       dispatch(
-//         uiActions.showNotification({
-//           status: "error",
-//           title: "Error!",
-//           message: "Fetching cart data failed!",
-//         })
-//       );
-//     }
-//   };
-// };
-
-
-
-
-// {
-  //   refType: '',
-  //   refId: '',
-  //   category: '',
-  //   fulfillmentSource: '',
-  //   currency: '',
-  //   totalCost: '',
-  //   supplier: '',
-  //   status: '',
-  //   remarks: '',
-  //   specifications: {},
-  // }

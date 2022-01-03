@@ -34,7 +34,7 @@ export default function ProjectDirectory() {
     // Filtering Projects w.r.t search ID 
     filteredProjects = filteredProjects.map((curCatList) => {
       curCatList.projects = curCatList.projects.filter((curProject) => {
-        return curProject.nomenclature.includes(filterState);
+        return curProject.nomenclature.includes(filterState.toLocaleUpperCase());
       });
       return curCatList;
     });
@@ -63,8 +63,9 @@ export default function ProjectDirectory() {
         <h1 className={`pageTitle`} > Projects</h1>
 
         <form className={`pageSearchForm`} onSubmit={filterProjects} >
-          <input type="text" minLength={8} value={filterState || ''} onChange={(evt) => setFilterState(evt.target.value)} className={`pageSearchInput`} required />
-          <button className={`pageSearchBtn`} >Search by ID</button>
+          <label htmlFor="searchById">Search by ID</label>
+          <input id='searchById' type="text" minLength={8} value={filterState || ''} onChange={(evt) => setFilterState(evt.target.value)} className={`pageSearchInput`} required />
+          {/* <button className={`pageSearchBtn`} >Search by ID</button> */}
         </form>
 
         <button type='button' onClick={() => setShowSummaryForm(true)} >Add a Project</button>

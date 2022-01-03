@@ -11,6 +11,7 @@ import POheader from '../../../../components/PO/POdetail/POheader'
 import POnavList from '../../../../components/PO/POdetail/POnavList'
 import POitemDetail from '../../../../components/PO/POdetail/POitemDetail'
 import Layout from '../../../../components/Layout/Layout'
+import router from 'next/router'
 
 
 // export async function getStaticPaths() {
@@ -35,12 +36,15 @@ export async function getServerSideProps(context) {
 
 export default function POdetailPage({ pageId }) {
   // Find the po-data against the ID in URL
-  const activePOdata = useSelector(state => { return state.po.find(item => item.refId === pageId) })
+  const poState = useSelector(state => { return state.po })
 
+  poState.length === 0 && router.push(`/procurement/po`)
+
+  const activePOdata = poState[pageId]
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
 
   // item index >= items length
-  activePOdata.items
+  activePOdata && activePOdata.items
     && activeItemIndex >= activePOdata.items.length
     && setActiveItemIndex(activePOdata.items.length - 1);
 
@@ -51,9 +55,10 @@ export default function POdetailPage({ pageId }) {
   // console.log(`Items Length`, activePOdata.items.length);
   // console.log(`Items Index State`, activeItemIndex);
 
-  const poSummaryData = cloneAndPluck(activePOdata, ['refId', 'refType', 'status', 'fulfillmentSource', 'category', 'supplier', 'totalCost'])
+  // const poSummaryData = cloneAndPluck(activePOdata, ['refId', 'refType', 'status', 'fulfillmentSource', 'currency', 'category', 'supplier', 'totalCost'])
+  const poSummaryData = activePOdata;
 
-  const poNavListData = activePOdata.items
+  const poNavListData = activePOdata && activePOdata.items
     && activePOdata.items.length > 0
     && activePOdata.items.map((el, elIdx) => {
       const items = cloneAndPluck(el, ['name', 'id']);
@@ -69,12 +74,13 @@ export default function POdetailPage({ pageId }) {
       {/* Header */}
       <POheader
         classes={[styles.header]}
+        activePOid={poSummaryData.refId}
         data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
       />
 
       {/* Navigation List */}
       {
-        activePOdata.items
+        activePOdata && activePOdata.items
           ? <POnavList
             classes={[styles.navList]}
             // const itemListArray = props.data.items.map((el, elIdx) => {el.name})
@@ -91,7 +97,7 @@ export default function POdetailPage({ pageId }) {
         // console.log(activePOdata.items)
 
         // items length === 0
-        activePOdata.items
+        activePOdata && activePOdata.items
         && activePOdata.items.length !== 0
         && <POitemDetail
           classes={[styles.itemDetail]}

@@ -9,6 +9,7 @@ import ProjectModule_Form from '../ProjectForms/ProjectModule_Form';
 import { useDispatch } from 'react-redux';
 import { projectActions } from '../../../../store/project/project-slice';
 import Button from '../../../UI/Button';
+import ModalButton from '../../../UI/ModalButton';
 
 export default function StandardModules({ stdParts, moduleState, projectState }) {
 
@@ -16,7 +17,6 @@ export default function StandardModules({ stdParts, moduleState, projectState })
 
   const dispatch = useDispatch();
 
-  const [showAddForm, setShowAddForm] = useState(false)
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
 
@@ -31,7 +31,13 @@ export default function StandardModules({ stdParts, moduleState, projectState })
 
 
   const buttonsJSX = <>
-    <Button caption='Add Part' click={() => { setShowAddForm(state => !state) }} />,
+    <ModalButton
+      caption='Add Part'
+      ModalComponent={ProjectModule_Form}
+      projectCatName={projectType}
+      projectId={projectId}
+      assemblies={assemblies}
+    />
   </>
 
   const stdPartCTGs = ['bearing', 'screw', 'washer', 'misc'];
@@ -39,14 +45,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
   return (
 
     <DetailSection title='Standard Modules' buttonsJSX={isProjectValid && buttonsJSX} >
-      {
-        showAddForm && <ProjectModule_Form
-          closer={() => setShowAddForm(false)}
-          projectCatName={projectType}
-          projectId={projectId}
-          assemblies={assemblies}
-        />
-      }
+
       {
         updateFormState.show && <ProjectModule_Form
           closer={() => setUpdateFormState(initialUpdateFormState)}

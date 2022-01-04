@@ -37,17 +37,18 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   return (
     <section className={concatStrings([styles.detail, ...outerClasses])} >
 
-      {/* Overview */}
+      {/* Summary */}
 
       <Summary
         projectSummary={summaryData}
       />
 
 
+      {/* List of Assemblies */}
       <Assemblies
         projectState={[summaryData.type, summaryData.nomenclature, summaryData.assemblies]}
-      // assembliesData={summaryData.assemblies}
       />
+
       {/* Spec Part List */}
       <SpecialModules
         specParts={specParts}

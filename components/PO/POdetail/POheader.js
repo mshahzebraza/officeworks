@@ -9,16 +9,12 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { poActions } from '../../../store/po/po-slice'
 import PO_Form from '../PO_Form'
-
-
-
+import ModalButton from '../../UI/ModalButton'
+import Button from '../../UI/Button'
 
 
 export default function POheader({ activePOid, data, classes }) {
   const dispatch = useDispatch();
-
-  const [showPOitemForm, setShowPOitemForm] = useState(false)
-  const [showPOform, setShowPOform] = useState(false)
 
   const OV_data = cloneAndPluck(data, ['refId', 'refType', 'totalCost'])
   const meta_data = cloneAndPluck(data, ['fulfillmentSource', 'category', 'supplier'])
@@ -37,24 +33,23 @@ export default function POheader({ activePOid, data, classes }) {
       {/* Controls */}
       <section className={styles.poControls}>
 
+        <ModalButton
+          caption='Add PO Item'
+          ModalComponent={POitem_Form}
+          activePOid={data.refId}
+        />
+        <Button
+          caption='Delete PO'
+          click={() => { dispatch(poActions.deletePO(activePOid)) }}
+        />
 
-        <button onClick={() => setShowPOitemForm(true)} >Add PO Item</button>
-        {showPOitemForm && <POitem_Form closer={() => setShowPOitemForm(false)} activePOid={data.refId} />}
+        <ModalButton
+          caption='Update PO Summary'
+          ModalComponent={PO_Form}
+          oldPOdata={data}
+        />
 
 
-
-        <button
-          onClick={
-            (e) => {
-              dispatch(poActions.deletePO(activePOid)) // To make it work, first make the app handle empty pages and show fallback
-            }
-          }
-        >Delete PO</button>
-
-
-        <button className={styles.btn} onClick={() => setShowPOform(true)} >Edit PO Summary</button>
-
-        {showPOform && <PO_Form closer={() => setShowPOform(false)} oldPOdata={data} />}
 
       </section>
     </section>

@@ -11,6 +11,7 @@ import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
 import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 import Button from '../../../UI/Button';
+import ModalButton from '../../../UI/ModalButton';
 
 
 export default function Summary({ projectSummary }) {
@@ -22,19 +23,17 @@ export default function Summary({ projectSummary }) {
   const { type, nomenclature } = projectSummary
 
   const buttonsJSX = <>
-    <Button caption='Edit Overview' click={() => { setShowSummaryForm(state => !state) }} />,
-    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject([type, nomenclature])) }} />,
+    <ModalButton caption='Update Summary' activeSummaryData={projectSummary} ModalComponent={ProjectSummary_Form} />
+    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject([type, nomenclature])) }} />
   </>
 
 
   return (
-    <DetailSection title='Summary' outerClasses={[styles.container]} buttonsJSX={isSummaryValid && buttonsJSX} >
-      {
-        showSummaryForm && <ProjectSummary_Form
-          closer={() => setShowSummaryForm(false)}
-          activeSummaryData={projectSummary}
-        />
-      }
+    <DetailSection
+      title='Summary'
+      outerClasses={[styles.container]}
+      buttonsJSX={isSummaryValid && buttonsJSX}
+    >
 
       {
         isSummaryValid ? <>

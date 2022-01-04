@@ -14,15 +14,3 @@ function Button({ caption = 'Button', type = 'button', click = () => { }, styleA
 }
 
 export default Button
-
-
-
-export function buttonGenerator(caption = 'Button', click = () => { }, styleArr = [], btnDataKey) {
-  return <button
-    key={btnDataKey}
-    onClick={click}
-    className={concatStrings(styleArr)}
-  >
-    {caption}
-  </button>
-}

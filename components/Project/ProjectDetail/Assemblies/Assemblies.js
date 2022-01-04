@@ -7,31 +7,27 @@ import Button from '../../../UI/Button';
 import ProjectAssembly_Form from '../ProjectForms/ProjectAssembly_Form';
 import { projectActions } from '../../../../store/project/project-slice';
 import { useDispatch } from 'react-redux';
+import ModalButton from '../../../UI/ModalButton';
 
 export default function Assemblies({ projectState = [] }) {
 
   const [activeProjectType, activeProjectId, assembliesData] = projectState;
 
-  const [showAssemblyForm, setShowAssemblyForm] = useState(false)
-  const isAssembliesValid = assembliesData && assembliesData.length > 0;
+  const isAssembliesValid = assembliesData && assembliesData.length > 0; // would always be non-zero bcz main assembly is always there.
 
   const buttonsJSX = <>
-    <Button caption='Add Assembly' click={() => { setShowAssemblyForm(state => !state) }} />,
+    <ModalButton
+      caption='Add Assembly'
+      ModalComponent={ProjectAssembly_Form}
+      activeProjectType={activeProjectType}
+      activeProjectId={activeProjectId}
+      activeAssembliesData={assembliesData}
+    />
   </>
 
 
   return (
     <DetailSection title='Assemblies' outerClasses={[styles.container]} buttonsJSX={isAssembliesValid && buttonsJSX} >
-      {
-        showAssemblyForm &&
-        < ProjectAssembly_Form
-          activeProjectType={activeProjectType}
-          activeProjectId={activeProjectId}
-          closer={() => setShowAssemblyForm(false)}
-          activeAssembliesData={assembliesData}
-        // activeAssemblyData={assembliesData}
-        />
-      }
 
       {
         isAssembliesValid ? <div className={styles.assemblies}>

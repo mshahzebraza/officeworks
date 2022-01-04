@@ -29,7 +29,7 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
   }
 
   const validationSchema = Yup.object().shape({
-    specifications: Yup.array().min(1, 'At least 01 entry Required')
+    specifications: Yup.array()/* .min(1, 'At least 01 entry Required') */
   })
 
   const onSubmit = (values) => {

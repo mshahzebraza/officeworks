@@ -5,6 +5,7 @@ import { projectActions } from '../../../../store/project/project-slice';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import Button from '../../../UI/Button';
+import ModalButton from '../../../UI/ModalButton';
 import DetailSection from '../DetailSection/DetailSection';
 // import AddProjectPart_Modal from '../ProjectForms/AddProjectPart_Modal';
 // import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
@@ -19,7 +20,6 @@ export default function SpecialModules({ specParts, moduleState, projectState })
   const initialUpdateFormState = { show: false, data: null };
 
   const dispatch = useDispatch();
-  const [showAddForm, setShowAddForm] = useState(false)
 
   const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
@@ -34,21 +34,19 @@ export default function SpecialModules({ specParts, moduleState, projectState })
 
 
   const buttonsJSX = <>
-    <Button caption='Add Part' click={() => { setShowAddForm(state => !state) }} />,
+    <ModalButton
+      caption='Add Part'
+      ModalComponent={ProjectModule_Form}
+      projectCatName={projectType}
+      projectId={projectId}
+      assemblies={assemblies}
+    />
   </>
 
 
 
   return (
     <DetailSection title='Special Modules' buttonsJSX={isProjectValid && buttonsJSX} >
-      {
-        showAddForm && <ProjectModule_Form
-          closer={() => setShowAddForm(false)}
-          projectCatName={projectType}
-          projectId={projectId}
-          assemblies={assemblies}
-        />
-      }
 
       {
         updateFormState.show && <ProjectModule_Form

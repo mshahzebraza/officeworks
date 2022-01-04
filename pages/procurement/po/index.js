@@ -10,8 +10,8 @@ import PO_Form from '../../../components/PO/PO_Form'
 import POentryBar from '../../../components/PO/POentryBar'
 import Layout from '../../../components/Layout/Layout';
 import { deepClone } from '../../../helpers/reusable';
-
-
+import ModalButton from '../../../components/UI/ModalButton';
+import SearchInput from '../../../components/UI/SearchInput';
 
 
 export default function PO(pageProps) {
@@ -36,28 +36,13 @@ export default function PO(pageProps) {
   console.log(filteredPOlist);
 
 
-  function filterPO(evt) {
-    evt.preventDefault()
-    const searchTerm = evt.target[0].value;
-    evt.target[0].value = ''
-    console.log(searchTerm);
-  }
-
   return (
     <Layout pageClasses={[styles.container]} >
+
       <section className={`pageHeader`}>
-
         <h1 className={`pageTitle`} > Purchase Orders</h1>
-
-        <form className={`pageSearchForm`} onSubmit={filterPO} >
-          <label htmlFor="searchById">Search by ID</label>
-          <input id='searchById' type="text" minLength={8} value={filterState || ''} onChange={(evt) => setFilterState(evt.target.value)} className={`pageSearchInput`} required />
-          {/* <button className={`pageSearchBtn`} >Search by ID</button> */}
-        </form>
-
-        <button type='button' onClick={() => setShowModal(true)} >Add a PO</button>
-        {showModal && <PO_Form closer={() => setShowModal(false)} />}
-
+        <SearchInput stateVariables={[filterState, setFilterState]} />
+        <ModalButton caption='Add PO' ModalComponent={PO_Form} />
       </section>
 
       <section className={`pageBody`} >

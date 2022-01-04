@@ -10,6 +10,8 @@ import styles from './POitemDetail.module.scss'
 // Components
 import POitem_Form from '../POForms/POitem_Form';
 import POitemSpecs_Form from '../POForms/POitemSpecs_Form';
+import ModalButton from '../../UI/ModalButton';
+import Button from '../../UI/Button';
 
 
 export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
@@ -32,14 +34,6 @@ export default function POitemDetails({ classes, data: itemList, activePOid, dat
     || false;
 
 
-  function deleteItemHandler() {
-    console.log(dataIndex);
-    // setDataIndex(dataIndex - 1)
-    // console.log(dataIndex);
-    dispatch(
-      poActions.deletePOitem([activePOid, dataIndex])
-    )
-  }
 
   return (
     <section className={concatStrings([...classes, styles.itemDetail])} >
@@ -65,43 +59,26 @@ export default function POitemDetails({ classes, data: itemList, activePOid, dat
       {
         <div className={concatStrings([styles.section, styles.controls])}>
 
-
           {
             itemList && itemList.length > 0 &&
             <>
-              {/* The itemsLength is passed when delete is clicked here is before the deletion. therefore, it will be more than it actually is, bcz the data passed is the data before delete action. */}
-              <button
-                onClick={deleteItemHandler} >
-                Delete Item
-              </button>
-
-              <button onClick={() => setShowUpdateForm(true)} >Update Item</button>
-              {showUpdateForm &&
-                <POitem_Form
-                  closer={() => setShowUpdateForm(false)}
-                  activePOid={activePOid}
-                  activePOitemData={itemList[dataIndex]}
-                />
-              }
+              <Button caption='Delete Item' click={() => { dispatch(poActions.deletePOitem([activePOid, dataIndex])) }} />
+              <ModalButton
+                caption='Update Item'
+                ModalComponent={POitem_Form}
+                activePOid={activePOid}
+                activePOitemData={itemList[dataIndex]}
+              />
+              <ModalButton
+                caption={`${oldSpecData && `Update` || `Add`} Specification`}
+                ModalComponent={POitemSpecs_Form}
+                activePOid={activePOid}
+                activeItemIndex={dataIndex}
+                activePOitemSpecs={oldSpecData && oldSpecData}
+              />
             </>
           }
 
-          {
-            itemList && itemList.length > 0 &&
-            <>
-              <button onClick={() => setShowSpecForm(true)} >
-                {oldSpecData && `Update` || `Add`} Spec
-              </button>
-              {showSpecForm &&
-                <POitemSpecs_Form
-                  closer={() => setShowSpecForm(false)}
-                  activePOid={activePOid}
-                  activeItemIndex={dataIndex}
-                  activePOitemSpecs={oldSpecData && oldSpecData}
-                />
-              }
-            </>
-          }
 
         </div>
       }

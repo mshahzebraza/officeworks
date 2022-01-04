@@ -29,7 +29,7 @@ function FieldListPair(props) {
                   <Field name={`${name}[${index}][0]`} placeholder={placeholders[0]} type='text' {...rest} className={styles.formFieldPairArrayItemLabel} />
                   <Field name={`${name}[${index}][1]`} placeholder={placeholders[1]} as={inputFieldType} {...rest} className={styles.formFieldPairArrayItemInput} />
 
-                  {index > 0 && <Button click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > Remove </Button>
+                  {/* index > 0 && */ <Button click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > Remove </Button>
                   }
 
                 </div>

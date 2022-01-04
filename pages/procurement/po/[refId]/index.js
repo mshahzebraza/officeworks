@@ -12,6 +12,7 @@ import POnavList from '../../../../components/PO/POdetail/POnavList'
 import POitemDetail from '../../../../components/PO/POdetail/POitemDetail'
 import Layout from '../../../../components/Layout/Layout'
 import router from 'next/router'
+import { useEffect } from 'react'
 
 
 // export async function getStaticPaths() {
@@ -38,9 +39,10 @@ export default function POdetailPage({ pageId }) {
   // Find the po-data against the ID in URL
   const poState = useSelector(state => { return state.po })
 
+  pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
   poState.length === 0 && router.push(`/procurement/po`)
 
-  const activePOdata = poState[pageId]
+  const activePOdata = poState[pageId] && poState[pageId]
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
 
   // item index >= items length
@@ -52,10 +54,6 @@ export default function POdetailPage({ pageId }) {
   activeItemIndex < 0
     && console.log('Cannot happen');
 
-  // console.log(`Items Length`, activePOdata.items.length);
-  // console.log(`Items Index State`, activeItemIndex);
-
-  // const poSummaryData = cloneAndPluck(activePOdata, ['refId', 'refType', 'status', 'fulfillmentSource', 'currency', 'category', 'supplier', 'totalCost'])
   const poSummaryData = activePOdata;
 
   const poNavListData = activePOdata && activePOdata.items
@@ -72,11 +70,17 @@ export default function POdetailPage({ pageId }) {
 
 
       {/* Header */}
-      <POheader
-        classes={[styles.header]}
-        activePOid={poSummaryData.refId}
-        data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
-      />
+      {
+        activePOdata
+          ? <POheader
+            classes={[styles.header]}
+            activePOid={poSummaryData.refId}
+            data={poSummaryData} // summary of current PO - top/entry level && buttons for next PO
+          />
+          : <p className='note'>No Items Inside - detailPage</p>
+
+      }
+
 
       {/* Navigation List */}
       {

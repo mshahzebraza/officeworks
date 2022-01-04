@@ -13,17 +13,16 @@ import Layout from '../../components/Layout/Layout'
 import SideNav from '../../components/Project/SideNav/SideNav'
 import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
 import ProjectSummary_Form from '../../components/Project/ProjectDetail/ProjectForms/ProjectSummary_Form'
+import SearchInput from '../../components/UI/SearchInput'
+import ModalButton from '../../components/UI/ModalButton'
 
 
 export default function ProjectDirectory() {
 
   const [filterState, setFilterState] = useState(false)
 
-  const [showSummaryForm, setShowSummaryForm] = useState(false);
-
   const [activeProjectTypeIndex, setActiveProjectTypeIndex] = useState(false)
   const [activeProjectIndex, setActiveProjectIndex] = useState(false)
-
 
   // Fetching all the Projects data
   const allProjects = useSelector(state => state.project)
@@ -48,28 +47,13 @@ export default function ProjectDirectory() {
   const activeProject = activeTypeProjectList && activeTypeProjectList[activeProjectIndex];
 
 
-
-  const filterProjects = (evt) => {
-    evt.preventDefault();
-    setFilterState(evt.target[0].value)
-    console.log(evt.target[0].value);
-    // evt.target[0].value = ''
-  }
-
   return (
     <Layout pageClasses={[styles.container]}>
       <section className={concatStrings([`pageHeader`, styles.header])}>
 
         <h1 className={`pageTitle`} > Projects</h1>
-
-        <form className={`pageSearchForm`} onSubmit={filterProjects} >
-          <label htmlFor="searchById">Search by ID</label>
-          <input id='searchById' type="text" minLength={8} value={filterState || ''} onChange={(evt) => setFilterState(evt.target.value)} className={`pageSearchInput`} required />
-          {/* <button className={`pageSearchBtn`} >Search by ID</button> */}
-        </form>
-
-        <button type='button' onClick={() => setShowSummaryForm(true)} >Add a Project</button>
-        {showSummaryForm && <ProjectSummary_Form closer={() => setShowSummaryForm(false)} />}
+        <SearchInput stateVariables={[filterState, setFilterState]} />
+        <ModalButton caption='Add Project' ModalComponent={ProjectSummary_Form} />
 
       </section>
 

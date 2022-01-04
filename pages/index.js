@@ -22,7 +22,7 @@ export default function Home() {
       <Layout pageClasses={['tempContainer']}>
         <Link href='/procurement' ><a className='tempBox' >Procurement</a></Link>
         <Link href='/inventory' ><a className='tempBox' >Inventory</a></Link>
-        <section className='color'>
+        {/* <section className='color'>
           <div className="colorLite4">Box Color Lite 4</div>
           <div className="colorLite3">Box Color Lite 3</div>
           <div className="colorLite2">Box Color Lite 2</div>
@@ -32,7 +32,7 @@ export default function Home() {
           <div className="colorDark2">Box Color Dark 2</div>
           <div className="colorDark3">Box Color Dark 3</div>
           <div className="colorDark4">Box Color Dark 4</div>
-        </section>
+        </section> */}
       </Layout>
 
 

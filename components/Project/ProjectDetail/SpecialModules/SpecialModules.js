@@ -16,11 +16,11 @@ import styles from './SpecialModules.module.scss';
 
 
 
-export default function SpecialModules({ specParts, moduleState, projectState }) {
+export default function SpecialModules({ specParts, projectState = [], assemblyList = [] }) {
 
   const dispatch = useDispatch();
 
-  const [projectType, projectId, assemblies] = projectState;
+  const [projectType, projectId] = projectState;
   const isProjectValid = !!projectType && !!projectId;
 
   const specPartsExist = specParts.manufactured.length > 0 || specParts.purchased.length > 0;
@@ -31,6 +31,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
     <ModalButton
       caption='Add Part'
       ModalComponent={ProjectModule_Form}
+      assemblies={assemblyList}
       projectState={projectState}
     />
   </>
@@ -69,6 +70,7 @@ export default function SpecialModules({ specParts, moduleState, projectState })
                             caption='U'
                             ModalComponent={ProjectModule_Form}
                             projectState={projectState}
+                            assemblies={assemblyList}
                             oldModuleData={specPart}
                           />
                           <Button caption='S - X' click={() => { alert('Delete function not defined') }} />

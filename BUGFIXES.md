@@ -247,3 +247,11 @@ The update format form will need one extra prop `activeAssemblyData` which will 
 Every data row/bar like POentryBar needs to have a header. This can be done by having a header row shown if the array length is non-zero.
 
 ## Auto Summary generator (capable of rendering lists as well)
+
+### SummaryItem needs to be replaced with DataRow or with DetailItem
+
+### lowercase 'screws' are not categorized into a separate category. Need to change mapDataToCategory
+
+# Restructure DB
+
+Change the nesting of `projects` within the `categories` and add a `projectType` key in the `projects`

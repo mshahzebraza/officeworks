@@ -1,18 +1,12 @@
 
 const L3K = {
-  /* restructure 2.0
-  nomenclature,
-  type, ...  
-  */
-  summary: {
-    nomenclature: 'PEMA-L3K-BD',
-    type: 'EM-Linear',
-    application: 'AbWS', //
-    // !NOTE: The fetching in the following two properties can be made easy if objects are created using classes
-    target: '55', // fetched dynamically from targets based on the project nomenclature
-    stock: '15', // fetched dynamically from inventory based on the project nomenclature
-    status: 'Production', // OR 'R&D' OR 'Closed'
-  },
+  nomenclature: 'PEMA-L3K-BD',
+  type: 'EM-Linear',
+  application: 'AbWS', //
+  // !NOTE: The fetching in the following two properties can be made easy if objects are created using classes
+  target: '55', // fetched dynamically from targets based on the project nomenclature
+  stock: '15', // fetched dynamically from inventory based on the project nomenclature
+  status: 'Production', // OR 'R&D' OR 'Closed'
 
   // Needs to be input before the input of parts
   assemblies: [
@@ -74,43 +68,30 @@ const L3K = {
 }
 
 const L9_5K = {
-  summary: {
-    nomenclature: 'PEMA-L9.5K-BD',
-    type: 'EM-Linear',
-  },
-  assemblies: [
-    { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: '0000' },
-    { nomenclature: 'Main Assembly', id: '0000', parent: null },
-  ],
+  nomenclature: 'PEMA-L9.5K-BD',
+  type: 'EM-Linear',
 }
 
 const R380 = {
-  summary: {
-    nomenclature: 'PEMA-R380-BL',
-    type: 'EM-Rotary',
-  },
-  assemblies: [
-    { nomenclature: 'Fasteners & Misc', id: 'FAST', parent: '0000' },
-    { nomenclature: 'Main Assembly', id: '0000', parent: null },
-  ],
-
+  nomenclature: 'PEMA-R380-BL',
+  type: 'EM-Rotary',
 }
 
 
 const projectsDb = [ // all projects
-  R380,
-  L3K,
-  L9_5K,
-  // { // categorized projects
-  //   name: 'EM-Rotary',
-  //   projects: [
-  //   ]
-  // },
-  // { // categorized projects
-  //   name: 'EM-Linear',
-  //   projects: [
-  //   ]
-  // },
+  { // categorized projects
+    name: 'EM-Rotary',
+    projects: [
+      R380,
+    ]
+  },
+  { // categorized projects
+    name: 'EM-Linear',
+    projects: [
+      L3K,
+      L9_5K,
+    ]
+  },
 ]
 
 export default projectsDb;

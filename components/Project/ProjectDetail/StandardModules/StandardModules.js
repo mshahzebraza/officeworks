@@ -14,16 +14,13 @@ import DataRow from '../../../UI/DataRow/DataRow';
 import DataRowItem from '../../../UI/DataRow/DataRowItem';
 
 
-export default function StandardModules({ stdParts, moduleState, projectState }) {
+export default function StandardModules({ stdParts, projectState = [], assemblyList = [] }) {
 
-  const initialUpdateFormState = { show: false, data: null };
 
   const dispatch = useDispatch();
 
-  const [updateFormState, setUpdateFormState] = useState(initialUpdateFormState)
 
-
-  const [projectType, projectId, assemblies] = projectState;
+  const [projectType, projectId] = projectState;
   const isProjectValid = !!projectType && !!projectId;
 
   const stdPartsExist =
@@ -37,6 +34,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
     <ModalButton
       caption='Add Part'
       ModalComponent={ProjectModule_Form}
+      assemblies={assemblyList}
       projectState={projectState}
     />
   </>
@@ -47,15 +45,6 @@ export default function StandardModules({ stdParts, moduleState, projectState })
 
     <DetailSection title='Standard Modules' buttonsJSX={isProjectValid && buttonsJSX} >
 
-      {
-        updateFormState.show && <ProjectModule_Form
-          closer={() => setUpdateFormState(initialUpdateFormState)}
-          projectCatName={projectType}
-          projectId={projectId}
-          assemblies={assemblies}
-          oldModuleData={updateFormState.data}
-        />
-      }
 
       {
         stdParts &&
@@ -88,6 +77,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
                               caption='U'
                               ModalComponent={ProjectModule_Form}
                               projectState={projectState}
+                              assemblies={assemblyList}
                               oldModuleData={stdPart}
                             />
                             <Button caption='S - X' click={() => { alert('Delete function not defined') }} />

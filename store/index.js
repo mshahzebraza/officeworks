@@ -8,8 +8,8 @@ import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {
-    po: poSlice.reducer,
-    mwo: mwoSlice.reducer,
-    project: projectSlice.reducer,
+    poList: poSlice.reducer,
+    mwoList: mwoSlice.reducer,
+    projectList: projectSlice.reducer,
   },
 });

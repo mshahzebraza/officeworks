@@ -1,25 +1,45 @@
 import { concatStrings } from '../../helpers/reusable';
 import styles from './DetailItem.module.scss'
 
-export default function DetailItem({ children: data, selectionStates = [], detailId = null, detailItemId = null, outerClasses = [] }) {
+export default function DetailItem({
+  children: data,
+  detailStates = [],
+  detailItemStates = [],
+  detailId = null,
+  detailItemId = null,
+  outerClasses = [],
+  strict = false
+}) {
 
+  // Use of Props
+  /*
+    1. detailId, detailItemId : contains the data of the CURRENT (NOT active) instance of detail / detailItem. Every instance has a unique value and is usually dependant on 'map-index'
+    2. detailStates,detailItemStates : contains the state data of the ACTIVE (NOT current) detail / detailItem. This value can correspond to only one detail / detailItem instance. This is used to highlight the entry when its compared to the Id props of all instances.
+    3. strict: if this is true then both 'id' and 'state' props of both 'Detail' & 'DetailItem' needs to be equal. However, if it is false, then only 'DetailItem' would be checked
+   */
+
+  // What this means?
   /* 
-    You can omit passing the following props if you don't want to know which entry is currently selected  OR the 'highlight effect (which comes with the state management)
-      1. detailId
-      2. detailItemId
-      3. selectionStates
-      
-    NOTE: Sometimes, we may not want to get the state of selected detailItem, but we have to pass in these states to get the highlight effect.
+    - We can omit passing 'Id props' & 'State Props', but then we would not get any 'state Manipulation' Or 'Highlight Features'. That way the DetailItem would just behave as a div with some styles.
+    - Please note that passing only one of 'State' or 'Id' Props also would not allow aforementioned features as two values are needed for comparison. 
    */
 
 
+
+
   // IMPORT of detailId can still be avoided
-  const [activeDetail, setActiveDetail, activeDetailItem, setActiveDetailItem] = selectionStates
+  const [activeDetail, setActiveDetail] = detailStates;
+  const [activeDetailItem, setActiveDetailItem] = detailItemStates;
+
+  // const isActive =
+  //   detailItemId != undefined
+  //   && activeDetailItem === detailItemId
+  //   && activeDetail === detailId // this check should not be performed everyTime
 
   const isActive =
     detailItemId != undefined
-    && activeDetail === detailId
     && activeDetailItem === detailItemId
+    && !strict || activeDetail === detailId // for strict = false, the final check will always be true
 
   function clickHandler() {
     setActiveDetailItem && setActiveDetailItem(detailItemId)

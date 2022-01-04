@@ -14,17 +14,15 @@ import Button from '../../../UI/Button';
 import ModalButton from '../../../UI/ModalButton';
 
 
-export default function Summary({ projectSummary }) {
+export default function Summary({ projectSummary = {} }) {
   const dispatch = useDispatch();
 
-  const [showSummaryForm, setShowSummaryForm] = useState(false)
-  const isSummaryValid = !isObjEmpty(projectSummary);
+  const isSummaryValid = projectSummary && !isObjEmpty(projectSummary);
 
-  const { type, nomenclature } = projectSummary
 
   const buttonsJSX = <>
     <ModalButton caption='Update Summary' activeSummaryData={projectSummary} ModalComponent={ProjectSummary_Form} />
-    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject([type, nomenclature])) }} />
+    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject(projectSummary.nomenclature)) }} />
   </>
 
 

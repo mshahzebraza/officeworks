@@ -17,8 +17,8 @@ import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
 
 
-export default function ProjectModule_Form({ closer, projectState = [], oldModuleData = {} }) {
-  const [projectCatName, projectId, assemblies] = projectState
+export default function ProjectModule_Form({ closer, projectState = [], oldModuleData = {}, assemblies = [] }) {
+  const [projectCatName, projectId] = projectState
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
   // Initial Values
   const initialValues = {
     parentAssemblyId: '',
-    type: 'purchased',
+    type: '',
     nomenclature: '',
     id: '',
     qty: '',
@@ -59,7 +59,8 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
     ...assemblyOptionsList
   ]
 
-  const partTypeRadioOptions = [
+  const partTypeOptions = [
+    { key: 'Select One ...', value: '' },
     { key: 'Purchased', value: 'purchased' },
     { key: 'manufactured', value: 'manufactured' },
     { key: 'Standard', value: 'standard' }
@@ -97,8 +98,8 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
               <FormikControl
                 label='Part Type'
                 name='type'
-                control='radio'
-                options={partTypeRadioOptions}
+                control='select'
+                options={partTypeOptions}
               />
               <FormikControl
                 label='Nomenclature'

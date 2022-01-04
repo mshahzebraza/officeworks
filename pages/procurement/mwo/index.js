@@ -18,7 +18,7 @@ export default function MWO(pProps) {
   const [filterState, setFilterState] = useState(false)
 
   // Fetching all the MWO List data
-  const mwoList = useSelector((state) => state.mwo);
+  const mwoList = useSelector((state) => state.mwoList);
 
   let filteredMWOlist = deepClone(mwoList);
 

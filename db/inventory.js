@@ -1,52 +1,7 @@
 
 
-// PARTS are NOT the same as PRODUCTS in inventory. Part is the specific product procured and employed in assembly.
-// 'BATCHES' should be replaced by transactions. but this will cause the repetition of partIds assigned to individual inventory items. This means duplicates will exist in the same part model. 
-// We'll have to ensure that the duplicate part Ids exist only in the same part model (bcz the same parts can be taken out for experiments, test etc. and then submitted to inventory with the same part numbers causing duplicates) and not in other part models.
-// transactions have a structure as
-const transaction = {
-  lastBalance,
-  transactionPolarity, // +ve, -ve
-  transactionType, // +ve: PO/MWO/Disassembly/Lab Return/Debris || -ve: R&D, Relifing,
-  newBalance
-}
-
-// batch entry types 
-// +ve: PO/MWO/Disassembly/Lab Return/Debris || -ve: R&D, Relifing,
-const add_PO_WO = {
-  entryType, qty, entryId,
-  parts, // this can be filled empty but should be assigned part ids ASAP or after metrology reports etc.
-}
-const add_debris = {
-  entryType, qty,
-  // the id should match the new addition if the debris is from a previously manufactured model. otherwise the part should be given another id based on debris receiving date.
-  entryId: 'debris-20210101', // the date at which the debris was received in store
-  parts: []
-}
-const add_disassembly = {
-  entryType, qty,
-  parts: []
-}
-const add_lab_return = {
-  entryType, qty,
-  parts: []
-}
-
-const subtract_RnD = {}
-const subtract_relifing = {}
-const subtract_assembly = {}
 
 
-
-
-
-// Addition of parts is dependant on PO. MWO, Disassembly, Relifing & Manual Entry
-// Removal of parts is based on Assembling, Dispatching, Discarding
-
-// Check all the closed POs and MWOs to populate the inventory list
-// then make transactions based on the lots delivered
-// then check the store to verify the quantities
-// then make MANUAL transactions to match the quantities present in store. MANUAL transactions should be avoided whenever possible
 
 
 
@@ -85,7 +40,7 @@ const subtract_assembly = {}
 
 
 const inventoryDb = {
-  moduleLevelInv: {
+  modules: {
     // Type of part
     special: [ // 01 special Product
       {
@@ -246,5 +201,5 @@ const inventoryDb = {
       },
     ]
   },
-  actuatorLevelInv: {}
+  actuators: {}
 }

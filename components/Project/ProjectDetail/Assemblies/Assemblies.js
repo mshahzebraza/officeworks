@@ -12,9 +12,9 @@ import DataRow from '../../../UI/DataRow/DataRow';
 import DataRowItem from '../../../UI/DataRow/DataRowItem';
 
 
-export default function Assemblies({ projectState = [] }) {
+export default function Assemblies({ projectState = [], assemblyList: assembliesData }) {
 
-  const [activeProjectType, activeProjectId, assembliesData] = projectState;
+  const [activeProjectType, activeProjectId] = projectState;
 
   const isAssembliesValid = assembliesData && assembliesData.length > 0; // would always be non-zero bcz main assembly is always there.
 

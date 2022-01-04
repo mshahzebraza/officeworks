@@ -18,33 +18,27 @@ import ModalButton from '../../components/UI/ModalButton'
 
 
 export default function ProjectDirectory() {
+  // Fetching all the Projects data
+  const projectList = useSelector(state => state.projectList)
 
   const [filterState, setFilterState] = useState(false)
 
-  const [activeProjectTypeIndex, setActiveProjectTypeIndex] = useState(false)
   const [activeProjectIndex, setActiveProjectIndex] = useState(false)
 
-  // Fetching all the Projects data
-  const allProjects = useSelector(state => state.project)
 
-  let filteredProjects = deepClone(allProjects);
+  let filteredProjects = deepClone(projectList);
 
+  // Filtering Projects w.r.t search ID 
   if (filterState) {
-    // Filtering Projects w.r.t search ID 
-    filteredProjects = filteredProjects.map((curCatList) => {
-      curCatList.projects = curCatList.projects.filter((curProject) => {
-        return curProject.nomenclature.includes(filterState.toLocaleUpperCase());
-      });
-      return curCatList;
+    filteredProjects = filteredProjects.filter((curProject) => {
+      return curProject.nomenclature.includes(filterState.toLocaleUpperCase());
     });
   }
 
-
-
   // Fetching data of selected Project Id (highlighted in the SideNav)
-  const activeTypeProjectObject = filteredProjects[activeProjectTypeIndex];
-  const activeTypeProjectList = activeTypeProjectObject && activeTypeProjectObject.projects;
-  const activeProject = activeTypeProjectList && activeTypeProjectList[activeProjectIndex];
+  const activeProject = filteredProjects[activeProjectIndex];
+
+
 
 
   return (
@@ -60,7 +54,9 @@ export default function ProjectDirectory() {
       <SideNav
         outerClasses={[styles.sideNav]}
         list={filteredProjects}
-        detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
+        projectIndexStates={[activeProjectIndex, setActiveProjectIndex]}
+      // detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
+      // detailSummaryStates={[activeProjectIndex, setActiveProjectIndex]}
       />
       <ProjectDetail
         outerClasses={[styles.body]}

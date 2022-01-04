@@ -86,6 +86,7 @@ export default function ProjectSummary_Form({ closer, activeSummaryData: oldSumm
                 name='nomenclature'
                 control='input'
                 type='text'
+                disabled={!isNewSubmission}
               />
               {/* application */}
               <FormikControl

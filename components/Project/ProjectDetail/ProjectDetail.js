@@ -21,7 +21,10 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc. // not related to sideNav
 
 
-  const summaryData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target', 'assemblies']);
+  // const summaryData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target', 'assemblies']);
+  const summaryData = activeProjectData && activeProjectData.summary;
+  const assemblyList = activeProjectData && activeProjectData.assemblies;
+
 
   const specialModuleCategories = ['purchased', 'manufactured', 'standard'];
   const allParts = mapDataToCategory(activeProjectData.parts, specialModuleCategories)
@@ -46,21 +49,22 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
 
       {/* List of Assemblies */}
       <Assemblies
-        projectState={[summaryData.type, summaryData.nomenclature, summaryData.assemblies]}
+        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
+        assemblyList={assemblyList}
       />
 
       {/* Spec Part List */}
       <SpecialModules
         specParts={specParts}
-        moduleState={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
-        projectState={[summaryData.type, summaryData.nomenclature, summaryData.assemblies]}
+        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
+        assemblyList={assemblyList}
       />
 
       {/* Std Part List */}
       <StandardModules
         stdParts={stdParts}
-        moduleState={[activeModuleType, setActiveModuleType, activeModule, setActiveModule]}
-        projectState={[summaryData.type, summaryData.nomenclature, summaryData.assemblies]}
+        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
+        assemblyList={assemblyList}
       />
 
     </section>

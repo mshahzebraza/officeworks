@@ -17,7 +17,9 @@ import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
 
 
-export default function ProjectModule_Form({ closer, projectCatName, projectId, assemblies = [], oldModuleData = {} }) {
+export default function ProjectModule_Form({ closer, projectState = [], oldModuleData = {} }) {
+  const [projectCatName, projectId, assemblies] = projectState
+
   const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldModuleData);

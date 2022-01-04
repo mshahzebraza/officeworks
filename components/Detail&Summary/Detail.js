@@ -1,8 +1,10 @@
 import React from 'react'
 import { concatStrings } from '../../helpers/reusable';
 import styles from './Detail.module.scss'
+import DetailBody from './DetailBody';
+import DetailHeader from './DetailHeader';
 
-export default function Detail({ defaultOpen = false, title, click = () => { }, children = '', states = [] }) {
+export default function Detail({ defaultOpen = false, title, click = () => { }, children: data = '', states = [] }) {
 
   // If the click is to mutate the state, then setter function along with the value for the current instance is passes. and onclick sets the state to current instance value
   const [itemValue, setValueState] = states || [];
@@ -17,21 +19,15 @@ export default function Detail({ defaultOpen = false, title, click = () => { }, 
   return (
     <details className={styles.detail} open={defaultOpen} >
 
-      <summary className={styles.detailHeader} onClick={clickHandler} >
-        {
-          title && <h3 className={
-            concatStrings([styles.detailTitle, !children.length > 0 && styles.detailTitleEmpty])
-          } >
-            {title}
-          </h3>
-        }
-      </summary>
+      <DetailHeader
+        click={clickHandler}
+        title={title}
+        data={data}
+      />
 
-      {
-        children.length > 0 && <div className={styles.detailBody}>
-          {children}
-        </div>
-      }
+      <DetailBody
+        data={data}
+      />
 
-    </details>);
+    </details >);
 }

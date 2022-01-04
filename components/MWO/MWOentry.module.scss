@@ -3,10 +3,10 @@
 	// margin: auto;
 	// max-width: 80rem;
 	padding: 1rem 2rem;
-	// (100vw - desiredContentWidth)/2
 	// padding: 1rem calc((100vw - 120rem) / 2);
+	// padding: 1rem;
+	// (100vw - desiredContentWidth)/2
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
@@ -15,61 +15,30 @@
 	border-radius: 0.5rem;
 
 	&Index {
-		// border: 1px dotted saddlebrown;
-		flex: 1;
-		// flex: 0 0 5%;
-		// color: royalblue;
 	}
 
-	&Type {
-		// border: 1px dotted saddlebrown;
-		flex: 1;
-		// flex: 0 0 5%;
-		// color: royalblue;
+	&MWOid {
 	}
 
-	&Id {
-		// border: 1px dotted saddlebrown;
-		flex: 3;
-		// flex: 0 0 15%;
-		// color: royalblue;
+	&ItemName {
 	}
 
-	&ItemList {
-		// border: 1px dotted saddlebrown;
-		flex: 6;
-		// flex: 0 1 44%;
-		display: flex;
-		gap: 1rem;
-		// justify-content: space-between;
-		// color: royalblue;
+	&Qty {
 	}
 
-	&Item {
+	// &ItemId {
+	// 	// border: 1px dotted saddlebrown;
+	// 	flex: 0 0 14%;
+	// 	// color: royalblue;
+	// }
+
+	&Application {
 		// border: 1px dotted saddlebrown;
-		// flex: 0 0 35%;
+		// flex: 0 0 20%;
 		// color: royalblue;
-		padding: 0.25em 0.5em;
-		border-radius: 0.5rem;
-		// background: hsla(0, 0%, 0%, 0.15);
-		background: $nuteLite5;
-
-		&Empty {
-			color: $redAccent;
-		}
-
-		&:hover {
-			cursor: pointer;
-			background: $nuteLite4;
-			// background: $nuteLite1;
-		}
 	}
 
 	&Status {
-		// border: 1px dotted saddlebrown;
-		flex: 2;
-		flex: 0 0 11%;
-		// flex: 0 1 10%;
 		display: flex;
 		// justify-content: space-between;
 		// align-items: center;
@@ -84,14 +53,17 @@
 			height: 2rem;
 			border-radius: 0.35rem;
 
+			&-notstarted {
+				background-color: hsl(0, 80%, 61%);
+			}
 			&-active {
-				background-color: $orangeAccent;
+				background-color: rgb(235, 179, 76);
 			}
 			&-delivered {
-				background-color: $prime;
+				background-color: rgb(78, 134, 247);
 			}
 			&-closed {
-				background-color: $greenAccent;
+				background-color: rgb(71, 220, 41);
 			}
 		}
 		&Text {
@@ -104,7 +76,7 @@
 			transition: 0.2s ease all;
 		}
 		&:hover {
-			background: $nuteLite5;
+			background: hsla(0, 0%, 0%, 0.15);
 			cursor: pointer;
 			*:nth-child(n + 2) {
 				transform: translateX(0);
@@ -118,18 +90,17 @@
 
 	&Controls {
 		// border: 1px dotted saddlebrown;
-		flex: 4;
-		flex: 0 0 20%;
+		// flex: 0 0 15%;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		// align-items: center;
 		button {
-			flex-basis: 20%;
+			flex-basis: 25%;
 			padding: 0.65rem;
 
 			border-radius: 0.35rem;
-			box-shadow: 0.2rem 0.2rem 1rem $nuteLite4;
+			box-shadow: 0.2rem 0.2rem 0.2rem $nuteLite4;
 			transition: 0.2s ease all;
 
 			&:active,
@@ -138,10 +109,10 @@
 				cursor: pointer;
 			}
 			&:hover {
-				// background-color: $nuteLite4;
+				// background-color: hsla(0, 0%, 0%, 15%);
 			}
 			&:active {
-				// background-color: $nuteLite2;
+				// background-color: hsla(0, 0%, 0%, 45%);
 				// background-color: darken($color: black, $amount: 0.01);
 			}
 		}

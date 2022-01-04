@@ -35,8 +35,11 @@ export default function Modal({ title, closer, children }) {
               {/* <span className={`tooltipContent`} >Edit Record</span> */}
             </button>
           </div>
+
           {/* content body */}
-          {children}
+          <div className={styles.contentBody}>
+            {children}
+          </div>
         </div>
       </BackDrop>
     </>

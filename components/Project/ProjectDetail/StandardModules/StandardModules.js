@@ -10,6 +10,9 @@ import { useDispatch } from 'react-redux';
 import { projectActions } from '../../../../store/project/project-slice';
 import Button from '../../../UI/Button';
 import ModalButton from '../../../UI/ModalButton';
+import DataRow from '../../../UI/DataRow/DataRow';
+import DataRowItem from '../../../UI/DataRow/DataRowItem';
+
 
 export default function StandardModules({ stdParts, moduleState, projectState }) {
 
@@ -34,9 +37,7 @@ export default function StandardModules({ stdParts, moduleState, projectState })
     <ModalButton
       caption='Add Part'
       ModalComponent={ProjectModule_Form}
-      projectCatName={projectType}
-      projectId={projectId}
-      assemblies={assemblies}
+      projectState={projectState}
     />
   </>
 
@@ -70,20 +71,31 @@ export default function StandardModules({ stdParts, moduleState, projectState })
                   (stdPart, idx2) =>
                     <DetailItem
                       key={idx2}
-                      detailId={stdPartCat}
-                      detailItemId={stdPart.id}
-                      selectionStates={moduleState}
-                      outerClasses={[styles.entry]}
+                    // detailId={stdPartCat}
+                    // detailItemId={stdPart.id}
+                    // selectionStates={moduleState}
                     >
-                      <span className={styles.entryIndex}> {idx2 + 1}.</span>
-                      <span className={styles.entryId}> {stdPart.id}</span>
-                      <span className={styles.entryOther}> ---</span>
-                      <span className={styles.entryQty}> {stdPart.qty}/Act</span>
-                      <div className={styles.entryCommands}>
-                        <EntryCtrlBtn type={'Summary'} click={() => { setUpdateFormState({ show: true, data: stdPart }) }} />
-                        <EntryCtrlBtn type={'Update'} click={() => { setUpdateFormState({ show: true, data: stdPart }) }} />
-                        <EntryCtrlBtn type={'Delete'} click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, stdPart.id])) }} />
-                      </div>
+                      <DataRow raw >
+                        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${idx2 + 1}.`} />
+                        <DataRowItem flex={2} outerClasses={[styles.entryId]} content={`${stdPart.id}`} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryOther]} content={` ---`} />
+                        <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${stdPart.qty}/Act`} />
+                        <DataRowItem
+                          flex={4}
+                          outerClasses={[styles.entryCommands]}
+                          content={<>
+                            <ModalButton
+                              caption='U'
+                              ModalComponent={ProjectModule_Form}
+                              projectState={projectState}
+                              oldModuleData={stdPart}
+                            />
+                            <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
+                            <Button caption='D' click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, stdPart.id])) }} />
+
+                          </>}
+                        />
+                      </DataRow>
                     </DetailItem>
                 )
               }
@@ -95,23 +107,4 @@ export default function StandardModules({ stdParts, moduleState, projectState })
     </DetailSection>
 
   );
-}
-
-
-function EntryCtrlBtn(props) { // Pass the `TYPE` in sentence case
-
-  return (
-    <button
-      className={`${styles[`entryCommands${props.type}`]} ${`tooltip`}`}
-      onClick={props.click}
-    >
-      {/* <Image
-        src={`/icons/${props.type}.png`}
-        alt={props.type}
-        width={20}
-        height={20} /> */}
-      {props.type.split('')[0]}
-      <span className={`tooltipContent`}>{props.type}</span>
-    </button>
-  )
 }

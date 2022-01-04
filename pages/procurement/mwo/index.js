@@ -7,7 +7,7 @@ import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
 import MWO_Form from '../../../components/MWO/MWO_Form'
-import MWOentryBar from '../../../components/MWO/MWOentryBar'
+import MWOentry from '../../../components/MWO/MWOentry'
 import Layout from '../../../components/Layout/Layout';
 import { checkDataType, deepClone } from '../../../helpers/reusable';
 import ModalButton from '../../../components/UI/ModalButton';
@@ -46,7 +46,7 @@ export default function MWO(pProps) {
         {
           filteredMWOlist && checkDataType(filteredMWOlist) === 'array' && filteredMWOlist.length > 0 &&
           filteredMWOlist.map((poData, idx) => {
-            return <MWOentryBar
+            return <MWOentry
               key={idx}
               mwoIndex={idx}
               mwoData={poData}

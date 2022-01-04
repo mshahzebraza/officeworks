@@ -1,25 +1,15 @@
 .entry {
-	display: flex;
-	gap: 1rem;
-	justify-content: space-between;
-	align-items: center;
-	// background: red;
-	// color: red;
+	//
 	&Index {
-		flex: 1;
 	}
 	&Nomenclature {
-		flex: 4;
 	}
 	&Id {
-		flex: 5;
 	}
 	&Qty {
-		flex: 1.5;
 	}
 
 	&Commands {
-		flex: 2;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;

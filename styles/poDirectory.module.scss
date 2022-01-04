@@ -10,6 +10,15 @@ main.container {
 	background: var(reddish);
 }
 
+.flexOne {
+	flex: 1;
+}
+.flexTwo {
+	flex: 2;
+}
+.flexThree {
+	flex: 3;
+}
 // .header {
 // 	display: flex;
 // 	justify-content: space-between;

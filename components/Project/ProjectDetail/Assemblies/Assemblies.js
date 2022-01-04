@@ -8,6 +8,9 @@ import ProjectAssembly_Form from '../ProjectForms/ProjectAssembly_Form';
 import { projectActions } from '../../../../store/project/project-slice';
 import { useDispatch } from 'react-redux';
 import ModalButton from '../../../UI/ModalButton';
+import DataRow from '../../../UI/DataRow/DataRow';
+import DataRowItem from '../../../UI/DataRow/DataRowItem';
+
 
 export default function Assemblies({ projectState = [] }) {
 
@@ -56,28 +59,48 @@ export function Assembly(props) {
   const dispatch = useDispatch();
   // console.log(props);
 
-  const [showAssemblyForm, setShowAssemblyForm] = useState(false)
 
 
   return (
-    <div className={styles.assembly}>
-      {
-        showAssemblyForm &&
-        < ProjectAssembly_Form
-          closer={() => setShowAssemblyForm(false)}
-          activeProjectType={activeProjectType}
-          activeProjectId={activeProjectId}
-          activeAssembliesData={assembliesData}
-          activeAssemblyData={assemblyData}
-        />
-      }
-      <span className={styles.assembly_index}>{props.index + 1}.</span>
-      <span className={styles.assembly_id}>{assemblyData.id}</span>
-      <span className={styles.assembly_nomenclature}>{assemblyData.nomenclature}</span>
-      <span className={styles.assembly_parent}>{assemblyData.parent || '0000'}</span>
+    <DataRow outerClasses={[styles.assembly]}>
+      <DataRowItem
+        flex={1}
+        outerClasses={[styles.assembly_index]}
+        content={props.index + 1}
+      />
+      <DataRowItem
+        flex={2}
+        outerClasses={[styles.assembly_id]}
+        content={assemblyData.id}
+      />
+      <DataRowItem
+        flex={6}
+        outerClasses={[styles.assembly_nomenclature]}
+        content={assemblyData.nomenclature}
+      />
+      <DataRowItem
+        flex={2}
+        outerClasses={[styles.assembly_parent]}
+        content={assemblyData.parent || '0000'}
+      />
+      <DataRowItem
+        flex={3}
+        outerClasses={[styles.assembly_controls]}
+        content={<>
+          <ModalButton
+            caption='Edit'
+            disabled={['0000', 'FAST'].includes(assemblyData.id)}
+            ModalComponent={ProjectAssembly_Form}
+            activeProjectType={activeProjectType}
+            activeProjectId={activeProjectId}
+            activeAssembliesData={assembliesData}
+            activeAssemblyData={assemblyData}
+          />
+          <Button caption='Delete' disabled={['0000', 'FAST'].includes(assemblyData.id)} click={() => { dispatch(projectActions.deleteAssembly([activeProjectType, activeProjectId, assemblyData.id])) }} />
 
-      <Button caption='Edit' disabled={['0000', 'FAST'].includes(assemblyData.id)} click={() => setShowAssemblyForm(state => !state)} />
-      <Button caption='Delete' disabled={['0000', 'FAST'].includes(assemblyData.id)} click={() => { dispatch(projectActions.deleteAssembly([activeProjectType, activeProjectId, assemblyData.id])) }} />
-    </div>
+        </>}
+      />
+
+    </DataRow>
   )
 }

@@ -245,3 +245,5 @@ The update format form will need one extra prop `activeAssemblyData` which will 
 ## Add Header bars
 
 Every data row/bar like POentryBar needs to have a header. This can be done by having a header row shown if the array length is non-zero.
+
+## Auto Summary generator (capable of rendering lists as well)

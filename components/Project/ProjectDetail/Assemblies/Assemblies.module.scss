@@ -2,6 +2,7 @@
 
 .assemblies {
 	display: flex;
+	// justify-content: space-between;
 	flex-direction: column;
 	gap: 1rem;
 	padding: 1rem;
@@ -22,15 +23,16 @@
 	}
 
 	&_index {
-		flex: 0.5;
 	}
 	&_id {
-		flex: 1;
 	}
 	&_nomenclature {
-		flex: 4;
 	}
 	&_parent {
-		flex: 1;
+	}
+	&_controls {
+		display: flex;
+		justify-content: flex-end;
+		gap: 1rem;
 	}
 }

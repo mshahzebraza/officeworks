@@ -1,21 +1,22 @@
 import React from 'react'
 import { useState } from 'react';
+import Button from './Button';
 
-function ModalButton({ caption = 'Show Modal', ModalComponent, ...rest }) {
-  // modalState & modalStateSetter = stateVariables
-  // const [modalState, setModalState] = stateVariables;
+function ModalButton({ caption = 'Show Modal', ModalComponent, outerClasses = [], tooltip = '', disabled, children, ...rest }) {
+
 
   const [modalState, setModalState] = useState(false)
   return (
     <>
-      {/* <button onClick={() => setShowModal(true)} >Add a MWO</button>
-      {showModal && <MWO_Form closer={() => setShowModal(false)} />} */}
-      <button
-        type='button'
-        onClick={() => setModalState(true)}
+      <Button
+        outerClasses={outerClasses}
+        click={() => setModalState(true)}
+        caption={caption && caption}
+        tooltip={tooltip}
+        disabled={disabled}
       >
-        {caption}
-      </button>
+        {children}
+      </Button>
 
       {modalState && <ModalComponent {...rest} closer={() => setModalState(false)} />}
 

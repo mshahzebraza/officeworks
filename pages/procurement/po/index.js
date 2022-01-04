@@ -7,20 +7,18 @@ import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
 import PO_Form from '../../../components/PO/PO_Form'
-import POentryBar from '../../../components/PO/POentryBar'
+import POentry from '../../../components/PO/POentry'
 import Layout from '../../../components/Layout/Layout';
 import { deepClone } from '../../../helpers/reusable';
 import ModalButton from '../../../components/UI/ModalButton';
 import SearchInput from '../../../components/UI/SearchInput';
+import DataRow from '../../../components/UI/DataRow/DataRow';
+import DataRowItem from '../../../components/UI/DataRow/DataRowItem';
 
 
 export default function PO(pageProps) {
 
   const [filterState, setFilterState] = useState(false)
-
-
-  const [showModal, setShowModal] = useState(false);
-
 
   // Fetching all the Projects data
   const poList = useSelector((state) => state.po);
@@ -48,11 +46,12 @@ export default function PO(pageProps) {
       <section className={`pageBody`} >
         {
           filteredPOlist.map((poData, idx) => {
-            return <POentryBar
+            return <POentry
               key={idx}
               poData={poData}
               poIndex={idx}
             />
+
           })
         }
       </section>

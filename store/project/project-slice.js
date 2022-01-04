@@ -106,7 +106,9 @@ const projectSlice = createSlice({
 
         pjState[matchPjIdx] = {
           ...matchPj,
-          ...summaryData
+          summary: {
+            ...summaryData
+          }
         }
       } else {
         alert(`Project Id doesn't match existing Projects`);

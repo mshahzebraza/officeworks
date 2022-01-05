@@ -104,11 +104,11 @@ const projectSlice = createSlice({
       if (matchPjIdx >= 0) {
         // Nomenclature Match: override the old keys
 
-        pjState[matchPjIdx] = {
-          ...matchPj,
-          summary: {
-            ...summaryData
-          }
+        pjState[matchPjIdx].summary = {
+          ...summaryData
+          // ...matchPj,
+          // summary: {
+          // }
         }
       } else {
         alert(`Project Id doesn't match existing Projects`);

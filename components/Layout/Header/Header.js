@@ -19,10 +19,11 @@ export default function Header() {
         {/* Nav */}
         <ul className={styles.navList}>
           {/* <NavItem text={'Procurement'} path={`/procurement`}></NavItem> */}
-          <NavItem text={'PO'} path={`/procurement/po`}></NavItem>
-          <NavItem text={'MWO'} path={`/procurement/mwo`}></NavItem>
+          <NavItem text={'POs'} path={`/procurement/po`}></NavItem>
+          <NavItem text={'MWOs'} path={`/procurement/mwo`}></NavItem>
 
-          <NavItem text={'Inventory'} path={`/inventory`}></NavItem>
+          {/* <NavItem text={'Inventory'} path={`/inventory`}></NavItem> */}
+          <NavItem text={'Transactions'} path={`/transaction`}></NavItem>
           <NavItem text={'Projects'} path={`/projects`}></NavItem>
         </ul>
       </nav>

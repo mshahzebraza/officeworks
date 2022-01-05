@@ -256,22 +256,3 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
   }
 }
 
-
-// Input
-/* 
-{
-  caption,
-  click,
-  styleArr
-}
- */
-
-export function buttonGenerator(caption = 'Button', click = () => { }, styleArr = [], btnDataKey) {
-  return <button
-    key={btnDataKey}
-    onClick={click}
-    className={concatStrings(styleArr)}
-  >
-    {caption}
-  </button>
-}

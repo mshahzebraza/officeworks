@@ -11,5 +11,6 @@ export const store = configureStore({
     poList: poSlice.reducer,
     mwoList: mwoSlice.reducer,
     projectList: projectSlice.reducer,
+    // transactionList: projectSlice.reducer,
   },
 });

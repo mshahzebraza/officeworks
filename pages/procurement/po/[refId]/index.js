@@ -37,7 +37,7 @@ export async function getServerSideProps(context) {
 
 export default function POdetailPage({ pageId }) {
   // Find the po-data against the ID in URL
-  const poState = useSelector(state => { return state.po })
+  const poState = useSelector(state => { return state.poList })
 
   pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
   poState.length === 0 && router.push(`/procurement/po`)

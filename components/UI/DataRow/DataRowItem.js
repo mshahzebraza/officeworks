@@ -9,7 +9,7 @@ function DataRowItem({ flex, content = 'No content', outerClasses = [] }) {
       className={concatStrings([styles.entryItems, ...outerClasses])}
       style={{ flex: flex }}
     >
-      {content}
+      {content.toString()}
     </div>
   )
 }

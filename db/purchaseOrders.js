@@ -68,52 +68,53 @@ const purchaseOrdersDb = [
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'RS-001200123',
+        id: 'M 5*15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
         specification: {
-          type: 'Slot Head',
-          dimensions: 'M2 x 10',
+          headType: 'Slot Head',
+          // screwValues: 'M2 x 10',
+          orderCode: 'RS 0152253',
           material: 'SS A4',
         }
       },
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'RS-001200123',
+        id: 'M 5*15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
         specification: {
-          type: 'Slot Head',
-          dimensions: 'M2 x 10',
+          headType: 'Slot Head',
+          screwValues: 'M2 x 10',
           material: 'SS A4',
         }
       },
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'RS-001200123',
+        id: 'M 5*15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
         specification: {
-          type: 'Slot Head',
-          dimensions: 'M2 x 10',
+          headType: 'Slot Head',
+          screwValues: 'M2 x 10',
           material: 'SS A4',
         }
       },
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'RS-001200123',
+        id: 'M 5*15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
         specification: {
-          // type: 'Slot Head',
-          // dimensions: 'M2 x 10',
+          // headType: 'Slot Head',
+          // screwValues: 'M2 x 10',
           // material: 'SS A4',
         }
       },

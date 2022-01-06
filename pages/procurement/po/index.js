@@ -22,7 +22,6 @@ export default function PO(pageProps) {
 
   // Fetching all the Projects data
   const poList = useSelector((state) => state.poList);
-  console.log(poList);
   let filteredPOlist = deepClone(poList);
 
   if (filterState) {

@@ -18,6 +18,15 @@ import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 
 
+export function EntryItemName(props) {
+  console.log('props');
+  return (
+    <span className={`${styles.entryItem} ${props.isEmpty && styles.entryItemEmpty}`}>
+      {props.isEmpty ? 'No Item Found' : props.content}
+    </span>
+  )
+}
+
 export default function POentry({ poData, poIndex }) {
 
   const router = useRouter()
@@ -29,7 +38,7 @@ export default function POentry({ poData, poIndex }) {
   let refinedItemList = [];
   if (poItems && poItems.length > 0) {
     const itemListArray = poItems.map((el, elIdx) => el.name); // ['po_item1', 'po_item1', 'po_item2']
-    refinedItemList = removeDuplicate(itemListArray); // [{reusable: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
+    refinedItemList = removeDuplicate(itemListArray); // [{item: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
   }
 
 
@@ -65,7 +74,8 @@ export default function POentry({ poData, poIndex }) {
           outerClasses={[styles.entryItemList]}
           content={
             refinedItemList.length > 0
-              ? refinedItemList.map((el, idx) => <EntryItemName content={el.item} key={idx} />)
+              // ? refinedItemList.map((el, idx) => <EntryItemName content={el.item} key={idx} />)
+              ? refinedItemList.map((el, idx) => el.item)
               : <EntryItemName isEmpty />
           }
         />
@@ -106,11 +116,3 @@ export default function POentry({ poData, poIndex }) {
   width={20}
   height={20} />
  */}
-
-function EntryItemName(props) {
-  return (
-    <span className={`${styles.entryItem} ${props.isEmpty && styles.entryItemEmpty}`}>
-      {props.isEmpty ? 'No Item Found' : props.content}
-    </span>
-  )
-}

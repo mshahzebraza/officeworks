@@ -16,6 +16,7 @@ import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
+import InvalidModal from '../UI/Invalid'
 
 export default function POentry({ poData, poIndex }) {
 
@@ -79,7 +80,8 @@ export default function POentry({ poData, poIndex }) {
           flex={4}
           outerClasses={[styles.entryControls]}
           content={<>
-            <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={PO_Form} oldPOdata={poData} />
+            <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={poData.status !== 'Closed' && PO_Form || InvalidModal} oldPOdata={poData} />
+
             <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} itemList={refinedItemList} />
             <Button caption='Detail' click={() => router.push(`po/${poIndex}`)} />
             <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} />

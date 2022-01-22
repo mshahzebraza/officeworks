@@ -1,7 +1,7 @@
 // Dependency & Helpers
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { concatStrings, transformArray } from '../../helpers/reusable'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // Store
 // Styles
 import styles from '../../styles/inventoryDirectory.module.scss'
@@ -12,18 +12,31 @@ import SearchInput from '../../components/UI/SearchInput'
 import ModalButton from '../../components/UI/ModalButton'
 import DataRow from '../../components/UI/DataRow/DataRow'
 import DataRowItem from '../../components/UI/DataRow/DataRowItem'
+import { isEmptyArray } from 'formik'
+import { fetchTransactions_Thunk } from '../../store/transaction/transaction-slice'
 
 export default function TransactionDirectory(pProps) {
 
-  let data;
-  const state = useSelector(state => state)
-  const { transactionList } = state
+  const dispatch = useDispatch();
 
-  // console.log(transactionList);
-  // data = [
-  //   ...filterPOtransaction(state.poList),
-  //   ...filterMWOtransaction(state.mwoList)
-  // ]
+  useEffect(() => {
+    dispatch(fetchTransactions_Thunk())
+  }, [dispatch]);
+
+
+  let data;
+  const transactionList = useSelector(state => state.transactionList)
+
+  // if (isEmptyArray(transactionList)) {
+  //   const { poList, mwoList } = state
+  //   const dispatch = useDispatch()
+
+  //   transactionList =
+  //     [
+  //       ...filterPOtransaction(state.poList),
+  //       ...filterMWOtransaction(state.mwoList)
+  //     ]
+  // }
 
 
   // data.forEach((txn, idx) => {
@@ -69,6 +82,7 @@ export default function TransactionDirectory(pProps) {
             return <DataRow key={idx}>
               {/* <DataRowItem content={txn.tid} flex={2} /> */}
               {/* <DataRowItem content={txn.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
+              <DataRowItem content={idx + 1} flex={0.5} />
               <DataRowItem content={txn.product} flex={2} />
               <DataRowItem content={txn.id} flex={2} />
               <DataRowItem content={txn.qty} flex={1} />
@@ -88,72 +102,3 @@ export default function TransactionDirectory(pProps) {
   )
 }
 // End Page Component
-
-/* 
-
-export function POtransactionMap(data = {}, idx, refId, supplier) {
-  const subLength = 6;
-  // return 'transaction' object
-  return {
-    tid: `${idx}_${refId}_${Date.now().toString().substring(13 - subLength, 13)}`, // auto-generated transaction id
-    type: 'deposit', // bcz of PO
-    product: data.name,
-    id: data.id,
-    qty: data.qty,
-    intent: refId && `PO_${refId}` || 'poId', // reason of transaction
-    party: supplier && supplier.split(' ').slice(0, 2).join(' ') || 'supplier', // 'NDC PD', 'NESCOM PD'
-    date: 'receivingDate', //receivingDate
-    remarks: data.remarks,
-  };
-}
-
-
-export function filterPOtransaction(poList) {
-  // list of transactions
-  let result;
-
-
-  result = poList.reduce((acc, cur, arr) => {
-
-    if (!cur.items) return acc;
-
-    const transformedTransactionsPO = cur.items.map((poItem, idx) => {
-      return POtransactionMap(poItem, idx, cur.refId, cur.supplier)
-    })
-
-    return acc.concat(transformedTransactionsPO);
-
-  }, []);
-
-  return result;
-}
-
-export function MWOtransactionMap(data = {}, idx) {
-  const subLength = 6;
-  const dateSegment = Date.now().toString().substring(13 - subLength, 13);
-  // return 'transaction' object
-  return {
-    tid: `${idx}_${data.mwoId}_${dateSegment}`, // auto-generated transaction id
-    type: 'deposit', // bcz of PO
-    product: data.itemName,
-    id: data.itemId,
-    qty: data.qty,
-    intent: data.mwoId && `MWO_${data.mwoId}` || 'poId', // reason of transaction
-    party: 'PPC', // 'NDC PD', 'NESCOM PD'
-    date: 'receivingDate', //receivingDate
-    remarks: data.remarks,
-  };
-}
-
-export function filterMWOtransaction(mwoList) {
-
-  let transformedTransactionsMWO;
-
-  transformedTransactionsMWO = mwoList.map((mwo, idx) => {
-    return MWOtransactionMap(mwo, idx)
-  })
-
-  return transformedTransactionsMWO;
-}
-
- */

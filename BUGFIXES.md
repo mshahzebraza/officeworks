@@ -255,3 +255,26 @@ Every data row/bar like POentryBar needs to have a header. This can be done by h
 # Restructure DB
 
 Change the nesting of `projects` within the `categories` and add a `projectType` key in the `projects`
+
+# Disable the option to edit 'Closed' the POs and MWOs
+
+Initial Transactions are to be calculated using the existing items in only those POs and MWOs whose status is set to "Closed", which in turn calculates the inventory.
+
+After this, if somebody changes the status from closed to any other, say 'Active', then it the data in the transactions will no longer be valid. One way to avoid this is to make the transaction component dynamic and watch if there is any change in the status of POs and MWOs.
+
+OR we can simply restrict the user to change the data once a PO/MWO is declared "Closed".
+
+For now i'll assume that no one changes the data of the "Closed" PO but later we'll have to restrict the option.
+
+# Hierarchy of transactions
+
+There are two options.
+
+1. Nest according to initiator ('system' or 'user')
+2. Add initiator key in each transaction.
+
+I want the app to update the system generated Transactions regularly using `useEffect` but as far as the user-generated transactions are concerned, they are to remain static. This is adding items in the PO/MWO or changing their quantity affects the transactions. Hence, they need to watch for changes.
+
+This means that on each pageLoad i'll have to purge the previous PO/MWO transaction data and replace it with the new one.
+
+Now if i adopt option# 01, then i'll have to search the 'initiator' key of each transaction before deleting it. But this makes it easier to add transactions and perform actions.

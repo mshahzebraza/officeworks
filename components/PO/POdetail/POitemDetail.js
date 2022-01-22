@@ -17,9 +17,6 @@ import Button from '../../UI/Button';
 export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {
   const dispatch = useDispatch();
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false)
-  const [showSpecForm, setShowSpecForm] = useState(false)
-
   const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
   const itemSpecification = checkDataType(curItemData.specification) === 'object'

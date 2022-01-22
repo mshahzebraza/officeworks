@@ -17,11 +17,14 @@ export default function TransactionDirectory(pProps) {
 
   let data;
   const state = useSelector(state => state)
+  const { transactionList } = state
 
-  data = [
-    ...filterPOtransaction(state.poList),
-    ...filterMWOtransaction(state.mwoList)
-  ]
+  // console.log(transactionList);
+  // data = [
+  //   ...filterPOtransaction(state.poList),
+  //   ...filterMWOtransaction(state.mwoList)
+  // ]
+
 
   // data.forEach((txn, idx) => {
   //   console.log(idx + 1);
@@ -59,13 +62,13 @@ export default function TransactionDirectory(pProps) {
 
       <section className='pageBody'>
         {
-          data.map((txn, idx) => {
+          transactionList.map((txn, idx) => {
 
             // const [tid, type, product, id, qty, intent, party, date, remarks] = txn;
 
             return <DataRow key={idx}>
               {/* <DataRowItem content={txn.tid} flex={2} /> */}
-              <DataRowItem content={txn.type === 'deposit' ? '+' : '-'} flex={0.5} />
+              {/* <DataRowItem content={txn.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
               <DataRowItem content={txn.product} flex={2} />
               <DataRowItem content={txn.id} flex={2} />
               <DataRowItem content={txn.qty} flex={1} />
@@ -73,17 +76,7 @@ export default function TransactionDirectory(pProps) {
               <DataRowItem content={txn.party} flex={2.5} />
               {/* <DataRowItem content={txn.date} flex={2} /> */}
               {/* <DataRowItem content={txn.remarks} flex={1} /> */}
-              {/* 
-              tid
-              type
-              product
-              id
-              qty
-              intent
-              party
-              date
-              remarks
-               */}
+
             </DataRow>
           })
         }
@@ -96,7 +89,7 @@ export default function TransactionDirectory(pProps) {
 }
 // End Page Component
 
-
+/* 
 
 export function POtransactionMap(data = {}, idx, refId, supplier) {
   const subLength = 6;
@@ -108,7 +101,7 @@ export function POtransactionMap(data = {}, idx, refId, supplier) {
     id: data.id,
     qty: data.qty,
     intent: refId && `PO_${refId}` || 'poId', // reason of transaction
-    party: supplier || 'supplier', // 'NDC PD', 'NESCOM PD'
+    party: supplier && supplier.split(' ').slice(0, 2).join(' ') || 'supplier', // 'NDC PD', 'NESCOM PD'
     date: 'receivingDate', //receivingDate
     remarks: data.remarks,
   };
@@ -163,3 +156,4 @@ export function filterMWOtransaction(mwoList) {
   return transformedTransactionsMWO;
 }
 
+ */

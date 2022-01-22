@@ -17,16 +17,6 @@ import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 
-
-export function EntryItemName(props) {
-  console.log('props');
-  return (
-    <span className={`${styles.entryItem} ${props.isEmpty && styles.entryItemEmpty}`}>
-      {props.isEmpty ? 'No Item Found' : props.content}
-    </span>
-  )
-}
-
 export default function POentry({ poData, poIndex }) {
 
   const router = useRouter()
@@ -41,6 +31,14 @@ export default function POentry({ poData, poIndex }) {
     refinedItemList = removeDuplicate(itemListArray); // [{item: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
   }
 
+  let refinedItemsJsx;
+  if (refinedItemList.length > 0) {
+    refinedItemsJsx = refinedItemList.map((el, idx) => {
+      return <EntryItemName content={el.item} key={idx} />
+    })
+  } else {
+    refinedItemsJsx = <EntryItemName isEmpty />
+  }
 
   return (
     <>
@@ -48,36 +46,20 @@ export default function POentry({ poData, poIndex }) {
       <DataRow>
 
         {/* Serial */}
-        <DataRowItem
-          flex={1}
-          outerClasses={[styles.entryIndex]}
-          content={poIndex + 1}
-        />
+        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={poIndex + 1} />
 
         {/* Ref Type */}
-        <DataRowItem
-          flex={1.5}
-          outerClasses={[styles.entryType]}
-          content={poData.refType}
-        />
+        <DataRowItem flex={1.5} outerClasses={[styles.entryType]} content={poData.refType} />
 
         {/* Ref ID */}
-        <DataRowItem
-          flex={2}
-          outerClasses={[styles.entryId]}
-          content={poData.refId}
-        />
+        <DataRowItem flex={2} outerClasses={[styles.entryId]} content={poData.refId} />
 
         {/* PO Items */}
         <DataRowItem
           flex={5}
           outerClasses={[styles.entryItemList]}
-          content={
-            refinedItemList.length > 0
-              // ? refinedItemList.map((el, idx) => <EntryItemName content={el.item} key={idx} />)
-              ? refinedItemList.map((el, idx) => el.item)
-              : <EntryItemName isEmpty />
-          }
+          content={refinedItemsJsx}
+        // content={<EntryItemSpan content={'el.item'} key={'idx'} />}
         />
 
         {/* PO Status */}
@@ -85,7 +67,9 @@ export default function POentry({ poData, poIndex }) {
           flex={2}
           outerClasses={[styles.entryStatus]}
           content={<>
-            <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${poData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
+            <span
+              className={`
+              ${styles.entryStatusIcon} ${styles[`entryStatusIcon-${formatString(poData.status)}`]}`} />
             <span className={styles.entryStatusText} >{poData.status}</span>
           </>}
         />
@@ -116,3 +100,18 @@ export default function POentry({ poData, poIndex }) {
   width={20}
   height={20} />
  */}
+
+function formatString(inputString) {
+  // 'Format This String' -> 'formatThisString'
+  return inputString.trim().toLowerCase().replace(/\s+/g, '')
+}
+
+
+
+export function EntryItemName(props) {
+  return (
+    <span className={`${styles.entryItem} ${props.isEmpty && styles.entryItemEmpty}`}>
+      {props.isEmpty ? 'No Item Found' : props.content}
+    </span>
+  )
+}

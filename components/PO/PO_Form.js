@@ -6,7 +6,7 @@ import { Formik } from 'formik'
 
 
 // Store & Styles
-import { poActions } from '../../store/po/po-slice'
+import { addPO_Thunk, poActions } from '../../store/po/po-slice'
 
 // Components
 import Portal from '../UI/Portal'
@@ -52,8 +52,8 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
 
   const onSubmit = (values) => {
     console.log(`values`, values);
-    isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
-    // submit={(formData) => {  }}
+    // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
+    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(poActions.updatePO([values]));
   }
 
   return (
@@ -106,20 +106,22 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
             />
             {/* fulfillmentSource */}
             <FormikControl
-              control='radio'
+              control='select'
               name='fulfillmentSource'
               label='Source of Fulfillment'
               options={[
+                { key: 'Select One', value: '' },
                 { key: 'Local Purchase', value: 'Local' },
                 { key: 'Foreign Purchase', value: 'Foreign' },
               ]}
             />
             {/* currency */}
             <FormikControl
-              control='radio'
+              control='select'
               name='currency'
               label='Currency of Payment'
               options={[
+                { key: 'Select One', value: '' },
                 { key: 'RMB', value: 'RMB' },
                 { key: 'USD', value: 'USD' },
                 { key: 'PKR', value: 'PKR' },
@@ -150,6 +152,7 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
               name='supplier'
               label='Supplier'
               options={[
+                { key: 'Select One...', value: '' },
                 { key: 'Wuhan', value: 'Wuhan' },
                 { key: 'Chengdu', value: 'Chengdu' },
                 { key: 'E-Tech', value: 'E-Tech' },

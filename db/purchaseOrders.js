@@ -2,7 +2,7 @@ const purchaseOrdersDb = [
   {
     // There can be a field of available References and RefId can be chosen to be from one of them. In the order of PO > DeliveryNote > Bill# > Quotation#
     refType: 'CST', // Bill, Delivery Note (DN), , Comparative Statement of Tender (CST), Purchase Order (PO)
-    refId: 'CST20210414', // typeOfRef-YYYYMMDD
+    refId: '20210414', // typeOfRef-YYYYMMDD
     category: 'Single Quotation',
     fulfillmentSource: 'Foreign',
     currency: 'USD',
@@ -68,7 +68,7 @@ const purchaseOrdersDb = [
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'M 5*15',
+        id: 'M 5 * 15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
@@ -82,7 +82,7 @@ const purchaseOrdersDb = [
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'M 5*15',
+        id: 'M 5 * 15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
@@ -95,7 +95,7 @@ const purchaseOrdersDb = [
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'M 5*15',
+        id: 'M 5 * 15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
@@ -108,14 +108,14 @@ const purchaseOrdersDb = [
       {
         name: 'Screw',
         type: 'Standard',
-        id: 'M 5*15',
+        id: 'M 5 * 15',
         qty: 100,
         unitPrice: 100,
         remarks: '',
         specification: {
-          // headType: 'Slot Head',
-          // screwValues: 'M2 x 10',
-          // material: 'SS A4',
+          headType: 'Slot Head',
+          screwValues: 'M2 x 10',
+          material: 'SS A4',
         }
       },
     ]
@@ -141,21 +141,26 @@ const purchaseOrdersDb = [
     status: 'Delivered',
     items: [ // 02 items in the PO
       {
-        name: 'Fasteners',
+        name: 'Screw',
         type: 'Standard',
-        id: 'M5*15 SS A4',
+        id: 'M 5 * 15',
         qty: 200,
         unitPrice: 45,
         remarks: '',
-        specification: {},
+        specification: {
+          // headType: 'Slot Head',
+          // screwValues: 'M2 x 10',
+          // material: 'SS A4',
+        }
       },
       {
-        name: 'Fasteners',
+        name: 'Screw',
         type: 'Standard',
-        id: 'M5*25 SS A4',
+        id: 'M 5 * 25',
         qty: 200,
         unitPrice: 45,
         remarks: '',
+
       },
     ]
   },

@@ -1,108 +1,44 @@
-import { addObjectPair } from './reusable'
-/* 
-Input: [
-  {
-    field: 'label01' , 
-    req: true , 
-    isFixed: true ,
-    defaultValue: 'someDefaultValue' , // this key will not be present in the output object but it overrides the 'value' key if-it-is-present 
-    dataList : [
-      'option01_forLabel01',
-      'option02_forLabel01'
-    ] 
-  },
-  ...
-]
- */
 
-/* 
-Output:  [
-  {
-    field: 'label01',
-    value: '', ( OR 'someDefaultValue' ?? !!defaultValue )
-    level: 0,
-    isFixed: (depends-on-the-isFixed-passed), 
-    req: (depends-on-the-req-passed), 
-    // for default fields passed in the component this is the case.
-    // Can be changed to be there only if 'req' is passed down.
-    options: [
-      'option01_forLabel01',
-      'option02_forLabel01'
-    ],
-    fixedValue: (depends-on-the-fixedValue-passed)
-  }
-  ,
-  ...
-]
- */
+import { v4 as uuidv4 } from 'uuid';
 
-export function defaultPairMaker(defaultKeys) {
-  return defaultKeys.map(curKey => {
-    return {
-      field: curKey.field,
-      value: curKey.defaultValue ? curKey.defaultValue : '',
-      // defaultValue: '',
-      level: 0,
-      isFixed: !!curKey.isFixed,
-      req: !!curKey.req,
-      options: curKey.dataList,
-    }
-  })
+
+export function POtransactionMap(data = {}, idx, refId, supplier) {
+  const subLength = 6;
+
+  // return 'transaction' object
+  return {
+    // tid: `${idx}_${refId}_${Date.now().toString().substring(13 - subLength, 13)}`, // auto-generated transaction id
+    tid: uuidv4(), // auto-generated transaction id
+    type: 'deposit', // bcz of PO
+    product: data.name,
+    id: data.id,
+    qty: data.qty,
+    intent: refId && `PO_${refId}` || 'poId', // reason of transaction
+    party: supplier && supplier.split(' ').slice(0, 2).join(' ') || 'supplier', // 'NDC PD', 'NESCOM PD'
+    date: 'receivingDate', //receivingDate
+    remarks: data.remarks,
+  };
 }
 
-// const dummyData = [
-//   {
-//     field: "number",
-//     value: "75",
-//     level: 0 
-//   },
-//   {
-//     field: "Dog",
-//     value: "Bubbly",
-//     level: 1 // this can be >0 only if the corresponding subLevel provided
-//   },
-//   {
-//     field: "gf",
-//     value: "Lizzie",
-//     level: 2
-//   },
-//   {
-//     field: "gasdf",
-//     value: "afdsg",
-//     level: 3
-//   },
-// ]
 
-// console.log(multiFormDataTranslator(dummyData));
-
-// Sublevels, for now, are treated as different categories on the same level. This can be changed by nesting multiple sublevels inside each other.
-/* 
-    Input-Item: {
-      field : 'fistName' , // decides the 'key-name' of POitem-object
-      value: 'Barry Allen', // decides the 'value' of POitem-object
-      level: 0, // controls the nesting level of the pair in the item-object
-      // ONLY IF THE NESTING IS ALLOWED BY SPECIFYING A SUB-CATEGORY in the second argument of the multiFormDataTranslator.
-      // the parameters of the 2nd argument must be an array containing all the sub-categories OTHERWISE the level should always be 0
-
-      // REST OF THE KEYS BELOW ARE NOT IMPORTANT
-      isFixed,
-      req,
-      options: [ ... ]
-    }
-*/
-/* 
-    Output-Item: {
-      fistName : 'Barry Allen'
-    }
-*/
-export function multiFormDataTranslator(data, subLevels = []) {
-  let newData = {};
-
-  data.forEach((pair, pairIndex) => {
-    newData = addObjectPair(newData, [pair.field, pair.value])
-  });
-  return newData;
+export function MWOtransactionMap(data = {}, idx) {
+  const subLength = 6;
+  const dateSegment = Date.now().toString().substring(13 - subLength, 13);
+  // return 'transaction' object
+  return {
+    tid: `${idx}_${data.mwoId}_${dateSegment}`, // auto-generated transaction id
+    type: 'deposit', // bcz of PO
+    product: data.itemName,
+    id: data.itemId,
+    qty: data.qty,
+    intent: data.mwoId && `MWO_${data.mwoId}` || 'poId', // reason of transaction
+    party: 'PPC', // 'NDC PD', 'NESCOM PD'
+    date: 'receivingDate', //receivingDate
+    remarks: data.remarks,
+  };
 }
+
+
 
 
 //generates random id;

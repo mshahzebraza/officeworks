@@ -14,7 +14,7 @@ import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
 
 
-export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex }) {
+export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {
   const dispatch = useDispatch();
 
   const [showUpdateForm, setShowUpdateForm] = useState(false)

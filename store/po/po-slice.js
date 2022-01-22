@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import purchaseOrdersDb from '../../db/purchaseOrders'
 import { genLog } from "../../helpers/reusable";
+import { POtransactionMap } from "../../helpers/specific";
 
 const initialState = [
   ...purchaseOrdersDb
@@ -213,3 +214,54 @@ const poSlice = createSlice({
 export const poActions = poSlice.actions;
 export default poSlice;
 
+
+
+
+
+// PO states: Uninitiated, In Process, Delivered, Closed (Received), Cancelled
+
+// Note: Any case that is marked closed cannot be altered.
+
+// Add POThunk
+export function addPO_Thunk(payload) {
+  // payload = form values from addPO form
+
+  return /* async */ (dispatch) => {
+
+    // dispatch actions just as in any component
+
+    dispatch(poActions.addPO(payload))
+    /*
+      dispatch(someActions.someReducer(ourPayload))
+     */
+
+    // PO Added (usually with no items)
+
+
+    // PO Status changed (to 'Closed')
+    // 1. Contains Items
+
+    // PO item added
+    // 1. PO Status === 'Closed'
+    // item addition shouldn't be allowed after change is made otherwise transaction must be found & changed. 
+    // It may still be possible for a user to change the specifications of an already added item in a Closed PO BUT he may not change the 'id' & 'Name' of the PO item. Bcz the 'id' & 'Name' is picked up by transaction.  
+    // PO item updated
+
+    // PO status changed closed && contains po.items
+    // po.items Added && po status is closed
+    // po.items updated && po status is closed
+
+
+
+    if (payload.status === 'Closed') {
+      console.log(`Closed PO Data`, payload);
+      // Map the PO data to transaction
+      POtransactionMap()
+      // addTransaction
+    }
+    // 1. addPO
+    // 2. Check if state === closed (means received)
+    // 2.yes addTransaction
+    // 2.no ---
+  }
+}

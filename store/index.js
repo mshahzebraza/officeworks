@@ -15,3 +15,6 @@ export const store = configureStore({
     transactionList: transactionSlice.reducer,
   },
 });
+
+
+// fetch_All_thunk

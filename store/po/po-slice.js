@@ -14,22 +14,10 @@ const poSlice = createSlice({
     // PO reducers
     addPO(poState, action) {
 
-
       // Check PO List for duplicates
       const duplicateIndex = poState.findIndex(el => el.refId === action.payload.refId)
 
       if (duplicateIndex < 0) {
-
-        let answer, isClosed = false;
-
-        // check if status is closed
-        if (action.payload.status === 'Closed') {
-          isClosed = true;
-          answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
-          Type "I am sure" if you want to continue.`)
-        }
-
-        if (isClosed && answer !== "I am sure") return
 
         // Add the new PO
         poState.push(action.payload)
@@ -76,18 +64,6 @@ const poSlice = createSlice({
       if (poUpdateIndex < 0) {
         console.log(`Can't find PO with the refId (${formData.refId}) in the redux state`)
       } else {
-
-
-        let answer, isClosed = false;
-
-        // check if status is closed
-        if (formData.status === 'Closed') {
-          isClosed = true;
-          answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
-             Type "I am sure" if you want to continue.`)
-        }
-
-        if (isClosed && answer !== "I am sure") return
 
         // Update PO & generate Log
         const [oldPO] = poState.splice(poUpdateIndex, 1, formData);
@@ -215,26 +191,6 @@ const poSlice = createSlice({
 
     },
 
-    // addPOitemSpec(poState, { payload: [activePOid, activeItemIndex, specFormData] }) {
-    //   // 1. find the current PO index
-    //   // 1-T. Find the item & push the specs inside it (and maybe check if there are already any specs)
-    //   // 1-T-T. "Item already exists. Try updating the item"
-    //   // 1-T-F. Push the items inside
-    //   // 1-F. 'PO not found'
-
-    //   const activePOIndex = poState.findIndex(el => el.refId === activePOid)
-
-    //   if (activePOIndex >= 0) { // Parent PO exists
-
-    //     const activePOitems = poState[activePOIndex].items;
-
-    //     const activeItem = activePOitems[activeItemIndex];
-    //     activeItem.specification = specFormData
-
-    //   } else {
-    //     console.log('Parent PO Not Found');
-    //   }
-    // },
   },
 });
 
@@ -242,12 +198,6 @@ export const poActions = poSlice.actions;
 export default poSlice;
 
 
-
-
-
-// PO states: Uninitiated, In Process, Delivered, Closed (Received), Cancelled
-
-// Note: Any case that is marked closed cannot be altered.
 
 // Add POThunk
 export function addPO_Thunk(payload) {
@@ -257,28 +207,20 @@ export function addPO_Thunk(payload) {
 
     // dispatch actions just as in any component
 
+
+    let answer, isClosed = false;
+
+    // check if status is closed
+    if (action.payload.status === 'Closed') {
+      isClosed = true;
+      answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
+      Type "yes" if you want to continue.`)
+    }
+
+    if (isClosed && answer !== "yes") return
+
+
     dispatch(poActions.addPO(payload))
-    /*
-      dispatch(someActions.someReducer(ourPayload))
-     */
-
-    // PO Added (usually with no items)
-
-
-    // PO Status changed (to 'Closed')
-    // 1. Contains Items
-
-    // PO item added
-    // 1. PO Status === 'Closed'
-    // item addition shouldn't be allowed after change is made otherwise transaction must be found & changed. 
-    // It may still be possible for a user to change the specifications of an already added item in a Closed PO BUT he may not change the 'id' & 'Name' of the PO item. Bcz the 'id' & 'Name' is picked up by transaction.  
-    // PO item updated
-
-    // PO status changed closed && contains po.items
-    // po.items Added && po status is closed
-    // po.items updated && po status is closed
-
-
 
     if (payload.status === 'Closed') {
       console.log(`Closed PO Data`, payload);
@@ -286,10 +228,39 @@ export function addPO_Thunk(payload) {
       // POtransactionMap()
       // addTransaction
     }
-    // 1. addPO
-    // 2. Check if state === closed (means received)
-    // 2.yes addTransaction
-    // 2.no ---
+
+  }
+}
+
+// Add POThunk
+export function updatePO_Thunk(payload) {
+  // payload = form values from addPO form
+
+  return /* async */ (dispatch) => {
+
+
+    let answer, isClosed = false;
+
+    // check if status is closed
+    if (payload[0].status === 'Closed') {
+      isClosed = true;
+      console.log(`Closing PO# `, payload[0].refId);
+      answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
+      Type "yes" if you want to continue.`)
+    }
+
+    if (isClosed && answer !== "yes") return
+
+    const itemsFilter = payload[0].items.map(item => {
+      return `${item.name}: ${item.id}: ${item.qty}`
+    })
+    console.log(itemsFilter);
+
+
+
+    dispatch(poActions.updatePO(payload))
+
+
   }
 }
 

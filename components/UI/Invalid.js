@@ -8,9 +8,7 @@ import Portal from '../UI/Portal'
 import Modal from '../UI/Modal'
 
 
-export default function InvalidModal({ closer }) {
-
-
+export default function InvalidModal({ closer, invalidReason }) {
 
   return (
     <Portal>
@@ -18,7 +16,10 @@ export default function InvalidModal({ closer }) {
         title={`Invalid Action`}
         closer={closer}
       >
-        <div>Can't continue</div>
+        <div>
+          Can't continue:
+          <p>{invalidReason}</p>
+        </div>
       </Modal>
     </Portal>
   )

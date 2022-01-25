@@ -6,7 +6,7 @@ import { Formik } from 'formik'
 
 
 // Store & Styles
-import { addPO_Thunk, poActions } from '../../store/po/po-slice'
+import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
 
 // Components
 import Portal from '../UI/Portal'
@@ -30,7 +30,7 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
     category: '',
     fulfillmentSource: '',
     currency: '',
-    totalCost: '',
+    totalCost: 0,
     status: '',
     supplier: '',
     remarks: '',
@@ -43,7 +43,7 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
     category: Yup.string().required('Required'),
     fulfillmentSource: Yup.string().required('Required'),
     currency: Yup.string().required('Required'),
-    totalCost: Yup.string().required('Required'),
+    totalCost: Yup.number().required('Required'),
     status: Yup.string().required('Required'),
     supplier: Yup.string().required('Required'),
     remarks: Yup.string(),
@@ -51,9 +51,9 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
 
 
   const onSubmit = (values) => {
-    // console.log(`values`, values);
     // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
-    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(poActions.updatePO([values]));
+    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk([values]));
+    closer();
   }
 
   return (
@@ -174,58 +174,3 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
     </Portal>
   )
 }
-
-
-/* 
-[
-            {
-              field: 'refType',
-              req: true,
-              defaultValue: oldPOdata.refType && oldPOdata.refType,
-              dataList: ['CST', 'Bill', 'PO']
-            },
-            {
-              field: 'refId',
-              defaultValue: oldPOdata.refId && oldPOdata.refId,
-              req: true,
-              isFixed: true
-            },
-            {
-              field: 'category',
-              req: true,
-              defaultValue: oldPOdata.category && oldPOdata.category,
-            },
-            {
-              field: 'fulfillmentSource',
-              req: true,
-              defaultValue: oldPOdata.fulfillmentSource && oldPOdata.fulfillmentSource,
-              dataList: ['Local', 'Foreign'],
-            },
-            {
-              field: 'currency',
-              req: true,
-              defaultValue: oldPOdata.currency && oldPOdata.currency,
-              dataList: ['PKR', 'USD', 'RMB'],
-            },
-            {
-              field: 'totalCost',
-              req: true,
-              defaultValue: oldPOdata.totalCost && oldPOdata.totalCost,
-            },
-            {
-              field: 'status',
-              req: true,
-              defaultValue: oldPOdata.status && oldPOdata.status,
-              dataList: ['Closed', 'In Process', 'Delivered']
-            },
-            {
-              field: 'supplier',
-              defaultValue: oldPOdata.supplier && oldPOdata.supplier,
-              dataList: ['Wuhan', 'E-Tech']
-            },
-            {
-              field: 'remarks',
-              defaultValue: oldPOdata.remarks && oldPOdata.remarks,
-            }
-          ]
- */

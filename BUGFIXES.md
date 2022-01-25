@@ -266,15 +266,21 @@ OR we can simply restrict the user to change the data once a PO/MWO is declared 
 
 For now i'll assume that no one changes the data of the "Closed" PO but later we'll have to restrict the option.
 
-# Hierarchy of transactions
+This functionality shall be achieved in the PO form rather than in the pages components to make use of DRY code
 
-There are two options.
+# Closing a PO / MWO & Transactions
 
-1. Nest according to initiator ('system' or 'user')
-2. Add initiator key in each transaction.
+Other than user, PO & MWO are 2 main sources of a transaction. To register a transaction, a PO / MWO must be marked closed and this action cannot be reversed. Once a PO/MWO is marked closed all of its items must be assigned a partID. This is done automatically for manufactured parts but for POs this must be achieved with the help of a function. The prefix or starting number (2021215500) must be set for the batch and the items will be numbered according to the quantity (25). Before finalizing the IDs, the confirmation must take place.
+(2021-21-55-01 ~ 2021-21-55-25)
 
-I want the app to update the system generated Transactions regularly using `useEffect` but as far as the user-generated transactions are concerned, they are to remain static. This is adding items in the PO/MWO or changing their quantity affects the transactions. Hence, they need to watch for changes.
+In case, the quantity of the items in the PO is changed then only an increase in the item quantity is allowed, and the newly increased quantity must be numbered from where the last item stopped.
 
-This means that on each pageLoad i'll have to purge the previous PO/MWO transaction data and replace it with the new one.
+The Txn should be added in with the `registered:false` from the PO/MWO closing. If a user visits the transaction page, any `non-registered` transactions will be alerted by the browser. Asking the user if he wants to assign ids to the transaction items.
 
-Now if i adopt option# 01, then i'll have to search the 'initiator' key of each transaction before deleting it. But this makes it easier to add transactions and perform actions.
+# Transactions & Inventory schema
+
+## Transactions
+
+each entry contains prodId, prodName,
+
+1. BLS , X01

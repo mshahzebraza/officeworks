@@ -14,53 +14,18 @@ import DataRow from '../../components/UI/DataRow/DataRow'
 import DataRowItem from '../../components/UI/DataRow/DataRowItem'
 import { isEmptyArray } from 'formik'
 import { fetchTransactions_Thunk } from '../../store/transaction/transaction-slice'
+import Transaction_Form from '../../components/Transaction/Transaction_Form'
 
 export default function TransactionDirectory(pProps) {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTransactions_Thunk())
+    dispatch(fetchTransactions_Thunk()) // resets the PO & MWO transactions
   }, [dispatch]);
 
 
-  let data;
   const transactionList = useSelector(state => state.transactionList)
-
-  // if (isEmptyArray(transactionList)) {
-  //   const { poList, mwoList } = state
-  //   const dispatch = useDispatch()
-
-  //   transactionList =
-  //     [
-  //       ...filterPOtransaction(state.poList),
-  //       ...filterMWOtransaction(state.mwoList)
-  //     ]
-  // }
-
-
-  // data.forEach((txn, idx) => {
-  //   console.log(idx + 1);
-  //   // tid
-  //   console.log(txn.tid);
-  //   // type
-  //   console.log(txn.type);
-  //   // product
-  //   console.log(txn.product);
-  //   // id
-  //   console.log(txn.id);
-  //   // qty
-  //   console.log(txn.qty);
-  //   // intent
-  //   console.log(txn.intent);
-  //   // party
-  //   console.log(txn.party);
-  //   // date
-  //   console.log(txn.date);
-  //   // remarks
-  //   console.log(txn.remarks);
-  //   console.log('---------------------------------');
-  // });
 
   const [filterState, setFilterState] = useState(false)
   return (
@@ -69,7 +34,7 @@ export default function TransactionDirectory(pProps) {
 
         <h1 className={`pageTitle`} > Transaction</h1>
         <SearchInput stateVariables={[filterState, setFilterState]} />
-        {/* <ModalButton caption='Add Project' ModalComponent={ProjectSummary_Form} /> */}
+        <ModalButton caption='Add Transaction' ModalComponent={Transaction_Form} />
 
       </section>
 

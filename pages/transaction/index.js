@@ -21,7 +21,7 @@ export default function TransactionDirectory(pProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTransactions_Thunk()) // resets the PO & MWO transactions
+    // dispatch(fetchTransactions_Thunk()) // resets the PO & MWO transactions
   }, [dispatch]);
 
 

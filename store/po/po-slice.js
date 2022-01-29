@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import purchaseOrdersDb from '../../db/purchaseOrders'
 import { deepClone, genLog } from "../../helpers/reusable";
 import { POtransactionMap } from "../../helpers/specific";
+import { transactionActions } from "../transaction/transaction-slice";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = [
   ...purchaseOrdersDb
@@ -29,10 +31,7 @@ const poSlice = createSlice({
 
     deletePO(poState, action) {
 
-      // Confirmation deletion
-      console.log(action.payload);
-      console.log(`Request to delete ${action.payload} dispatched.`)
-      const answer = prompt(`You will not be able to retrieve it back! Type "DELETE ${action.payload}" if you really want to delete it.`)
+      const answer = prompt(`Type "DELETE ${action.payload}" to continue.`)
 
       if (answer === `DELETE ${action.payload}`) {
 
@@ -50,24 +49,17 @@ const poSlice = createSlice({
       }
     },
 
-    updatePO(poState, { payload: [formData] }) { // action.payload = [formData, oldItems]
-      // console.log(oldItems);
-      // Input: PO-Details & Specs
-      console.log(`update PO - reducer running`);
-
+    updatePO(poState, { payload: formData }) { // action.payload = [formData, oldItems]
       // Find PO entry index against the input poId
       const poUpdateIndex = poState.findIndex(el => el.refId === formData.refId)
-      // Compare the prev and new
-      // poState[poUpdateIndex] v/s formData
 
       // delete the PO from the poState slice
       if (poUpdateIndex < 0) {
         console.log(`Can't find PO with the refId (${formData.refId}) in the redux state`)
       } else {
-
         // Update PO & generate Log
         const [oldPO] = poState.splice(poUpdateIndex, 1, formData);
-        console.log(`log of oldPO`, deepClone(oldPO));
+        // console.log(`OldPO Log`, deepClone(oldPO));
       }
 
     },
@@ -200,68 +192,83 @@ export default poSlice;
 
 
 // Add POThunk
-export function addPO_Thunk(payload) {
-  // payload = form values from addPO form
+export const addPO_Thunk = (payload) => /* async */(dispatch, getState) => {
 
-  return /* async */ (dispatch) => {
+  let answer, isClosed = false;
 
-    // dispatch actions just as in any component
-
-
-    let answer, isClosed = false;
-
-    // check if status is closed
-    if (action.payload.status === 'Closed') {
-      isClosed = true;
-      answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
-      Type "yes" if you want to continue.`)
-    }
-
-    if (isClosed && answer !== "yes") return
-
-
-    dispatch(poActions.addPO(payload))
-
-    if (payload.status === 'Closed') {
-      console.log(`Closed PO Data`, payload);
-      // Map the PO data to transaction
-      // POtransactionMap()
-      // addTransaction
-    }
-
+  // check if status is closed
+  if (action.payload.status === 'Closed') {
+    isClosed = true;
+    answer = prompt(`Type "yes" to continue.`)
   }
+  if (isClosed && answer !== "yes") return
+
+  dispatch(poActions.addPO(payload))
+
+  // If the status was closed: add PO data to txn approval list
+  if (payload.status === 'Closed') {
+    console.log(`Closed PO Data`, payload);
+    // Map the PO data to transaction
+    // POtransactionMap()
+    // addTransaction
+  }
+
 }
 
+
+
 // Add POThunk
-export function updatePO_Thunk(payload) {
-  // payload = form values from addPO form
+export const updatePO_Thunk = (payload) => /* async */(dispatch, getState) => {
 
-  return /* async */ (dispatch) => {
+  let answer, isClosed = false;
 
-
-    let answer, isClosed = false;
-
-    // check if status is closed
-    if (payload[0].status === 'Closed') {
-      isClosed = true;
-      console.log(`Closing PO# `, payload[0].refId);
-      answer = prompt(`Setting the PO status to closed means the contents of the PO cannot be edited! 
-      Type "yes" if you want to continue.`)
-    }
-
-    if (isClosed && answer !== "yes") return
-
-    const itemsFilter = payload[0].items.map(item => {
-      return `${item.name}: ${item.id}: ${item.qty}`
-    })
-    console.log(itemsFilter);
-
-
-
-    dispatch(poActions.updatePO(payload))
-
-
+  // check if status is closed
+  if (payload.status === 'Closed') {
+    isClosed = true;
+    answer = prompt(`Type "yes" to continue.`)
   }
+  if (isClosed && answer !== "yes") return
+
+  dispatch(poActions.updatePO(payload))
+
+  // If the status was closed: add PO data to txn approval list
+
+  // this transaction object must be queued in transaction list for approval
+  console.log({
+    date: Date.now().toString(), //receivingDate
+    id: payload.items[0].id,
+    intent: payload.refId && `${payload.refType}# ${payload.refId}`, // reason of transaction
+    product: payload.items[0].name,
+    party: payload.items[0].supplier && supplier.split(' ').slice(0, 2).join(' ') || 'supplier', // 'NDC PD', 'NESCOM PD'
+    qty: payload.items[0].qty,
+    remarks: payload.items[0].remarks,
+    tid: uuidv4(),
+    type: 'deposit',
+    partIDs: null, // ids array need to be assigned to each item in the po.
+    /* 
+    for example in a po of 3 items of 20 qty each, ids for all 3 must be assigned separately i.e each item id must be assigned id range.
+    BLS: BLS201102 01~20
+    TSD: TSD110220 01~20 
+    Chair: WPA_CHAIR 01~20
+     */
+  });
+
+  /* 
+  {
+    _id: {"$oid":"61ed53c412a7e03e43386e4a"},
+    tid: "bd0cd008-20ef-4377-a2ca-03a9a0274dd7",
+    type: "deposit",
+    product: "Ball Lead Screw",
+    id: "NRS BF 220x2 1502",
+    qty: 200,
+    intent: "CST# 20210414",
+    party: "Wuhan Beta",
+    date: "receivingDate",
+    remarks: "",
+    initiator: "system"
+  }
+   */
+
 }
 
 

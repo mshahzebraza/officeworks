@@ -104,10 +104,6 @@ export function fetchTransactions_Thunk() {
 
 
 
-
-
-
-
 // mapPOtoTransaction
 export function mapPOtoTransaction(data = {}, idx, refType, refId, supplier) {
   // const subLength = 6;

@@ -52,7 +52,7 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
 
   const onSubmit = (values) => {
     // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
-    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk([values]));
+    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk(values));
     closer();
   }
 

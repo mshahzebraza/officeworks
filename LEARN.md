@@ -140,3 +140,6 @@ A fix would be to check the content presence inside before accessing the data.
 ### need of useEffect
 
 The code would not work bcz it couldn't find the matching selector in the DOM. Therefore, useEffect was needed to wait for the first render and then check for the selector as now, the DOM would have been rendered.
+
+1. Redux to Apollo
+2. Lean Page Structure

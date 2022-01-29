@@ -9,7 +9,7 @@ import { Formik } from 'formik'
 // import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
 import { poActions } from '../../store/po/po-slice'
 import { addPO_Thunk, updatePO_Thunk } from '../../store/po/po-thunks'
-
+import { AddEditHandler } from '../../lib/apollo_client/purchaseOrderVar'
 
 // Components
 import Portal from '../UI/Portal'
@@ -21,10 +21,9 @@ import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
 
 
-
 export default function PO_Form({ closer, oldPOdata = {} }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const isNewSubmission = isObjEmpty(oldPOdata);
 
   const initialValues = {
@@ -55,7 +54,9 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
 
   const onSubmit = (values) => {
     // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
-    isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk(values));
+    // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk(values));
+
+    AddEditHandler(isNewSubmission, values)
     closer();
   }
 

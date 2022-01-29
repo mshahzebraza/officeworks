@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { removeDuplicate } from '../../helpers/reusable'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
 // Store & Styles
@@ -18,10 +18,14 @@ import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 import InvalidModal from '../UI/Invalid'
 
+import { deletePOHandler } from '../../lib/apollo_client/purchaseOrderVar';
+
 export default function POentry({ poData, poIndex }) {
 
   const router = useRouter()
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+
+
 
   const poItems = poData.items;
 
@@ -84,7 +88,8 @@ export default function POentry({ poData, poIndex }) {
 
             <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} itemList={refinedItemList} />
             <Button caption='Detail' click={() => router.push(`po/${poIndex}`)} />
-            <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} />
+            {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
+            <Button caption='Delete' click={() => deletePOHandler(poData.refId)} />
 
           </>}
         />

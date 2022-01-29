@@ -89,7 +89,7 @@ function Transaction_Form({ closer, oldTxnData = {} }) {
             label='Product Name'
             options={[
               { key: 'Select One...', value: '' },
-              { key: 'Sliding Bearing', value: '' },
+              { key: 'Sliding Bearing', value: 's' },
               { key: 'Ball Lead Screw', value: 'Ball Lead Screw' },
             ]}
           />

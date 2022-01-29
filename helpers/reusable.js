@@ -184,7 +184,7 @@ export function checkDataType(testEl) {
 }
 
 
-// Input: 
+// Input:
 /* 
 [
   { type: 'x', num: 1 }, 
@@ -192,7 +192,7 @@ export function checkDataType(testEl) {
   { type: 'z', num: 3 }
 ]
  */
-// Output: 
+// Output:
 /* 
 { 
   x: { 
@@ -206,6 +206,11 @@ export function checkDataType(testEl) {
  } 
 }
  */
+export const replaceLastCharacter = (char, replacement, replaceLength = 1) => {
+  return (char.toString()).slice(0, -replaceLength) + replacement;
+};
+
+
 
 export function mapDataToCategory(dataList = [], categories = false, filter = 'type', fallbackCtg = 'others') {
 

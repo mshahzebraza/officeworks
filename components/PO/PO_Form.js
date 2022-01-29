@@ -6,7 +6,10 @@ import { Formik } from 'formik'
 
 
 // Store & Styles
-import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
+// import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
+import { poActions } from '../../store/po/po-slice'
+import { addPO_Thunk, updatePO_Thunk } from '../../store/po/po-thunks'
+
 
 // Components
 import Portal from '../UI/Portal'
@@ -143,7 +146,8 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
                 { key: 'Select One ...', value: '' },
                 { key: 'Active', value: 'Active' },
                 { key: 'Delivered', value: 'Delivered' },
-                { key: 'Closed', value: 'Closed' },
+                !isNewSubmission && { key: 'Closed', value: 'Closed' },
+                // New POs are not allowed to mark themselves Closed. This is done to avoid adding it to the transactions.
               ]}
             />
             {/* supplier */}

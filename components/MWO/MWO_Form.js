@@ -15,6 +15,7 @@ import FormikControl from '../Formik/FormikControl'
 import FormikForm from '../Formik/FormikForm'
 import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
+import { addMWO_Thunk, updateMWO_Thunk } from '../../store/mwo/mwo-thunks'
 
 
 
@@ -48,10 +49,7 @@ export default function MWO_Form({ closer, activeMWOdata: oldMWOdata = {} }) {
   })
 
   function onSubmit(values) {
-    isNewSubmission &&
-      dispatch(mwoActions.addMWO(values))
-      || dispatch(mwoActions.updateMWO(values))
-
+    isNewSubmission ? dispatch(addMWO_Thunk(values)) : dispatch(updateMWO_Thunk(values));
   }
 
   return (
@@ -125,6 +123,7 @@ export default function MWO_Form({ closer, activeMWOdata: oldMWOdata = {} }) {
                 { key: 'Not Started', value: 'Not Started' },
                 { key: 'Active', value: 'Active' },
                 { key: 'Delivered', value: 'Delivered' },
+                { key: 'Closed', value: 'Closed' },
               ]}
             />
             {/* 'remarks' */}

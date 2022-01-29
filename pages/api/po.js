@@ -2,7 +2,7 @@
 
 import nc from 'next-connect';
 import connectDb from '../../server/config/config';
-import { poController } from '../../server/controllers/poController';
+import { fetchPO, poController } from '../../server/controllers/poController';
 // this is supposed to make the process of making server requests easier.
 
 
@@ -13,7 +13,7 @@ connectDb();
 // For readability, we have segregated the handler requests from te controller functions. The controller functions are the logic behind api calls and they are stored separately.
 // Example: handler.post(controllerForSomeModel)
 
-handler.get(poController)
+handler.get(fetchPO)
 // handler.patch(controllerForSomeModel)
 // handler.put(controllerForSomeModel)
 // handler.delete(controllerForSomeModel)

@@ -13,6 +13,7 @@ import { fetchTransactions_Thunk, transactionActions } from '../store/transactio
 
 export default function Home() {
 
+  // console.log(process.env.MONGO_URI);
   return (
     <>
       <Head>

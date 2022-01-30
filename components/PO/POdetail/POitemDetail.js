@@ -1,6 +1,6 @@
 // Dependency
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { isObjEmpty, camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings, checkDataType } from '../../../helpers/reusable'
 
 // Store & Styles
@@ -12,10 +12,11 @@ import POitem_Form from '../POForms/POitem_Form';
 import POitemSpecs_Form from '../POForms/POitemSpecs_Form';
 import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
+import { deletePOitemHandler } from '../../../lib/apollo_client/purchaseOrderVar';
 
 
-export default function POitemDetails({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {
-  const dispatch = useDispatch();
+export default function POitemDetail({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {
+  // const dispatch = useDispatch();
 
   const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
@@ -59,7 +60,8 @@ export default function POitemDetails({ classes, data: itemList, activePOid, dat
           {
             itemList && itemList.length > 0 &&
             <>
-              <Button caption='Delete Item' click={() => { dispatch(poActions.deletePOitem([activePOid, dataIndex])) }} />
+              {/* <Button caption='Delete Item' click={() => { dispatch(poActions.deletePOitem([activePOid, dataIndex])) }} /> */}
+              <Button caption='Delete Item' click={() => deletePOitemHandler([activePOid, dataIndex])} />
               <ModalButton
                 caption='Update Item'
                 ModalComponent={POitem_Form}

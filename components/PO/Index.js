@@ -3,23 +3,25 @@ import React, { useState } from 'react';
 // import { useSelector } from 'react-redux'
 
 // Store & Styles
-import styles from '../../../styles/poDirectory.module.scss'
+
+import styles from '../../styles/poDirectory.module.scss'
+// import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
-import PO_Form from '../../../components/PO/PO_Form'
-import POentry from '../../../components/PO/POentry'
-import Layout from '../../../components/Layout/Layout';
-// import { deepClone } from '../../../helpers/reusable';
-import ModalButton from '../../../components/UI/ModalButton';
-import SearchInput from '../../../components/UI/SearchInput';
-import DataRow from '../../../components/UI/DataRow/DataRow';
-import DataRowItem from '../../../components/UI/DataRow/DataRowItem';
+import PO_Form from '../../components/PO/PO_Form'
+import POentry from '../../components/PO/POentry'
+import Layout from '../../components/Layout/Layout';
+// import { deepClone } from '../../helpers/reusable';
+import ModalButton from '../../components/UI/ModalButton';
+import SearchInput from '../../components/UI/SearchInput';
+import DataRow from '../../components/UI/DataRow/DataRow';
+import DataRowItem from '../../components/UI/DataRow/DataRowItem';
 
 
 import { useReactiveVar } from "@apollo/client";
-import purchaseOrderVar from '../../../lib/apollo_client/purchaseOrderVar';
+import purchaseOrderVar from '../../lib/apollo_client/purchaseOrderVar';
 
-export default function PO(pageProps) {
+export default function POpageComp(pageProps) {
 
   const [filterState, setFilterState] = useState(false)
 

@@ -1,6 +1,6 @@
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
@@ -15,10 +15,11 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../helpers/reusable'
+import { updatePOitemSpecHandler } from '../../../lib/apollo_client/purchaseOrderVar'
 
 
 export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemIndex, activePOitemSpecs: oldPOitemSpecs = {} }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // console.log();
   const isNewSubmission = isObjEmpty(oldPOitemSpecs);
@@ -34,7 +35,8 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
 
   const onSubmit = (values) => {
     const valuesObject = Object.fromEntries(values.specifications)
-    dispatch(poActions.updatePOitemSpec([activePOid, activeItemIndex, valuesObject]))
+    // dispatch(poActions.updatePOitemSpec([activePOid, activeItemIndex, valuesObject]))
+    updatePOitemSpecHandler([activePOid, activeItemIndex, valuesObject])
   }
 
 

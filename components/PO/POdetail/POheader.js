@@ -6,15 +6,16 @@ import styles from './POheader.module.scss'
 import { concatStrings, transformEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
 import POitem_Form from '../POForms/POitem_Form'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { poActions } from '../../../store/po/po-slice'
 import PO_Form from '../PO_Form'
 import ModalButton from '../../UI/ModalButton'
 import Button from '../../UI/Button'
+import { deletePOHandler } from '../../../lib/apollo_client/purchaseOrderVar'
 
 
 export default function POheader({ activePOid, data, classes }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const OV_data = cloneAndPluck(data, ['refId', 'refType', 'totalCost'])
   const meta_data = cloneAndPluck(data, ['fulfillmentSource', 'category', 'supplier'])
@@ -40,7 +41,9 @@ export default function POheader({ activePOid, data, classes }) {
         />
         <Button
           caption='Delete PO'
-          click={() => { dispatch(poActions.deletePO(activePOid)) }}
+          // click={() => { dispatch(poActions.deletePO(activePOid)) }}
+          click={() => { deletePOHandler(activePOid) }}
+
         />
 
         <ModalButton

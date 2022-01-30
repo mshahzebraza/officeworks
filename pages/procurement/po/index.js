@@ -1,7 +1,7 @@
-import PO from "../../../components/PO/Index";
+import POpageComp from "../../../components/PO/index";
 
 
-export default const POPage = () => (
-  <PO />
-)
+const POPage = () => <POpageComp />;
 
+
+export default POPage;

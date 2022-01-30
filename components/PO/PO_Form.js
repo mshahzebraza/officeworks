@@ -9,7 +9,7 @@ import { Formik } from 'formik'
 // import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
 import { poActions } from '../../store/po/po-slice'
 import { addPO_Thunk, updatePO_Thunk } from '../../store/po/po-thunks'
-import { AddEditHandler } from '../../lib/apollo_client/purchaseOrderVar'
+import { addPOHandler, updatePOHandler } from '../../lib/apollo_client/purchaseOrderVar'
 
 // Components
 import Portal from '../UI/Portal'
@@ -21,7 +21,7 @@ import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
 
 
-export default function PO_Form({ closer, oldPOdata = {} }) {
+export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
 
   // const dispatch = useDispatch();
   const isNewSubmission = isObjEmpty(oldPOdata);
@@ -55,16 +55,26 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
   const onSubmit = (values) => {
     // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
     // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk(values));
+    isNewSubmission ? addPOHandler(values) : updatePOHandler(values);
+    // AddEditHandler(isNewSubmission, values)
 
-    AddEditHandler(isNewSubmission, values)
-    closer();
+    modalCloser();
   }
+
+  // The array is defined HERE to add the last options conditionally.
+  let statusOptions = [
+    { key: 'Select One ...', value: '' },
+    { key: 'Active', value: 'Active' },
+    { key: 'Delivered', value: 'Delivered' },
+    // New POs are not allowed to mark themselves Closed. This is done to avoid adding it to the transactions.
+  ]
+  !isNewSubmission && statusOptions.push({ key: 'Closed', value: 'Closed' })
 
   return (
     <Portal>
       <Modal
         title={`${isNewSubmission ? 'Add' : 'Update'} Purchase Details`}
-        closer={closer}
+        closer={modalCloser}
       >
         <Formik
           initialValues={initialValues}
@@ -143,13 +153,7 @@ export default function PO_Form({ closer, oldPOdata = {} }) {
               control='select'
               name='status'
               label='Current Status'
-              options={[
-                { key: 'Select One ...', value: '' },
-                { key: 'Active', value: 'Active' },
-                { key: 'Delivered', value: 'Delivered' },
-                !isNewSubmission && { key: 'Closed', value: 'Closed' },
-                // New POs are not allowed to mark themselves Closed. This is done to avoid adding it to the transactions.
-              ]}
+              options={statusOptions}
             />
             {/* supplier */}
             <FormikControl

@@ -6,18 +6,19 @@ import DetailSection from '../DetailSection/DetailSection';
 import styles from './StandardModules.module.scss'
 import ProjectModule_Form from '../ProjectForms/ProjectModule_Form';
 // import UpdateProjectPart_Modal from '../ProjectForms/UpdateProjectPart_Modal';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { projectActions } from '../../../../store/project/project-slice';
 import Button from '../../../UI/Button';
 import ModalButton from '../../../UI/ModalButton';
 import DataRow from '../../../UI/DataRow/DataRow';
 import DataRowItem from '../../../UI/DataRow/DataRowItem';
+import { deleteProjModHandler } from '../../../../lib/apollo_client/projectApollo';
 
 
 export default function StandardModules({ stdParts, projectState = [], assemblyList = [] }) {
 
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
   const [projectType, projectId] = projectState;
@@ -81,7 +82,7 @@ export default function StandardModules({ stdParts, projectState = [], assemblyL
                               oldModuleData={stdPart}
                             />
                             <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
-                            <Button caption='D' click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, stdPart.id])) }} />
+                            <Button caption='D' click={() => ([projectType, projectId, stdPart.id])} />
 
                           </>}
                         />

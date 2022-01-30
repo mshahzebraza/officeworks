@@ -6,10 +6,11 @@ import styles from './Assemblies.module.scss'
 import Button from '../../../UI/Button';
 import ProjectAssembly_Form from '../ProjectForms/ProjectAssembly_Form';
 import { projectActions } from '../../../../store/project/project-slice';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import ModalButton from '../../../UI/ModalButton';
 import DataRow from '../../../UI/DataRow/DataRow';
 import DataRowItem from '../../../UI/DataRow/DataRowItem';
+import { deleteProjAssyHandler } from '../../../../lib/apollo_client/projectApollo';
 
 
 export default function Assemblies({ projectState = [], assemblyList: assembliesData }) {
@@ -56,7 +57,7 @@ export default function Assemblies({ projectState = [], assemblyList: assemblies
 }
 export function Assembly(props) {
   const { activeProjectType, activeProjectId, assemblyData, assembliesData } = props;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // console.log(props);
 
 
@@ -96,7 +97,7 @@ export function Assembly(props) {
             activeAssembliesData={assembliesData}
             activeAssemblyData={assemblyData}
           />
-          <Button caption='Delete' disabled={['0000', 'FAST'].includes(assemblyData.id)} click={() => { dispatch(projectActions.deleteAssembly([activeProjectType, activeProjectId, assemblyData.id])) }} />
+          <Button caption='Delete' disabled={['0000', 'FAST'].includes(assemblyData.id)} click={() => deleteProjAssyHandler([activeProjectType, activeProjectId, assemblyData.id])} />
 
         </>}
       />

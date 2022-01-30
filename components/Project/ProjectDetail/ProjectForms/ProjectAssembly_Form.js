@@ -1,6 +1,6 @@
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
@@ -15,6 +15,7 @@ import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
 import FormikSubmit from '../../../Formik/FormikSubmit'
 import { deepClone, isObjEmpty } from '../../../../helpers/reusable'
+import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -28,14 +29,13 @@ export default function ProjectAssembly_Form(
   }
 ) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   let assemblyOptions;
 
   const isNewSubmission = isObjEmpty(oldAssemblyData);
   isNewSubmission
     ? assemblyOptions = getAssemblyOptions(oldAssembliesData)
     : assemblyOptions = getAssemblyOptions(oldAssembliesData, oldAssemblyData.id)
-
   // Initial Values
   const initialValues = {
     nomenclature: '',
@@ -58,8 +58,8 @@ export default function ProjectAssembly_Form(
 
   const onSubmit = (values) => {
     isNewSubmission ?
-      dispatch(projectActions.addAssembly([activeProjectType, activeProjectId, values]))
-      : dispatch(projectActions.updateAssembly([activeProjectType, activeProjectId, values]));
+      addProjAssyHandler([activeProjectType, activeProjectId, values])
+      : updateProjAssyHandler([activeProjectType, activeProjectId, values])
   }
 
   return (
@@ -115,9 +115,10 @@ export default function ProjectAssembly_Form(
 function getAssemblyOptions(assemblyListData, removeAssemblyItemId = false) {
 
   assemblyListData = deepClone(assemblyListData);
-  const removeItemIndex = assemblyListData.findIndex(curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId)
-  assemblyListData.splice(removeItemIndex, 1)
-
+  if (removeAssemblyItemId) {
+    const removeItemIndex = assemblyListData.findIndex(curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId)
+    assemblyListData.splice(removeItemIndex, 1) // WHY!!
+  }
 
   return assemblyListData.map(assemblyItem => {
     return {

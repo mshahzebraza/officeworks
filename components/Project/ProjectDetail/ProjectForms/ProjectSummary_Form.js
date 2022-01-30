@@ -1,6 +1,6 @@
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
@@ -15,12 +15,13 @@ import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
 import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
+import { addProjSmryHandler, updateProjSmryHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function ProjectSummary_Form({ closer, activeSummaryData: oldSummaryData = {} }) {
+export default function ProjectSummary_Form({ closer: modalCloser, activeSummaryData: oldSummaryData = {} }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldSummaryData);
 
@@ -46,19 +47,16 @@ export default function ProjectSummary_Form({ closer, activeSummaryData: oldSumm
   })
 
   const onSubmit = (values) => {
-    // isNewSubmission ?
-    //   console.log('Adding values', values)
-    //   : console.log('Editing values', values);
+    isNewSubmission
+      ? addProjSmryHandler([values])
+      : updateProjSmryHandler([values]);
 
-
-    isNewSubmission ?
-      dispatch(projectActions.addProjectSummary([values]))
-      : dispatch(projectActions.updateProjectSummary([values]));
+    modalCloser()
   }
 
   return (
     <Portal>
-      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`} closer={closer} >
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`} closer={modalCloser} >
 
         <Formik
           initialValues={initialValues}

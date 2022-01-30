@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { camelToSentenceCase, isObjEmpty } from '../../../../helpers/reusable';
+import { deleteProjModHandler } from '../../../../lib/apollo_client/projectApollo';
 import { projectActions } from '../../../../store/project/project-slice';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
@@ -18,7 +19,7 @@ import styles from './SpecialModules.module.scss';
 
 export default function SpecialModules({ specParts, projectState = [], assemblyList = [] }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [projectType, projectId] = projectState;
   const isProjectValid = !!projectType && !!projectId;
@@ -75,7 +76,7 @@ export default function SpecialModules({ specParts, projectState = [], assemblyL
                           />
                           <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
 
-                          <Button caption='D' click={() => { dispatch(projectActions.deleteProjectPart([projectType, projectId, specPart.id])) }} />
+                          <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, specPart.id])} />
                         </>}
                         />
                       </DataRow>

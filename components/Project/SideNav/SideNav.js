@@ -16,7 +16,6 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 export default function SideNav({ list = [], outerClasses = [], projectIndexStates }) {
 
-  console.log('list', list);
   return (
 
     <section className={concatStrings([styles.nav, ...outerClasses])} >

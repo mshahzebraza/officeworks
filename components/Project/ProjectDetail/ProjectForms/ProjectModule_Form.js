@@ -1,6 +1,6 @@
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -15,12 +15,13 @@ import FormikControl from '../../../Formik/FormikControl'
 import FormikForm from '../../../Formik/FormikForm'
 import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
+import { addProjModHandler, updateProjModHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
 export default function ProjectModule_Form({ closer, projectState = [], oldModuleData = {}, assemblies = [] }) {
   const [projectCatName, projectId] = projectState
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldModuleData);
 
@@ -68,9 +69,9 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
 
   // On Submit
   const onSubmit = values => {
-    isNewSubmission ?
-      dispatch(projectActions.addProjectPart([projectCatName, projectId, values]))
-      : dispatch(projectActions.updateProjectPart([projectCatName, projectId, values]));
+    isNewSubmission
+      ? addProjModHandler([projectCatName, projectId, values])
+      : updateProjModHandler([projectCatName, projectId, values]);
 
   }
 
@@ -114,6 +115,7 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
                 name='id' // needs prefixed project ID
                 control='input'
                 type='text'
+                disabled={!isNewSubmission}
               />
               <FormikControl
                 control='input'

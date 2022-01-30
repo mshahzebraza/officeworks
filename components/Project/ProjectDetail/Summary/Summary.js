@@ -1,6 +1,6 @@
 // Dependency & Helpers
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { camelToSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
 // Store
 import { projectActions } from '../../../../store/project/project-slice';
@@ -12,17 +12,18 @@ import DetailSection from '../DetailSection/DetailSection';
 import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 import Button from '../../../UI/Button';
 import ModalButton from '../../../UI/ModalButton';
+import { deleteProjHandler } from '../../../../lib/apollo_client/projectApollo';
 
 
 export default function Summary({ projectSummary = {} }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const isSummaryValid = projectSummary && !isObjEmpty(projectSummary);
 
 
   const buttonsJSX = <>
     <ModalButton caption='Update Summary' activeSummaryData={projectSummary} ModalComponent={ProjectSummary_Form} />
-    <Button caption='Delete Project' click={() => { dispatch(projectActions.deleteProject(projectSummary.nomenclature)) }} />
+    <Button caption='Delete Project' click={() => deleteProjHandler(projectSummary.nomenclature)} />
   </>
 
 

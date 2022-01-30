@@ -11,7 +11,7 @@ import { poActions } from '../../../store/po/po-slice'
 import PO_Form from '../PO_Form'
 import ModalButton from '../../UI/ModalButton'
 import Button from '../../UI/Button'
-import { deletePOHandler } from '../../../lib/apollo_client/purchaseOrderVar'
+import { deletePOHandler } from '../../../lib/apollo_client/poApollo'
 
 
 export default function POheader({ activePOid, data, classes }) {

@@ -18,7 +18,7 @@ import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 import InvalidModal from '../UI/Invalid'
 
-import { deletePOHandler } from '../../lib/apollo_client/purchaseOrderVar';
+import { deletePOHandler } from '../../lib/apollo_client/poApollo';
 
 export default function POentry({ poData, poIndex }) {
 

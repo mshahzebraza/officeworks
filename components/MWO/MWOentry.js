@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { removeDuplicate } from '../../helpers/reusable'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
 // Store & Styles
@@ -16,13 +16,14 @@ import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
+import { deleteMWOHandler } from '../../lib/apollo_client/mwoApollo';
 
 
 
 export default function MWOentryBar({ mwoData, mwoIndex }) {
 
   const router = useRouter()
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [showSummary, setShowSummary] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -64,7 +65,8 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
           content={<>
             <ModalButton caption='Edit' ModalComponent={MWO_Form} activeMWOdata={mwoData} />
             <ModalButton caption='Summary' ModalComponent={SummaryMWO_Modal} mwoData={mwoData} />
-            <Button caption='Delete' click={() => dispatch(mwoActions.deleteMWO(mwoData.mwoId))} />
+            <Button caption='Delete' click={() => deleteMWOHandler(mwoData.mwoId)} />
+
           </>}
         />
       </DataRow>

@@ -1,7 +1,7 @@
 import POpageComp from "../../../components/PO/index";
 
 
-const POPage = () => <POpageComp />;
+const POpage = () => <POpageComp />;
 
 
-export default POPage;
+export default POpage;

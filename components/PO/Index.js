@@ -19,17 +19,14 @@ import DataRowItem from '../../components/UI/DataRow/DataRowItem';
 
 
 import { useReactiveVar } from "@apollo/client";
-import purchaseOrderVar from '../../lib/apollo_client/purchaseOrderVar';
+import poApollo from '../../lib/apollo_client/poApollo';
 
 export default function POpageComp(pageProps) {
 
   const [filterState, setFilterState] = useState(false)
 
   // Fetching all the Projects data
-  // const poList = useSelector((state) => state.poList);
-  // let filteredPOlist = deepClone(poList);
-
-  const filteredPOlist = useReactiveVar(purchaseOrderVar)
+  const filteredPOlist = useReactiveVar(poApollo)
 
   if (filterState) {
     // Filtering Projects w.r.t search ID 

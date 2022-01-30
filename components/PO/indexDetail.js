@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { cloneAndPluck } from '../../helpers/reusable'
 import router from 'next/router'
 import { useReactiveVar } from '@apollo/client'
-import purchaseOrderVar from '../../lib/apollo_client/purchaseOrderVar'
+import poApollo from '../../lib/apollo_client/poApollo'
 
 // Store & Styles
 import styles from '../../styles/poDetail.module.scss'
@@ -19,7 +19,7 @@ import Layout from '../../components/Layout/Layout'
 export default function POdetailPageComp({ pageId }) {
   // Find the po-data against the ID in URL
   // const poState = useSelector(state => { return state.poList })
-  const poState = useReactiveVar(purchaseOrderVar)
+  const poState = useReactiveVar(poApollo)
 
   pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
   poState.length === 0 && router.push(`/procurement/po`)

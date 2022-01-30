@@ -14,6 +14,7 @@ import POdetailPageComp from '../../../../components/PO/indexDetail';
 //   }
 // }
 
+// Due to some reason getStaticProps was not working !!!
 export async function getServerSideProps(context) {
   const pageId = context.params.refId;
   return {
@@ -24,6 +25,6 @@ export async function getServerSideProps(context) {
 }
 
 
-const PODetailPage = ({ pageId }) => <POdetailPageComp pageId={pageId || 99} />
+const POdetailPage = ({ pageId }) => <POdetailPageComp pageId={pageId || 99} />
 
-export default PODetailPage;
+export default POdetailPage;

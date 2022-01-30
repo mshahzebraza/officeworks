@@ -12,7 +12,7 @@ import POitem_Form from '../POForms/POitem_Form';
 import POitemSpecs_Form from '../POForms/POitemSpecs_Form';
 import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
-import { deletePOitemHandler } from '../../../lib/apollo_client/purchaseOrderVar';
+import { deletePOitemHandler } from '../../../lib/apollo_client/poApollo';
 
 
 export default function POitemDetail({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {

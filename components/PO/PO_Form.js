@@ -9,7 +9,7 @@ import { Formik } from 'formik'
 // import { addPO_Thunk, poActions, updatePO_Thunk } from '../../store/po/po-slice'
 import { poActions } from '../../store/po/po-slice'
 import { addPO_Thunk, updatePO_Thunk } from '../../store/po/po-thunks'
-import { addPOHandler, updatePOHandler } from '../../lib/apollo_client/purchaseOrderVar'
+import { addPOHandler, updatePOHandler } from '../../lib/apollo_client/poApollo'
 
 // Components
 import Portal from '../UI/Portal'

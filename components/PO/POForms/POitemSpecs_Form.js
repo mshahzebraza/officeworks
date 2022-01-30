@@ -15,7 +15,7 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../helpers/reusable'
-import { updatePOitemSpecHandler } from '../../../lib/apollo_client/purchaseOrderVar'
+import { updatePOitemSpecHandler } from '../../../lib/apollo_client/poApollo'
 
 
 export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemIndex, activePOitemSpecs: oldPOitemSpecs = {} }) {

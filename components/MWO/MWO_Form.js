@@ -1,6 +1,6 @@
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
@@ -16,12 +16,13 @@ import FormikForm from '../Formik/FormikForm'
 import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
 import { addMWO_Thunk, updateMWO_Thunk } from '../../store/mwo/mwo-thunks'
+import { addMWOHandler, updateMWOHandler } from '../../lib/apollo_client/mwoApollo'
 
 
 
-export default function MWO_Form({ closer, activeMWOdata: oldMWOdata = {} }) {
+export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdata = {} }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldMWOdata);
 
@@ -49,13 +50,16 @@ export default function MWO_Form({ closer, activeMWOdata: oldMWOdata = {} }) {
   })
 
   function onSubmit(values) {
-    isNewSubmission ? dispatch(addMWO_Thunk(values)) : dispatch(updateMWO_Thunk(values));
+    isNewSubmission
+      ? addMWOHandler(values)
+      : updateMWOHandler(values);
+    modalCloser();
   }
 
   return (
     <Portal>
 
-      <Modal title={`${isNewSubmission ? 'New' : 'Update'} MWO`} closer={closer}>
+      <Modal title={`${isNewSubmission ? 'New' : 'Update'} MWO`} closer={modalCloser}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

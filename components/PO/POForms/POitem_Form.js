@@ -6,7 +6,7 @@ import { Formik } from 'formik'
 
 // Store & Styles
 import { poActions } from '../../../store/po/po-slice'
-import purchaseOrderVar, { addPOitemHandler, updatePOitemHandler } from '../../../lib/apollo_client/purchaseOrderVar'
+import poApollo, { addPOitemHandler, updatePOitemHandler } from '../../../lib/apollo_client/poApollo'
 
 // Components
 import Portal from '../../UI/Portal'

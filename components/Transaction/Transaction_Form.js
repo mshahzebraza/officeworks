@@ -2,7 +2,7 @@
 
 // Dependency
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
@@ -24,7 +24,7 @@ import { isObjEmpty } from '../../helpers/reusable'
 
 function Transaction_Form({ closer, oldTxnData = {} }) {
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const isNewSubmission = isObjEmpty(oldTxnData);
 
   const initialValues = {
@@ -56,6 +56,7 @@ function Transaction_Form({ closer, oldTxnData = {} }) {
 
   const onSubmit = (values) => {
     // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(poActions.updatePO([values]));
+    alert('no submit handler')
   };
 
 

@@ -77,21 +77,3 @@ export function mapPOtoTransaction(data = {}, idx, refType, refId, supplier) {
 }
 
 // mapMWOtoTransaction
-export function mapMWOtoTransaction(data = {}, idx) {
-  // const subLength = 6;
-  // const dateSegment = Date.now().toString().substring(13 - subLength, 13);
-  // return 'transaction' object
-  return {
-    // tid: `${idx}_${data.mwoId}_${dateSegment}`, // auto-generated transaction id
-    tid: uuidv4(),
-    type: 'deposit', // bcz of PO
-    product: data.itemName,
-    id: data.itemId,
-    qty: data.qty,
-    // intent: data.mwoId && `MWO_${data.mwoId}` || 'poId', // reason of transaction
-    intent: data.mwoId && `MWO# ${data.mwoId}`, // reason of transaction
-    party: 'PPC', // 'NDC PD', 'NESCOM PD'
-    date: 'receivingDate', //receivingDate
-    remarks: data.remarks,
-  };
-}

@@ -24,9 +24,9 @@ export default function MWOPageComp(pProps) {
   let filteredMWOlist = useReactiveVar(mwoApollo);
 
   if (filterState) {
-    // Filtering Projects w.r.t search ID 
+    // Filtering Projects w.r.t search ID (Case Insensitive)
     filteredMWOlist = filteredMWOlist.filter((curMWO) => {
-      return curMWO.mwoId.includes(filterState.toLocaleUpperCase())
+      return curMWO.mwoId.toLocaleLowerCase().includes(filterState.toLocaleLowerCase())
     });
   }
 

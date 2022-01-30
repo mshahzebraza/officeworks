@@ -55,6 +55,15 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
       : updateMWOHandler(values);
     modalCloser();
   }
+  let statusOptions = [
+    { key: 'Select One ...', value: '' },
+    { key: 'Not Started', value: 'Not Started' },
+    { key: 'Active', value: 'Active' },
+    { key: 'Delivered', value: 'Delivered' },
+  ]
+  !isNewSubmission && statusOptions.push(
+    { key: 'Closed', value: 'Closed' },
+  )
 
   return (
     <Portal>
@@ -122,13 +131,7 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
               control='select'
               name='status'
               label='Status'
-              options={[
-                { key: 'Select One ...', value: '' },
-                { key: 'Not Started', value: 'Not Started' },
-                { key: 'Active', value: 'Active' },
-                { key: 'Delivered', value: 'Delivered' },
-                { key: 'Closed', value: 'Closed' },
-              ]}
+              options={statusOptions}
             />
             {/* 'remarks' */}
             <FormikControl

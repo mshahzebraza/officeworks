@@ -35,7 +35,7 @@ export default function ProjectPageComp() {
   // Filtering Projects w.r.t search ID 
   if (filterState) {
     filteredProjects = filteredProjects.filter((curProject) => {
-      return curProject.summary.nomenclature.includes(filterState.toLocaleUpperCase());
+      return curProject.summary.nomenclature.toLocaleLowerCase().includes(filterState.toLocaleLowerCase());
     });
   }
 

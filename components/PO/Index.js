@@ -29,8 +29,8 @@ export default function POpageComp(pageProps) {
   const filteredPOlist = useReactiveVar(poApollo)
 
   if (filterState) {
-    // Filtering Projects w.r.t search ID 
-    filteredPOlist = filteredPOlist.filter((curPO) => curPO.refId.includes(filterState.toLocaleUpperCase()));
+    // Filtering Projects w.r.t search ID (Case Insensitive)
+    filteredPOlist = filteredPOlist.filter((curPO) => curPO.refId.toLocaleLowerCase().includes(filterState.toLocaleLowerCase()));
   }
 
 

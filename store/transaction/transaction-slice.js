@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import transactionsDb from "../../db/transactions";
+// import transactionsDb from "../../db/transactions";
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = [
-  ...transactionsDb
+  // ...transactionsDb
 ];
 
 const transactionSlice = createSlice({

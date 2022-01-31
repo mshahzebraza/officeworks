@@ -21,7 +21,8 @@ export default function SideNav({ list = [], outerClasses = [], projectIndexStat
     <section className={concatStrings([styles.nav, ...outerClasses])} >
 
       <Detail
-        title={'Projects'}>
+        title={'Projects'}
+      >
         {
           list.length > 0 && list.map(
             (project, projectIndex) =>

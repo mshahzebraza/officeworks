@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import purchaseOrdersDb from '../../db/purchaseOrders'
+// import purchaseOrdersDb from '../../db/purchaseOrders'
 import { checkDataType, deepClone, genLog } from "../../helpers/reusable";
-import { POtransactionMap } from "../../helpers/specific";
 import { transactionActions } from "../transaction/transaction-slice";
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = [
-  ...purchaseOrdersDb
+  // ...purchaseOrdersDb
 ];
 
 const poSlice = createSlice({

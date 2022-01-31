@@ -5,7 +5,13 @@ import DetailBody from './DetailBody';
 import DetailHeader from './DetailHeader';
 
 
-export default function Detail({ outerClasses = [], defaultOpen = false, title, click = () => { }, children: data = '', detailStates = [] }) {
+export default function Detail({
+  outerClasses = [],
+  defaultOpen = false,
+  title = 'Title Missing',
+  click = () => { },
+  children: data = '',
+  detailStates = [] }) {
 
   // Empty Prop
   /* 

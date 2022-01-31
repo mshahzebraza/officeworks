@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import projectsDb from '../../db/projects'
+// import projectsDb from '../../db/projects'
 import { deepClone, genLog } from "../../helpers/reusable";
 
 const initialState = [
-  ...projectsDb
+  // ...projectsDb
 ];
 
 const projectSlice = createSlice({

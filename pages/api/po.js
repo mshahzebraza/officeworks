@@ -8,7 +8,7 @@ import { fetchPO, poController } from '../../server/controllers/poController';
 
 const handler = nc();
 
-connectDb();
+const connectionDB = connectDb();
 // A single api path may have multiple handlers based on the type of request. As the code below shows:
 // For readability, we have segregated the handler requests from te controller functions. The controller functions are the logic behind api calls and they are stored separately.
 // Example: handler.post(controllerForSomeModel)

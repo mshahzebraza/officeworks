@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const connectDb = async () => {
 
   try {
-    const connectionDB = await mongoose.connect(
+    const connectionDB = await mongoose.createConnection(
       process.env.MONGO_URI // 'mongodb://localhost:27017/OfficeWorks',
       , { useNewUrlParser: true, useUnifiedTopology: true }
     )

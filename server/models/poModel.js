@@ -30,24 +30,8 @@ const poSchema = new Schema({
   }]
 })
 
-/* 
-      SpecMix = new Schema ({
-      any : mongoose.Mixed
-      }) 
 
-      // Example
-      /* {
-        pitch: {
-          type: String,
-          required: [true, 'remarks is a required property'],
-          default: 0.0, // ''
-        },
-        pitch: {
-          type: String,
-          required: [true, 'remarks is a required property'],
-          default: 0.0, // ''
-        },
-      } 
-*/
-
-export default mongoose.model('poModel', poSchema)
+// export default mongoose.model('poModel', poSchema)
+const modal_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
+// Search "Mongoose Models" for a Model name 'poModal' and create one if not present already.
+export default modal_PO;

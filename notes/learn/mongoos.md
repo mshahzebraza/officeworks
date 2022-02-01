@@ -48,6 +48,23 @@ module.exports = mongoose.model('User', userSchema)
 
 You may have noticed that we create a model before exporting the schema.
 
+### Heads Up
+
+#### Exporting Models
+
+The export line code above says, create a modal `User` based on `userSchema` and export it. But this line runs on each execution cycle. However, our `User` modal is already created on the first execution. Trying to recreate the modal will cause error. Therefor we modify our code to:
+
+```
+const userModel = mongoose.models.userModal || mongoose.modal('User', userSchema)
+module.exports = userModel;
+```
+
+This tells the server to check if our **mongoose models**(not **model**) contain any model named `User` already before exporting it. If there is none, create a new one and then export it
+
+#### Naming Models
+
+A very important thing while naming the models is that mongoose automatically finds the collection in the database that is **lowercase** and **plural** version of the model name. E.g `Xtra` Model will be linked to `xtras` collection in the database. Therefor it is wise to name the models accordingly.
+
 ## Model
 
 A schema itself is of no use. It has to be linked with a model. A model can be thought of as a document structure class.

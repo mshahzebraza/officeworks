@@ -1,3 +1,4 @@
+import nc from 'next-connect';
 import connectDB from '../../server/config/config'
 import { fetchAll } from '../../server/controllers/poController';
 

@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
+import connectDB from '../../server/config/config'
 import nc from 'next-connect';
-import connectDb from '../../server/config/config';
+import { fetchAll } from '../../server/controllers/poController';
 import { fetchPO, poController } from '../../server/controllers/poController';
 // this is supposed to make the process of making server requests easier.
-
+// The alternative approach is shown in 'api/purchase' file
 
 const handler = nc();
 

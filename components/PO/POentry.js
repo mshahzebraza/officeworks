@@ -110,6 +110,7 @@ export default function POentry({ poData, poIndex }) {
 
 function formatString(inputString) {
   // 'Format This String' -> 'formatThisString'
+  if (inputString === undefined) return inputString; // if false value
   return inputString.trim().toLowerCase().replace(/\s+/g, '')
 }
 

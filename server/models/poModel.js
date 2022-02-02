@@ -4,6 +4,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.SchemaTypes.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
 
+const poItemSchema = new Schema({
+  name: String,
+  type: String,
+  id: String,
+  qty: Number,
+  unitPrice: Number,
+  remarks: Number,
+  specifications: {
+    // type: ObjectId,
+    // ref: specificationSchema
+  }
+})
 
 const poSchema = new Schema({
   // _id: ObjectId,
@@ -17,16 +29,8 @@ const poSchema = new Schema({
   status: String,
   remarks: String,
   items: [{
-    name: String,
-    type: String,
-    id: String,
-    qty: Number,
-    unitPrice: Number,
-    remarks: Number,
-    specifications: {
-      // type: ObjectId,
-      // ref: specificationSchema
-    }
+    // type: ObjectId,
+    // ref: poItemSchema
   }]
 })
 

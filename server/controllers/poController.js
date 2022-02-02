@@ -3,7 +3,7 @@ import poModel from "../models/poModel";
 
 export const fetchAll = CatchAsyncErrors(async (req, res) => {
   // perform ACTION based on MODEL
-  const poList = await poModel.find()
+  const poList = await poModel.find()/* .populate() */
   // return a RESPONSE based on ACTION
   res.status(200).json({
     success: true,

@@ -15,8 +15,6 @@ function MyApp({ Component, pageProps }) {
       // Request data for all slices from a single endpoint
       const res = await fetch('http://localhost:3000/api/po');
       const resJSON = await res.json();
-      // resJSON.data
-      console.log('ss', resJSON.data);
       poApollo(resJSON.data)
     })()
 

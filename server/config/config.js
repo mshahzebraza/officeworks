@@ -11,8 +11,8 @@ const connectDB = CatchAsyncErrors(async () => {
   // Method 01
   const connection = await mongoose.connect(
     process.env.MONGO_URI
-    , function () { console.log('connection established!') }
-    , function () { console.log('connection failed!') }
+    // , function () { console.log('Success: connected to MongoDB') }
+    // , function () { console.log('Error connecting to MongoDB') }
   )
 
   // Method 02
@@ -22,7 +22,16 @@ const connectDB = CatchAsyncErrors(async () => {
       , { useNewUrlParser: true, useUnifiedTopology: true }
     )
     console.log(`Connected to MongoDB @ ${mongoose.connection.host}`);
-   */
+  
+    connection.on('connected', function () {
+      console.log('Success: connected to MongoDB');
+    })
+    connection.on('error', function () {
+      console.log('Error connecting to MongoDB');
+      process.exit(1)
+    }) 
+    */
+
 
   return connection
 

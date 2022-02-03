@@ -41,3 +41,27 @@ Model of mongoose had a fixed schema for `items` array and of objects in it.
 If a loose schema is defined i.e. Schema of `items` is set to an empty array. then the data in mongo will be valid for the said model. Otherwise, changes in model will have to be made to match the existing data completely.
 
 For now, a loose schema will be set for poModel
+
+**Complete Solution**
+
+So, upon checking the mongoose docs it was found that to define a sub document array you need to define it as:
+
+```
+parentSchema = new mongoose.Schema({
+  childArray: [
+    childSchema // an array of objects (object: subDoc)
+  ]
+})
+```
+
+instead of
+
+```
+parentSchema = new mongoose.Schema({
+  childArray: [
+    {
+      childSchema // an array of objects (object: subDoc)
+    }
+  ]
+})
+```

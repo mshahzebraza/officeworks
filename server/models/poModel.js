@@ -1,10 +1,10 @@
 // import { Mongoose as mongoose } from "mongoose";
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
-const ObjectId = mongoose.SchemaTypes.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
+const mgSchema = mongoose.Schema;
+const mgObjectId = mgSchema.Types.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
 
-const poItemSchema = new Schema({
+const poItemSchema = new mgSchema({
   name: String,
   type: String,
   id: String,
@@ -17,7 +17,7 @@ const poItemSchema = new Schema({
   }
 })
 
-const poSchema = new Schema({
+const poSchema = new mgSchema({
   // _id: ObjectId,
   refType: String,
   refId: String,
@@ -28,10 +28,9 @@ const poSchema = new Schema({
   supplier: String,
   status: String,
   remarks: String,
-  items: [{
-    // type: ObjectId,
-    // ref: poItemSchema
-  }]
+  items: [
+    poItemSchema // NOT { poItemSchema }
+  ]
 })
 
 

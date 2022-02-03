@@ -11,8 +11,8 @@ const connectDB = CatchAsyncErrors(async () => {
   // Method 01
   const connection = await mongoose.connect(
     process.env.MONGO_URI
-    // , function () { console.log('Success: connected to MongoDB') }
-    // , function () { console.log('Error connecting to MongoDB') }
+    , function () { console.log('Success: connected to MongoDB') }
+    , function () { console.log('Error connecting to MongoDB') }
   )
 
   // Method 02

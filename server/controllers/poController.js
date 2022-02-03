@@ -3,21 +3,18 @@ import poModel from "../models/poModel";
 
 export const fetchAll = CatchAsyncErrors(async (req, res) => {
   // perform ACTION based on MODEL
-  const poList = await poModel.find()/* .populate() */
+  const poList = await poModel.find()
   // return a RESPONSE based on ACTION
   res.status(200).json({
     success: true,
     data: poList
   })
-  /* onError this should be returned 
-  res.status(404).json({
-    success: false,
-    error
-  }
-   */
+
 });
 
 export const createPO = CatchAsyncErrors(async (req, res) => {
+  // Separate requests for po & po item
+
   const po = await poModel.create(req.body.data)
   // return a RESPONSE based on ACTION
   res.status(200).json({
@@ -45,3 +42,50 @@ export const updatePO = async (req, res) => {
     data: po
   })
 };
+
+
+
+export const createPOitem = CatchAsyncErrors(async (req, res) => {
+  // Separate requests for po & po item
+
+  const po = await poModel.create(req.body.data)
+  // return a RESPONSE based on ACTION
+  res.status(200).json({
+    success: true,
+    data: po
+  })
+});
+
+
+export const fetchAllItems = CatchAsyncErrors(async (req, res) => {
+  // perform ACTION based on MODEL
+  const { poId } = req.body;
+  const poItems = await poModel.findOne(
+    { refId: poId },
+    { _id: 0, "items.id": 1 }
+  )
+
+  // return a RESPONSE based on ACTION
+  res.status(200).json({
+    success: true,
+    data: poItems
+  })
+
+});
+
+export const deleteItem = CatchAsyncErrors(async (req, res) => {
+  // perform ACTION based on MODEL
+  const { poId, itemId } = req.body;
+  const poData = await poModel.findOne(
+    { refId: poId },
+    { _id: 0, refId: 1, "items.id": 1, "items._id": 1 }
+  )
+  const remainingItems = poData.items.filter((item) => item.id != itemId)
+
+  // return a RESPONSE based on ACTION
+  res.status(200).json({
+    success: true,
+    data: remainingItems
+  })
+
+});

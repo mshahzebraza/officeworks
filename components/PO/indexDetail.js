@@ -16,13 +16,18 @@ import POitemDetail from '../../components/PO/POdetail/POitemDetail'
 import Layout from '../../components/Layout/Layout'
 
 
-export default function POdetailPageComp({ pageId }) {
+export default function POdetailPageComp({ pageId = 1 }) {
   // Find the po-data against the ID in URL
   // const poState = useSelector(state => { return state.poList })
   const poState = useReactiveVar(poApollo)
 
-  pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
-  poState.length === 0 && router.push(`/procurement/po`)
+  useEffect(() => {
+
+    pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
+    poState.length === 0 && router.push(`/procurement/po`)
+
+  }, [pageId, poState.length]);
+
 
   const activePOdata = poState[pageId] && poState[pageId]
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details

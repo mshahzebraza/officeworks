@@ -7,9 +7,9 @@ const connectionDB = connectDB();
 
 ncHandler.get(fetchAllItems);
 ncHandler.delete(deleteItem);
-// ncHandler.post(createPOitem);
+ncHandler.post(createPOitem);
+ncHandler.patch(updatePOitem)
 // ncHandler.delete(deletePO);
-// ncHandler.patch(updatePO)
 
 export default ncHandler;
 

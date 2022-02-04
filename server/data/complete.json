@@ -69,7 +69,7 @@
 				{
 					"name": "Screw",
 					"type": "Standard",
-					"id": "M 5 * 15",
+					"id": "M 4 * 5",
 					"qty": 100,
 					"unitPrice": 100,
 					"remarks": "",
@@ -82,7 +82,7 @@
 				{
 					"name": "Screw",
 					"type": "Standard",
-					"id": "M 5 * 15",
+					"id": "M 3 * 8",
 					"qty": 100,
 					"unitPrice": 100,
 					"remarks": "",
@@ -95,7 +95,7 @@
 				{
 					"name": "Screw",
 					"type": "Standard",
-					"id": "M 5 * 15",
+					"id": "M 2 * 6",
 					"qty": 100,
 					"unitPrice": 100,
 					"remarks": "",

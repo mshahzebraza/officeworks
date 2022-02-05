@@ -2,25 +2,25 @@
 const mongoose = require('mongoose');
 
 const mgSchema = mongoose.Schema;
-const mgObjectId = mgSchema.Types.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
+const mgObjectId = mongoose.Types.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
+const mgMixed = mgSchema.Types.Mixed; // to give ids to mongo objects (assigned automatically if not defined)
+
 
 const poItemSchema = new mgSchema({
+  // _id: mongoose.ObjectId,
   name: String,
   type: String,
   id: String,
   qty: Number,
   unitPrice: Number,
-  remarks: Number,
-  specifications: {
-    // type: ObjectId,
-    // ref: specificationSchema
-  }
+  remarks: String,
+  specification: /* mgMixed */ /* OR */ {}, //  = {} , both are equivalent to Setting mixed
 })
 
 const poSchema = new mgSchema({
-  // _id: ObjectId,
+  // _id: mongoose.ObjectId,
   refType: String,
-  refId: String,
+  refId: { type: String, unique: true },
   category: String,
   fulfillmentSource: String,
   currency: String,
@@ -32,7 +32,6 @@ const poSchema = new mgSchema({
     poItemSchema // NOT { poItemSchema }
   ]
 })
-
 
 // export default mongoose.model('poModel', poSchema)
 const modal_PO = mongoose.models.PO || mongoose.model('PO', poSchema);

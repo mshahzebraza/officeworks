@@ -313,3 +313,8 @@ This will run whenever we save a document i.e.
 
 [WebDev Video Link](https://www.youtube.com/watch?v=DZBGEVgL2eE)
 [WebDev Mongo CheatSheet](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbm5WZkRmRXQ0aDFFN0tCMnNyQS1kNG1la0ctZ3xBQ3Jtc0trR2tJc1NCNmoteU1PNWJtcWp6TEtfOHpWVWNiLWxZWmZtakx5X0ZQRXhFU3BjeXgzTnZ0cHBrNDhhNWlLYmQ5LXVkNmxLZDlGVV8yRWJDRTU4cVZlc1RTdnRleUI3MGh3N2hBbmpseGlkMEtVY0FFMA&q=https%3A%2F%2Fwebdevsimplified.com%2Fmongodb-cheat-sheet.html)
+
+Useful Articles
+
+1. [Setting up MongoDB Connection - FreeCodeCamp](https://zellwk.com/blog/local-mongodb/)
+2. [Mongoose 101: An Introduction to the Basics, Subdocuments, and Population - FreeCodeCamp](https://www.freecodecamp.org/news/mongoose101/)

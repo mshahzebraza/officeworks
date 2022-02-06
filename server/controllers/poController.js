@@ -141,11 +141,9 @@ export const updatePOitemSpec = CatchAsyncErrors(async (req, res) => {
 
   let poData = await poModel.findById(poId);
   const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemId)
-  console.log("specification", poData.items[targetIndex].specification);
+  // Data Manipulation
   poData.items[targetIndex].specification = specData
-  console.log("specification", poData.items[targetIndex].specification);
   poData.items[targetIndex].markModified("specification");
-
 
   // Advanced Destructuring
   const { items: { [targetIndex]: { specification: updatedSpecs } } } = await poData.save();

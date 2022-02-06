@@ -12,5 +12,6 @@
   - Array Entries are shown without any header. This makes it difficult to know at what position does a specific information lie. (Tables should have a header row for poList, txnLis, mwoList etc.)
   - Try to create an auto-summary Generator
     - This must be able to map through key-values and arrays as well.
-  - ~~Create a function to identify if `_id` is present in the poSpecs. If it is present then disable the editing of `_id`.~~
-  - Understand the working of advanced field props and custom fields of FORMIK
+- ~~Create a function to identify if `_id` is present in the poSpecs. If it is present then disable the editing of `_id`.~~
+- Understand the working of advanced field props and custom fields of FORMIK
+- **Upon closing a PO, the change is registered in PO backend but not in transaction backend.**

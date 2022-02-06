@@ -41,9 +41,13 @@ export const createPO = CatchAsyncErrors(async (req, res) => {
 });
 
 export const updatePO = async (req, res) => {
-
+  console.log('update PO Ran');
   // findByIdAndUpdate() method
-  const po = await poModel.findByIdAndUpdate(req.body.id, req.body.data)
+  const updatedPO = await poModel.findByIdAndUpdate(
+    req.body.id, // old Id
+    req.body.data, // replacement
+    { new: true } // to get the updated value back
+  )
 
   /* // findOne + save method -- error
   let po = await poModel.findOne({ _id: req.body.id })
@@ -101,12 +105,12 @@ export const createPOitem = CatchAsyncErrors(async (req, res) => {
 
   // save method
   let poData = await poModel.findById(poId);
-  poData.items.push(itemData);
+  const lengthOfList = poData.items.push(itemData);
   const { items: itemList } = await poData.save()
 
   res.status(200).json({
     success: true,
-    data: itemList
+    data: itemList[lengthOfList - 1]
   })
 });
 
@@ -135,16 +139,19 @@ export const updatePOitem = CatchAsyncErrors(async (req, res) => {
 export const updatePOitemSpec = CatchAsyncErrors(async (req, res) => {
   const { poId, itemId, specData } = req.body;
 
-  const poData = await poModel.findById(poId);
-  // console.log("po found", poData);
+  let poData = await poModel.findById(poId);
   const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemId)
-
+  console.log("specification", poData.items[targetIndex].specification);
   poData.items[targetIndex].specification = specData
+  console.log("specification", poData.items[targetIndex].specification);
   poData.items[targetIndex].markModified("specification");
-  const { items: [activeItem, ...rest] } = await poData.save();
+
+
+  // Advanced Destructuring
+  const { items: { [targetIndex]: { specification: updatedSpecs } } } = await poData.save();
 
   res.status(200).json({
     success: true,
-    data: activeItem.specification
+    data: updatedSpecs
   })
 });

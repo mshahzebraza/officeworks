@@ -6,6 +6,8 @@ const mgObjectId = mongoose.Types.ObjectId; // to give ids to mongo objects (ass
 const mgMixed = mgSchema.Types.Mixed; // to give ids to mongo objects (assigned automatically if not defined)
 
 
+const poItemSpecSchema = new mgSchema({}, { strict: false }) // SubDocument is preferred over nested schema to enable the creation of _id as ObjectId 
+
 const poItemSchema = new mgSchema({
   // _id: mongoose.ObjectId,
   name: String,
@@ -14,7 +16,7 @@ const poItemSchema = new mgSchema({
   qty: Number,
   unitPrice: Number,
   remarks: String,
-  specification: /* mgMixed */ /* OR */ {}, //  = {} , both are equivalent to Setting mixed
+  specification: poItemSpecSchema //  = {},mgMixed , both are equivalent to Setting mixed
 })
 
 const poSchema = new mgSchema({

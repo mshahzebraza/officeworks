@@ -26,7 +26,7 @@ export default function POitemDetail({ classes, data: itemList, activePOid, data
 
   const itemSummary = curItemData && cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
 
-  const oldSpecData = itemList && itemList[dataIndex].specification
+  const oldSpecData = itemList && itemList[dataIndex] && itemList[dataIndex].specification
     && !isObjEmpty(itemList[dataIndex].specification)
     && itemList[dataIndex].specification
     || false;

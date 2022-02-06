@@ -6,7 +6,7 @@ Following is the summary of solved issues.
 2. [.save() not working](#save-not-working) with documents
 3. [insert(single/multiple) subDocuments](#insert-subdocs-in-array) into a subDocuments array.
 4. [Updating Mixed Schema Type](#insert-subdocs-in-array) without using `doc.markModified`.
-5.
+5. [Adding objectId in Object of Flexible-Mixed Schema](#objectid-not-defined-in-mixed-schema-object)
 
 # Bug Details
 
@@ -28,3 +28,18 @@ Turns out that i was using `specifications` (plural) in my logic. After the corr
 Maybe because all of the document was changed anyway and mongo knew that the document needs to be updated.
 However, this may not work if only the field with `mixed` datatype was changed.
 [Stack Overflow Link Here](https://stackoverflow.com/questions/10145608/how-to-define-a-generic-nested-object-in-mongoose/26875117)
+
+## ObjectID not defined in Mixed Schema object
+
+Had a schema of following type
+
+```
+{
+  ...
+  nestedSchema: {}
+  ...
+}
+```
+
+But upon adding or updating the model instances, ObjectId (even when passed explicitly) was being stored as random string.
+So i had to use the **SubDocument** method of defining schema instead of **Nested** method, because _former_ way automatically assigns the objectId to instances whereas none nested schemas have any ObjectId.

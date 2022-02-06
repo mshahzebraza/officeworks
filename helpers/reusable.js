@@ -84,12 +84,6 @@ export function isObjEmpty(obj) {
     )
 }
 
-// Object.entries(data[dataIndex].specification).map((specPair, specPairIndex) => {
-//   return <li className={styles.pair} key={specPairIndex}>
-//     <h5 className={styles.pairField}>{specPair[0]}: </h5>
-//     <p className={styles.pairValue}>{specPair[1]}</p>
-//   </li>
-// })
 
 // Input: ['label1', 'value1']
 // Input: {label1: 'value1'}
@@ -102,17 +96,6 @@ export function genLog(label, data, background = '#78f086', padding = '0.5rem 1r
   console.log(`%c ${label}`, `background: ${background}; padding: ${padding}; color: ${color}`, data);
 }
 
-
-
-
-// Input: ['s','s','y','y','y','z']
-/* 
-Output: [
-  {item:'s', qty: 2},
-  {item:'y', qty: 3}
-  {item:'z', qty: 1}
-]
- */
 export function removeDuplicate(list, label = 'item') {
   let result;
   if (list.length === 0) {
@@ -143,9 +126,6 @@ export function removeDuplicate(list, label = 'item') {
 
   return result;
 }
-
-
-
 
 export function genFormFields(objData) {
   return objData.map((el, elIdx) => {
@@ -183,29 +163,6 @@ export function checkDataType(testEl) {
   return result;
 }
 
-
-// Input:
-/* 
-[
-  { type: 'x', num: 1 }, 
-  { type: 'y', num: 2 }, 
-  { type: 'z', num: 3 }
-]
- */
-// Output:
-/* 
-{ 
-  x: { 
-    num: 1
-  } , 
-  y: { 
-    num: 2
-  }, 
-  z: { 
-    num: 3
- } 
-}
- */
 export const replaceLastCharacter = (char, replacement, replaceLength = 1) => {
   return (char.toString()).slice(0, -replaceLength) + replacement;
 };
@@ -259,5 +216,21 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
   } else {
     console.log(`Input is not valid`);
   }
+}
+
+export async function httpParams(apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null) {
+
+  console.log("HTTP Request Params");
+  // console.log(apiLink, method);
+  // console.log("data: ", data);
+
+  const response = await fetch(apiLink, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json' // the request won't work without specifying headers
+    },
+    body: data && JSON.stringify(data) // returns null (default parameter) if not defined
+  })
+  return response;
 }
 

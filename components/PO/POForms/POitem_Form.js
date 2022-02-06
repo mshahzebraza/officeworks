@@ -49,7 +49,6 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
 
 
   const onSubmit = (values) => {
-    console.log(`Form values`, values);
     // isNewSubmission ? dispatch(poActions.addPOitem([activePOid, values])) : dispatch(poActions.updatePOitem([activePOid, values]));
     isNewSubmission
       ? addPOitemHandler([activePOid, values])

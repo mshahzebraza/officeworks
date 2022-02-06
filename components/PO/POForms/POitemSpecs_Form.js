@@ -34,9 +34,10 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
   })
 
   const onSubmit = (values) => {
+    console.log('values', values);
     const valuesObject = Object.fromEntries(values.specifications)
-    // dispatch(poActions.updatePOitemSpec([activePOid, activeItemIndex, valuesObject]))
     updatePOitemSpecHandler([activePOid, activeItemIndex, valuesObject])
+    closer()
   }
 
 
@@ -51,6 +52,8 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
           onSubmit={onSubmit}
         >
           <FormikForm>
+            {/* Only One Control because all the specifications are registered as values to a single field (specifications) in FORMIK */}
+            {/* The separation of the specs is done manually (outside of formik) and then stored as pairs */}
             <FormikControl
               control='fieldListPair'
               label='Add the Specifications in pairs'

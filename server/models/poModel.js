@@ -6,7 +6,13 @@ const mgObjectId = mongoose.Types.ObjectId; // to give ids to mongo objects (ass
 const mgMixed = mgSchema.Types.Mixed; // to give ids to mongo objects (assigned automatically if not defined)
 
 
-const poItemSpecSchema = new mgSchema({}, { strict: false }) // SubDocument is preferred over nested schema to enable the creation of _id as ObjectId 
+const poItemSpecSchema = new mgSchema(
+  {},
+  {
+    strict: false,
+    _id: false
+  }
+) // SubDocument is preferred over nested schema to enable the creation of _id as ObjectId 
 
 const poItemSchema = new mgSchema({
   // _id: mongoose.ObjectId,
@@ -36,6 +42,6 @@ const poSchema = new mgSchema({
 })
 
 // export default mongoose.model('poModel', poSchema)
-const modal_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
-// Search "Mongoose Models" for a Model name 'poModal' and create one if not present already.
-export default modal_PO;
+const model_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
+// Search "Mongoose Models" for a Model name 'poModel' and create one if not present already.
+export default model_PO;

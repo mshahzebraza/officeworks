@@ -14,5 +14,5 @@ const mwoSchema = new mgSchema({
   remarks: String,
 })
 
-const modal_MWO = mongoose.models.MWO || mongoose.model('MWO', mwoSchema);
-export default modal_MWO;
+const model_MWO = mongoose.models.MWO || mongoose.model('MWO', mwoSchema);
+export default model_MWO;

@@ -21,7 +21,7 @@ import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apoll
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function ProjectAssembly_Form(
   {
-    closer,
+    closer: modalCloser,
     activeProjectType,
     activeProjectId,
     activeAssembliesData: oldAssembliesData = [],
@@ -59,12 +59,13 @@ export default function ProjectAssembly_Form(
   const onSubmit = (values) => {
     isNewSubmission ?
       addProjAssyHandler([activeProjectType, activeProjectId, values])
-      : updateProjAssyHandler([activeProjectType, activeProjectId, values])
+      : updateProjAssyHandler([activeProjectType, activeProjectId, values]);
+    modalCloser()
   }
 
   return (
     <Portal>
-      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`} closer={closer} >
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`} closer={modalCloser} >
 
         <Formik
           initialValues={initialValues}

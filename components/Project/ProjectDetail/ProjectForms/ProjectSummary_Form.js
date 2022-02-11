@@ -15,7 +15,7 @@ import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
 import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
-import { addProjSmryHandler, updateProjSmryHandler } from '../../../../lib/apollo_client/projectApollo'
+import { addProjectSummaryHandler, updateProjectSummaryHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -47,9 +47,10 @@ export default function ProjectSummary_Form({ closer: modalCloser, activeSummary
   })
 
   const onSubmit = (values) => {
+    console.log("sending values", values)
     isNewSubmission
-      ? addProjSmryHandler([values])
-      : updateProjSmryHandler([values]);
+      ? addProjectSummaryHandler(values)
+      : updateProjectSummaryHandler(values);
 
     modalCloser()
   }

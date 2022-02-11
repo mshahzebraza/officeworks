@@ -18,7 +18,7 @@ import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjModHandler, updateProjModHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
-export default function ProjectModule_Form({ closer, projectState = [], oldModuleData = {}, assemblies = [] }) {
+export default function ProjectModule_Form({ closer: modalCloser, projectState = [], oldModuleData = {}, assemblies = [] }) {
   const [projectCatName, projectId] = projectState
 
   // const dispatch = useDispatch();
@@ -72,7 +72,7 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
     isNewSubmission
       ? addProjModHandler([projectCatName, projectId, values])
       : updateProjModHandler([projectCatName, projectId, values]);
-
+    modalCloser()
   }
 
 
@@ -80,7 +80,7 @@ export default function ProjectModule_Form({ closer, projectState = [], oldModul
   return (
     <Portal>
 
-      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`} closer={closer}>
+      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`} closer={modalCloser}>
 
         <Formik
           initialValues={initialValues}

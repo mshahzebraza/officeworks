@@ -16,37 +16,38 @@ export const fetchProjects = CatchAsyncErrors(async (req, res) => {
 export const deleteProject = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.body;
 
-  const project = await projectModel.findByIdAndDelete(projectUUID)
+  const deletedProject = await projectModel.findByIdAndDelete(projectUUID)
 
   res.status(200).json({
     success: true,
-    data: project
+    data: deletedProject
   })
 
 });
-
+// Creates summary and 02x assemblies of project
 export const createProject = CatchAsyncErrors(async (req, res) => {
   const { projectData } = req.body;
 
-  const project = await projectModel.create(projectData)
+  const addedProject = await projectModel.create(projectData)
 
   res.status(200).json({
     success: true,
-    data: project
+    data: addedProject
   })
 
 });
-
+// Updates summary of project
 export const updateProject = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, projectData } = req.body;
+  const { projectUUID, summaryData } = req.body;
 
-  let project = await projectModel.findById(projectUUID)
-  await project.overwrite(projectData)
-  const updatedProject = await project.save()
+  let project = await projectModel.findById(projectUUID);
+  project.summary = { /* ...project.summary, */ ...summaryData }
+  // const { summary: updatedSummary } = await project.save()
+  const { summary: updatedSummary } = await project.save()
 
   res.status(200).json({
     success: true,
-    data: updatedProject
+    data: updatedSummary
   })
 
 });
@@ -152,9 +153,12 @@ export const updateAssembly = CatchAsyncErrors(async (req, res) => {
   const { projectUUID, assemblyID, assemblyData } = req.body;
   const project = await projectModel.findById(projectUUID)
   const { assemblies = [] } = project;
+
   const targetIndex = assemblies.findIndex(assembly => assembly.id === assemblyID);
   assemblies.splice(targetIndex, 1, assemblyData)
   const { assemblies: { [targetIndex]: updatedAssembly } } = await project.save()
+  console.log("updatedAssembly", updatedAssembly);
+
   res.status(200).json({
     success: true,
     data: updatedAssembly

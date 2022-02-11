@@ -1,9 +1,9 @@
-import poModel from '../../server/models/poModel'
-
-// import mongoose from 'mongoose';
 const mongoose = require('mongoose')
 
-export default async function handler(req, res) {
+
+
+// Long Way of doing it
+export async function handler(req, res) {
   try {
 
     // Step 01 : create a connection
@@ -28,18 +28,17 @@ export default async function handler(req, res) {
           // dbName: 'OfficeWorks'
         }
       ) 
-      console.log('Connection established!');
-      */
+      console.log('Connection established!'); */
 
 
     // Step 02: Access and use the documents
-    const modelRes = await poModel.findOne({});
-    console.log(modelRes);
+    // use mongoose models to fetch data
+
 
     // Returning the api responses
     res.status(200).json({
       message: 'Check terminal log!',
-      data: modelRes,
+      data: "data returned",
     })
 
     // Step 03: Close connection

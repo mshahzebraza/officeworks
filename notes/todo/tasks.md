@@ -14,4 +14,25 @@
     - This must be able to map through key-values and arrays as well.
 - ~~Create a function to identify if `_id` is present in the poSpecs. If it is present then disable the editing of `_id`.~~
 - Understand the working of advanced field props and custom fields of FORMIK
-- **Upon closing a PO, the change is registered in PO backend but not in transaction backend.**
+- Upon closing a PO, the change is registered in PO backend but not in transaction backend.
+- **_Create backend connection for the remaining data structure as well._**
+  - Create Models & Schemas for all
+  - **Create API Handling**
+  - Create Controllers for APIs
+  - Include API request in existing state management functions (...Apollo)
+  - Create new API request functions to fetch data slice on page load
+- Think about skipping the \_id for po-specifications.
+- Ensure that \_v (version) is not being returned in PO & MWO Api. Otherwise the \_v would also be saved in the state and on the next update call, the old version would replace the new one.
+  - It is noted that updatePO doesn't change the \_v as it uses overwrite to update PO. And version is changed only when **update** is used.
+  - Upon changing the fields or nested documents, **version** is updated bcz `update` method is used to change the document. If it is replaced completely then the version shown is false.
+- ~~On App Load, PO Apollo fetches MWO List and vice versa. This behavior can be seen clearly if loadPOs/loadMWOs is commented which loads the other one perfectly. Maybe we should create a loadAllData funciton that fetches data for all the State Slices.~~
+- **Project Forms are not working**.
+  - Only capital nomenclature is categorized into standard parts. "Bearing" shows up in misc section instead of bearing section.
+  - No Nomenclature is shown for standard parts. (a "------" is shown instead)
+  - "Add Parts" button works the same way for standard and special parts as well.
+    - The drop down for part-type must be limited in only the options of the relevant category.
+    - Standard parts form should enforce "standard" as a category.
+    - Deleting an assembly must delete parts related to it as well.
+    - parts don't show their parent assembly directly in the entry bar. (There's enough space for that as well)
+    - summary component is not yet made for project parts.
+    - reset target button is not working yet

@@ -318,3 +318,4 @@ Useful Articles
 
 1. [Setting up MongoDB Connection - FreeCodeCamp](https://zellwk.com/blog/local-mongodb/)
 2. [Mongoose 101: An Introduction to the Basics, Subdocuments, and Population - FreeCodeCamp](https://www.freecodecamp.org/news/mongoose101/)
+3. [MongoDB Article - WebDevSimplified](https://blog.webdevsimplified.com/2022-02/mongo-db/)

@@ -41,7 +41,9 @@ const poSchema = new mgSchema({
   ]
 })
 
-// export default mongoose.model('poModel', poSchema)
-const model_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
+// console.log(mongoose.modelNames())
+
+
 // Search "Mongoose Models" for a Model name 'poModel' and create one if not present already.
+const model_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
 export default model_PO;

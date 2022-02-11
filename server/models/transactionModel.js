@@ -1,4 +1,3 @@
-tid
 
 
 // import { Mongoose as mongoose } from "mongoose";
@@ -6,7 +5,7 @@ const mongoose = require('mongoose');
 
 const mgSchema = mongoose.Schema;
 
-const mwoSchema = new mgSchema({
+const txnSchema = new mgSchema({
   tid: { type: String, unique: true },
   type: String,
   product: String,
@@ -19,5 +18,5 @@ const mwoSchema = new mgSchema({
   initiator: String,
 })
 
-const model_MWO = mongoose.models.MWO || mongoose.model('MWO', mwoSchema);
-export default model_MWO;
+const model_TXN = mongoose.models.Transaction || mongoose.model('Transaction', txnSchema);
+export default model_TXN;

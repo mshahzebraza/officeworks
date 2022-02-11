@@ -53,7 +53,7 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
           flex={2.2}
           outerClasses={[styles.entryStatus]}
           content={<>
-            <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${mwoData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
+            <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${mwoData.status && mwoData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
             <span className={styles.entryStatusText} >{mwoData.status}</span>
           </>}
         />

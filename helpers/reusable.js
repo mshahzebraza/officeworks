@@ -219,8 +219,9 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
 }
 
 export async function httpParams(apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null) {
+  // export const httpParams = async (apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null) => {
 
-  console.log("HTTP Request Params");
+  // console.log("HTTP Request Params");
   // console.log(apiLink, method);
   // console.log("data: ", data);
 

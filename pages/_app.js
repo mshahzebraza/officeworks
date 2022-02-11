@@ -33,12 +33,12 @@ function MyApp({ Component, pageProps }) {
       transactionApollo(transactionList);
 
       // Log the data
-      console.log(
+      /* console.log(
         'poList', poList,
         "mwoList", mwoList,
         "projectList", projectList,
         "transactionList", transactionList
-      );
+      ); */
 
     }
 

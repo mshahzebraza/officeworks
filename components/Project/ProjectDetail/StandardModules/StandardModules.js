@@ -82,7 +82,7 @@ export default function StandardModules({ stdParts, projectState = [], assemblyL
                               oldModuleData={stdPart}
                             />
                             <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
-                            <Button caption='D' click={() => ([projectType, projectId, stdPart.id])} />
+                            <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
 
                           </>}
                         />

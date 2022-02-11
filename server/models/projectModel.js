@@ -7,12 +7,12 @@ const summarySchema = new mgSchema(
   {
     nomenclature: { type: String, unique: true },
     type: String,
-    application: String,
+    application: [String],
     target: Number,
     stock: Number,
     status: String
-  },
-  { _id: false }
+  }
+  , { _id: false }
 )
 // Project.assemblies
 const assembliesSchema = new mgSchema(
@@ -20,8 +20,8 @@ const assembliesSchema = new mgSchema(
     nomenclature: String,
     id: String,
     parent: String
-  },
-  { _id: false }
+  }
+  , { _id: false }
 )
 // Project.parts
 const partsSchema = new mgSchema(
@@ -31,8 +31,8 @@ const partsSchema = new mgSchema(
     nomenclature: String,
     id: String,
     qty: Number,
-  },
-  { _id: false }
+  }
+  , { _id: false }
 )
 
 // Project

@@ -60,7 +60,7 @@ export default function TransactionPageComp(pProps) {
               <DataRowItem content={txn.productNomenclature} flex={2} />
               <DataRowItem content={txn.productId} flex={2} />
               {/* Quantity = length of Part-Ids array */}
-              <DataRowItem content={txn.qty} flex={1} />
+              <DataRowItem content={txn.qty || txn.partIds?.length || 0} flex={1} />
               <DataRowItem content={txn.intent} flex={2} />
               <DataRowItem content={txn.party} flex={2.5} />
               {/* <DataRowItem content={txn.date} flex={2} /> */}

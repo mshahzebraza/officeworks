@@ -48,7 +48,7 @@ export default function POpageComp(pageProps) {
 
       <section className={`pageBody`} >
         {
-          filteredPOlist.map((poData, idx) => {
+          filteredPOlist?.map((poData, idx) => {
             return <POentry
               key={idx}
               poData={poData}

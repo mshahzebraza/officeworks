@@ -13,7 +13,7 @@ const connectDB = CatchAsyncErrors(async () => {
   // try {
 
   // Method 01
-  const connection = await mongoose.connect(
+  const connection = mongoose.connect(
     process.env.MONGO_URI
     , function () { console.log('Success: connected to MongoDB') }
     , function () { console.log('Error connecting to MongoDB') }
@@ -37,7 +37,7 @@ const connectDB = CatchAsyncErrors(async () => {
     */
 
 
-  return connection
+  return mongoose.Connection;
 
   // } catch (error) {
   //   console.log(`DB Error ${error}`);

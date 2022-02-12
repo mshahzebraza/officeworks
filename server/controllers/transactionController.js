@@ -25,28 +25,53 @@ export const deleteTransaction = CatchAsyncErrors(async (req, res) => {
 // create a transaction
 export const createTransaction = CatchAsyncErrors(async (req, res) => {
   const { transactionData, transactionDataList, many } = req.body;
-  console.log("many: ", many);
 
-  let transactionList = [];
   if (many) {
-    // console.log("transactionDataList: ", transactionDataList);
-    transactionDataList.forEach(async transaction => {
+
+    let txnList = [];
+
+    // add each of the incoming transactions to the database
+
+    // !Problematic Code 01: Code execution doesn't stop here and continues to the code below. Therefore, the response is returned before txnList is populated.
+    // await transactionDataList.forEach(
+    //   async (transaction) => {
+    //     const newTransaction = await transactionModel.create(transaction)
+    //     txnList.push(newTransaction);
+    //   }
+    // );
+
+    // *Working Alternative 01 (PC-01): replaced the above forEach loop with a forOf loop. This works on sequential execution.
+    /* for (const transaction of transactionDataList) {
       const newTransaction = await transactionModel.create(transaction);
-      // console.log("newTransaction *", newTransaction);
-      transactionList.push({ ...newTransaction });
-    });
-    console.log("transactionList in controller: ", transactionList);
-    // const transactionList = await transactionModel.create(transactionDataList);
+      txnList.push(newTransaction);
+    } */
+
+    // *Working Alternative 02 (PC-02): replaced the above forEach loop with map() and Promise.all(). This works on parallel execution.
+    await Promise.all(
+      transactionDataList.map(async (transaction) => {
+        const newTransaction = await transactionModel.create(transaction)
+        txnList.push(newTransaction);
+      }
+      )
+    )
+
+    // transactionList.concat(newTransaction);
+    console.log("transactionList in controller: ", txnList);
 
     res.status(200).json({
       status: "success",
-      data: transactionList
+      message: "Multiple transactions received",
+      data: txnList
     });
+
+
   } else {
     console.log("transactionData: ", transactionData);
     const transaction = await transactionModel.create(transactionData);
+    console.log("transaction created single: ", transaction);
     res.status(200).json({
       status: "success",
+      message: "Single Transaction received",
       data: transaction
     });
   }

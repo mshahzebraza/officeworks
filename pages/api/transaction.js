@@ -2,7 +2,7 @@
 import {
   createTransaction,
   deleteTransaction,
-  fetchAll,
+  getAllTransactions,
   updateTransaction
 }
   from '../../server/controllers/transactionController';
@@ -11,7 +11,7 @@ import connectDB, { ncHandler } from '../../server/config/config'
 
 const connectionDB = connectDB();
 
-ncHandler.get(fetchAll);
+ncHandler.get(getAllTransactions);
 ncHandler.post(createTransaction);
 ncHandler.delete(deleteTransaction);
 ncHandler.patch(updateTransaction)

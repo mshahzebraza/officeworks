@@ -1,8 +1,8 @@
 import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import mwoModel from "../models/mwoModel";
 
-export const fetchMWOs = CatchAsyncErrors(async (req, res) => {
-  console.log('fetch mwo ran!');
+// Fetch all MWOs
+export const getAllMWOs = CatchAsyncErrors(async (req, res) => {
   const mwoList = await mwoModel.find({})
   console.log('mwos', mwoList[0].itemName);
   res.status(200).json({
@@ -11,9 +11,8 @@ export const fetchMWOs = CatchAsyncErrors(async (req, res) => {
   })
 
 });
-
+// delete mwo
 export const deleteMWO = CatchAsyncErrors(async (req, res) => {
-  console.log('deleteMWO ran!');
   const { mwoUUID } = req.body
   const mwo = await mwoModel.findByIdAndDelete(mwoUUID)
 
@@ -24,6 +23,7 @@ export const deleteMWO = CatchAsyncErrors(async (req, res) => {
 
 });
 
+// create a mwo
 export const createMWO = CatchAsyncErrors(async (req, res) => {
   console.log('createMWO ran!');
   const { mwoData } = req.body
@@ -37,6 +37,7 @@ export const createMWO = CatchAsyncErrors(async (req, res) => {
 
 });
 
+// update a mwo
 export const updateMWO = CatchAsyncErrors(async (req, res) => {
   console.log('updateMWO ran!');
   const { mwoUUID, mwoData } = req.body

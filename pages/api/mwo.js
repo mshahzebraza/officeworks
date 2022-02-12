@@ -1,9 +1,9 @@
-import { createMWO, deleteMWO, fetchMWOs, updateMWO } from '../../server/controllers/mwoController';
+import { createMWO, deleteMWO, getAllMWOs, updateMWO } from '../../server/controllers/mwoController';
 import connectDB, { ncHandler } from '../../server/config/config'
 
 const connectionDB = connectDB();
 
-ncHandler.get(fetchMWOs);
+ncHandler.get(getAllMWOs);
 ncHandler.delete(deleteMWO);
 ncHandler.post(createMWO);
 ncHandler.patch(updateMWO)

@@ -29,29 +29,31 @@ function Transaction_Form({ closer, oldTxnData = {} }) {
 
   const initialValues = {
     // tid: '',
-    type: '',
-    product: '',
-    id: '',
+    txnType: '',
+    productNomenclature: '',
+    productId: '',
+    // partIds: [],
     qty: 0,
     intent: '',
     party: '',
     date: '',
     remarks: '',
-    initiator: '',
+    // initiator: '',
     ...oldTxnData
   }
 
   const validationSchema = Yup.object({
     // tid: Yup.string().required('Required'),
-    type: Yup.string().required('Required'),
-    product: Yup.string().required('Required'),
-    id: Yup.string().required('Required'),
+    txnType: Yup.string().required('Required'),
+    productNomenclature: Yup.string().required('Required'),
+    productId: Yup.string().required('Required'),
+    // partIds
     qty: Yup.number().required('Required'),
     intent: Yup.string().required('Required'),
     party: Yup.string().required('Required'),
     date: Yup.string().required('Required'),
     remarks: Yup.string().required('Required'),
-    initiator: Yup.string().required('Required'),
+    // initiator: Yup.string().required('Required'),
   })
 
   const onSubmit = (values) => {

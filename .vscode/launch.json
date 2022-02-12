@@ -9,8 +9,8 @@
 			"request": "launch",
 			"name": "Next: Chrome",
 			"url": "http://localhost:3000",
-			"webRoot": "${workspaceFolder}"
-			// "skipFiles": ["<node_internals>/**"]
+			"webRoot": "${workspaceFolder}",
+			"skipFiles": ["<node_internals>/**"]
 		},
 		{
 			"type": "node",

@@ -57,8 +57,9 @@ export default function TransactionPageComp(pProps) {
               {/* <DataRowItem content={txn.tid} flex={2} /> */}
               {/* <DataRowItem content={txn.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
               <DataRowItem content={idx + 1} flex={0.5} />
-              <DataRowItem content={txn.product} flex={2} />
-              <DataRowItem content={txn.id} flex={2} />
+              <DataRowItem content={txn.productNomenclature} flex={2} />
+              <DataRowItem content={txn.productId} flex={2} />
+              {/* Quantity = length of Part-Ids array */}
               <DataRowItem content={txn.qty} flex={1} />
               <DataRowItem content={txn.intent} flex={2} />
               <DataRowItem content={txn.party} flex={2.5} />

@@ -65,7 +65,12 @@ for (const transaction of transactionDataList) {
 // Alternative_01 of CodeBlock_02 --- end
 ```
 
-This method works on **Sequential Execution** i.e. ensures that the requests are returned in the order they have been written
+**Note:**
+A simple for loop also works. According to a comment in the Resource-01
+
+> ok i know why... Using Babel will transform async/await to generator function and using forEach means that each iteration has an individual generator function, which has nothing to do with the others. so they will be executed independently and has no context of next() with others. Actually, a simple for() loop also works because the iterations are also in one single generator function.
+
+This method works on **Sequential Execution** i.e. ensures that the requests are returned in the order they have been written. If any of them fails, the others will still be returned.
 
 ##### Use `map` && `Promise.all()`
 
@@ -86,7 +91,7 @@ await Promise.all(
 // Alternative_02 of CodeBlock_02 --- end
 ```
 
-This method works on **Parallel Execution** i.e. the results from the promises(array in this case) may not be in the order of their position (array index in this case)
+This method works on **Parallel Execution** i.e. the results from the promises(array in this case) will be shown all at once. and if any of them fails -> all will fail.
 
 **Note:**
 Keep in mind that:
@@ -98,5 +103,5 @@ Keep in mind that:
 
 ### Resources
 
-1. This [answer on Stack Overflow](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop) shows 02 ways to solve the issue.
+1. This [answer on Stack Overflow](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop) shows 02 ways to solve the issue. Multiple other solutions can be found in multiple answers against the question and also in the comments.
 2. This [Youtube Video](https://www.youtube.com/watch?v=01RTj1MWec0) tells more about Solution #02.

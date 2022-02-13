@@ -1,9 +1,18 @@
 {
+	"comments": {
+		"scripts": {
+			"debug-dev": "This is a debug build for developers. {NODE_OPTIONS='--inspect'} should always come before the original command to make debugging work."
+		},
+		"dependencies": {
+			"cross-env": "This was added to make the 'debug-dev' script run properly without errors."
+		}
+	},
 	"name": "office-work",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"debug-dev": "cross-env NODE_OPTIONS='--inspect' next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -32,6 +41,7 @@
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {
+		"cross-env": "^7.0.3",
 		"eslint": "8.3.0",
 		"eslint-config-next": "12.0.4"
 	}

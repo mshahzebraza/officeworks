@@ -20,5 +20,8 @@
 		"uuidv",
 		"Vitem",
 		"XXXXYYYYZZZZ"
-	]
+	],
+	"debug.javascript.terminalOptions": {
+		"skipFiles": ["<node_internals>/**"]
+	}
 }

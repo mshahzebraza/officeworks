@@ -17,6 +17,9 @@ import { fetchTransactions_Thunk } from '../../store/transaction/transaction-sli
 import Transaction_Form from '../../components/Transaction/Transaction_Form'
 import { useReactiveVar } from '@apollo/client'
 import transactionApollo from '../../lib/apollo_client/transactionApollo'
+// import delete txn handler from apollo client
+import { deleteTxnHandler } from '../../lib/apollo_client/transactionApollo';
+import Button from '../UI/Button';
 
 export default function TransactionPageComp(pProps) {
 
@@ -49,7 +52,7 @@ export default function TransactionPageComp(pProps) {
 
       <section className='pageBody'>
         {
-          filteredTxnList.map((txn, idx) => {
+          filteredTxnList?.map((txn, idx) => {
 
             // const [tid, type, product, id, qty, intent, party, date, remarks] = txn;
 
@@ -65,6 +68,37 @@ export default function TransactionPageComp(pProps) {
               <DataRowItem content={txn.party} flex={2.5} />
               {/* <DataRowItem content={txn.date} flex={2} /> */}
               {/* <DataRowItem content={txn.remarks} flex={1} /> */}
+              <DataRowItem
+                flex={4}
+                outerClasses={[styles.entryControls]}
+                content={<>
+                  {/* <ModalButton
+                  // caption='Edit'
+                  // tooltip='Edit'
+                  // ModalComponent = { PO_Form }
+                  // invalidReason={'Closed PO cannot be edited'}
+                  // oldPOdata={poData}
+                  // disabled={poData.status === 'Closed'}
+                  /> */}
+
+                  {/* <ModalButton
+                    caption='Summary'
+                    ModalComponent={PO_Summary}
+                    poData={poData}
+                    itemList={refinedItemList}
+                  /> */}
+                  {/* <Button
+                    caption='Detail'
+                    click={() => router.push(`po/${poIndex}`)}
+                  /> */}
+                  {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
+                  <Button
+                    caption='Delete'
+                    click={() => deleteTxnHandler(txn.tid)}
+                  />
+
+                </>}
+              />
 
             </DataRow>
           })

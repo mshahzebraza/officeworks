@@ -40,7 +40,7 @@ export default function ProjectPageComp() {
   }
 
   // Fetching data of selected Project Id (highlighted in the SideNav)
-  const activeProject = filteredProjects[activeProjectIndex];
+  const activeProject = filteredProjects?.[activeProjectIndex];
 
 
 

@@ -60,21 +60,28 @@
 			"name": "Next.js: debug server-side",
 			"type": "node-terminal",
 			"request": "launch",
-			"command": "npm run debug-dev",
-			"outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"]
+			// "command": "npm run dev",
+			"outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"],
+			"skipFiles": ["<node_internals>/**"]
 		},
 		{
 			"name": "Next.js: debug client-side",
 			"type": "pwa-chrome",
 			"request": "launch",
+			// "command": "npm run dev",
+
 			"url": "http://localhost:3000"
 		},
 		{
 			"name": "Next.js: debug full stack",
 			"type": "node-terminal",
 			"request": "launch",
-			"command": "npm run debug-dev",
-			"console": "integratedTerminal",
+			// "command": "npm run dev",
+			"console": "externalTerminal",
+			"skipFiles": ["<node_internals>/**"],
+			"outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"],
+			// "autoAttachChildProcesses": false,
+
 			"serverReadyAction": {
 				"pattern": "started server on .+, url: (https?://.+)",
 				"uriFormat": "%s",

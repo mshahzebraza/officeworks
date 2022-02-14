@@ -27,7 +27,7 @@ export default function POentry({ poData, poIndex }) {
 
 
 
-  const poItems = poData.items;
+  const poItems = poData?.items;
 
   // Removal of Duplicate Items
   let refinedItemList = [];

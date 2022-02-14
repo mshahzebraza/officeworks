@@ -23,5 +23,7 @@
 - **Part-Type Filtering in Forms**.
   - The drop down for part-type must be limited in only the options of the relevant category.
   - Standard parts Form should enforce "standard" as a category.
-- **Update multiple TXNs from PO:**
-  - On Closing a PO, multiple requests are dispatched and UI is unable to reflect the changes that quickly. Therefore, an API (may be accommodated in the existing)for handling multiple inserts in one go should be created. This will be triggered on receiving "many:true" only.
+- **Create A Login Page**.
+- **Create Transaction Page**.
+  - Forms
+  - API Functions

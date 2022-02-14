@@ -35,7 +35,6 @@ export const createPO = CatchAsyncErrors(async (req, res) => {
 });
 
 export const updatePO = CatchAsyncErrors(async (req, res) => {
-  console.log('update PO Ran');
   const { poUUID, poData } = req.body;
 
   // replaceOne is what we should use for this  -

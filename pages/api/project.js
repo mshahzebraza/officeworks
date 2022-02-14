@@ -1,14 +1,20 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createProject, deleteProject, fetchProjects, updateProject } from '../../server/controllers/projectController';
-import connectDB, { ncHandler } from '../../server/config/config'
-// next-connect is makes the process of http requests easier.
+import {
+  fetchProjects,
+  deleteProject,
+  createProject,
+  updateProject
+} from '../../server/controllers/projectController';
+import connectDB from '../../server/config/config'
+import nextConnect from 'next-connect';
 
 
-const connectionDB = connectDB();
+
+connectDB();
+const ncHandler = nextConnect();
 
 ncHandler.get(fetchProjects);
 ncHandler.delete(deleteProject);
 ncHandler.post(createProject); // creates project summary and 02x assemblies
 ncHandler.patch(updateProject) // updates project summary
-// handler.put(controllerForSomeModel) // for replace
+
 export default ncHandler;

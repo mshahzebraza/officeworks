@@ -1,4 +1,5 @@
 next-connect can be used to make the process of sending http request easier.
+**Never used a single next-connect function for every api page. Instead use separate for each one.**
 
 ### Request Method Filtering Approach
 

@@ -1,5 +1,7 @@
 import CatchAsyncErrors from '../../server/middlewares/CatchAsyncErrors';
-import connectDB, { ncHandler } from '../../server/config/config'
+import connectDB from '../../server/config/config'
+import nextConnect from 'next-connect';
+
 
 import poModel from '../../server/models/poModel'
 import projectModel from '../../server/models/projectModel';
@@ -28,8 +30,7 @@ const fetchAppData = async (req, res) => {
 // Establish connection to MongoDB
 
 connectDB();
-
-
+const ncHandler = nextConnect();
 ncHandler.get(fetchAppData)
 
 export default ncHandler;

@@ -5,9 +5,7 @@ import projectModel from "../models/projectModel";
 
 
 export const fetchPOs = CatchAsyncErrors(async (req, res) => {
-  console.log('fetch po ran');
   const poList = await poModel.find({})
-  console.log('pos', poList[0]);
   res.status(200).json({
     success: true,
     data: poList
@@ -26,13 +24,13 @@ export const deletePO = CatchAsyncErrors(async (req, res) => {
 
 export const createPO = CatchAsyncErrors(async (req, res) => {
   const { poData } = req.body;
+  // console.log('poData', poData);
   // create method
-  const po = await poModel.create(poData)
-  // create runs validators as well as .save(), whereas insert doesn't run validators
+  const createdPO = await poModel.create(poData)
 
   res.status(200).json({
     success: true,
-    data: po
+    data: createdPO
   })
 });
 
@@ -40,19 +38,15 @@ export const updatePO = CatchAsyncErrors(async (req, res) => {
   console.log('update PO Ran');
   const { poUUID, poData } = req.body;
 
-  // replaceOne is what we should use for this 
-  /*   const updatedPO = await poModel.replaceOne(
-      req.body.id, // old Id
-      req.body.data, // replacement
-      { new: true } // to get the updated value back
-    )
-   */
-  // overwrite + save method -- error
-  let po = await poModel.findById(poUUID)
-  await po.overwrite(poData) // replaces the po successfully but no .save() method remains in prototype.
-  const updatedPO = await po.save();
-  console.log('updated', updatePO);
+  // replaceOne is what we should use for this  -
+  /* const updatedPO = await poModel.replaceOne((
+    poUUID, // old Id
+    poData, // replacement
+    { new: true } // return the new document
+  )) */
 
+  // overwrite + save method -- error
+  let updatedPO = await poModel.findByIdAndUpdate(poUUID, poData, { new: true, runValidators: true })
 
   // return RESPONSE
   res.status(200).json({

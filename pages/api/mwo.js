@@ -1,7 +1,16 @@
-import { createMWO, deleteMWO, getAllMWOs, updateMWO } from '../../server/controllers/mwoController';
-import connectDB, { ncHandler } from '../../server/config/config'
+import {
+  getAllMWOs,
+  deleteMWO,
+  createMWO,
+  updateMWO
+} from '../../server/controllers/mwoController';
 
-const connectionDB = connectDB();
+import connectDB from '../../server/config/config'
+import nextConnect from 'next-connect';
+
+connectDB();
+const ncHandler = nextConnect()
+
 
 ncHandler.get(getAllMWOs);
 ncHandler.delete(deleteMWO);

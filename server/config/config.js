@@ -4,9 +4,7 @@
 
 import mongoose from 'mongoose';
 // const mongoose = require('mongoose')
-import nc from 'next-connect';
 import CatchAsyncErrors from '../middlewares/CatchAsyncErrors';
-export const ncHandler = nc();
 
 const connectDB = CatchAsyncErrors(async () => {
 

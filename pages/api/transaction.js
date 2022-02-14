@@ -7,13 +7,15 @@ import {
 }
   from '../../server/controllers/transactionController';
 
-import connectDB, { ncHandler } from '../../server/config/config'
+import connectDB from '../../server/config/config'
+import nextConnect from 'next-connect';
 
-const connectionDB = connectDB();
+connectDB();
+const ncHandlerNew = nextConnect();
 
-ncHandler.get(getAllTransactions);
-ncHandler.post(createTransaction);
-ncHandler.delete(deleteTransaction);
-ncHandler.patch(updateTransaction)
+ncHandlerNew.get(getAllTransactions);
+ncHandlerNew.post(createTransaction);
+ncHandlerNew.delete(deleteTransaction);
+ncHandlerNew.patch(updateTransaction)
 
-export default ncHandler;
+export default ncHandlerNew;

@@ -40,7 +40,7 @@
 	}
 
 	&Status {
-		// border: 1px dotted saddlebrown;
+		border: 1px dotted saddlebrown;
 		flex: 2;
 		flex: 0 0 11%;
 		// flex: 0 1 10%;
@@ -118,6 +118,24 @@
 				// background-color: $nuteLite2;
 				// background-color: darken($color: black, $amount: 0.01);
 			}
+		}
+	}
+
+	&.header {
+		font-weight: 400;
+		font-size: 1.8rem;
+		color: white;
+		background: $nuteDark4;
+
+		entryStatus:hover {
+			background: black;
+		}
+		button {
+			display: none;
+			// background-color: $nuteLite5;
+			// color: $nuteDark5;
+			// font-weight: 700;
+			// box-shadow: unset;
 		}
 	}
 }

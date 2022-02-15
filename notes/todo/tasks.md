@@ -23,7 +23,5 @@
 - **Part-Type Filtering in Forms**.
   - The drop down for part-type must be limited in only the options of the relevant category.
   - Standard parts Form should enforce "standard" as a category.
-- **Create A Login Page**.
-- **Create Transaction Page**.
-  - Forms
-  - API Functions
+- ~~**Create A Login Page**.~~
+- Make a function to translate the partIDs as 1-5,7,9,11-15

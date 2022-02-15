@@ -33,10 +33,11 @@ export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemInde
     specifications: Yup.array()/* .min(1, 'At least 01 entry Required') */
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     console.log('values', values);
     const valuesObject = Object.fromEntries(values.specifications)
     updatePOitemSpecHandler([activePOid, activeItemIndex, valuesObject])
+    resetForm();
     closer()
   }
 

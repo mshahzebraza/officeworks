@@ -22,7 +22,7 @@ import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
 
 
-function Transaction_Form({ closer, oldTxnData = {} }) {
+function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
 
   // const dispatch = useDispatch()
   const isNewSubmission = isObjEmpty(oldTxnData);
@@ -56,16 +56,18 @@ function Transaction_Form({ closer, oldTxnData = {} }) {
     // initiator: Yup.string().required('Required'),
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(poActions.updatePO([values]));
+
     alert('no submit handler')
+    resetForm()
   };
 
 
   return <Portal>
     <Modal
       title={`${isNewSubmission ? 'Add' : 'Update'} Purchase Details`}
-      closer={closer}
+      closer={modalCloser}
     >
       <Formik
         initialValues={initialValues}

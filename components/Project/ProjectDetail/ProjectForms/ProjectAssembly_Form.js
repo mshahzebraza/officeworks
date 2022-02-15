@@ -56,10 +56,11 @@ export default function ProjectAssembly_Form(
     })
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     isNewSubmission ?
       addProjAssyHandler([activeProjectType, activeProjectId, values])
       : updateProjAssyHandler([activeProjectType, activeProjectId, values]);
+    resetForm();
     modalCloser()
   }
 

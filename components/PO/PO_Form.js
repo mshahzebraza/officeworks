@@ -51,12 +51,9 @@ export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
   })
 
 
-  const onSubmit = (values) => {
-    // isNewSubmission ? dispatch(poActions.addPO(values)) : dispatch(poActions.updatePO([values]));
-    // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(updatePO_Thunk(values));
+  const onSubmit = (values, { resetForm }) => {
     isNewSubmission ? addPOHandler(values) : updatePOHandler(values);
-    // AddEditHandler(isNewSubmission, values)
-
+    resetForm()
     modalCloser();
   }
 

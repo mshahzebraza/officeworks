@@ -46,12 +46,12 @@ export default function ProjectSummary_Form({ closer: modalCloser, activeSummary
     target: Yup.number()/* .required('Required') */,
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     console.log("sending values", values)
     isNewSubmission
       ? addProjectSummaryHandler(values)
       : updateProjectSummaryHandler(values);
-
+    resetForm();
     modalCloser()
   }
 

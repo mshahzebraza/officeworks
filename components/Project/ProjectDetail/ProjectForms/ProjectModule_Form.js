@@ -68,10 +68,11 @@ export default function ProjectModule_Form({ closer: modalCloser, projectState =
   ]
 
   // On Submit
-  const onSubmit = values => {
+  const onSubmit = (values, { resetForm }) => {
     isNewSubmission
       ? addProjModHandler([projectCatName, projectId, values])
       : updateProjModHandler([projectCatName, projectId, values]);
+    resetForm();
     modalCloser()
   }
 

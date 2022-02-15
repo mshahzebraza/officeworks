@@ -48,10 +48,11 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
     remarks: Yup.string(),
   })
 
-  function onSubmit(values) {
+  function onSubmit(values, { resetForm }) {
     isNewSubmission
       ? addMWOHandler(values)
       : updateMWOHandler(values);
+    resetForm()
     modalCloser();
   }
   let statusOptions = [

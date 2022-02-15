@@ -6,6 +6,7 @@ import { Formik } from 'formik'
 
 // Store
 // Styles
+import styles from './LoginForm.module.scss'
 
 // Components
 import FormikControl from "../Formik/FormikControl";
@@ -18,17 +19,20 @@ import Portal from "../UI/Portal";
 function Login_Form() {
 
   const initialValues = {
-    email: '',
+    username: '',
+    // email: '',
     password: '',
   }
 
   const validationSchema = Yup.object({
-    email: Yup.string().required('Required'),
+    username: Yup.string().required('Username is required'),
+    // email: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     console.log(values);
+    resetForm()
     // modalCloser();
   }
 
@@ -38,29 +42,44 @@ function Login_Form() {
     // title={'Login Form'}
     // closer={modalCloser}
     // >
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      <FormikForm>
-        <FormikControl
-          control="input"
-          type="email"
-          label="Email"
-          name="email"
-          placeholder="Email"
-        />
-        <FormikControl
-          control="input"
-          type="password"
-          label="Password"
-          name="password"
-          placeholder="Password"
-        />
-        <FormikSubmit />
-      </FormikForm>
-    </Formik>
+    <div className={styles.main}>
+
+      <div className={styles.card}>
+
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          <FormikForm>
+            <h1>Login Form</h1>
+            <br />
+            <FormikControl
+              control="input"
+              type="text"
+              label="Username"
+              name="username"
+              placeholder="Username"
+            />
+            {/* <FormikControl
+              control="input"
+              type="email"
+              label="Email"
+              name="email"
+              placeholder="Email"
+            /> */}
+            <FormikControl
+              control="input"
+              type="password"
+              label="Password"
+              name="password"
+              placeholder="Password"
+            />
+            <FormikSubmit />
+          </FormikForm>
+        </Formik>
+      </div>
+    </div>
     // </Modal>
     // </Portal>
   )

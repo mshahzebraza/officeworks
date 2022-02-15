@@ -5,9 +5,9 @@ import LoginForm from './Login_Form.js'
 
 function LoginPageComp(pageProps) {
   return (
-    <Layout pageClasses={[styles.container]} >
-      <LoginForm />
-    </Layout>
+    // <Layout pageClasses={[styles.container]} >
+    <LoginForm />
+    // </Layout>
   )
 }
 

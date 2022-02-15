@@ -235,3 +235,24 @@ export async function httpParams(apiLink = 'http://localhost:3000/api/connect', 
   return response;
 }
 
+// Created by Github Copilot
+// create a function to format a number to 3 digits with leading zeros
+export const formatNumber = (num, places) => {
+  const zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
+
+
+// create an array of items with a prefix, separator and min-digits-of-suffix allowing to start the index from indexShift
+// indexShift is the number before the first item index ( can be passed if the array needs to start from a specific index i.e indexShift +1 )
+export const superArray = (itemCount = 10, prefix = 'prefix', suffixDigits = 3, separator = '---', indexShift = 0) => {
+  const initialValue = 0;
+  return Array(itemCount)
+    .fill(initialValue)
+    .map(
+      (_, idx) => (
+        `${prefix}${separator}${formatNumber((indexShift + idx + 1), suffixDigits)}`
+      )
+    )
+}

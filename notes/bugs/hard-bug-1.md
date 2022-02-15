@@ -2,6 +2,8 @@
 
 Trying to create a `mongo` document from each item of an array.
 
+Never use array methods like `forEach` for multiple async request or db requests.
+
 #### Task
 
 I have an Array `TransactionList` and i intend to create a document with each `Transaction` of `TransactionList`.

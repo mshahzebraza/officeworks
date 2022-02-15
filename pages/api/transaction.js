@@ -19,3 +19,12 @@ ncHandlerNew.delete(deleteTransaction);
 ncHandlerNew.patch(updateTransaction)
 
 export default ncHandlerNew;
+
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '2mb' // Set desired value here
+    }
+  }
+}

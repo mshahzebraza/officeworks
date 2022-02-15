@@ -20,7 +20,7 @@ import FormikControl from '../Formik/FormikControl'
 import FormikForm from '../Formik/FormikForm'
 import FormikSubmit from '../Formik/FormikSubmit'
 import { isObjEmpty } from '../../helpers/reusable'
-
+import { addTxnHandler } from '../../lib/apollo_client/transactionApollo'
 
 function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
 
@@ -36,7 +36,7 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
     qty: 0,
     intent: '',
     party: '',
-    date: '',
+    // date: '',
     remarks: '',
     // initiator: '',
     ...oldTxnData
@@ -51,16 +51,16 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
     qty: Yup.number().required('Required'),
     intent: Yup.string().required('Required'),
     party: Yup.string().required('Required'),
-    date: Yup.string().required('Required'),
-    remarks: Yup.string().required('Required'),
+    // date: Yup.string().required('Required'),
+    remarks: Yup.string(),
     // initiator: Yup.string().required('Required'),
   })
 
   const onSubmit = (values, { resetForm }) => {
-    // isNewSubmission ? dispatch(addPO_Thunk(values)) : dispatch(poActions.updatePO([values]));
-
-    alert('no submit handler')
+    values.date = Date.now();
+    addTxnHandler(values)
     resetForm()
+    modalCloser()
   };
 
 
@@ -79,7 +79,7 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
           {/* type */}
           <FormikControl
             control='select'
-            name='type'
+            name='txnType'
             label='Transaction Type'
             options={[
               { key: 'Select One...', value: '' },
@@ -90,7 +90,7 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
           {/* product */}
           <FormikControl
             control='select'
-            name='product'
+            name='productNomenclature'
             label='Product Name'
             options={[
               { key: 'Select One...', value: '' },
@@ -101,7 +101,7 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
           {/* id */}
           <FormikControl
             control='select'
-            name='id'
+            name='productId'
             label='Product ID'
             options={[
               { key: 'Select One...', value: '' },
@@ -135,20 +135,20 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
             placeholder='E.g User 102331'
           />
           {/* date */}
-          <FormikControl
+          {/* <FormikControl
             control='input'
             type='date'
-            name='party'
+            name='date'
             label='Date of Transaction'
             placeholder='Auto generated'
-          />
+          /> */}
           {/* remarks */}
           <FormikControl
-            control='input'
-            type='date'
-            name='party'
-            label='Date of Transaction'
-            placeholder='Auto generated'
+            control='textarea'
+            type='text'
+            name='remarks'
+            label='Remarks/Details'
+            placeholder='Auto generated' // in case of purchase order and manufacture order
           />
           {/* initiator */}
 

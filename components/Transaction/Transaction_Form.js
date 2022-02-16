@@ -66,7 +66,7 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
 
   return <Portal>
     <Modal
-      title={`${isNewSubmission ? 'Add' : 'Update'} Purchase Details`}
+      title={`${isNewSubmission ? 'Add' : 'Update'} Transaction Details`}
       closer={modalCloser}
     >
       <Formik

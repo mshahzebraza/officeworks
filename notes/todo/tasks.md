@@ -10,7 +10,7 @@
 - **Auto-Summary Generator**: to map through key-values and arrays as well.
 - **Improve Form Updates:** Make forms unable to submit without data change. (use of **isDirty** property of formik)
 - **Consistent Nomenclature:** Instead of Spec,Std & Mfg, use Spec-Std, Std & Mfg. Follow the same convention everywhere.
-- **Entries Header:** (Tables/Row Entries should have a header row for poList, txnLis, mwoList etc.)
+- **Entries Header:** (Tables/Row Entries should have a header row for poList, txnLis, mwoList etc.) - _(In Progress)_
 - **Stop version overwrite:** In the update functions, the document version (from mongo) is often overwritten by the previous copy (thus remains unchanged).
 - **Projects Component**
   - Only capital nomenclature is categorized into standard parts. "Bearing" shows up in misc section instead of bearing section.
@@ -24,4 +24,5 @@
   - The drop down for part-type must be limited in only the options of the relevant category.
   - Standard parts Form should enforce "standard" as a category.
 - ~~**Create A Login Page**.~~
-- Make a function to translate the partIDs as 1-5,7,9,11-15
+- ~~Make a function to translate the partIDs as 1-5,7,9,11-15~~
+- Create a `TXN-entry` component and add header feature to it like in PO & MWO

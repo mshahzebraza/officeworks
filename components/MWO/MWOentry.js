@@ -20,7 +20,17 @@ import { deleteMWOHandler } from '../../lib/apollo_client/mwoApollo';
 
 
 
-export default function MWOentryBar({ mwoData, mwoIndex }) {
+export default function MWOentryBar({
+  mwoData = {
+    mwoId: 'MWO ID',
+    itemName: 'Item Name',
+    qty: 'Qty',
+    application: 'Application',
+    status: 'Status'
+  },
+  mwoIndex = 'Sr',
+  header = false
+}) {
 
   const router = useRouter()
   // const dispatch = useDispatch();
@@ -31,10 +41,10 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
 
   return (
     <>
-      <DataRow>
+      <DataRow header={header}>
 
         {/* Serial */}
-        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={mwoIndex} />
+        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (mwoIndex) === 'number' ? (mwoIndex + 1) : mwoIndex} />
         {/* MWO ID */}
         <DataRowItem flex={2.5} outerClasses={[styles.entryMWOid]} content={mwoData.mwoId} />
 
@@ -52,10 +62,13 @@ export default function MWOentryBar({ mwoData, mwoIndex }) {
         <DataRowItem
           flex={2.2}
           outerClasses={[styles.entryStatus]}
-          content={<>
-            <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${mwoData.status && mwoData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
-            <span className={styles.entryStatusText} >{mwoData.status}</span>
-          </>}
+          content={
+            header ? mwoData.status :
+              <>
+                <span className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${mwoData.status && mwoData.status.trim().toLowerCase().replace(/\s+/g, '')}`]}`} />
+                <span className={styles.entryStatusText} >{mwoData.status}</span>
+              </>
+          }
         />
 
         {/* MWO Commands */}

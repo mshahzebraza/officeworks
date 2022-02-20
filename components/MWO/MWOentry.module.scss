@@ -76,7 +76,7 @@
 			transition: 0.2s ease all;
 		}
 		&:hover {
-			background: hsla(0, 0%, 0%, 0.15);
+			background: $tpDark;
 			cursor: pointer;
 			*:nth-child(n + 2) {
 				transform: translateX(0);

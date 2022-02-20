@@ -41,6 +41,9 @@ export default function MWOPageComp(pProps) {
       </section>
 
       <section className={`pageBody`} >
+        <MWOentry
+          header={true}
+        />
         {
           filteredMWOlist && checkDataType(filteredMWOlist) === 'array' && filteredMWOlist.length > 0 &&
           filteredMWOlist.map((poData, idx) => {

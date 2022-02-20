@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const mgSchema = mongoose.Schema;
 
 const txnSchema = new mgSchema({
-  tid: { type: String, unique: true },
+  // tid: { type: String, unique: true },
   txnType: String, // 'deposit' or 'withdrawal'
   productNomenclature: String, // deposited/withdrawn product nomenclature
   productId: String, // deposited/withdrawn product id

@@ -19,7 +19,7 @@ import Modal from '../UI/Modal'
 import FormikControl from '../Formik/FormikControl'
 import FormikForm from '../Formik/FormikForm'
 import FormikSubmit from '../Formik/FormikSubmit'
-import { isObjEmpty } from '../../helpers/reusable'
+import { getIDseries, isObjEmpty } from '../../helpers/reusable'
 import { addTxnHandler } from '../../lib/apollo_client/transactionApollo'
 
 function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
@@ -32,8 +32,8 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
     txnType: '',
     productNomenclature: '',
     productId: '',
-    // partIds: [],
-    qty: 0,
+    partIDs: '',
+    // qty: 0,
     intent: '',
     party: '',
     // date: '',
@@ -47,8 +47,10 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
     txnType: Yup.string().required('Required'),
     productNomenclature: Yup.string().required('Required'),
     productId: Yup.string().required('Required'),
-    // partIds
-    qty: Yup.number().required('Required'),
+    // partIDs: Yup/* .string() */.required('Required'),
+    partIDs: Yup.mixed().required('Required'),
+
+    // qty: Yup.number().required('Required'),
     intent: Yup.string().required('Required'),
     party: Yup.string().required('Required'),
     // date: Yup.string().required('Required'),
@@ -57,7 +59,14 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
   })
 
   const onSubmit = (values, { resetForm }) => {
+
+    const response = !values.partIDs.includes('-[') && prompt('No separator (-) before brackets. Press "Cancel" to stop?')
+    if (response === null) return
+
+
+    values.partIDs = getIDseries(values.partIDs)
     values.date = Date.now();
+    console.log(`values: `, values)
     addTxnHandler(values)
     resetForm()
     modalCloser()
@@ -110,12 +119,20 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
             ]}
           />
           {/* qty */}
-          <FormikControl
+          {/* <FormikControl
             control='input'
             type='number'
             name='qty'
             // disabled={!isNewSubmission}
             label='Transaction Quantity'
+          /> */}
+          {/* partIDs */}
+          <FormikControl
+            control='input'
+            type='text'
+            name='partIDs'
+            // disabled={!isNewSubmission}
+            label='Part IDs'
           />
 
           {/* intent */}

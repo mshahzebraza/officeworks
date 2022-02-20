@@ -69,7 +69,7 @@ export default function TransactionPageComp(pProps) {
               {/* <DataRowItem content={txn.date} flex={2} /> */}
               {/* <DataRowItem content={txn.remarks} flex={1} /> */}
               <DataRowItem
-                flex={4}
+                flex={0.75}
                 outerClasses={[styles.entryControls]}
                 content={<>
                   {/* <ModalButton
@@ -94,7 +94,7 @@ export default function TransactionPageComp(pProps) {
                   {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
                   <Button
                     caption='Delete'
-                    click={() => deleteTxnHandler(txn.tid)}
+                    click={() => deleteTxnHandler(txn._id)}
                   />
 
                 </>}

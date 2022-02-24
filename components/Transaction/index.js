@@ -18,8 +18,9 @@ import Transaction_Form from '../../components/Transaction/Transaction_Form'
 import { useReactiveVar } from '@apollo/client'
 import transactionApollo from '../../lib/apollo_client/transactionApollo'
 // import delete txn handler from apollo client
-import { deleteTxnHandler } from '../../lib/apollo_client/transactionApollo';
 import Button from '../UI/Button';
+import TxnEntry from './TxnEntry'
+
 
 export default function TransactionPageComp(pProps) {
 
@@ -51,56 +52,16 @@ export default function TransactionPageComp(pProps) {
       </section>
 
       <section className='pageBody'>
+        <TxnEntry
+          header={true}
+        />
         {
           filteredTxnList?.map((txn, idx) => {
-
-            // const [tid, type, product, id, qty, intent, party, date, remarks] = txn;
-
-            return <DataRow key={idx}>
-              {/* <DataRowItem content={txn.tid} flex={2} /> */}
-              {/* <DataRowItem content={txn.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
-              <DataRowItem content={idx + 1} flex={0.5} />
-              <DataRowItem content={txn.productNomenclature} flex={2} />
-              <DataRowItem content={txn.productId} flex={2} />
-              {/* Quantity = length of Part-Ids array */}
-              <DataRowItem content={txn.qty || txn.partIds?.length || 0} flex={1} />
-              <DataRowItem content={txn.intent} flex={2} />
-              <DataRowItem content={txn.party} flex={2.5} />
-              {/* <DataRowItem content={txn.date} flex={2} /> */}
-              {/* <DataRowItem content={txn.remarks} flex={1} /> */}
-              <DataRowItem
-                flex={0.75}
-                outerClasses={[styles.entryControls]}
-                content={<>
-                  {/* <ModalButton
-                  // caption='Edit'
-                  // tooltip='Edit'
-                  // ModalComponent = { PO_Form }
-                  // invalidReason={'Closed PO cannot be edited'}
-                  // oldPOdata={poData}
-                  // disabled={poData.status === 'Closed'}
-                  /> */}
-
-                  {/* <ModalButton
-                    caption='Summary'
-                    ModalComponent={PO_Summary}
-                    poData={poData}
-                    itemList={refinedItemList}
-                  /> */}
-                  {/* <Button
-                    caption='Detail'
-                    click={() => router.push(`po/${poIndex}`)}
-                  /> */}
-                  {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
-                  <Button
-                    caption='Delete'
-                    click={() => deleteTxnHandler(txn._id)}
-                  />
-
-                </>}
-              />
-
-            </DataRow>
+            return <TxnEntry
+              key={idx}
+              txnIndex={idx}
+              txnData={txn}
+            />
           })
         }
 
@@ -109,5 +70,7 @@ export default function TransactionPageComp(pProps) {
 
     </Layout>
   )
+
+
 }
 // End Page Component

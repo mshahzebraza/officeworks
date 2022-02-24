@@ -8,20 +8,23 @@ import styles from '../../styles/poDirectory.module.scss'
 // import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
-import PO_Form from '../../components/PO/PO_Form'
-import POentry from '../../components/PO/POentry'
-import Layout from '../../components/Layout/Layout';
+import PO_Form from './PO_Form'
+import POentry from './POentry'
+import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';
-import ModalButton from '../../components/UI/ModalButton';
-import SearchInput from '../../components/UI/SearchInput';
-import DataRow from '../../components/UI/DataRow/DataRow';
-import DataRowItem from '../../components/UI/DataRow/DataRowItem';
+import ModalButton from '../UI/ModalButton';
+import SearchInput from '../UI/SearchInput';
+import DataRow from '../UI/DataRow/DataRow';
+import DataRowItem from '../UI/DataRow/DataRowItem';
 
 
 import { useReactiveVar } from "@apollo/client";
 import poApollo from '../../lib/apollo_client/poApollo';
 
-export default function POpageComp(pageProps) {
+
+
+
+export default function POpageComp(pProps) {
 
   const [filterState, setFilterState] = useState(false)
 
@@ -32,9 +35,6 @@ export default function POpageComp(pageProps) {
     // Filtering Projects w.r.t search ID (Case Insensitive)
     filteredPOlist = filteredPOlist.filter((curPO) => curPO.refId.toLocaleLowerCase().includes(filterState.toLocaleLowerCase()));
   }
-
-
-  // console.log('filteredPOList', filteredPOlist);
 
 
   return (

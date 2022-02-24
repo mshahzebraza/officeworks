@@ -19,7 +19,6 @@ export default function MWOPageComp(pProps) {
 
   const [filterState, setFilterState] = useState(false)
 
-
   // Fetching all the MWO List data
   let filteredMWOlist = useReactiveVar(mwoApollo);
 

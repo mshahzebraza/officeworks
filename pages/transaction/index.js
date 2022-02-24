@@ -1,5 +1,5 @@
 import React from 'react';
-import TransactionPageComp from '../../components/Transaction';
+import TransactionPageComp from '../../components/Transaction/Index';
 
 const TransactionPage = () => <TransactionPageComp />
 

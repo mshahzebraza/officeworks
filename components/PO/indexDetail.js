@@ -10,10 +10,10 @@ import poApollo from '../../lib/apollo_client/poApollo'
 import styles from '../../styles/poDetail.module.scss'
 
 // Components
-import POheader from '../../components/PO/POdetail/POheader'
-import POnavList from '../../components/PO/POdetail/POnavList'
-import POitemDetail from '../../components/PO/POdetail/POitemDetail'
-import Layout from '../../components/Layout/Layout'
+import POheader from './POdetail/POheader'
+import POnavList from './POdetail/POnavList'
+import POitemDetail from './POdetail/POitemDetail'
+import Layout from '../Layout/Layout'
 
 
 export default function POdetailPageComp({ pageId = 1 }) {

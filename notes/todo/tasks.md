@@ -34,3 +34,7 @@
     - Std - Screw
     - Std - Washer
     - Std - Misc
+- Create a structure that instead of loading all the data from data base... the data is fetched on requirement from database.
+  - Use Foreign Keys in purchase parts (normalize the data)
+  - Make queries in graphql for the specific data requests for each UI. Also, load data of each page when the page is loaded.
+- Create an inventory Model

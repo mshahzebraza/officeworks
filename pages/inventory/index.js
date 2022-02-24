@@ -1,5 +1,5 @@
 import React from 'react';
-import InventoryPageComp from '../../components/Inventory';
+import InventoryPageComp from '../../components/Inventory/Index';
 
 const InventoryPage = () => <InventoryPageComp />
 

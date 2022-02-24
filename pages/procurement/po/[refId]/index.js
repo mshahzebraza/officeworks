@@ -1,5 +1,5 @@
 import React from 'react';
-import POdetailPageComp from '../../../../components/PO/indexDetail';
+import POdetailPageComp from '../../../../components/PO/IndexDetail';
 
 
 

@@ -40,7 +40,7 @@ export default function SpecialModules({ specParts, projectState = [], assemblyL
 
 
   return (
-    <DetailSection title='Special Modules' buttonsJSX={isProjectValid && buttonsJSX} >
+    <DetailSection title='Special Standard Modules' buttonsJSX={isProjectValid && buttonsJSX} >
 
 
 

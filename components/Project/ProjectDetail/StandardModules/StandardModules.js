@@ -67,24 +67,21 @@ export default function StandardModules({ stdParts, projectState = [], assemblyL
                     >
                       <DataRow raw >
                         <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${idx2 + 1}.`} />
-                        <DataRowItem flex={2} outerClasses={[styles.entryId]} content={`${stdPart.id}`} />
-                        <DataRowItem flex={5} outerClasses={[styles.entryOther]} content={` ---`} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(stdPart.nomenclature)} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryId]} content={`${stdPart.id}`} />
                         <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${stdPart.qty}/Act`} />
-                        <DataRowItem
-                          flex={4}
-                          outerClasses={[styles.entryCommands]}
-                          content={<>
-                            <ModalButton
-                              caption='U'
-                              ModalComponent={ProjectModule_Form}
-                              projectState={projectState}
-                              assemblies={assemblyList}
-                              oldModuleData={stdPart}
-                            />
-                            <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
-                            <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryCommands]} content={<>
+                          <ModalButton
+                            caption='U'
+                            ModalComponent={ProjectModule_Form}
+                            projectState={projectState}
+                            assemblies={assemblyList}
+                            oldModuleData={stdPart}
+                          />
+                          <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
+                          <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
 
-                          </>}
+                        </>}
                         />
                       </DataRow>
                     </DetailItem>

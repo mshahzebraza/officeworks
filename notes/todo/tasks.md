@@ -26,3 +26,11 @@
 - ~~**Create A Login Page**.~~
 - ~~Make a function to translate the partIDs as 1-5,7,9,11-15~~
 - Create a `TXN-entry` component and add header feature to it like in PO & MWO
+- Create the hierarchy of product modules as follows
+  - Modules (Heading of section, replaces 'Spec. Std. Modules' & 'Std. Modules')
+    - Mfg
+    - Std - Special (replacing Purchased Parts)
+    - Std - Bearing
+    - Std - Screw
+    - Std - Washer
+    - Std - Misc

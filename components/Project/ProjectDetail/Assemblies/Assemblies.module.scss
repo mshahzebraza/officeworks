@@ -1,38 +1,7 @@
-@import "../../../../styles/abstracts/abstracts";
-
 .assemblies {
 	display: flex;
 	// justify-content: space-between;
 	flex-direction: column;
 	gap: 1rem;
 	padding: 1rem;
-}
-
-.assembly {
-	display: flex;
-	// @extend %cardShadow1;
-	// justify-content: center;
-	align-items: center;
-	gap: 3rem;
-	padding: 0.75rem 1rem;
-	&:hover {
-		background-color: $nuteLite5;
-	}
-	& + & {
-		// border-top: 1px solid $nute;
-	}
-
-	&_index {
-	}
-	&_id {
-	}
-	&_nomenclature {
-	}
-	&_parent {
-	}
-	&_controls {
-		display: flex;
-		justify-content: flex-end;
-		gap: 1rem;
-	}
 }

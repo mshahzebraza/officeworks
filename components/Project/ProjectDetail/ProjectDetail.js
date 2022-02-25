@@ -12,6 +12,7 @@ import SpecialModules from './SpecialModules/SpecialModules'
 import StandardModules from './StandardModules/StandardModules'
 import Summary from './Summary/Summary'
 import Assemblies from './Assemblies/Assemblies'
+import Parts from './Parts/Parts'
 
 
 export default function ProjectDetail({ outerClasses, activeProjectData = {} }) {
@@ -20,21 +21,30 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   const [activeModuleType, setActiveModuleType] = useState('') // Purchase or Manufactured // not related to sideNav
   const [activeModule, setActiveModule] = useState('') // Pulley Shaft,BLS etc. // not related to sideNav
 
+  // Destructuring activeProjectData
+  const {
+    summary: summaryData,
+    assemblies: assemblyList,
+    parts: partList
+  } = activeProjectData;
 
-  // const summaryData = cloneAndPluck(activeProjectData, ['type', 'nomenclature', 'application', 'status', 'stock', 'target', 'assemblies']);
-  const summaryData = activeProjectData && activeProjectData.summary;
-  const assemblyList = activeProjectData && activeProjectData.assemblies;
+  // Stop execution if no project is selected
+  if (!summaryData || !summaryData.type || !summaryData.nomenclature) {
+    return <p className='note'>No Project Selected - ProjectDetail</p>
+  }
 
 
-  const specialModuleCategories = ['purchased', 'manufactured', 'standard'];
-  const allParts = mapDataToCategory(activeProjectData.parts, specialModuleCategories)
+  // const specialModuleCategories = ['specStd', 'mfg', 'std'];
+  // const allParts = mapDataToCategory(partList, specialModuleCategories)
 
-  const specParts = cloneAndPluck(allParts, ['purchased', 'manufactured'])
-  const { others: otherParts } = cloneAndPluck(allParts, ['others'])
-  otherParts && otherParts.length > 0 && genLog('Assign Valid Category for the following parts - ProjectDetail', otherParts);
+  // const specParts = cloneAndPluck(allParts, ['specStd', 'mfg'])
 
-  const standardModuleCategories = ['bearing', 'screw', 'washer', 'misc'];
-  const stdParts = mapDataToCategory(allParts.standard, standardModuleCategories, 'nomenclature', 'misc')
+  // const { others: otherParts } = cloneAndPluck(allParts, ['others'])
+  // // otherParts && otherParts.length > 0 && genLog('Assign Valid Category for the following parts - ProjectDetail', otherParts);
+
+  // const standardModuleCategories = ['bearing', 'screw', 'washer', 'misc'];
+  // const stdParts = mapDataToCategory(allParts.standard, standardModuleCategories, 'nomenclature', 'misc')
+  // console.log('std-after', stdParts);
 
 
   return (
@@ -49,23 +59,30 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
 
       {/* List of Assemblies */}
       <Assemblies
-        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
+        projectState={[summaryData.type, summaryData.nomenclature]}
+        assemblyList={assemblyList}
+      />
+
+      {/* Part List */}
+      <Parts
+        partList={partList}
+        projectState={[summaryData.type, summaryData.nomenclature]}
         assemblyList={assemblyList}
       />
 
       {/* Spec Part List */}
-      <SpecialModules
+      {/* <SpecialModules
         specParts={specParts}
         projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
         assemblyList={assemblyList}
-      />
+      /> */}
 
       {/* Std Part List */}
-      <StandardModules
+      {/* <StandardModules
         stdParts={stdParts}
         projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
         assemblyList={assemblyList}
-      />
+      /> */}
 
     </section>
   )

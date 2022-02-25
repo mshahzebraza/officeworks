@@ -51,43 +51,43 @@ export default function StandardModules({ stdParts, projectState = [], assemblyL
         stdParts &&
           stdPartsExist ?
           stdPartCTGs.map(
-            (stdPartCat, stdPartCatKey) => <Detail
-              key={stdPartCatKey}
-              title={`${stdParts[stdPartCat].length}x ${camelToSentenceCase(stdPartCat)} Parts`} // -> 2x Special Modules
-              defaultOpen
-            >
-              {
-                stdParts[stdPartCat].map(
-                  (stdPart, idx2) =>
-                    <DetailItem
-                      key={idx2}
-                    // detailId={stdPartCat}
-                    // detailItemId={stdPart.id}
-                    // selectionStates={moduleState}
-                    >
-                      <DataRow raw >
-                        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${idx2 + 1}.`} />
-                        <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(stdPart.nomenclature)} />
-                        <DataRowItem flex={5} outerClasses={[styles.entryId]} content={`${stdPart.id}`} />
-                        <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${stdPart.qty}/Act`} />
-                        <DataRowItem flex={5} outerClasses={[styles.entryCommands]} content={<>
-                          <ModalButton
-                            caption='U'
-                            ModalComponent={ProjectModule_Form}
-                            projectState={projectState}
-                            assemblies={assemblyList}
-                            oldModuleData={stdPart}
+            (stdPartCat, stdPartCatKey) =>
+              <Detail
+                key={stdPartCatKey}
+                title={`${stdParts[stdPartCat].length}x ${camelToSentenceCase(stdPartCat)} Parts`} // -> 2x Special Modules
+                defaultOpen
+              >
+                {
+                  stdParts[stdPartCat].map(
+                    (stdPart, idx2) =>
+                      <DetailItem
+                        key={idx2}
+                      // detailId={stdPartCat}
+                      // detailItemId={stdPart.id}
+                      // selectionStates={moduleState}
+                      >
+                        <DataRow raw >
+                          <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${idx2 + 1}.`} />
+                          <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(stdPart.nomenclature)} />
+                          <DataRowItem flex={5} outerClasses={[styles.entryId]} content={stdPart.id} />
+                          <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${stdPart.qty}/Act`} />
+                          <DataRowItem flex={5} outerClasses={[styles.entryCommands]} content={<>
+                            <ModalButton
+                              caption='U'
+                              ModalComponent={ProjectModule_Form}
+                              projectState={projectState}
+                              assemblies={assemblyList}
+                              oldModuleData={stdPart}
+                            />
+                            <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
+                            <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
+                          </>}
                           />
-                          <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
-                          <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
-
-                        </>}
-                        />
-                      </DataRow>
-                    </DetailItem>
-                )
-              }
-            </Detail>
+                        </DataRow>
+                      </DetailItem>
+                  )
+                }
+              </Detail>
           ) : <p className='note'>No Module Found - StandardModule</p>
       }
 

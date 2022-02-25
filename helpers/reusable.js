@@ -196,7 +196,7 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
             // Yes: add the matching in categories and others in fallbackCtg
 
             // check given categories include the Value-at-filter-key (V.A.F.K)
-            categories.includes(dataEl[filter])
+            categories.findIndex(el => el.toLowerCase() === dataEl[filter].toLowerCase()) >= 0
               // Yes: add the current item in the matching category
               ? result[dataEl[filter]].push(dataEl)
               // No: add the current item in the misc(fallbackCtg) category

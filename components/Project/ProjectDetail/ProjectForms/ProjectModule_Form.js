@@ -62,9 +62,9 @@ export default function ProjectModule_Form({ closer: modalCloser, projectState =
 
   const partTypeOptions = [
     { key: 'Select One ...', value: '' },
-    { key: 'Purchased', value: 'purchased' },
-    { key: 'manufactured', value: 'manufactured' },
-    { key: 'Standard', value: 'standard' }
+    { key: 'Standard', value: 'std' },
+    { key: 'Standard - Special', value: 'specStd' },
+    { key: 'Manufactured', value: 'mfg' },
   ]
 
   // On Submit

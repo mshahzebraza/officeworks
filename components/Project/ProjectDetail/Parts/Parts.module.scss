@@ -1,0 +1,18 @@
+.entry {
+	//
+	&Index {
+	}
+	&Nomenclature {
+	}
+	&Id {
+	}
+	&Qty {
+	}
+
+	&Commands {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 1rem;
+	}
+}

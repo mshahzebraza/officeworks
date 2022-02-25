@@ -1,10 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { createAssembly, deleteAssembly, fetchAssemblies, updateAssembly } from '../../server/controllers/projectController';
-import connectDB, { ncHandler } from '../../server/config/config'
-// next-connect is makes the process of http requests easier.
+import connectDB from '../../server/config/config'
+import nextConnect from 'next-connect';
 
 
-const connectionDB = connectDB();
+
+connectDB();
+const ncHandler = nextConnect();
 
 ncHandler.get(fetchAssemblies);
 ncHandler.delete(deleteAssembly);

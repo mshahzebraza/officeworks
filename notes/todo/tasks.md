@@ -39,3 +39,4 @@
   - Make queries in graphql for the specific data requests for each UI. Also, load data of each page when the page is loaded.
 - Create an inventory Model
 - Restructure the PO Parts separately using population in mongoose.(Parts can be repeated in multiple POs) Do this for project and modules also. (Standard Modules are repeated across multiple projects)
+- Bug Spotted: Upon adding a new po-item to an empty-po. the delete button becomes visible without selecting any po-item. and clicking it in this position throws an error.

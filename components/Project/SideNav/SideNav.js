@@ -22,6 +22,7 @@ export default function SideNav({ list = [], outerClasses = [], projectIndexStat
 
       <Detail
         title={'Projects'}
+        defaultOpen
       >
         {
           list.length > 0 && list.map(

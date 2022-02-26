@@ -209,7 +209,6 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
 
     // create an object with its keys set to the categories and values set to an empty array
     const result = Object.fromEntries(categories.map(ctg => [deCapitalizeFirstLetter(ctg), []]))
-    console.log('result', result);
 
     dataList.forEach(
       (dataEl, idx) => {

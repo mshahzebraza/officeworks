@@ -167,54 +167,74 @@ export const replaceLastCharacter = (char, replacement, replaceLength = 1) => {
   return (char.toString()).slice(0, -replaceLength) + replacement;
 };
 
+const genErrMsg = (message) => {
+  throw new Error(message)
+}
 
+
+// check if a string is non-empty and not undefined or null and capitalize the first letter
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// check if a string is non-empty and not undefined or null and de-capitalize the first letter
+export const deCapitalizeFirstLetter = (string) => {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+
+
+export function equateCase(a, b) {
+  return a.toLowerCase() === b.toLowerCase()
+}
 
 export function mapDataToCategory(dataList = [], categories = false, filter = 'type', fallbackCtg = 'others') {
 
 
-  // categories = ['purchased', 'manufactured']; 
-  if (dataList && Array.isArray(dataList)) {
+  try {
+
+    // Check if the DataList is Invalid or not an Array
+    dataList ?? genErrMsg('DataList is required');
+    !Array.isArray(dataList) && genErrMsg('Datalist must be an Array');
+
+    // Check if the Categories is Invalid, not an Array or Empty
+    categories ?? genErrMsg('Categories is required');
+    !Array.isArray(categories) && genErrMsg('Categories must be an Array');
+    (categories?.length === 0) && genErrMsg('Categories must not be empty');
 
 
-    const result = {}
 
-    // create an array of all possible catagories
-    const allCategories = categories ? categories.concat(fallbackCtg) : [fallbackCtg]
-    allCategories.forEach(
-      ctgName => result[ctgName] = []
+    // Append the fallbackCtg (usually set to 'others') to the end of the array
+    categories = categories.concat(fallbackCtg)
+
+    // create an object with its keys set to the categories and values set to an empty array
+    const result = Object.fromEntries(categories.map(ctg => [deCapitalizeFirstLetter(ctg), []]))
+    console.log('result', result);
+
+    dataList.forEach(
+      (dataEl, idx) => {
+
+        // check if the dataEl[filter] is included in categories (user-defined + fallbackCategory)
+        categories.findIndex(el => equateCase(dataEl[filter], el)) >= 0
+          // Yes: add the current item in the matching category
+          ? result[deCapitalizeFirstLetter(dataEl[filter])].push(dataEl)
+          // No: add the current item in the misc(fallbackCtg) category
+          : result[deCapitalizeFirstLetter(fallbackCtg)].push(dataEl)
+
+      }
     )
 
 
-    // check if the input data list is valid & array
-    if (dataList && Array.isArray(dataList)) {
-
-      dataList.forEach(
-        (dataEl, idx) => {
-
-          // Check if categories are provided as Valid & Array
-          if (categories && Array.isArray(categories) && categories.length > 0) {
-            // Yes: add the matching in categories and others in fallbackCtg
-
-            // check given categories include the Value-at-filter-key (V.A.F.K)
-            categories.findIndex(el => el.toLowerCase() === dataEl[filter].toLowerCase()) >= 0
-              // Yes: add the current item in the matching category
-              ? result[dataEl[filter]].push(dataEl)
-              // No: add the current item in the misc(fallbackCtg) category
-              : result[fallbackCtg].push(dataEl)
-
-          }
-          else {
-            // No: add every item in the fallbackCtgCategory
-            result[fallbackCtg].push(dataEl)
-          }
-        }
-      )
-    }
-
     return result;
 
-  } else {
-    console.log(`Input is not valid`);
+
+
+  } catch (error) {
+    // generate a console log with styling red color
+    // console.log(error);
+
+    console.log(`%c Error: ${error.message}`, `background: #f00; color: #fff; padding: 0.5rem 1rem;`);
+
   }
 }
 

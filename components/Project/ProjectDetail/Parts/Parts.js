@@ -41,7 +41,7 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
 
 
   // Create a list of all parts
-  const filtered = {
+  const filteredPL = {
     mfgParts,
     specStdParts,
     stdBearings,
@@ -52,17 +52,11 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
   }
 
   // Delete the empty parts lists and continue if there are any parts left
-  for (const key in filtered) {
-    !(filtered[key]?.length > 0) && delete filtered[key];
+  for (const key in filteredPL) {
+    !(filteredPL[key]?.length > 0) && delete filteredPL[key];
   }
-  console.log('filtered', filtered, isObjEmpty(filtered));
-  if (isObjEmpty(filtered)) { return <p className='note'>No Module Found - Parts</p> };
 
-
-
-
-
-
+  if (isObjEmpty(filteredPL)) { return <p className='note'>No Module Found - Parts</p> };
 
 
 
@@ -79,18 +73,46 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
 
   return (
     <DetailSection title='Parts' buttonsJSX={buttonsJSX} >
-
-
-
       {
-        Object.keys(filtered).map(
-          (stdPartCat, stdPartCatKey) =>
+        Object.keys(filteredPL).map(
+          (ctgStr, ctgStrIdx) =>
+            // Render a Detail for each category
             <Detail
-              key={stdPartCatKey}
-              title={`${filtered[stdPartCat].length} ${stdPartCat} Parts`} // -> 2x Special Modules
-              // title={`${stdParts[stdPartCat].length}x ${camelToSentenceCase(stdPartCat)} Parts`} // -> 2x Special Modules
+              key={ctgStrIdx}
+              title={`${filteredPL[ctgStr].length}x ${camelToSentenceCase(ctgStr)}`} // -> 2x Special Modules
               defaultOpen
             >
+              {
+                filteredPL[ctgStr].map(
+                  (stdPart, idx2) =>
+                    <DetailItem
+                      key={idx2}
+                    // detailId={stdPartCat}
+                    // detailItemId={stdPart.id}
+                    // selectionStates={moduleState}
+                    >
+                      {/* //!Restructure it into PartsEntry */}
+                      <DataRow raw >
+                        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${idx2 + 1}.`} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(stdPart.nomenclature)} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryId]} content={stdPart.id} />
+                        <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${stdPart.qty}/Act`} />
+                        <DataRowItem flex={5} outerClasses={[styles.entryCommands]} content={<>
+                          <ModalButton
+                            caption='U'
+                            ModalComponent={ProjectModule_Form}
+                            projectState={projectState}
+                            assemblies={assemblyList}
+                            oldModuleData={stdPart}
+                          />
+                          <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
+                          <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, stdPart.id])} />
+                        </>}
+                        />
+                      </DataRow>
+                    </DetailItem>
+                )
+              }
 
             </Detail>
         )

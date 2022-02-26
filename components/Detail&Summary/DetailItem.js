@@ -8,7 +8,8 @@ export default function DetailItem({
   detailId = null,
   detailItemId = null,
   outerClasses = [],
-  strict = false
+  strict = false,
+  noHover = false,
 }) {
 
   // Use of Props
@@ -19,13 +20,10 @@ export default function DetailItem({
    */
 
   // What this means?
-  /* 
+  /*
     - We can omit passing 'Id props' & 'State Props', but then we would not get any 'state Manipulation' Or 'Highlight Features'. That way the DetailItem would just behave as a div with some styles.
     - Please note that passing only one of 'State' or 'Id' Props also would not allow aforementioned features as two values are needed for comparison. 
    */
-
-
-
 
   // IMPORT of detailId can still be avoided
   const [activeDetail, setActiveDetail] = detailStates;
@@ -41,6 +39,11 @@ export default function DetailItem({
     && activeDetailItem === detailItemId
     && !strict || activeDetail === detailId // for strict = false, the final check will always be true
 
+  const styleList = [styles.detailItem, ...outerClasses]
+  isActive && styleList.push(styles.detailItemActive);
+  noHover && styleList.push(styles.noHover);
+
+
   function clickHandler() {
     setActiveDetailItem && setActiveDetailItem(detailItemId)
     activeDetail !== detailId && setActiveDetail && setActiveDetail(detailId)
@@ -49,7 +52,7 @@ export default function DetailItem({
   return (
     <div
       onClick={clickHandler}
-      className={concatStrings([styles.detailItem, !!isActive && styles.detailItemActive, ...outerClasses])}
+      className={concatStrings(styleList)}
 
     >
       {data}

@@ -1,6 +1,32 @@
 @import "../../../styles/abstracts/abstracts";
 
 .entry {
+	&.raw {
+		background: unset;
+		padding: unset;
+	}
+	&.header {
+		font-weight: 400;
+		font-size: 1.8rem;
+		color: white;
+		background: $nuteDark4;
+
+		entryStatus:hover {
+			background: black;
+		}
+		button {
+			display: none;
+		}
+	}
+	&.raw.header {
+		// TODO: Hack CSS - remove when fixed, works for header of Project parts
+		// background: unset;
+		padding: 1rem 2rem; // to compensate for the padding unset of 'raw'
+		// TODO: Padding of parent DetailItem should be set to 0 for this case
+
+		// margin-bottom: 1rem; // *this should be set to DetailItem
+	}
+
 	flex: 1; // just in case the parent is a flexbox
 	padding: 1rem 2rem;
 	display: flex;
@@ -118,24 +144,6 @@
 				// background-color: $nuteLite2;
 				// background-color: darken($color: black, $amount: 0.01);
 			}
-		}
-	}
-
-	&.header {
-		font-weight: 400;
-		font-size: 1.8rem;
-		color: white;
-		background: $nuteDark4;
-
-		entryStatus:hover {
-			background: black;
-		}
-		button {
-			display: none;
-			// background-color: $nuteLite5;
-			// color: $nuteDark5;
-			// font-weight: 700;
-			// box-shadow: unset;
 		}
 	}
 }

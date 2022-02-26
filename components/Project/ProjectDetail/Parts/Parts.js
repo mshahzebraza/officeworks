@@ -66,6 +66,8 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
 
   return (
     <DetailSection title='Parts' buttonsJSX={addPartBtn} >
+      <PartEntry
+        header={true} />
       {
         Object.keys(filteredPL) // generate a list of the keys in filteredPL i.e. ['mfgParts', 'specStdParts', 'stdBearings', 'stdScrews', 'stdWashers', 'stdMisc', 'otherParts']
           .map(
@@ -76,23 +78,14 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
                 title={`${camelToSentenceCase(ctgName)} - Qty: ${setDigits(filteredPL[ctgName].length, 2)}`} // -> 2x Special Modules
                 defaultOpen
               >
-                {
-                  filteredPL[ctgName].map(
-                    (part, partIndex) =>
-                      <DetailItem
-                        key={partIndex}
-                      // detailId={partCat}
-                      // detailItemId={part.id}
-                      // selectionStates={moduleState}
-                      >
-                        <PartEntry
-                          partData={{ ...part, index: partIndex }}
-                          projectState={projectState}
-                          assemblyList={assemblyList}
-                        />
-
-                      </DetailItem>
-                  )
+                {filteredPL[ctgName].map(
+                  (part, partIndex) =>
+                    <PartEntry
+                      key={partIndex}
+                      partData={{ ...part, index: partIndex }}
+                      projectState={projectState}
+                      assemblyList={assemblyList}
+                    />)
                 }
 
               </Detail>

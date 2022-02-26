@@ -9,6 +9,10 @@
 		// color: $redAccentLite1;
 		background: $nuteLite6;
 	}
+	&.noHover {
+		background: unset;
+		cursor: unset;
+	}
 
 	&Active {
 		color: $nuteLite6;

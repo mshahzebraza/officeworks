@@ -8,7 +8,7 @@ export async function handler(req, res) {
 
     // Step 01 : create a connection
     // Method 01
-    const conn = await mongoose.connect(
+    const conn = mongoose.connect(
       // connection URI
       'mongodb://localhost:27017/OfficeWorks'
       // connection function

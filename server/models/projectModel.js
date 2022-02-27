@@ -2,13 +2,14 @@
 const mongoose = require('mongoose');
 
 const mgSchema = mongoose.Schema;
-// Project.summary
+// Project.summary aka Project.specification
 const summarySchema = new mgSchema(
   {
     nomenclature: { type: String, unique: true },
+    // shortName: { type: String, unique: true },
     type: String,
     application: [String],
-    target: Number,
+    target: { type: Number, default: 0 },
     stock: Number,
     status: String
   }
@@ -29,6 +30,25 @@ const partsSchema = new mgSchema(
     parentAssemblyId: String,
     type: String,
     nomenclature: String,
+    // aliasList: [String], // match the alias list if nomenclature is not matched
+    /* 
+    Sometimes the IDs of manufactured parts do not match the IDs of the parts in the project. E.g.
+    
+    Supplier provided part with following specs:
+    - Nomenclature: "Housing for PCB"
+    - ID: "Part-Spt-CS-0010"
+    Specs of the part in the project:
+    - Nomenclature: "Housing Assembly"
+    - ID: "PEMA-XXX-YK-0020"
+
+    In this case, the aliasList of the part in the project should be updated to include the ID of the part from supplier i.e.
+    partInProject = {
+      nomenclature: "Housing Assembly"
+      aliasList: ["Part-Spt-CS-0010"] 
+      *This will help to match the part in the project with the part from supplier and update inventory accordingly
+      ID: "PEMA-XXX-YK-0020"
+    }
+     */
     id: String,
     qty: Number,
   }

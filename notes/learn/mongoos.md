@@ -321,3 +321,4 @@ Useful Articles
 3. [MongoDB Article - WebDevSimplified](https://blog.webdevsimplified.com/2022-02/mongo-db/)
 4. [Updating Documents with ReplaceOne - GfG](https://www.geeksforgeeks.org/mongoose-replaceone-function/)
 5. [Updating Documents with ReplaceOne - Mongoose Docs](https://mongoosejs.com/docs/api.html#model_Model.replaceOne)
+6. [Best Mongoose 101 Article - FreeCodeCamp](https://www.freecodecamp.org/news/mongoose101/)

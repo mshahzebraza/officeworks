@@ -9,11 +9,25 @@ import CatchAsyncErrors from '../middlewares/CatchAsyncErrors';
 const connectDB = CatchAsyncErrors(async () => {
 
   // Method 01
+  // Establish connection
   mongoose.connect(
-    process.env.MONGO_URI
-    , function () { console.log('Success: connected to MongoDB') }
-    , function () { console.log('Error connecting to MongoDB') }
+    process.env.MONGO_URI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
+    // , function () { console.log('Success: connected to MongoDB') }
+    // , function () { console.log('Error connecting to MongoDB') }
   )
+
+  // Check Connection
+  const db = mongoose.connection;
+  db.once('open', () => {
+    console.log('Success: connected to MongoDB:', mongoose.connection.host, process.env.MONGO_URI)
+  })
+  db.on('error', (err) => {
+    console.log('Error connecting to MongoDB', err)
+  })
 
 
   // Method 02

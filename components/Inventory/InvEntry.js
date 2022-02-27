@@ -1,9 +1,11 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { checkDataType } from '../../helpers/reusable'
 // import { useDispatch } from 'react-redux'
 
 // Store & Styles
+
 
 // Components
 import DataRow from '../UI/DataRow/DataRow'
@@ -11,6 +13,7 @@ import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 import InvalidModal from '../UI/Invalid'
+
 // import { deleteTxnHandler } from '../../lib/apollo_client/transactionApollo';
 
 
@@ -22,12 +25,31 @@ export default function InvEntry({
     nomenclature: 'Nomenclature',
     // aliasList: ['Alias'], // match the alias list if nomenclature is not matched
     id: 'Product ID',
-    qty: 'Qty', // a NET total of all batches of the product
+    qty: 'Avl. Qty', // a NET total of all transaction of the product
     application: 'Application', // ['P-App-1', 'P-App-2']
-    status: 'Status',  // percentage of target requirement// 'Double than required': 200%, 'Half than required': 50%, 'If not required (target=0)': Infinity  
-    batches: 'Batches', // [{ type: 'po', id: 'po-1', qty: '100' }, { type: 'po', id: 'po-2', qty: '200' }] // list of produces batches
+    status: 'Status',  // 'In-Stock', 'Out-of-Stock', 'Soon-Out-of-Stock', 'Enough-for-Order'  
+    req: 'Req. Qty',  // percentage of target requirement// 'Double than required': 200%, 'Half than required': 50%, 'If not required (target=0)': Infinity  
+    batches: 'Batches', // [{ type: 'po', id: 'po-1', qty: '100' }, { type: 'po', id: 'po-2', qty: '200' }] 
+    // list of produces batches (batches: incoming, transactions: incoming+outgoing)
   }
 }) {
+
+
+  // Set inventory application value
+  // For non-empty string, don't change the application value
+
+  if (
+    checkDataType(invData.application) !== 'string'
+    && invData.application?.length > 0
+  ) {
+    invData.application = invData.application.join(', ');
+  } else if (
+    checkDataType(invData.application) !== 'string'
+  ) {
+    invData.application = '-';
+  }
+
+
   return <DataRow header={header} >
     {/* <DataRowItem content={invData.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
     <DataRowItem
@@ -55,9 +77,13 @@ export default function InvEntry({
       content={invData.batches}
     /> */}
 
-    <DataRowItem
+    {/* <DataRowItem
       flex={0.75}
       content={invData.status}
+    /> */}
+    <DataRowItem
+      flex={0.75}
+      content={invData.req}
     />
     <DataRowItem
       flex={0.75}
@@ -70,7 +96,9 @@ export default function InvEntry({
                 itemList={refinedItemList}
               /> */}
         <Button
-          caption='Batch List' // *this should be a modal with a list of batches just like inventory itself
+          // *this should be a modal with a list of batches just like inventory itself
+          // *Clicking this may load the transaction page with the filters : type: incoming & nomenclature: invData.nomenclature
+          caption='Batch List'
         // click={() => deleteTxnHandler(invData._id)}
         />
 

@@ -23,14 +23,9 @@ export default function InventoryPageComp() {
 
   const [filterState, setFilterState] = useState(false)
 
-  const filteredTxnList = useReactiveVar(transactionApollo)
+  const txnList = useReactiveVar(transactionApollo)
 
-  // console.log('filteredTxnList', filteredTxnList);
-  const names = filteredTxnList.map(txn => {
-    return `${txn.productNomenclature}, ${txn.productId}, ${txn.partIDs.length}`;
-  })
-
-  const filtered = filteredTxnList.reduce((acc, cur, arr) => {
+  const storeItemList = txnList.reduce((acc, cur, arr) => {
     const targetIndex = acc.findIndex(item => item.id === cur.productId)
     const targetExists = targetIndex !== -1;
 
@@ -47,7 +42,6 @@ export default function InventoryPageComp() {
 
     return acc;
   }, []);
-  console.log('filtered', filtered);
 
 
 
@@ -75,14 +69,19 @@ export default function InventoryPageComp() {
 
       </section>
       <section className={`pageBody`} >
-        {/* <POentry
-          header={true}
-        /> */}
-        <div className="s">
-          <InvEntry header />
-          'Hello Inventory'
+        <InvEntry header />
+        {/* Create a list of InvEntry against each of filtered store items */}
+        {
+          storeItemList.map((item, idx) => {
+            return <InvEntry
+              key={idx}
+              invData={{ index: idx, ...item }}
+            />
+          })
+        }
 
-        </div>
+        <InvEntry />
+        'Hello Inventory'
       </section>
 
     </Layout >

@@ -16,7 +16,7 @@ import InvalidModal from '../UI/Invalid'
 
 export default function InvEntry({
   header = false,
-  txnData = {
+  invData = {
     // type: 'status'
     index: 'Sr',
     nomenclature: 'Nomenclature',
@@ -24,34 +24,40 @@ export default function InvEntry({
     id: 'Product ID',
     qty: 'Qty', // a NET total of all batches of the product
     application: 'Application', // ['P-App-1', 'P-App-2']
+    status: 'Status',  // percentage of target requirement// 'Double than required': 200%, 'Half than required': 50%, 'If not required (target=0)': Infinity  
     batches: 'Batches', // [{ type: 'po', id: 'po-1', qty: '100' }, { type: 'po', id: 'po-2', qty: '200' }] // list of produces batches
   }
 }) {
   return <DataRow header={header} >
-    {/* <DataRowItem content={txnData.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
+    {/* <DataRowItem content={invData.type === 'deposit' ? '+' : '-'} flex={0.5} /> */}
     <DataRowItem
       flex={0.5}
-      content={`${typeof (txnData.index) === 'number' ? (txnData.index + 1) : txnData.index}.`}
+      content={`${typeof (invData.index) === 'number' ? (invData.index + 1) : invData.index}.`}
     />
     <DataRowItem
       flex={2}
-      content={txnData.nomenclature}
+      content={invData.nomenclature}
     />
     <DataRowItem
       flex={2}
-      content={txnData.id}
+      content={invData.id}
     />
     <DataRowItem
-      flex={1}
-      content={txnData.qty || txnData.partIds?.length || 0}
+      flex={0.75}
+      content={invData.qty || invData.partIds?.length || 0}
     />
     <DataRowItem
-      flex={2}
-      content={txnData.application}
+      flex={1.25}
+      content={invData.application}
     />
+    {/* <DataRowItem
+      flex={0.75}
+      content={invData.batches}
+    /> */}
+
     <DataRowItem
-      flex={2.5}
-      content={txnData.batches}
+      flex={0.75}
+      content={invData.status}
     />
     <DataRowItem
       flex={0.75}
@@ -64,8 +70,8 @@ export default function InvEntry({
                 itemList={refinedItemList}
               /> */}
         <Button
-          caption='Delete'
-        // click={() => deleteTxnHandler(txnData._id)}
+          caption='Batch List' // *this should be a modal with a list of batches just like inventory itself
+        // click={() => deleteTxnHandler(invData._id)}
         />
 
       </>}

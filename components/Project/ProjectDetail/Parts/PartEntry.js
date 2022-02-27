@@ -32,7 +32,7 @@ export default function PartEntry({
       noHover
     >
       <DataRow header={header} raw>
-        <DataRowItem flex={/* header ? 1.5 : */ 1} outerClasses={[styles.entryIndex]} content={`${typeof partData.index === 'number' ? partData.index + 1 : partData.index}.`} />
+        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${typeof partData.index === 'number' ? partData.index + 1 : partData.index}.`} />
         <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(partData.nomenclature)} />
         <DataRowItem flex={5} outerClasses={[styles.entryId]} content={partData.id} />
         <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${setDigits(partData.qty, 2)}`} />

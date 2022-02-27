@@ -7,13 +7,14 @@ import { useReactiveVar } from '@apollo/client'
 // Store
 
 // Styles
-import styles from '../../styles/projectDirectory.module.scss'
+import styles from '../../styles/inventoryDirectory.module.scss'
 
 // Components
-import Layout from '../../components/Layout/Layout'
+import Layout from '../Layout/Layout'
 import SearchInput from '../UI/SearchInput'
 import ModalButton from '../UI/ModalButton'
 import transactionApollo from '../../lib/apollo_client/transactionApollo'
+import InvEntry from './InvEntry'
 
 
 export default function InventoryPageComp() {
@@ -78,6 +79,7 @@ export default function InventoryPageComp() {
           header={true}
         /> */}
         <div className="s">
+          <InvEntry header />
           'Hello Inventory'
 
         </div>

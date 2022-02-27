@@ -1,9 +1,7 @@
 # Tasks/Issues
 
 - **Breadcrumbs:** create at the top of each page.
-- **Primary Inventory Page** create the
-  - will contain the Special Purchase parts + Mfg parts
-- define a strict pattern of ID for standard modules like screw
+- **Standardize IDs:** define a strict pattern of ID for standard modules like screw
   - For instance, **`id:`**`[headType] M {head}x{length}`
   - parts filtered as `otherParts`, (other than mfg, std etc.) are not being used anywhere. Try to show these items somewhere.
 - **Consistent Summary Styles:** for every kind of summary data. Right now, projectSummary Modal shows very different styles than poSummary Modal.
@@ -25,3 +23,4 @@
 - **Populate On-Demand:** Restructure the PO Parts separately using population in mongoose.(Parts can be repeated in multiple POs) Do this for project and modules also. (Standard Modules are repeated across multiple projects)
 - **Bug Spotted:** Upon adding a new po-item to an empty-po. the delete button becomes visible without selecting any po-item. and clicking it in this position throws an error.
 - **Bug Spotted:** After deleting the project assembly, the Project Parts associated with it are not deleted.
+- **Inventory collection:** Structure BE such that inventory is stored in a separate collection and updated dynamically on every transaction

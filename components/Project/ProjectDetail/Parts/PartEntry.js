@@ -15,12 +15,13 @@ export default function PartEntry({
   partData = {
     index: 'Sr',
     nomenclature: 'nomenclature',
-    id: 'Id',
+    id: 'Unique Id',
     qty: 'Qty',
   },
   projectState = [],
   assemblyList = [],
   header = false }) {
+
 
 
   return (
@@ -44,7 +45,7 @@ export default function PartEntry({
             oldModuleData={partData}
           />
           <Button caption='S - X' click={() => { alert('Delete function not defined') }} />
-          <Button caption='D' click={() => deleteProjModHandler([projectType, projectId, partData.id])} />
+          <Button caption='D' click={() => deleteProjModHandler([/* projectType, projectId */...projectState, partData.id])} />
         </>}
         />
       </DataRow>

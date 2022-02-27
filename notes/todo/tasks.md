@@ -10,33 +10,18 @@
 - **Auto-Summary Generator**: to map through key-values and arrays as well.
 - **Improve Form Updates:** Make forms unable to submit without data change. (use of **isDirty** property of formik)
 - **Consistent Nomenclature:** Instead of Spec,Std & Mfg, use Spec-Std, Std & Mfg. Follow the same convention everywhere.
-- **Entries Header:** (Tables/Row Entries should have a header row for poList, txnLis, mwoList etc.) - _(In Progress)_
+
 - **Stop version overwrite:** In the update functions, the document version (from mongo) is often overwritten by the previous copy (thus remains unchanged).
 - **Projects Component**
-  - Only capital nomenclature is categorized into standard parts. "Bearing" shows up in misc section instead of bearing section.
-  - No Nomenclature is shown for standard parts. (a "------" is shown instead)
-  - "Add Parts" button works the same way for standard and special parts as well.
+
   - Deleting an assembly must delete parts related to it as well.
   - parts don't show their parent assembly directly in the entry bar. (There's enough space for that as well)
-  - summary component is not yet made for project parts.
+  - No Summary component for project parts.
   - "Reset Target" button is not working yet
-- **Part-Type Filtering in Forms**.
-  - The drop down for part-type must be limited in only the options of the relevant category.
-  - Standard parts Form should enforce "standard" as a category.
-- ~~**Create A Login Page**.~~
-- ~~Make a function to translate the partIDs as 1-5,7,9,11-15~~
-- Create a `TXN-entry` component and add header feature to it like in PO & MWO
-- Create the hierarchy of product modules as follows
-  - Modules (Heading of section, replaces 'Spec. Std. Modules' & 'Std. Modules')
-    - Mfg
-    - Std - Special (replacing Purchased Parts)
-    - Std - Bearing
-    - Std - Screw
-    - Std - Washer
-    - Std - Misc
-- Create a structure that instead of loading all the data from data base... the data is fetched on requirement from database.
+
+- **Limit Data Fetching** Create a structure that instead of loading all the data from data base... the data is fetched on requirement from database.
   - Use Foreign Keys in purchase parts (normalize the data)
   - Make queries in graphql for the specific data requests for each UI. Also, load data of each page when the page is loaded.
-- Create an inventory Model
-- Restructure the PO Parts separately using population in mongoose.(Parts can be repeated in multiple POs) Do this for project and modules also. (Standard Modules are repeated across multiple projects)
-- Bug Spotted: Upon adding a new po-item to an empty-po. the delete button becomes visible without selecting any po-item. and clicking it in this position throws an error.
+- **Populate On-Demand:** Restructure the PO Parts separately using population in mongoose.(Parts can be repeated in multiple POs) Do this for project and modules also. (Standard Modules are repeated across multiple projects)
+- **Bug Spotted:** Upon adding a new po-item to an empty-po. the delete button becomes visible without selecting any po-item. and clicking it in this position throws an error.
+- **Bug Spotted:** After deleting the project assembly, the Project Parts associated with it are not deleted.

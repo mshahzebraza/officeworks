@@ -1,5 +1,5 @@
-// Product ID
 // Product Nomenclature (with Alias if any, to match with project modules)
+// Product ID
 // Qty
 // Project Application(s) - This may need translator function - connection with Projects required
 // Specs of Product - Cascaded (for multiple versions of same ID) and nested - alias of different versions matching with different project modules.

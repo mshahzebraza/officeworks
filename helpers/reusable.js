@@ -1,10 +1,18 @@
 
 // Input: ['c1','c2','c3']
 // Output: 'c1 c2 c3'
-export function concatStrings(strArr = []) {
+export function concatStrings(strArr = [], separator = ' ') {
   return strArr.reduce((acc, cur, arr) => {
-    return acc.concat(` ${cur}`);
+    return acc.concat(`${separator}${cur}`);
   }, '');
+}
+
+// returns the type of the array if all elements are of same type otherwise returns false
+export const checkArrType = (arr = []) => {
+  const firstElType = checkDataType(arr[0]);
+  const isElTypeSame = (el) => checkDataType(el) === firstElType; // returns true if all element is of same type as 'firstElType'
+  const allElementsSameType = arr.every(isElTypeSame); // true
+  return allElementsSameType ? firstElType : false;
 }
 
 // Input: 'helloThereMister'
@@ -96,7 +104,28 @@ export function genLog(label, data, background = '#78f086', padding = '0.5rem 1r
   console.log(`%c ${label}`, `background: ${background}; padding: ${padding}; color: ${color}`, data);
 }
 
-export function removeDuplicate(list, label = 'item') {
+
+/* Input
+[
+    "Ball Lead Screw",
+    "Screw",
+    "Screw",
+    "Screw"
+]
+ */
+/* Output
+[
+    {
+        "item": "Ball Lead Screw",
+        "qty": 1
+    },
+    {
+        "item": "Screw",
+        "qty": 3
+    }
+]
+ */
+export function removeDuplicate(list = [], label = 'item') {
   let result;
   if (list.length === 0) {
     result = []
@@ -506,3 +535,134 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
 }
 
 
+
+/* Input
+{
+    refId: 'PO-001', //* String
+    totalCost: '$1,000', //* String
+    commaTags: ['tag1', 'tag2', 'tag3'], //* Array of Strings
+    dailySalesRepeated: [100,100,200,150,200], //* Array of Strings
+    parts: //* Array of Objects - required key is a string : 'name'
+      [
+        { name: "Ball Lead Screw" },
+        { name: "Screw" },
+        { name: "Screw" },
+        { name: "Screw" },
+      ]
+  }
+ */
+/* Output: A Map
+  [
+    "refId": 'PO-001',
+    "totalCost": '$1,000',
+    commaTags: 'tag1, tag2, tag3', //* Array of Strings - concatenated option
+    dailySalesRepeated: [ {item:100,qty:2}, {item:200,qty:2}, {item:150,qty:1}], //* Array of Strings: remove option
+    parts: [{name: "Ball Lead Screw", qty: 1}, {name: "Screw", qty: 3}] //* Array of objects reqKey @ name
+  ]
+ */
+export default function summarizer(
+  data = {},
+  arrOptions = false,
+  /* 
+    [
+      ['commaTags', '___' ], //* 2nd param: concatenationSeparator, it is assumed that concatenation is required 
+      ['dailySalesRepeated', 'removeUnique']
+    ]
+   */
+  // * indicates at parent key of array of strings, the options to be used (default is concatenated)
+  objOptions = false
+  /* 
+    [
+      ['parts', 'name'],
+      ['modules', 'nomenclature']
+    ]
+  */
+  // * indicates at parent key of objects, the child keys to be used
+) {
+  // Assuming that the arrOptions & objOptions are both array of arrays with 2 elements
+  const arrOptionsMap = arrOptions && new Map(arrOptions);
+  const objOptionsMap = objOptions && new Map(objOptions);
+
+  //todo: convert arrOptions & objOptions to a map
+
+  const result = Object.entries(data)
+    .reduce((
+      acc, [key, val]/* , index, arr */
+    ) => {
+      let returnValue;
+
+      const valDataType = checkDataType(val);
+
+      // *String
+      if (valDataType !== 'array' && valDataType !== 'object') {
+        console.log('String detected');
+        returnValue = val;
+      }
+
+      // *Array of Strings
+      /* 
+            Is arrOptions set - default option: concatenating
+            1.   Set: Find matching key in the arrOptions'keys with current data key
+             a.    Key found: check the value
+              i.       value === 'removeUnique', remove unique and return the array of objects
+              ii.      else , use default option
+             b.    Key not found, return false
+            2.   Not Set: return false
+       */
+      if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
+        console.log('Array detected');
+
+        // check if the current key is in the arrOptionsMap'keys & if the value against that key is 'removeUnique'
+        if (arrOptions) {
+          returnValue =
+            [...arrOptionsMap.keys()].includes(key)
+              && arrOptionsMap.get(key) === 'removeUnique'
+              ? removeDuplicate(val)
+              : concatStrings(val, ', ');
+        } else {
+          returnValue = concatStrings(val, ', ');
+        }
+      }
+
+
+
+      // *Array of Objects - required key is a string : 'name'
+      /* 
+            Is objOptions set - default option: 'false'
+            1.   Set: Find matching key in the objOptions'keys with current data key
+             a.    Key found: Find matching nested key in the objOptions'keys with current data' object keys
+              i.       nested key matches, remove unique and return the array of objects
+              ii.      no match/no nested key , 'false'
+             b.    Key not found, 'false'
+            2.   Not Set: 'false'
+       */
+      if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
+        console.log('Array of Objects detected');
+
+        // check if curKey matches any of the keys in the objOptionsMap otherwise return false
+        // filter only the required key from the array of objects into an array of strings
+
+        if (objOptions) {
+          returnValue =
+            [...objOptionsMap.keys()].includes(key)
+              // && objOptionsMap.get(key) === 'removeUnique'
+              ? removeDuplicate(
+                val.map(el => el[objOptionsMap.get(key)]) // filter only the required key'values from the each element of array of objects and return an array of strings
+              )
+              : false;
+        } else {
+          returnValue = false;
+        }
+
+
+      }
+
+      // TODO: Add support for nested objects of strings/numbers
+
+      acc.push([key, returnValue]);
+      return acc;
+    }, [])
+
+  return result
+
+}

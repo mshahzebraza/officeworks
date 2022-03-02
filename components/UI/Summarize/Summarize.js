@@ -1,49 +1,106 @@
+import { checkDataType, replaceKeysMap, summarizer, toSentenceCase } from "../../../helpers/reusable";
+import DetailItem from "../../Detail&Summary/DetailItem";
+import styles from './Summarize.module.scss'
 
-function Summarize(data = {}) {
 
 
-  // Convert the data object into an array of objects
-  // Each object will have a field and value
-  // check each value's data-type and convert accordingly
+function RepeatedItemJSX({ item }) {
+  if (!item) return <span>No items</span>;
+  return (<li className={styles.dataItem}>
+    <span className={styles.dataItemQty}> {item.qty} </span>
+    <span className={styles.dataItemType}>{item.item}</span>
+  </li>);
+}
 
-  const dummyData = {
-    refId: 'PO-001', //* String
-    totalCost: '$1,000', //* String
-    tags: ['tag1', 'tag2'], //* Array of Strings
-    parts: //* Array of Objects - required key is a string : 'name'
-      [
-        { name: "Ball Lead Screw" },
-        { name: "Screw" },
-        { name: "Screw" },
-        { name: "Screw" },
-      ]
+function SummaryItem({ field = 'noField', value = 'noValue', isList = false }) {
+
+  // Check for List (Array)
+  if (isList) {
+    if (value?.length > 0) {
+      value = value.map(
+        (item, idx) =>
+          <RepeatedItemJSX
+            key={idx}
+            item={item}
+          />
+      )
+    } else {
+      value = <RepeatedItemJSX />
+    }
   }
 
-
-
-  // data[key] = <p className={styles.data}>
-  //   <span className={styles.dataField}>{key}:</span>
-  //   <span className={styles.dataValue}>{value}</span>
-  // </p>
-
+  // Check for empty strings
+  value = value === '' ? '---' : value;
 
 
 
   return (
-    <div className={styles.entry} >
+    <DetailItem>
 
-      <span className={styles.entryKey}>
-        {field}:
-      </span>
-
-      {
-        !isList
-          ? <span className={styles.entryValue} > {value}</span>
-          // To accommodate list items in case of nested items
-          : <ul className={styles.entryValue}>{value}</ul>
-      }
-    </div >
-  )
+      <div className={styles.data}>
+        {/* Place Keys in span */}
+        <span className={styles.dataField}>{field}:</span>
+        {
+          // Check for list items
+          !isList
+            // Place strings in span
+            ? <span className={styles.dataValue}>{value}</span>
+            // Place list items in ul
+            : <ul className={styles.dataValue}>{value}</ul>
+        }
+      </div>
+    </DetailItem>
+  );
 }
 
+export function Summarize({
+  data,
+  OwnSummaryItem = false,
+  dataKeyOptions = {
+    toDelete: false, // array of strings // ['keyToDelete'] // TODO: Improve to delete nested data later
+    toFetch: false, // array of array of strings // [['objKey', 'nestedKeyToFetch']]
+    toUpdate: false // array of array of strings // [['keyToUpdate', 'replacementValue']]
+  }
+}) {
+
+
+  // ? Convert obj to array of arrays
+  data = summarizer(
+    data,
+    false,
+    // ? Fetch Nested Data keys using dataKeyOptions 
+    dataKeyOptions.toFetch ? dataKeyOptions.toFetch : false,
+    // ? Delete Main Data Keys using dataKeyOptions
+    dataKeyOptions.toDelete ? dataKeyOptions.toDelete : false
+  )
+
+  // ? Update Name of Main Keys to a different name using dataKeyOptions
+  if (dataKeyOptions?.toUpdate) {
+    data = replaceKeysMap(
+      data,
+      dataKeyOptions.toUpdate
+    )
+  }
+
+
+
+  return (<div className={styles.body}>
+    {
+      data
+        .map(
+          ([itemField, itemValue], index) => {
+            return (
+              <SummaryItem
+                key={index}
+                field={toSentenceCase(itemField)}
+                value={itemValue}
+                isList={checkDataType(itemValue) === 'array'}
+              />
+            )
+          }
+        )
+    }
+
+  </div>);
+}
 

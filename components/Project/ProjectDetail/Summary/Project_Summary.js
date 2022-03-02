@@ -1,9 +1,7 @@
 // Dependency & Helpers
-import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux';
-import { toSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
+import React from 'react'
+import { isObjEmpty } from '../../../../helpers/reusable';
 // Store
-import { projectActions } from '../../../../store/project/project-slice';
 // Styles
 import styles from './Project_Summary.module.scss'
 // Components
@@ -13,12 +11,15 @@ import ProjectSummary_Form from '../ProjectForms/ProjectSummary_Form';
 import Button from '../../../UI/Button';
 import ModalButton from '../../../UI/ModalButton';
 import { deleteProjHandler } from '../../../../lib/apollo_client/projectApollo';
+import { Summarize } from '../../../UI/Summarize/Summarize';
 
 
 export default function Project_Summary({ projectSummary = {} }) {
   // const dispatch = useDispatch();
 
   const isSummaryValid = projectSummary && !isObjEmpty(projectSummary);
+
+  // console.log('projectSummary', summarizer(projectSummary, [['application', ' ,']]));
 
 
   const buttonsJSX = <>
@@ -36,15 +37,13 @@ export default function Project_Summary({ projectSummary = {} }) {
 
       {
         isSummaryValid ? <>
-          <div className={styles.summary}>
-            {
-              ['type', 'nomenclature', 'application', 'status', 'stock'].map(
-                (el, idx) =>
-                  <SummaryItem key={idx} label={toSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
-              )
-            }
+          {/* Summary Block */}
 
+          <div className={styles.summary}>
+            <Summarize data={projectSummary} dataKeyOptions={{ toDelete: ['_id', 'target'] }} />
           </div>
+
+          {/* Target Block */}
           <div className={styles.target}>
             <span className={styles.targetCaption} >Target</span>
             <span className={styles.targetValue} >{projectSummary.target || 0}</span>
@@ -58,24 +57,4 @@ export default function Project_Summary({ projectSummary = {} }) {
     </DetailSection >
   )
 }
-
-
-function SummaryItem({ label, value }) {
-  let dataReturned;
-  if (value) {
-    dataReturned = checkDataType(value) === 'array' ?
-      (!!value.length ? value.reduce((prev, cur) => prev.concat(`${cur}, `), '') : '-')
-      : value
-  } else {
-    dataReturned = '-'
-  }
-
-  return (<DetailItem>
-    <p className={styles.ovInfo}>
-      <span className={styles.ovInfoLabel}>{label}</span>
-      <span className={styles.ovInfoValue}>{dataReturned}</span>
-    </p>
-  </DetailItem>);
-}
-
 

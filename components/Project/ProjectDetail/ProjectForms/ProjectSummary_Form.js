@@ -47,7 +47,6 @@ export default function ProjectSummary_Form({ closer: modalCloser, activeSummary
   })
 
   const onSubmit = (values, { resetForm }) => {
-    console.log("sending values", values)
     isNewSubmission
       ? addProjectSummaryHandler(values)
       : updateProjectSummaryHandler(values);

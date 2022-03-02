@@ -1,7 +1,7 @@
 // Dependency
 import React, { useState } from 'react'
 // import { useDispatch } from 'react-redux'
-import { isObjEmpty, camelToSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings, checkDataType } from '../../../helpers/reusable'
+import { isObjEmpty, toSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings, checkDataType } from '../../../helpers/reusable'
 
 // Store & Styles
 import { poActions } from '../../../store/po/po-slice';
@@ -103,7 +103,7 @@ export default function POitemDetail({ classes, data: itemList, activePOid, data
 
 export function renderListItem(pair, pairIndex) {
   return <li className='pair' key={pairIndex}>
-    <h5 className='pairField' >{camelToSentenceCase(pair[0])}: </h5>
+    <h5 className='pairField' >{toSentenceCase(pair[0])}: </h5>
     <p className='pairValue' >{pair[1]}</p>
   </li>
 }

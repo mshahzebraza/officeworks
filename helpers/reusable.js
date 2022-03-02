@@ -17,10 +17,19 @@ export const checkArrType = (arr = []) => {
 
 // Input: 'helloThereMister'
 // Output: 'Hello There Mister'
-export function camelToSentenceCase(ccString) {
+export function toSentenceCase(ccString) {
   const sfResult = ccString.replace(/([A-Z])/g, " $1"); // sf - semi-final
   return sfResult.charAt(0).toUpperCase() + sfResult.slice(1);
 }
+
+
+// Input: 'Hello There Mister'
+// Output: 'helloThereMister'
+export function toCamelCase(inputString) {
+  if (inputString === undefined) return inputString; // if false value
+  return inputString.trim().toLowerCase().replace(/\s+/g, '')
+}
+
 
 
 // returns a deep copy of object

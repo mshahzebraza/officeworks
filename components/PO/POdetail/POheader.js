@@ -3,7 +3,7 @@ import React from 'react'
 // Styles & Stores
 import styles from './POheader.module.scss'
 // Components
-import { concatStrings, transformEntries, camelToSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
+import { concatStrings, transformEntries, toSentenceCase, cloneAndPluck } from '../../../helpers/reusable'
 import POitem_Form from '../POForms/POitem_Form'
 import { useState } from 'react'
 // import { useDispatch } from 'react-redux'
@@ -62,7 +62,7 @@ export default function POheader({ activePOid, data, classes }) {
 export function entryCallback(pairArr, pairIndex) {
   return (
     <h3 key={`summaryPair-${pairIndex}`} className={concatStrings(['pair', styles.pair])} >
-      <span className={concatStrings(['pairField', styles.pairField])} >{camelToSentenceCase(pairArr[0])}</span>
+      <span className={concatStrings(['pairField', styles.pairField])} >{toSentenceCase(pairArr[0])}</span>
       <span className={concatStrings(['pairValue', styles.pairValue])} >{pairArr[1]}</span>
     </h3>
   )

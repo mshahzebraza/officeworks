@@ -23,4 +23,5 @@
 - **Populate On-Demand:** Restructure the PO Parts separately using population in mongoose.(Parts can be repeated in multiple POs) Do this for project and modules also. (Standard Modules are repeated across multiple projects)
 - **Bug Spotted:** Upon adding a new po-item to an empty-po. the delete button becomes visible without selecting any po-item. and clicking it in this position throws an error.
 - **Bug Spotted:** After deleting the project assembly, the Project Parts associated with it are not deleted.
+- **Bug Spotted:** \_id field is visible in PO Specs form. It should be deleted before it makes it to the form. Also the API should accommodate the same.
 - **Inventory collection:** Structure BE such that inventory is stored in a separate collection and updated dynamically on every transaction

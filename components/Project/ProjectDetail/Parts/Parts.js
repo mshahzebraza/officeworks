@@ -1,5 +1,5 @@
 import React from 'react'
-import { camelToSentenceCase, isObjEmpty, mapDataToCategory, setDigits } from '../../../../helpers/reusable';
+import { toSentenceCase, isObjEmpty, mapDataToCategory, setDigits } from '../../../../helpers/reusable';
 import Detail from '../../../Detail&Summary/Detail';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 
@@ -75,7 +75,7 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
               // Render a Detail for each category
               <Detail
                 key={ctgIndex}
-                title={`${camelToSentenceCase(ctgName)} - Qty: ${setDigits(filteredPL[ctgName].length, 2)}`} // -> 2x Special Modules
+                title={`${toSentenceCase(ctgName)} - Qty: ${setDigits(filteredPL[ctgName].length, 2)}`} // -> 2x Special Modules
                 defaultOpen
               >
                 {filteredPL[ctgName].map(

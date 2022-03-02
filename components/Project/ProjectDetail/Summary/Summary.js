@@ -1,7 +1,7 @@
 // Dependency & Helpers
 import React, { useState } from 'react'
 // import { useDispatch } from 'react-redux';
-import { camelToSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
+import { toSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/reusable';
 // Store
 import { projectActions } from '../../../../store/project/project-slice';
 // Styles
@@ -40,7 +40,7 @@ export default function Summary({ projectSummary = {} }) {
             {
               ['type', 'nomenclature', 'application', 'status', 'stock'].map(
                 (el, idx) =>
-                  <SummaryItem key={idx} label={camelToSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
+                  <SummaryItem key={idx} label={toSentenceCase(el)} value={projectSummary[el]}></SummaryItem>
               )
             }
 

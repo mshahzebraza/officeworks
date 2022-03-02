@@ -48,8 +48,7 @@ export default function MWOPageComp(pProps) {
           filteredMWOlist.map((poData, idx) => {
             return <MWOentry
               key={idx}
-              mwoIndex={idx}
-              mwoData={poData}
+              mwoData={{ index: idx, ...poData }}
             />
           }) || <p className='note'>No MWO Found - MWO Page</p>
         }

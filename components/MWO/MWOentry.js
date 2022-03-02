@@ -1,13 +1,9 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { removeDuplicate } from '../../helpers/reusable'
-// import { useDispatch } from 'react-redux'
-import { useRouter } from 'next/router'
 
 // Store & Styles
 import styles from './MWOentry.module.scss';
-import { mwoActions } from '../../store/mwo/mwo-slice'
 
 // Components
 import SummaryMWO_Modal from './SummaryMWO_Modal'
@@ -22,21 +18,15 @@ import { deleteMWOHandler } from '../../lib/apollo_client/mwoApollo';
 
 export default function MWOentryBar({
   mwoData = {
+    index: 'Sr',
     mwoId: 'MWO ID',
     itemName: 'Item Name',
     qty: 'Qty',
     application: 'Application',
     status: 'Status'
   },
-  mwoIndex = 'Sr',
   header = false
 }) {
-
-  const router = useRouter()
-  // const dispatch = useDispatch();
-
-  const [showSummary, setShowSummary] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
 
 
   return (
@@ -44,7 +34,7 @@ export default function MWOentryBar({
       <DataRow header={header}>
 
         {/* Serial */}
-        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (mwoIndex) === 'number' ? (mwoIndex + 1) : mwoIndex} />
+        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (mwoData.index) === 'number' ? (mwoData.index + 1) : mwoData.index} />
         {/* MWO ID */}
         <DataRowItem flex={2.5} outerClasses={[styles.entryMWOid]} content={mwoData.mwoId} />
 

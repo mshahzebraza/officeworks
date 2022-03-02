@@ -1,5 +1,5 @@
 import React from 'react'
-import { camelToSentenceCase, setDigits } from '../../../../helpers/reusable';
+import { toSentenceCase, setDigits } from '../../../../helpers/reusable';
 import { deleteProjModHandler } from '../../../../lib/apollo_client/projectApollo';
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import Button from '../../../UI/Button';
@@ -33,7 +33,7 @@ export default function PartEntry({
     >
       <DataRow header={header} raw>
         <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={`${typeof partData.index === 'number' ? partData.index + 1 : partData.index}.`} />
-        <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={camelToSentenceCase(partData.nomenclature)} />
+        <DataRowItem flex={5} outerClasses={[styles.entryNomenclature]} content={toSentenceCase(partData.nomenclature)} />
         <DataRowItem flex={5} outerClasses={[styles.entryId]} content={partData.id} />
         <DataRowItem flex={1} outerClasses={[styles.entryQty]} content={`${setDigits(partData.qty, 2)}`} />
         <DataRowItem flex={5} outerClasses={[styles.entryCommands]} content={<>

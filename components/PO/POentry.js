@@ -1,7 +1,7 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { checkDataType, summarizer } from '../../helpers/reusable'
+import { checkDataType, summarizer, toCamelCase } from '../../helpers/reusable'
 // import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
@@ -61,20 +61,31 @@ export default function POentry({
       <DataRow header={header}>
 
         {/* Serial */}
-        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (poData.index) === 'number' ? (poData.index + 1) : poData.index} />
+        <DataRowItem
+          flex={1}
+          outerClasses={[styles.entryIndex]}
+          content={typeof (poData.index) === 'number' ? (poData.index + 1) : poData.index}
+        />
 
         {/* Ref Type */}
-        <DataRowItem flex={1.5} outerClasses={[styles.entryType]} content={poData.refType} />
+        <DataRowItem
+          flex={1.5}
+          outerClasses={[styles.entryType]}
+          content={poData.refType}
+        />
 
         {/* Ref ID */}
-        <DataRowItem flex={2} outerClasses={[styles.entryId]} content={poData.refId} />
+        <DataRowItem
+          flex={2}
+          outerClasses={[styles.entryId]}
+          content={poData.refId}
+        />
 
         {/* PO Items */}
         <DataRowItem
           flex={5}
           outerClasses={[styles.entryItemList]}
           content={header ? poItems : itemsJSX}
-        // content={<EntryItemSpan content={'el.item'} key={'idx'} />}
         />
 
         {/* PO Status */}
@@ -86,7 +97,7 @@ export default function POentry({
               <>
                 <span
                   className={`
-              ${styles.entryStatusIcon} ${styles[`entryStatusIcon-${formatString(poData.status)}`]}`} />
+              ${styles.entryStatusIcon} ${styles[`entryStatusIcon-${toCamelCase(poData.status)}`]}`} />
                 <span className={styles.entryStatusText} >{poData.status}</span>
               </>
           }
@@ -100,7 +111,7 @@ export default function POentry({
             <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={PO_Form} invalidReason={'Closed PO cannot be edited'} oldPOdata={poData} /* disabled={poData.status === 'Closed'} */ />
 
             <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
-            <Button caption='Detail' click={() => router.push(`po/${poIndex}`)} />
+            <Button caption='Detail' click={() => router.push(`po/${poData.index}`)} />
             {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
             <Button caption='Delete' click={() => deletePOHandler(poData.refId)} />
 
@@ -114,18 +125,6 @@ export default function POentry({
   )
 }
 
-{/* <Image
-  src={`/icons/${props.type}.png`}
-  alt={props.type}
-  width={20}
-  height={20} />
- */}
-
-function formatString(inputString) {
-  // 'Format This String' -> 'formatThisString'
-  if (inputString === undefined) return inputString; // if false value
-  return inputString.trim().toLowerCase().replace(/\s+/g, '')
-}
 
 
 

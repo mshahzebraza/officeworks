@@ -1,8 +1,21 @@
-.entry {
+@import "../../../styles/abstracts/abstracts";
+
+.body {
 	display: flex;
+	flex-direction: column;
+	// gap: 0.5rem; // gave a padding to list item instead
+}
+.data {
+	display: flex;
+	// padding: 0.55rem 0;
 	gap: 1rem;
 
-	&Key {
+	& + & {
+		// margin-top: 1rem;
+		border-top: 1px solid $nuteLite3;
+	}
+
+	&Field {
 		flex: 0 0 30%;
 		// background: #000;
 		// padding: 0.5rem;
@@ -15,8 +28,6 @@
 		// padding: 0.5rem;
 		// for round items objects
 	}
-
-	// Entry List Item e.g. 02 - Item#01
 	&Item {
 		// background: #000;
 		display: flex;

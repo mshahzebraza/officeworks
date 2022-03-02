@@ -25,3 +25,5 @@
 - **Bug Spotted:** After deleting the project assembly, the Project Parts associated with it are not deleted.
 - **Bug Spotted:** \_id field is visible in PO Specs form. It should be deleted before it makes it to the form. Also the API should accommodate the same.
 - **Inventory collection:** Structure BE such that inventory is stored in a separate collection and updated dynamically on every transaction
+- **Bug Spotted:** Only qty is being returned by API after PO is updated. The payload submits 'item' and 'qty' fields and not the remaining fields to server.
+-

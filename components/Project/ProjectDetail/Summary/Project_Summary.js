@@ -5,7 +5,7 @@ import { toSentenceCase, checkDataType, isObjEmpty } from '../../../../helpers/r
 // Store
 import { projectActions } from '../../../../store/project/project-slice';
 // Styles
-import styles from './Summary.module.scss'
+import styles from './Project_Summary.module.scss'
 // Components
 import DetailItem from '../../../Detail&Summary/DetailItem';
 import DetailSection from '../DetailSection/DetailSection';
@@ -15,7 +15,7 @@ import ModalButton from '../../../UI/ModalButton';
 import { deleteProjHandler } from '../../../../lib/apollo_client/projectApollo';
 
 
-export default function Summary({ projectSummary = {} }) {
+export default function Project_Summary({ projectSummary = {} }) {
   // const dispatch = useDispatch();
 
   const isSummaryValid = projectSummary && !isObjEmpty(projectSummary);

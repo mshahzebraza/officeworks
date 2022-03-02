@@ -2,7 +2,7 @@
 import React from 'react'
 
 // Store & Styles
-import styles from './SummaryMWO_Modal.module.scss'
+import styles from './MWO_Summary.module.scss'
 
 // Components
 import Portal from '../UI/Portal'
@@ -10,7 +10,7 @@ import Modal from '../UI/Modal'
 
 
 
-export default function SummaryMWO_MFM({ closer, mwoData }) {
+export default function MWO_Summary({ closer, mwoData }) {
   console.log(mwoData);
   return (
     <Portal>

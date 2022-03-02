@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import styles from './MWOentry.module.scss';
 
 // Components
-import SummaryMWO_Modal from './SummaryMWO_Modal'
+import MWO_Summary from './MWO_Summary'
 import MWO_Form from './MWO_Form'
 import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
@@ -67,7 +67,7 @@ export default function MWOentryBar({
           outerClasses={[styles.entryControls]}
           content={<>
             <ModalButton caption='Edit' ModalComponent={MWO_Form} activeMWOdata={mwoData} />
-            <ModalButton caption='Summary' ModalComponent={SummaryMWO_Modal} mwoData={mwoData} />
+            <ModalButton caption='Summary' ModalComponent={MWO_Summary} mwoData={mwoData} />
             <Button caption='Delete' click={() => deleteMWOHandler(mwoData.mwoId)} />
 
           </>}

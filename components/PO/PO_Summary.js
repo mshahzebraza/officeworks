@@ -2,14 +2,14 @@
 import React from 'react'
 
 // Store & Styles
-import styles from './SummaryPO_Modal.module.scss'
+import styles from './PO_Summary.module.scss'
 
 // Components
 import Portal from '../UI/Portal'
 import Modal from '../UI/Modal'
 
 
-export default function SummaryPO_MFM({ closer, poData }) {
+export default function PO_Summary({ closer, poData }) {
 
   if (!poData) return 'no data received ...';
 

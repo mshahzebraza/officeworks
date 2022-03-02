@@ -10,7 +10,7 @@ import Detail from '../../Detail&Summary/Detail'
 import DetailSection from './DetailSection/DetailSection'
 import SpecialModules from './SpecialModules/SpecialModules'
 import StandardModules from './StandardModules/StandardModules'
-import Summary from './Summary/Summary'
+import Summary from './Summary/Project_Summary'
 import Assemblies from './Assemblies/Assemblies'
 import Parts from './Parts/Parts'
 

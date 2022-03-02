@@ -54,8 +54,7 @@ export default function POpageComp(pProps) {
           filteredPOlist?.map((poData, idx) => {
             return <POentry
               key={idx}
-              poData={poData}
-              poIndex={idx}
+              poData={{ index: idx, ...poData }}
             />
 
           })

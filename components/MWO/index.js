@@ -8,12 +8,12 @@ import { useReactiveVar } from '@apollo/client';
 import mwoApollo from '../../lib/apollo_client/mwoApollo';
 
 // Components
-import MWO_Form from '../../components/MWO/MWO_Form'
-import MWOentry from '../../components/MWO/MWOentry'
-import Layout from '../../components/Layout/Layout';
+import MWO_Form from './MWO_Form'
+import MWOentry from './MWOentry'
+import Layout from '../Layout/Layout';
 import { checkDataType, deepClone } from '../../helpers/reusable';
-import ModalButton from '../../components/UI/ModalButton';
-import SearchInput from '../../components/UI/SearchInput';
+import ModalButton from '../UI/ModalButton';
+import SearchInput from '../UI/SearchInput';
 
 export default function MWOPageComp(pProps) {
 

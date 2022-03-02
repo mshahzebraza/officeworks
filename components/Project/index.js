@@ -9,12 +9,12 @@ import { concatStrings, deepClone } from '../../helpers/reusable'
 import styles from '../../styles/projectDirectory.module.scss'
 
 // Components
-import Layout from '../../components/Layout/Layout'
-import SideNav from '../../components/Project/SideNav/SideNav'
-import ProjectDetail from '../../components/Project/ProjectDetail/ProjectDetail'
-import ProjectSummary_Form from '../../components/Project/ProjectDetail/ProjectForms/ProjectSummary_Form'
-import SearchInput from '../../components/UI/SearchInput'
-import ModalButton from '../../components/UI/ModalButton'
+import Layout from '../Layout/Layout'
+import SideNav from './SideNav/SideNav'
+import ProjectDetail from './ProjectDetail/ProjectDetail'
+import ProjectSummary_Form from './ProjectDetail/ProjectForms/ProjectSummary_Form'
+import SearchInput from '../UI/SearchInput'
+import ModalButton from '../UI/ModalButton'
 import { useReactiveVar } from '@apollo/client'
 import projectApollo from '../../lib/apollo_client/projectApollo'
 

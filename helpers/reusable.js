@@ -152,7 +152,6 @@ export function removeDuplicate(list = [], label = 'item') {
 
     }, [])
   }
-
   return result;
 }
 
@@ -560,25 +559,34 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
     parts: [{name: "Ball Lead Screw", qty: 1}, {name: "Screw", qty: 3}] //* Array of objects reqKey @ name
   ]
  */
-export default function summarizer(
+export function summarizer(
   data = {},
   arrOptions = false,
+  // * indicates at parent key of array of strings, the options to be used (default is concatenated)
   /* 
     [
       ['commaTags', '___' ], //* 2nd param: concatenationSeparator, it is assumed that concatenation is required 
       ['dailySalesRepeated', 'removeUnique']
     ]
    */
-  // * indicates at parent key of array of strings, the options to be used (default is concatenated)
   objOptions = false
+  // * indicates at parent key of objects, the child keys to be used
   /* 
     [
       ['parts', 'name'],
       ['modules', 'nomenclature']
     ]
-  */
-  // * indicates at parent key of objects, the child keys to be used
+  */,
+  objDeleteKeys = false
 ) {
+
+  // Delete unwanted keys if any
+  if (objDeleteKeys && objOptions) {
+    objDeleteKeys.forEach(
+      key => data.hasOwnProperty(key) && delete data[key]
+    )
+  }
+
   // Assuming that the arrOptions & objOptions are both array of arrays with 2 elements
   const arrOptionsMap = arrOptions && new Map(arrOptions);
   const objOptionsMap = objOptions && new Map(objOptions);
@@ -595,7 +603,7 @@ export default function summarizer(
 
       // *String
       if (valDataType !== 'array' && valDataType !== 'object') {
-        console.log('String detected');
+        // console.log('String detected');
         returnValue = val;
       }
 
@@ -610,7 +618,7 @@ export default function summarizer(
             2.   Not Set: return false
        */
       if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
-        console.log('Array detected');
+        // console.log('Array detected');
 
         // check if the current key is in the arrOptionsMap'keys & if the value against that key is 'removeUnique'
         if (arrOptions) {
@@ -635,13 +643,12 @@ export default function summarizer(
               ii.      no match/no nested key , 'false'
              b.    Key not found, 'false'
             2.   Not Set: 'false'
-       */
+            */
       if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
-        console.log('Array of Objects detected');
+        // console.log('Array of Objects detected');
 
         // check if curKey matches any of the keys in the objOptionsMap otherwise return false
         // filter only the required key from the array of objects into an array of strings
-
         if (objOptions) {
           returnValue =
             [...objOptionsMap.keys()].includes(key)
@@ -657,8 +664,10 @@ export default function summarizer(
 
       }
 
+      if (valDataType === 'array' && val.length === 0) {
+        returnValue = [];
+      }
       // TODO: Add support for nested objects of strings/numbers
-
       acc.push([key, returnValue]);
       return acc;
     }, [])

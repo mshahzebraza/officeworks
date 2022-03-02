@@ -1,7 +1,7 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { checkDataType, removeDuplicate } from '../../helpers/reusable'
+import { checkDataType, summarizer } from '../../helpers/reusable'
 // import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
@@ -22,30 +22,36 @@ import { deletePOHandler } from '../../lib/apollo_client/poApollo';
 
 export default function POentry({
   poData = {
+    index: 'Sr',
     refType: 'Ref Type',
     refId: 'Ref ID',
     items: 'Items',
     status: 'Status',
   },
-  poIndex = 'Sr',
   header = false
 }) {
 
   const router = useRouter()
 
+  poData = header ? poData :
+    Object.fromEntries(
+      summarizer(poData, false, [['items', 'name']], ['_id', '__v'])
+    )
+
   const poItems = poData?.items;
 
   // Removal of Duplicate Items
-  let refinedItemList = [], refinedItemsJsx;
+  let itemsJSX;
+
 
   if (checkDataType(poItems) === 'array' && poItems?.length > 0) {
-    const itemListArray = poItems.map((el, elIdx) => el.name); // ['po_item1', 'po_item1', 'po_item2']
-    refinedItemList = removeDuplicate(itemListArray); // [{item: 'po_item1', qty:2 },{item: 'po_item2', qty:1 }]
-    refinedItemsJsx = refinedItemList.map((el, idx) => {
+
+    // create the JSX for the items
+    itemsJSX = poItems.map((el, idx) => {
       return <EntryItemName content={el.item} key={idx} />
     })
   } else {
-    refinedItemsJsx = <EntryItemName isEmpty />
+    itemsJSX = <EntryItemName isEmpty />
   }
 
 
@@ -55,7 +61,7 @@ export default function POentry({
       <DataRow header={header}>
 
         {/* Serial */}
-        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (poIndex) === 'number' ? (poIndex + 1) : poIndex} />
+        <DataRowItem flex={1} outerClasses={[styles.entryIndex]} content={typeof (poData.index) === 'number' ? (poData.index + 1) : poData.index} />
 
         {/* Ref Type */}
         <DataRowItem flex={1.5} outerClasses={[styles.entryType]} content={poData.refType} />
@@ -67,7 +73,7 @@ export default function POentry({
         <DataRowItem
           flex={5}
           outerClasses={[styles.entryItemList]}
-          content={header ? poData.items : refinedItemsJsx}
+          content={header ? poItems : itemsJSX}
         // content={<EntryItemSpan content={'el.item'} key={'idx'} />}
         />
 
@@ -93,7 +99,7 @@ export default function POentry({
           content={<>
             <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={PO_Form} invalidReason={'Closed PO cannot be edited'} oldPOdata={poData} /* disabled={poData.status === 'Closed'} */ />
 
-            <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} itemList={refinedItemList} />
+            <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
             <Button caption='Detail' click={() => router.push(`po/${poIndex}`)} />
             {/* <Button caption='Delete' click={() => dispatch(poActions.deletePO(poData.refId))} /> */}
             <Button caption='Delete' click={() => deletePOHandler(poData.refId)} />

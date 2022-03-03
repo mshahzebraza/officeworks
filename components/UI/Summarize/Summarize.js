@@ -3,7 +3,7 @@ import DetailItem from "../../Detail&Summary/DetailItem";
 import styles from './Summarize.module.scss'
 
 
-
+// to render item: {qty,item} structures
 function RepeatedItemJSX({ item }) {
   if (!item) return <span>No items</span>;
   return (<li className={styles.dataItem}>

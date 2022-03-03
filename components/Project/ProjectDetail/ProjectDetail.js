@@ -70,19 +70,6 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
         assemblyList={assemblyList}
       />
 
-      {/* Spec Part List */}
-      {/* <SpecialModules
-        specParts={specParts}
-        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
-        assemblyList={assemblyList}
-      /> */}
-
-      {/* Std Part List */}
-      {/* <StandardModules
-        stdParts={stdParts}
-        projectState={summaryData && [summaryData.type, summaryData.nomenclature]}
-        assemblyList={assemblyList}
-      /> */}
 
     </section>
   )

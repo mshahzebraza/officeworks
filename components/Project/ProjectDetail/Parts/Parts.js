@@ -67,7 +67,8 @@ export default function Parts({ partList, projectState = [], assemblyList = [] }
   return (
     <DetailSection title='Parts' buttonsJSX={addPartBtn} >
       <PartEntry
-        header={true} />
+        header={true}
+      />
       {
         Object.keys(filteredPL) // generate a list of the keys in filteredPL i.e. ['mfgParts', 'specStdParts', 'stdBearings', 'stdScrews', 'stdWashers', 'stdMisc', 'otherParts']
           .map(

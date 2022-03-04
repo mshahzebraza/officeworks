@@ -5,11 +5,6 @@ import { concatStrings, camelToSentenceCase, mapDataToCategory, cloneAndPluck, i
 // Styles
 import styles from './ProjectDetail.module.scss'
 // Components
-import DetailItem from '../../Detail&Summary/DetailItem'
-import Detail from '../../Detail&Summary/Detail'
-import DetailSection from './DetailSection/DetailSection'
-import SpecialModules from './SpecialModules/SpecialModules'
-import StandardModules from './StandardModules/StandardModules'
 import Summary from './Summary/Project_Summary'
 import Assemblies from './Assemblies/Assemblies'
 import Parts from './Parts/Parts'
@@ -32,19 +27,6 @@ export default function ProjectDetail({ outerClasses, activeProjectData = {} }) 
   if (!summaryData || !summaryData.type || !summaryData.nomenclature) {
     return <p className='note'>No Project Selected - ProjectDetail</p>
   }
-
-
-  // const specialModuleCategories = ['specStd', 'mfg', 'std'];
-  // const allParts = mapDataToCategory(partList, specialModuleCategories)
-
-  // const specParts = cloneAndPluck(allParts, ['specStd', 'mfg'])
-
-  // const { others: otherParts } = cloneAndPluck(allParts, ['others'])
-  // // otherParts && otherParts.length > 0 && genLog('Assign Valid Category for the following parts - ProjectDetail', otherParts);
-
-  // const standardModuleCategories = ['bearing', 'screw', 'washer', 'misc'];
-  // const stdParts = mapDataToCategory(allParts.standard, standardModuleCategories, 'nomenclature', 'misc')
-  // console.log('std-after', stdParts);
 
 
   return (

@@ -27,10 +27,7 @@ export default function ProjectPageComp() {
 
   const [activeProjectIndex, setActiveProjectIndex] = useState(false)
 
-
-  // let filteredProjects = deepClone(projectList);
   let filteredProjects = useReactiveVar(projectApollo);
-
 
   // Filtering Projects w.r.t search ID 
   if (filterState) {
@@ -43,13 +40,11 @@ export default function ProjectPageComp() {
   const activeProject = filteredProjects?.[activeProjectIndex];
 
 
-
-
   return (
     <Layout pageClasses={[styles.container]}>
       <section className={concatStrings([`pageHeader`, styles.header])}>
 
-        <h1 className={`pageTitle`} > Projects</h1>
+        <h1 className={`pageTitle`} > sProjects</h1>
         <SearchInput stateVariables={[filterState, setFilterState]} />
         <ModalButton caption='Add Project' ModalComponent={ProjectSummary_Form} />
 

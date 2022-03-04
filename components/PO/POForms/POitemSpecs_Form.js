@@ -1,16 +1,13 @@
 // Dependency
 import React from 'react'
-// import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 // Store & Styles
-import { poActions } from '../../../store/po/po-slice'
 
 // Components
 import Portal from '../../UI/Portal'
 import Modal from '../../UI/Modal'
-// import Form from '../../Form/Form'
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
@@ -18,8 +15,7 @@ import { isObjEmpty } from '../../../helpers/reusable'
 import { updatePOitemSpecHandler } from '../../../lib/apollo_client/poApollo'
 
 
-export default function AddPOitemSpec_Modal({ closer, activePOid, activeItemIndex, activePOitemSpecs: oldPOitemSpecs = {} }) {
-  // const dispatch = useDispatch();
+export default function POitemSpecs_Form({ closer, activePOid, activeItemIndex, activePOitemSpecs: oldPOitemSpecs = {} }) {
 
   // console.log();
   const isNewSubmission = isObjEmpty(oldPOitemSpecs);

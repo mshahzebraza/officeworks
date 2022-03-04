@@ -1,11 +1,9 @@
 // Dependency
 import React, { useState } from 'react';
-// import { useSelector } from 'react-redux'
 
 // Store & Styles
 
 import styles from '../../styles/poDirectory.module.scss'
-// import styles from '../../../styles/poDirectory.module.scss'
 
 // Components
 import PO_Form from './PO_Form'
@@ -14,8 +12,6 @@ import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';
 import ModalButton from '../UI/ModalButton';
 import SearchInput from '../UI/SearchInput';
-import DataRow from '../UI/DataRow/DataRow';
-import DataRowItem from '../UI/DataRow/DataRowItem';
 
 
 import { useReactiveVar } from "@apollo/client";

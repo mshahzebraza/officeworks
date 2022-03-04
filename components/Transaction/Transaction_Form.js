@@ -118,14 +118,6 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
               { key: 'NRS BF 220x4 1502', value: 'NRS BF 220x4 1502' },
             ]}
           />
-          {/* qty */}
-          {/* <FormikControl
-            control='input'
-            type='number'
-            name='qty'
-            // disabled={!isNewSubmission}
-            label='Transaction Quantity'
-          /> */}
           {/* partIDs */}
           <FormikControl
             control='input'
@@ -151,14 +143,6 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
             label='Deposited/Withdrawn by'
             placeholder='E.g User 102331'
           />
-          {/* date */}
-          {/* <FormikControl
-            control='input'
-            type='date'
-            name='date'
-            label='Date of Transaction'
-            placeholder='Auto generated'
-          /> */}
           {/* remarks */}
           <FormikControl
             control='textarea'

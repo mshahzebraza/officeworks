@@ -1,10 +1,8 @@
 // Dependency
-import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux'
+import React from 'react'
 import { isObjEmpty, toSentenceCase, transformEntries, genLog, cloneAndPluck, concatStrings, checkDataType } from '../../../helpers/reusable'
 
 // Store & Styles
-import { poActions } from '../../../store/po/po-slice';
 import styles from './POitemDetail.module.scss'
 
 // Components

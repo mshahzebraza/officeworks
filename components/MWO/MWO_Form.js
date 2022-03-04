@@ -6,8 +6,6 @@ import { Formik } from 'formik'
 import { isObjEmpty } from '../../helpers/reusable'
 
 // Store & Styles
-import { mwoActions } from '../../store/mwo/mwo-slice'
-import { addMWO_Thunk, updateMWO_Thunk } from '../../store/mwo/mwo-thunks'
 import { addMWOHandler, updateMWOHandler } from '../../lib/apollo_client/mwoApollo'
 
 // Components
@@ -20,8 +18,6 @@ import FormikSubmit from '../Formik/FormikSubmit'
 
 
 export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdata = {} }) {
-
-  // const dispatch = useDispatch();
 
   const isNewSubmission = isObjEmpty(oldMWOdata);
 
@@ -149,46 +145,3 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
     </Portal>
   )
 }
-
-/* 
-'mwoId'
-'application'
-'itemId'
-'itemName'
-'qty'
-'status'
-'title'
-'remarks'
- */
-
-/* 
-<Form submit={formData => {
-  dispatch(mwoActions.addMWO(formData));
-}} fields={[
-  { // MWO ID
-    field: 'mwoId',
-    req: true
-  }, { // Source
-    field: 'application',
-    dataList: ['Project', 'R&D', 'LAB', 'MISC'],
-    req: true
-  }, { // Category
-    field: 'itemId',
-    req: true
-  }, { // Currency
-    field: 'itemName',
-    req: true
-  }, { // Total Cost
-    field: 'qty',
-    req: true
-  }, { // Status
-    field: 'status',
-    dataList: ['Not Started', 'Active', 'Delivered'],
-    req: true
-  }, { // Title
-    field: 'title',
-    req: true
-  }, { // Remarks
-    field: 'remarks'
-  }]} />
- */

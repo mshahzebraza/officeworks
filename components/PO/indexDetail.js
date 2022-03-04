@@ -1,6 +1,5 @@
 // Dependency
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { cloneAndPluck } from '../../helpers/reusable'
 import router from 'next/router'
 import { useReactiveVar } from '@apollo/client'
@@ -31,13 +30,16 @@ export default function POdetailPageComp({ pageId = 1 }) {
 
   const activePOdata = poState[pageId] && poState[pageId]
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
+  console.log('activeItemIndex', activeItemIndex);
 
   // item index >= items length
-  activePOdata && activePOdata.items
+  activePOdata?.items
+    && activePOdata.items.length > 0
     && activeItemIndex >= activePOdata.items.length
     && setActiveItemIndex(activePOdata.items.length - 1);
 
   // item index < 0
+  console.log('activeItemIndex', activeItemIndex);
   activeItemIndex < 0
     && console.log('Cannot happen');
 

@@ -4,8 +4,6 @@ import styles from './formik.module.scss'
 
 function FieldListPair(props) {
 
-  console.log("props", props);
-
   let { label, name, options, placeholders, inputFieldType, ...rest } = props
   placeholders = !placeholders ? ['key', 'value'] : placeholders
   inputFieldType = !inputFieldType ? null : inputFieldType;
@@ -26,10 +24,10 @@ function FieldListPair(props) {
               {fieldListData.map((curValue, index) => (
 
                 <div key={index} className={styles.formFieldPairArrayItem}>
-                  <Field name={`${name}[${index}][0]`} placeholder={placeholders[0]} type='text' {...rest} className={styles.formFieldPairArrayItemLabel} disabled={curValue[0] === '_id'} />
-                  <Field name={`${name}[${index}][1]`} placeholder={placeholders[1]} as={inputFieldType} {...rest} className={styles.formFieldPairArrayItemInput} disabled={curValue[0] === '_id'} />
+                  <Field name={`${name}[${index}][0]`} placeholder={placeholders[0]} type='text' {...rest} className={styles.formFieldPairArrayItemLabel} /* disabled={curValue[0] === '_id'} */ />
+                  <Field name={`${name}[${index}][1]`} placeholder={placeholders[1]} as={inputFieldType} {...rest} className={styles.formFieldPairArrayItemInput} /* disabled={curValue[0] === '_id'} */ />
 
-                  {/* index > 0 && */ <Button disabled={curValue[0] === '_id'} click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > Remove </Button>
+                  {<Button /* disabled={curValue[0] === '_id'} */ click={() => remove(index)} className={styles.formFieldPairArrayItemButton} > Remove </Button>
                   }
 
                 </div>

@@ -4,8 +4,7 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 // Store & Styles
-import { poActions } from '../../../store/po/po-slice'
-import poApollo, { addPOitemHandler, updatePOitemHandler } from '../../../lib/apollo_client/poApollo'
+import { addPOitemHandler, updatePOitemHandler } from '../../../lib/apollo_client/poApollo'
 
 // Components
 import Portal from '../../UI/Portal'
@@ -13,16 +12,13 @@ import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
-import { checkDataType, isObjEmpty } from '../../../helpers/reusable'
-// import { genLog } from '../../../../helpers/reusable'
+import { isObjEmpty, cloneAndPluck } from '../../../helpers/reusable'
 
-// showUpdateModal, setShowUpdateModal, dispatch, data
 export default function POitem_Form({ closer: modalCloser, activePOid, activePOindex, activePOitemData: oldPOitemData = {} }) {
 
+  const oldPOitemDataFiltered = cloneAndPluck(oldPOitemData, ['id', 'name', 'type', 'qty', 'unitPrice', 'remarks'])
   // const dispatch = useDispatch();
 
-
-  // is item an object - ASSUMED
   const isNewSubmission = isObjEmpty(oldPOitemData); // is item a non-empty object
 
 
@@ -33,7 +29,7 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
     qty: '',
     unitPrice: '',
     remarks: '',
-    ...oldPOitemData,
+    ...oldPOitemDataFiltered,
   }
 
   const validationSchema = Yup.object({
@@ -67,61 +63,77 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          <FormikForm>
-            {/* id */}
-            <FormikControl
-              control='input'
-              type='text'
-              label='Item ID'
-              name='id'
-              disabled={!isNewSubmission}
-            />
-            {/* name */}
-            <FormikControl
-              control='input'
-              type='text'
-              label='Item Name'
-              name='name'
-            />
-            {/* type */}
-            <FormikControl
-              control='select'
-              label='Item Type'
-              name='type'
-              options={[
-                { key: 'Select One...', value: '' },
-                { key: 'Special Standard', value: 'Special' }, // change this
-                { key: 'Standard', value: 'Standard' },
-              ]}
-            />
-            {/* qty */}
-            <FormikControl
-              control='input'
-              type='number'
-              label='Purchased Quantity'
-              name='qty'
-            />
-            {/* unitPrice */}
-            <FormikControl
-              control='input'
-              type='number'
-              label='Unit Price'
-              name='unitPrice'
-            />
-            {/* remarks */}
-            <FormikControl
-              control='input'
-              type='text'
-              label='Remarks / Description'
-              name='remarks'
-            />
+          {
+            ({ values, dirty, isValid, isSubmitting, setFieldValue, setFieldTouched }) => {
+              // console.log('isValid', isValid)
+              return (
+                <FormikForm>
+                  {/* id */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Item ID'
+                    name='id'
+                    disabled={!isNewSubmission}
+                  />
+                  {/* name */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Item Name'
+                    name='name'
+                  />
+                  {/* type */}
+                  <FormikControl
+                    control='select'
+                    label='Item Type'
+                    name='type'
+                    options={[
+                      { key: 'Select One...', value: '' },
+                      { key: 'Special Standard', value: 'Special' }, // change this
+                      { key: 'Standard', value: 'Standard' },
+                    ]}
+                  />
+                  {/* qty */}
+                  <FormikControl
+                    control='input'
+                    type='number'
+                    label='Purchased Quantity'
+                    name='qty'
+                  />
+                  {/* unitPrice */}
+                  <FormikControl
+                    control='input'
+                    type='number'
+                    label='Unit Price'
+                    name='unitPrice'
+                  />
+                  {/* remarks */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    label='Remarks / Description'
+                    name='remarks'
+                  />
 
-            <FormikSubmit />
+                  <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                    {/* all 3 must be false to disable */}
 
-          </FormikForm>
+                    {
+                      isValid ?
+                        dirty
+                          ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                          : 'No edits made'
+                        : 'Incomplete/Invalid Data'
+                    }
+                  </FormikSubmit>
+
+                </FormikForm>)
+
+            }}
         </Formik>
       </Modal>
-    </Portal>
+    </Portal >
   )
 }
 // 'id'

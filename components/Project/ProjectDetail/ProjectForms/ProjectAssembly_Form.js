@@ -74,7 +74,7 @@ export default function ProjectAssembly_Form(
 
           onSubmit={onSubmit}
         >
-          {(formik) => (
+          {({ isValid, dirty, isSubmitting }) => (
             <FormikForm>
               {/* Nomenclature */}
               <FormikControl
@@ -103,8 +103,15 @@ export default function ProjectAssembly_Form(
                 ]}
               />
 
-
-              <FormikSubmit />
+              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                {
+                  isValid ?
+                    dirty
+                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                      : 'No edits made'
+                    : 'Incomplete/Invalid Data'
+                }
+              </FormikSubmit>
             </FormikForm>
           )}
         </Formik>

@@ -88,7 +88,7 @@ export default function ProjectModule_Form({ closer: modalCloser, projectState =
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {formik => (
+          {({ isValid, dirty, isSubmitting }) => (
             <FormikForm>
               <FormikControl
                 label='Parent Assembly Id'
@@ -132,7 +132,15 @@ export default function ProjectModule_Form({ closer: modalCloser, projectState =
                 name='remarks'
               />
 
-              <FormikSubmit />
+              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                {
+                  isValid ?
+                    dirty
+                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                      : 'No edits made'
+                    : 'Incomplete/Invalid Data'
+                }
+              </FormikSubmit>
             </FormikForm>
           )}
         </Formik>

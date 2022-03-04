@@ -64,7 +64,7 @@ export default function ProjectSummary_Form({ closer: modalCloser, activeSummary
 
           onSubmit={onSubmit}
         >
-          {(formik) => (
+          {({ isSubmitting, isValid, dirty }) => (
             <FormikForm>
               {/* Type */}
               <FormikControl
@@ -124,9 +124,15 @@ export default function ProjectSummary_Form({ closer: modalCloser, activeSummary
                 type={'number'}
               />
 
-
-
-              <FormikSubmit />
+              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                {
+                  isValid ?
+                    dirty
+                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                      : 'No edits made'
+                    : 'Incomplete/Invalid Data'
+                }
+              </FormikSubmit>
             </FormikForm>
           )}
         </Formik>

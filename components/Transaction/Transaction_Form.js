@@ -83,78 +83,89 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <FormikForm>
+        {
+          ({ values, dirty, isSubmitting }) => (
+            <FormikForm>
 
-          {/* type */}
-          <FormikControl
-            control='select'
-            name='txnType'
-            label='Transaction Type'
-            options={[
-              { key: 'Select One...', value: '' },
-              { key: 'Deposit', value: 'deposit' },
-              { key: 'Withdrawal', value: 'withdrawal' },
-            ]}
-          />
-          {/* product */}
-          <FormikControl
-            control='select'
-            name='productNomenclature'
-            label='Product Name'
-            options={[
-              { key: 'Select One...', value: '' },
-              { key: 'Sliding Bearing', value: 's' },
-              { key: 'Ball Lead Screw', value: 'Ball Lead Screw' },
-            ]}
-          />
-          {/* id */}
-          <FormikControl
-            control='select'
-            name='productId'
-            label='Product ID'
-            options={[
-              { key: 'Select One...', value: '' },
-              { key: 'NRS BF 220x2 1502', value: 'NRS BF 220x2 1502' },
-              { key: 'NRS BF 220x4 1502', value: 'NRS BF 220x4 1502' },
-            ]}
-          />
-          {/* partIDs */}
-          <FormikControl
-            control='input'
-            type='text'
-            name='partIDs'
-            // disabled={!isNewSubmission}
-            label='Part IDs'
-          />
+              {/* type */}
+              <FormikControl
+                control='select'
+                name='txnType'
+                label='Transaction Type'
+                options={[
+                  { key: 'Select One...', value: '' },
+                  { key: 'Deposit', value: 'deposit' },
+                  { key: 'Withdrawal', value: 'withdrawal' },
+                ]}
+              />
+              {/* product */}
+              <FormikControl
+                control='select'
+                name='productNomenclature'
+                label='Product Name'
+                options={[
+                  { key: 'Select One...', value: '' },
+                  { key: 'Sliding Bearing', value: 's' },
+                  { key: 'Ball Lead Screw', value: 'Ball Lead Screw' },
+                ]}
+              />
+              {/* id */}
+              <FormikControl
+                control='select'
+                name='productId'
+                label='Product ID'
+                options={[
+                  { key: 'Select One...', value: '' },
+                  { key: 'NRS BF 220x2 1502', value: 'NRS BF 220x2 1502' },
+                  { key: 'NRS BF 220x4 1502', value: 'NRS BF 220x4 1502' },
+                ]}
+              />
+              {/* partIDs */}
+              <FormikControl
+                control='input'
+                type='text'
+                name='partIDs'
+                // disabled={!isNewSubmission}
+                label='Part IDs'
+              />
 
-          {/* intent */}
-          <FormikControl
-            control='input'
-            type='text'
-            name='intent'
-            label='Motive/Intent of Transaction'
-            placeholder='E.g Rectification of sample'
-          />
-          {/* party */}
-          <FormikControl
-            control='input'
-            type='text'
-            name='party'
-            label='Deposited/Withdrawn by'
-            placeholder='E.g User 102331'
-          />
-          {/* remarks */}
-          <FormikControl
-            control='textarea'
-            type='text'
-            name='remarks'
-            label='Remarks/Details'
-            placeholder='Auto generated' // in case of purchase order and manufacture order
-          />
-          {/* initiator */}
+              {/* intent */}
+              <FormikControl
+                control='input'
+                type='text'
+                name='intent'
+                label='Motive/Intent of Transaction'
+                placeholder='E.g Rectification of sample'
+              />
+              {/* party */}
+              <FormikControl
+                control='input'
+                type='text'
+                name='party'
+                label='Deposited/Withdrawn by'
+                placeholder='E.g User 102331'
+              />
+              {/* remarks */}
+              <FormikControl
+                control='textarea'
+                type='text'
+                name='remarks'
+                label='Remarks/Details'
+                placeholder='Auto generated' // in case of purchase order and manufacture order
+              />
 
-          <FormikSubmit />
-        </FormikForm>
+              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                {
+                  isValid ?
+                    dirty
+                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                      : 'No edits made'
+                    : 'Incomplete/Invalid Data'
+                }
+              </FormikSubmit>
+            </FormikForm>
+          )
+        }
 
       </Formik>
 

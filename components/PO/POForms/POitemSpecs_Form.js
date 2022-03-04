@@ -17,7 +17,9 @@ import { updatePOitemSpecHandler } from '../../../lib/apollo_client/poApollo'
 
 export default function POitemSpecs_Form({ closer, activePOid, activeItemIndex, activePOitemSpecs: oldPOitemSpecs = {} }) {
 
-  // console.log();
+  // TODO: 'clone & pluck' would have been a better option but specification keys can be very different and unpredictable for each item. hence deletion is used here. '_id' is not used in the state of the application anyways, so it won't affect app performance. Nevertheless, it is not ideal. 
+  delete oldPOitemSpecs._id;
+
   const isNewSubmission = isObjEmpty(oldPOitemSpecs);
   const oldSpecsArray = Object.entries(oldPOitemSpecs)
 
@@ -30,7 +32,6 @@ export default function POitemSpecs_Form({ closer, activePOid, activeItemIndex, 
   })
 
   const onSubmit = (values, { resetForm }) => {
-    console.log('values', values);
     const valuesObject = Object.fromEntries(values.specifications)
     updatePOitemSpecHandler([activePOid, activeItemIndex, valuesObject])
     resetForm();
@@ -48,17 +49,29 @@ export default function POitemSpecs_Form({ closer, activePOid, activeItemIndex, 
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          <FormikForm>
-            {/* Only One Control because all the specifications are registered as values to a single field (specifications) in FORMIK */}
-            {/* The separation of the specs is done manually (outside of formik) and then stored as pairs */}
-            <FormikControl
-              control='fieldListPair'
-              label='Add the Specifications in pairs'
-              name='specifications'
-              placeholders={['E.g Shelf Life', 'E.g 10 years']}
-            />
-            <FormikSubmit />
-          </FormikForm>
+          {
+            ({ isValid, dirty, isSubmitting }) => (
+              <FormikForm>
+                {/* Only One Control because all the specifications are registered as values to a single field (specifications) in FORMIK */}
+                {/* The separation of the specs is done manually (outside of formik) and then stored as pairs */}
+                <FormikControl
+                  control='fieldListPair'
+                  label='Add the Specifications in pairs'
+                  name='specifications'
+                  placeholders={['E.g Shelf Life', 'E.g 10 years']}
+                />
+                <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                  {
+                    isValid ?
+                      dirty
+                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                        : 'No edits made'
+                      : 'Incomplete/Invalid Data'
+                  }
+                </FormikSubmit>
+              </FormikForm>
+            )
+          }
         </Formik>
 
       </Modal>

@@ -3,7 +3,7 @@ import React from 'react'
 // import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
-import { isObjEmpty } from '../../helpers/reusable'
+import { isObjEmpty, cloneAndPluck } from '../../helpers/reusable'
 
 // Store & Styles
 import { addMWOHandler, updateMWOHandler } from '../../lib/apollo_client/mwoApollo'
@@ -21,6 +21,13 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
 
   const isNewSubmission = isObjEmpty(oldMWOdata);
 
+  const oldMWOdataFiltered = cloneAndPluck(
+    oldMWOdata,
+    ['application', 'itemId', 'itemName', 'qty', 'status', 'title', 'remarks'])
+
+  console.log('MWO_Form -> oldMWOdata', oldMWOdataFiltered)
+
+
   const initialValues = {
     mwoId: '',
     application: '',
@@ -30,7 +37,7 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
     status: '',
     title: '',
     remarks: '',
-    ...oldMWOdata
+    ...oldMWOdataFiltered
   }
 
   const validationSchema = Yup.object().shape({
@@ -70,76 +77,93 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          <FormikForm>
-            {/* 'title' */}
-            <FormikControl
-              control='input'
-              type='text'
-              name='title'
-              label='Title / Description'
-            />
-            {/* 'mwoId' */}
-            <FormikControl
-              control='input'
-              type='text'
-              name='mwoId'
-              label='MWO ID'
-              disabled={!isNewSubmission}
-            />
-            {/* 'application' */}
-            <FormikControl
-              control='select'
-              name='application'
-              label='Application / Use'
-              options={[
-                { key: 'Select One ...', value: '' },
-                { key: 'Make it dynamic 3K', value: 'PEMA-L3K-BD' },
-                { key: 'Lab Use', value: 'LU' },
-                { key: 'R&D', value: 'R&D' },
-                { key: 'Miscellaneous', value: 'MISC' },
-              ]}
-            />
-            {/* 'itemId' */}
-            <FormikControl
-              control='input'
-              type='text'
-              name='itemId'
-              label='Item ID'
-              placeholder='LU-20211212 OR R&D-20211212 OR PEMA-L3K-BD-0200-01'
-            />
-            {/* 'itemName' */}
-            <FormikControl
-              control='input'
-              type='text'
-              placeholder='Should be dependant on the Item Id field'
-              name='itemName'
-              label='Item Name'
-            />
-            {/* 'qty' */}
-            <FormikControl
-              control='input'
-              type='number'
-              name='qty'
-              label='Order Quantity'
-            />
-            {/* 'status' */}
-            <FormikControl
-              control='select'
-              name='status'
-              label='Status'
-              options={statusOptions}
-            />
-            {/* 'remarks' */}
-            <FormikControl
-              control='input'
-              type='text'
-              name='remarks'
-              label='Remarks'
-            />
+          {
+            ({ values, isValid, dirty, isSubmitting }) => {
+              // TODO: values can be used to mutate one field w.r.t the other.
+              return (
+                <FormikForm>
+                  {/* 'title' */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    name='title'
+                    label='Title / Description'
+                  />
+                  {/* 'mwoId' */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    name='mwoId'
+                    label='MWO ID'
+                    disabled={!isNewSubmission}
+                  />
+                  {/* 'application' */}
+                  <FormikControl
+                    control='select'
+                    name='application'
+                    label='Application / Use'
+                    options={[
+                      { key: 'Select One ...', value: '' },
+                      { key: 'Make it dynamic 3K', value: 'PEMA-L3K-BD' },
+                      { key: 'Lab Use', value: 'LU' },
+                      { key: 'R&D', value: 'R&D' },
+                      { key: 'Miscellaneous', value: 'MISC' },
+                    ]}
+                  />
+                  {/* 'itemId' */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    name='itemId'
+                    label='Item ID'
+                    placeholder='LU-20211212 OR R&D-20211212 OR PEMA-L3K-BD-0200-01'
+                  />
+                  {/* 'itemName' */}
+                  <FormikControl
+                    control='input'
+                    type='text'
+                    placeholder='Should be dependant on the Item Id field'
+                    name='itemName'
+                    label='Item Name'
+                  />
+                  {/* 'qty' */}
+                  <FormikControl
+                    control='input'
+                    type='number'
+                    name='qty'
+                    label='Order Quantity'
+                  />
+                  {/* 'status' */}
+                  <FormikControl
+                    control='select'
+                    name='status'
+                    label='Status'
+                    options={statusOptions}
+                  />
+                  {/* 'remarks' */}
+                  <FormikControl
+                    control='textarea'
+                    // type='text'
+                    name='remarks'
+                    label='Remarks'
+                  />
 
-            <FormikSubmit />
+                  <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                    {/* all 3 must be false to disable */}
 
-          </FormikForm>
+                    {
+                      isValid ?
+                        dirty
+                          ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                          : 'No edits made'
+                        : 'Incomplete/Invalid Data'
+                    }
+                  </FormikSubmit>
+
+                </FormikForm>
+              )
+            }
+          }
         </Formik>
       </Modal>
     </Portal>

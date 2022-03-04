@@ -14,14 +14,19 @@ import { deletePOitemHandler } from '../../../lib/apollo_client/poApollo';
 
 
 export default function POitemDetail({ classes, data: itemList, activePOid, dataIndex, setDataIndex, activeStatus = 'Active' }) {
-  // const dispatch = useDispatch();
 
+  // fetch Selected item from itemList
   const curItemData = itemList && itemList[dataIndex] ? itemList[dataIndex] : false; // `No items found in PO`
 
+  // delete _id field
+  // delete curItemData?.specification?._id;
+
+  // fetch specs from curItemData
   const itemSpecification = checkDataType(curItemData.specification) === 'object'
     && !isObjEmpty(curItemData.specification)
     && curItemData.specification;
 
+  // Fetch id, name, and specs from curItemData
   const itemSummary = curItemData && cloneAndPluck(curItemData, ['id', 'name', 'qty', 'type', 'unitPrice']);
 
   const oldSpecData = itemList && itemList[dataIndex] && itemList[dataIndex].specification

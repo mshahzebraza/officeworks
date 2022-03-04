@@ -1,4 +1,4 @@
-import { checkDataType, replaceKeysMap, summarizer, toSentenceCase } from "../../../helpers/reusable";
+import { checkDataType, deepClone, replaceKeysMap, summarizer, toSentenceCase } from "../../../helpers/reusable";
 import DetailItem from "../../Detail&Summary/DetailItem";
 import styles from './Summarize.module.scss'
 
@@ -55,7 +55,7 @@ function SummaryItem({ field = 'noField', value = 'noValue', isList = false }) {
 
 export function Summarize({
   data,
-  OwnSummaryItem = false,
+  OwnSummaryItem = SummaryItem, // if true, will use SummaryItem as a child. Use When custom entries are required
   dataKeyOptions = {
     toDelete: false, // array of strings // ['keyToDelete'] // TODO: Improve to delete nested data later
     toFetch: false, // array of array of strings // [['objKey', 'nestedKeyToFetch']]
@@ -66,7 +66,7 @@ export function Summarize({
 
   // ? Convert obj to array of arrays
   data = summarizer(
-    data,
+    deepClone(data), // ? not to mutate the original data object (passed in as a state sometimes)
     false,
     // ? Fetch Nested Data keys using dataKeyOptions 
     dataKeyOptions.toFetch ? dataKeyOptions.toFetch : false,
@@ -90,7 +90,7 @@ export function Summarize({
         .map(
           ([itemField, itemValue], index) => {
             return (
-              <SummaryItem
+              <OwnSummaryItem
                 key={index}
                 field={toSentenceCase(itemField)}
                 value={itemValue}

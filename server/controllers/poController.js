@@ -127,8 +127,8 @@ export const updateItem = CatchAsyncErrors(async (req, res) => {
 export const updateSpecification = CatchAsyncErrors(async (req, res) => {
   const { poUUID, itemUUID, specData } = req.body;
 
-  let poData = await poModel.findById(poId);
-  const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemId)
+  let poData = await poModel.findById(poUUID);
+  const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemUUID)
   // Data Manipulation
   poData.items[targetIndex].specification = specData
   poData.items[targetIndex].markModified("specification");

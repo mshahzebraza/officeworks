@@ -40,10 +40,11 @@ export const updateMWO = CatchAsyncErrors(async (req, res) => {
   const { mwoUUID } = req.query;
   const { mwoData } = req.body
 
-  let mwo = await mwoModel.findById(mwoUUID)
-  await mwo.overwrite(mwoData)
-  const updatedMWO = await mwo.save()
-
+  let updatedMWO = await mwoModel.findByIdAndUpdate(
+    mwoUUID,
+    { $set: mwoData }, // 'mwoData' alone can also be used
+    { new: true }
+  )
   res.status(200).json({
     success: true,
     data: updatedMWO

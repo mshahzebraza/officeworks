@@ -41,11 +41,12 @@ export const updateProject = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.query;
   const { summaryData } = req.body;
 
+  const { summary: updatedSummary } = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    { $set: { summary: summaryData } },
+    { new: true }
+  )
 
-  let project = await projectModel.findById(projectUUID);
-  project.summary = { /* ...project.summary, */ ...summaryData }
-  // const { summary: updatedSummary } = await project.save()
-  const { summary: updatedSummary } = await project.save()
 
   res.status(200).json({
     success: true,
@@ -59,8 +60,9 @@ export const updateProject = CatchAsyncErrors(async (req, res) => {
 export const fetchParts = CatchAsyncErrors(async (req, res) => {
 
   const { projectUUID } = req.query;
-  // const project = await projectModel.findById(projectUUID)
+
   const { parts = [] } = await projectModel.findById(projectUUID)
+
   res.status(200).json({
     success: true,
     data: parts
@@ -71,16 +73,15 @@ export const deletePart = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.query;
   const { partID } = req.body;
 
-
-  const project = await projectModel.findById(projectUUID)
-  const { parts } = project;
-  const targetIndex = parts && parts.findIndex(part => part.id === partID)
-  const [target] = parts.splice(targetIndex, 1);
-  await project.save();
+  await projectModel.findByIdAndUpdate(
+    projectUUID,
+    { $pull: { parts: { _id: partID } } },
+    { new: true, runValidators: true }
+  )
 
   res.status(200).json({
     success: true,
-    data: target
+    data: 'Part deleted'
   })
 });
 
@@ -88,11 +89,13 @@ export const createPart = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.query;
   const { partData } = req.body;
 
-  const project = await projectModel.findById(projectUUID)
-  const { parts = [] } = project;
-  const newPartIndex = parts.push(partData);
-  const { parts: { [newPartIndex - 1]: addedPart } } = await project.save();
-  await project.save();
+  const { parts = [] } = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    { $push: { parts: partData } },
+    { new: true, runValidators: true }
+  )
+
+  const addedPart = parts[parts.length - 1];
 
   res.status(200).json({
     success: true,
@@ -104,12 +107,19 @@ export const updatePart = CatchAsyncErrors(async (req, res) => {
   const { projectUUID, partID } = req.query;
   const { partData } = req.body;
 
+  const { parts = [] } = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    { $set: { "parts.$[matchPart]": partData } },
+    {
+      arrayFilters: [
+        { "matchPart.id": partID }
+      ],
+      new: true,
+      runValidators: true
+    }
+  )
 
-  const project = await projectModel.findById(projectUUID)
-  const { parts = [] } = project;
-  const targetIndex = parts.findIndex(part => part.id === partID);
-  parts.splice(targetIndex, 1, partData)
-  const { parts: { [targetIndex]: updatedTarget } } = await project.save()
+  const updatedTarget = parts.find(part => part.id === partID);
 
   res.status(200).json({
     success: true,
@@ -121,8 +131,7 @@ export const updatePart = CatchAsyncErrors(async (req, res) => {
 // Project.Assemblies
 export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.query;
-  const project = await projectModel.findById(projectUUID)
-  const { assemblies = [] } = project;
+  const { assemblies = [] } = await projectModel.findById(projectUUID)
 
   res.status(200).json({
     success: true,
@@ -132,25 +141,40 @@ export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
 
 export const deleteAssembly = CatchAsyncErrors(async (req, res) => {
   const { projectUUID, assemblyID } = req.query;
-  const project = await projectModel.findById(projectUUID)
-  const { assemblies = [] } = project;
-  const targetIndex = assemblies.findIndex(assembly => assembly.id === assemblyID);
-  const [target] = assemblies.splice(targetIndex, 1)
-  await project.save()
+
+  const data = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    {
+      $pull: {
+        assemblies: { id: assemblyID }
+      }
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  )
 
   res.status(200).json({
     success: true,
-    data: target
+    data: 'deletion successful'
   })
 });
 
 export const createAssembly = CatchAsyncErrors(async (req, res) => {
   const { projectUUID } = req.query;
   const { assemblyData } = req.body;
-  const project = await projectModel.findById(projectUUID)
-  const { assemblies = [] } = project;
-  const newAssemblyIndex = assemblies.push(assemblyData)
-  const { assemblies: { [newAssemblyIndex - 1]: addedAssembly } } = await project.save()
+
+  const { assemblies = [] } = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    { $push: { assemblies: assemblyData } },
+    {
+      arrayFilters: [{ "assembly.id": assemblyID }],
+      new: true,
+      runValidators: true
+    }
+  )
+  const addedAssembly = assemblies[assemblies.length - 1]
 
   res.status(200).json({
     success: true,
@@ -161,13 +185,21 @@ export const createAssembly = CatchAsyncErrors(async (req, res) => {
 export const updateAssembly = CatchAsyncErrors(async (req, res) => {
   const { projectUUID, assemblyID } = req.query;
   const { assemblyData } = req.body;
-  const project = await projectModel.findById(projectUUID)
-  const { assemblies = [] } = project;
 
-  const targetIndex = assemblies.findIndex(assembly => assembly.id === assemblyID);
-  assemblies.splice(targetIndex, 1, assemblyData)
-  const { assemblies: { [targetIndex]: updatedAssembly } } = await project.save()
-  console.log("updatedAssembly", updatedAssembly);
+  const { assemblies = [] } = await projectModel.findByIdAndUpdate(
+    projectUUID,
+    {
+      $set: {
+        "assemblies.$[assembly]": assemblyData
+      }
+    },
+    {
+      arrayFilters: [{ "assembly.id": assemblyID }],
+      new: true,
+      runValidators: true
+    }
+  )
+  const updatedAssembly = assemblies.find(assembly => assembly.id === assemblyID);
 
   res.status(200).json({
     success: true,

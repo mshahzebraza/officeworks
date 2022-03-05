@@ -37,8 +37,11 @@ export const updatePO = CatchAsyncErrors(async (req, res) => {
   const { poUUID } = req.query;
   const { poData } = req.body;
 
-  // overwrite + save method -- error
-  let updatedPO = await poModel.findByIdAndUpdate(poUUID, poData, { new: true, runValidators: true })
+  let updatedPO = await poModel.findByIdAndUpdate(
+    poUUID,
+    poData,
+    { new: true, runValidators: true }
+  )
 
   // return RESPONSE
   res.status(200).json({
@@ -61,12 +64,13 @@ export const fetchItems = CatchAsyncErrors(async (req, res) => {
 export const deleteItem = CatchAsyncErrors(async (req, res) => {
   const { poUUID, itemUUID } = req.query;
 
-  const poData = await poModel.findById(poUUID)
-  const remainingItems = poData.items.filter((item) => item._id.toString() !== itemUUID)
-
-  // Save method
-  poData.items = remainingItems;
-  const { items: itemList } = await poData.save();
+  const { items: itemList } = await poModel.findByIdAndUpdate(
+    poUUID,
+    {
+      $pull: { items: { _id: itemUUID } }
+    },
+    { new: true, runValidators: true }
+  )
 
   res.status(200).json({
     success: true,
@@ -80,20 +84,17 @@ export const createItem = CatchAsyncErrors(async (req, res) => {
   const { itemData } = req.body;
 
 
-  /* // findByIdAndUpdate method
-    let poData = await poModel.findByIdAndUpdate(
-      poId,
-      { $push: { items: itemData } }
-    ); */
-
-  // save method
-  let poData = await poModel.findById(poUUID);
-  const lengthOfList = poData.items.push(itemData);
-  const { items: itemList } = await poData.save()
+  let { items: itemList } = await poModel.findByIdAndUpdate(
+    poUUID,
+    {
+      $push: { items: itemData }
+    },
+    { new: true, runValidators: true }
+  );
 
   res.status(200).json({
     success: true,
-    data: itemList[lengthOfList - 1]
+    data: itemList[itemList.length - 1]
   })
 });
 
@@ -102,23 +103,29 @@ export const updateItem = CatchAsyncErrors(async (req, res) => {
   const { itemData } = req.body;
 
 
-
-  const poData = await poModel.findById(poUUID);
-  const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemUUID)
-
-  poData.items.splice(targetIndex, 1, itemData)
-  // poData.items[targetIndex].markModified("specification") // not necessary as all of the doc is changed anyway
-
-
-  /* // findById method
-    const updatedPOdata = await poModel.findById(poId, poData); */
-
-  // save method
-  const { items: itemList } = await poData.save();
+  // Update the item with the new itemData but use findByIdAndUpdate method and $set
+  const { items: itemList } = await poModel.findByIdAndUpdate(
+    poUUID,
+    {
+      $set: {
+        "items.$[matchItem]": { // ? $[] let's us name the positional items as it is often used on multiple operations
+          _id: itemUUID, //? _id needs to passed for sub-documents bcz _ids of sub-documents are not static but dynamic (changes every time)
+          ...itemData
+        }
+      }
+    },
+    {
+      arrayFilters: [ //? can be skipped if we use findOneAndUpdate method
+        { "matchItem._id": itemUUID }
+      ],
+      new: true,
+      runValidators: true
+    }
+  )
 
   res.status(200).json({
     success: true,
-    data: itemList[targetIndex]
+    data: itemList.find((item) => item._id.toString() === itemUUID)
   })
 });
 
@@ -126,14 +133,26 @@ export const updateSpecification = CatchAsyncErrors(async (req, res) => {
   const { poUUID, itemUUID } = req.query;
   const { specData } = req.body;
 
-  let poData = await poModel.findById(poUUID);
-  const targetIndex = poData.items.findIndex((item) => item._id.toString() === itemUUID)
-  // Data Manipulation
-  poData.items[targetIndex].specification = specData
-  poData.items[targetIndex].markModified("specification");
+  const poData = await poModel.findByIdAndUpdate(
+    poUUID,
+    {
+      $set: {
+        "items.$[matchItem].specification": specData
+      }
+    },
+    {
+      arrayFilters: [
+        { "matchItem._id": itemUUID }
+      ],
+      new: true,
+      runValidators: true
+    }
+  )
+  // poData.items[targetIndex].markModified("specification"); // ? markModified is not required in this case because we are not changing it, but REPLACING IT COMPLETELY.
 
-  // Advanced Destructuring
-  const { items: { [targetIndex]: { specification: updatedSpecs } } } = await poData.save();
+  const updatedSpecs = poData.items.find((item) => item._id.toString() === itemUUID).specification
+  // *Advanced Destructuring - Not being used now :(
+  // const { items: { [targetIndex]: { specification: updatedSpecs } } } = poData;
 
   res.status(200).json({
     success: true,

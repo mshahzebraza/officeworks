@@ -322,3 +322,4 @@ Useful Articles
 4. [Updating Documents with ReplaceOne - GfG](https://www.geeksforgeeks.org/mongoose-replaceone-function/)
 5. [Updating Documents with ReplaceOne - Mongoose Docs](https://mongoosejs.com/docs/api.html#model_Model.replaceOne)
 6. [Best Mongoose 101 Article - FreeCodeCamp](https://www.freecodecamp.org/news/mongoose101/)
+7. [Complex nested queries (using positional) ](https://docs.mongodb.com/manual/reference/operator/update/positional-all/)

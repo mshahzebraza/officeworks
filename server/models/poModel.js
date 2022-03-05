@@ -15,7 +15,6 @@ const poItemSpecSchema = new mgSchema(
 ) // SubDocument is preferred over nested schema to enable the creation of _id as ObjectId 
 
 const poItemSchema = new mgSchema({
-  // _id: mongoose.ObjectId,
   name: String,
   type: String,
   id: String,

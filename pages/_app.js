@@ -26,6 +26,12 @@ function MyApp({ Component, pageProps }) {
       // Destructuring the response
       const { data: { poList, mwoList, projectList, transactionList } } = await res.json();
 
+      delete poList.__v;
+      delete mwoList.__v;
+      delete projectList.__v;
+      delete transactionList.__v;
+
+
       // Inserting data into the store
       poApollo(poList);
       mwoApollo(mwoList);
@@ -33,12 +39,12 @@ function MyApp({ Component, pageProps }) {
       transactionApollo(transactionList);
 
       // Log the data
-      /* console.log(
-        'poList', poList,
-        "mwoList", mwoList,
-        "projectList", projectList,
-        "transactionList", transactionList
-      ); */
+      // console.log(
+      //   'poList', poList,
+      //   "mwoList", mwoList,
+      //   "projectList", projectList,
+      //   "transactionList", transactionList
+      // );
 
     }
 

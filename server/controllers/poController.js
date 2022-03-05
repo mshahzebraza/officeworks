@@ -1,7 +1,5 @@
 import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
-import mwoModel from "../models/mwoModel";
-import projectModel from "../models/projectModel";
 
 
 export const fetchPOs = CatchAsyncErrors(async (req, res) => {

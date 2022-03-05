@@ -23,9 +23,8 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
 
   const oldMWOdataFiltered = cloneAndPluck(
     oldMWOdata,
-    ['application', 'itemId', 'itemName', 'qty', 'status', 'title', 'remarks'])
+    ['application', 'mwoId', 'itemId', 'itemName', 'qty', 'status', 'title', 'remarks'])
 
-  console.log('MWO_Form -> oldMWOdata', oldMWOdataFiltered)
 
 
   const initialValues = {

@@ -28,7 +28,7 @@ export default function MWOentryBar({
   header = false
 }) {
 
-
+  console.log('MWOentryBar -> mwoData', mwoData);
   return (
     <>
       <DataRow header={header}>

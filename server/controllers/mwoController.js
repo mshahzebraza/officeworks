@@ -4,7 +4,6 @@ import mwoModel from "../models/mwoModel";
 // Fetch all MWOs
 export const getAllMWOs = CatchAsyncErrors(async (req, res) => {
   const mwoList = await mwoModel.find({})
-  console.log('mwos', mwoList[0].itemName);
   res.status(200).json({
     success: true,
     data: mwoList
@@ -13,7 +12,7 @@ export const getAllMWOs = CatchAsyncErrors(async (req, res) => {
 });
 // delete mwo
 export const deleteMWO = CatchAsyncErrors(async (req, res) => {
-  const { mwoUUID } = req.body
+  const { mwoUUID } = req.query;
   const mwo = await mwoModel.findByIdAndDelete(mwoUUID)
 
   res.status(200).json({
@@ -25,7 +24,6 @@ export const deleteMWO = CatchAsyncErrors(async (req, res) => {
 
 // create a mwo
 export const createMWO = CatchAsyncErrors(async (req, res) => {
-  console.log('createMWO ran!');
   const { mwoData } = req.body
 
   const mwo = await mwoModel.create(mwoData)
@@ -39,8 +37,8 @@ export const createMWO = CatchAsyncErrors(async (req, res) => {
 
 // update a mwo
 export const updateMWO = CatchAsyncErrors(async (req, res) => {
-  console.log('updateMWO ran!');
-  const { mwoUUID, mwoData } = req.body
+  const { mwoUUID } = req.query;
+  const { mwoData } = req.body
 
   let mwo = await mwoModel.findById(mwoUUID)
   await mwo.overwrite(mwoData)

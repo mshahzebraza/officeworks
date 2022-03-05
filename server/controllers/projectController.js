@@ -14,7 +14,7 @@ export const fetchProjects = CatchAsyncErrors(async (req, res) => {
 });
 
 export const deleteProject = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID } = req.body;
+  const { projectUUID } = req.query;
 
   const deletedProject = await projectModel.findByIdAndDelete(projectUUID)
 
@@ -38,7 +38,9 @@ export const createProject = CatchAsyncErrors(async (req, res) => {
 });
 // Updates summary of project
 export const updateProject = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, summaryData } = req.body;
+  const { projectUUID } = req.query;
+  const { summaryData } = req.body;
+
 
   let project = await projectModel.findById(projectUUID);
   project.summary = { /* ...project.summary, */ ...summaryData }
@@ -56,7 +58,7 @@ export const updateProject = CatchAsyncErrors(async (req, res) => {
 // Project.Parts
 export const fetchParts = CatchAsyncErrors(async (req, res) => {
 
-  const { projectUUID } = req.body;
+  const { projectUUID } = req.query;
   // const project = await projectModel.findById(projectUUID)
   const { parts = [] } = await projectModel.findById(projectUUID)
   res.status(200).json({
@@ -66,7 +68,9 @@ export const fetchParts = CatchAsyncErrors(async (req, res) => {
 });
 
 export const deletePart = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, partID } = req.body;
+  const { projectUUID } = req.query;
+  const { partID } = req.body;
+
 
   const project = await projectModel.findById(projectUUID)
   const { parts } = project;
@@ -81,7 +85,8 @@ export const deletePart = CatchAsyncErrors(async (req, res) => {
 });
 
 export const createPart = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, partData } = req.body;
+  const { projectUUID } = req.query;
+  const { partData } = req.body;
 
   const project = await projectModel.findById(projectUUID)
   const { parts = [] } = project;
@@ -96,7 +101,10 @@ export const createPart = CatchAsyncErrors(async (req, res) => {
 });
 
 export const updatePart = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, partID, partData } = req.body;
+  const { projectUUID, partID } = req.query;
+  const { partData } = req.body;
+
+
   const project = await projectModel.findById(projectUUID)
   const { parts = [] } = project;
   const targetIndex = parts.findIndex(part => part.id === partID);
@@ -112,7 +120,7 @@ export const updatePart = CatchAsyncErrors(async (req, res) => {
 
 // Project.Assemblies
 export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID } = req.body;
+  const { projectUUID } = req.query;
   const project = await projectModel.findById(projectUUID)
   const { assemblies = [] } = project;
 
@@ -123,7 +131,7 @@ export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
 });
 
 export const deleteAssembly = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, assemblyID } = req.body;
+  const { projectUUID, assemblyID } = req.query;
   const project = await projectModel.findById(projectUUID)
   const { assemblies = [] } = project;
   const targetIndex = assemblies.findIndex(assembly => assembly.id === assemblyID);
@@ -137,7 +145,8 @@ export const deleteAssembly = CatchAsyncErrors(async (req, res) => {
 });
 
 export const createAssembly = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, assemblyData } = req.body;
+  const { projectUUID } = req.query;
+  const { assemblyData } = req.body;
   const project = await projectModel.findById(projectUUID)
   const { assemblies = [] } = project;
   const newAssemblyIndex = assemblies.push(assemblyData)
@@ -150,7 +159,8 @@ export const createAssembly = CatchAsyncErrors(async (req, res) => {
 });
 
 export const updateAssembly = CatchAsyncErrors(async (req, res) => {
-  const { projectUUID, assemblyID, assemblyData } = req.body;
+  const { projectUUID, assemblyID } = req.query;
+  const { assemblyData } = req.body;
   const project = await projectModel.findById(projectUUID)
   const { assemblies = [] } = project;
 

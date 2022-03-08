@@ -283,20 +283,64 @@ export function mapDataToCategory(dataList = [], categories = false, filter = 't
   }
 }
 
-export async function httpParams(apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null) {
-  // export const httpParams = async (apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null) => {
+export const request = async ({
+  url = '',
+  params = null,
+  method = 'GET',
+  headers = {
+    'Content-Type': 'application/json' // the request won't work without specifying headers
+  },
+  body = null,
+  callback = () => { },
+}) => {
 
-  // console.log("HTTP Request Params");
-  // console.log(apiLink, method);
-  // console.log("data: ", data);
+  try {
 
-  const response = await fetch(apiLink, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json' // the request won't work without specifying headers
-    },
-    body: data && JSON.stringify(data) // returns null (default parameter) if not defined
-  })
+    // Check if the callback is Invalid
+    !(typeof (callback) === 'function') && genErrMsg('Callback must be a function');
+
+    // Append the params to the url if params is not null
+    if (params) url = url.concat(`?${new URLSearchParams(params)}`)
+
+    // Create the request
+    const response = await fetch(
+      url, {
+      method,
+      headers,
+      body: JSON.stringify(body)
+    }
+    )
+
+    const resJson = await response.json();
+    callback(resJson);
+    return resJson;
+
+
+  } catch (error) {
+    // generate a console log with styling red color
+    console.log(`%c Error: ${error.message}`, `background: #f00; color: #fff; padding: 0.5rem 1rem;`);
+
+  }
+}
+
+export async function httpParams(apiLink = 'http://localhost:3000/api/connect', method = 'GET', data = null, params = null) {
+  // convert the params object to a query string starting with a '?'
+  const queryString = params
+    ? `?${Object.entries(params).map(
+      ([key, value]) => `${key}=${value}`).join('&')}
+      ` :
+    '';
+
+
+  const response = await fetch(
+    apiLink.concat(queryString),
+    {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json' // the request won't work without specifying headers
+      },
+      body: data && JSON.stringify(data) // returns null (default parameter) if not defined
+    })
   return response;
 }
 
@@ -707,4 +751,11 @@ export const replaceKeysMap = (mapData = [], replaceOptions = []) => {
     }
   )
   return mapData;
+}
+
+
+export async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
 }

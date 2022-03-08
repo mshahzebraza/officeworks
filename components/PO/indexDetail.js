@@ -21,8 +21,9 @@ export default function POdetailPageComp({ pageId = 1 }) {
   const poState = useReactiveVar(poApollo)
 
   useEffect(() => {
-
+    // If the current po is deleted, redirect to the last po
     pageId >= poState.length && router.push(`/procurement/po/${pageId - 1}`)
+    // If the state is empty (usually at app load ) and redirect to the PO list page
     poState.length === 0 && router.push(`/procurement/po`)
 
   }, [pageId, poState.length]);
@@ -30,7 +31,6 @@ export default function POdetailPageComp({ pageId = 1 }) {
 
   const activePOdata = poState[pageId] && poState[pageId]
   const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
-  console.log('activeItemIndex', activeItemIndex);
 
   // item index >= items length
   activePOdata?.items
@@ -41,7 +41,7 @@ export default function POdetailPageComp({ pageId = 1 }) {
   // item index < 0
   console.log('activeItemIndex', activeItemIndex);
   activeItemIndex < 0
-    && console.log('Cannot happen');
+    && console.error('Must not happen');
 
   const poSummaryData = activePOdata;
 

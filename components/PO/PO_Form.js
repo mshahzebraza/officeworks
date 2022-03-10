@@ -71,7 +71,6 @@ export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
     // New POs are not allowed to mark themselves Closed. This is done to avoid adding it to the transactions.
   ]
   !isNewSubmission && statusOptions.push({ key: 'Closed', value: 'Closed' })
-
   return (
     <Portal>
       <Modal
@@ -83,114 +82,119 @@ export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting, isValid, dirty }) => (
-            <FormikForm>
+          {({ isSubmitting, isValid, dirty, getFieldHelpers, touched, getFieldMeta, registerField, getFieldProps }) => {
+            // 1. Make the form multistage
+            // 2. Make the Don't go to send stage before confirming the status of refId entered.
+            return (
+              <FormikForm>
 
-              {/* refType */}
-              <FormikControl
-                control='select'
-                name='refType'
-                label='Data Reference'
-                options={[
-                  { key: 'Select One...', value: '' },
-                  { key: 'CST', value: 'CST' },
-                  { key: 'Bill', value: 'Bill' },
-                  { key: 'PO', value: 'PO' },
-                  { key: 'Requisition', value: 'REQ' },
-                ]}
-              />
-              {/* refId */}
-              <FormikControl
-                control='input'
-                type='text'
-                name='refId'
-                disabled={!isNewSubmission}
-                label='Data Reference ID'
-              />
-              {/* category */}
-              <FormikControl
-                control='select'
-                name='category'
-                label='PO Category'
-                options={[
-                  { key: 'Select One ...', value: '' },
-                  { key: 'Limited Tender', value: 'Limited Tender' },
-                  { key: 'Single Quotation', value: 'Single Quotation' },
-                  { key: 'Repeat Order', value: 'Repeat Order' },
-                  { key: 'Spot Purchase', value: 'Spot Purchase' },
-                  { key: 'Imprest', value: 'Imprest' },
-                ]}
-              />
-              {/* fulfillmentSource */}
-              <FormikControl
-                control='select'
-                name='fulfillmentSource'
-                label='Source of Fulfillment'
-                options={[
-                  { key: 'Select One', value: '' },
-                  { key: 'Local Purchase', value: 'Local' },
-                  { key: 'Foreign Purchase', value: 'Foreign' },
-                ]}
-              />
-              {/* currency */}
-              <FormikControl
-                control='select'
-                name='currency'
-                label='Currency of Payment'
-                options={[
-                  { key: 'Select One', value: '' },
-                  { key: 'RMB', value: 'RMB' },
-                  { key: 'USD', value: 'USD' },
-                  { key: 'PKR', value: 'PKR' },
-                ]}
-              />
-              {/* totalCost */}
-              <FormikControl
-                control='input'
-                type='number'
-                name='totalCost'
-                label='Total Cost'
-              />
-              {/* status */}
-              <FormikControl
-                control='select'
-                name='status'
-                label='Current Status'
-                options={statusOptions}
-              />
-              {/* supplier */}
-              <FormikControl
-                control='select'
-                name='supplier'
-                label='Supplier'
-                options={[
-                  { key: 'Select One...', value: '' },
-                  { key: 'Wuhan', value: 'Wuhan' },
-                  { key: 'Chengdu', value: 'Chengdu' },
-                  { key: 'E-Tech', value: 'E-Tech' },
-                ]}
-              />
-              {/* remarks */}
-              <FormikControl
-                control='input'
-                type='text'
-                name='remarks'
-                label='Remarks/Description'
-              />
-              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                {/* all 3 must be false to disable */}
+                {/* refType */}
+                <FormikControl
+                  control='select'
+                  name='refType'
+                  label='Data Reference'
+                  options={[
+                    { key: 'Select One...', value: '' },
+                    { key: 'CST', value: 'CST' },
+                    { key: 'Bill', value: 'Bill' },
+                    { key: 'PO', value: 'PO' },
+                    { key: 'Requisition', value: 'REQ' },
+                  ]}
+                />
+                {/* refId */}
+                <FormikControl
+                  control='input'
+                  type='text'
+                  name='refId'
+                  disabled={!isNewSubmission}
+                  label='Data Reference ID'
+                />
+                {/* category */}
+                <FormikControl
+                  control='select'
+                  name='category'
+                  label='PO Category'
+                  options={[
+                    { key: 'Select One ...', value: '' },
+                    { key: 'Limited Tender', value: 'Limited Tender' },
+                    { key: 'Single Quotation', value: 'Single Quotation' },
+                    { key: 'Repeat Order', value: 'Repeat Order' },
+                    { key: 'Spot Purchase', value: 'Spot Purchase' },
+                    { key: 'Imprest', value: 'Imprest' },
+                  ]}
+                />
+                {/* fulfillmentSource */}
+                <FormikControl
+                  control='select'
+                  name='fulfillmentSource'
+                  label='Source of Fulfillment'
+                  options={[
+                    { key: 'Select One', value: '' },
+                    { key: 'Local Purchase', value: 'Local' },
+                    { key: 'Foreign Purchase', value: 'Foreign' },
+                  ]}
+                />
+                {/* currency */}
+                <FormikControl
+                  control='select'
+                  name='currency'
+                  label='Currency of Payment'
+                  options={[
+                    { key: 'Select One', value: '' },
+                    { key: 'RMB', value: 'RMB' },
+                    { key: 'USD', value: 'USD' },
+                    { key: 'PKR', value: 'PKR' },
+                  ]}
+                />
+                {/* totalCost */}
+                <FormikControl
+                  control='input'
+                  type='number'
+                  name='totalCost'
+                  label='Total Cost'
+                />
+                {/* status */}
+                <FormikControl
+                  control='select'
+                  name='status'
+                  label='Current Status'
+                  options={statusOptions}
+                />
+                {/* supplier */}
+                <FormikControl
+                  control='select'
+                  name='supplier'
+                  label='Supplier'
+                  options={[
+                    { key: 'Select One...', value: '' },
+                    { key: 'Wuhan', value: 'Wuhan' },
+                    { key: 'Chengdu', value: 'Chengdu' },
+                    { key: 'E-Tech', value: 'E-Tech' },
+                  ]}
+                />
+                {/* remarks */}
+                <FormikControl
+                  control='input'
+                  type='text'
+                  name='remarks'
+                  label='Remarks/Description'
+                />
+                <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                  {/* all 3 must be false to disable */}
 
-                {
-                  isValid ?
-                    dirty
-                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                      : 'No edits made'
-                    : 'Incomplete/Invalid Data'
-                }
-              </FormikSubmit>
+                  {
+                    isValid ?
+                      dirty
+                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                        : 'No edits made'
+                      : 'Incomplete/Invalid Data'
+                  }
+                </FormikSubmit>
 
-            </FormikForm>
-          )}
+              </FormikForm>
+            )
+          }
+          }
 
         </Formik>
       </Modal>

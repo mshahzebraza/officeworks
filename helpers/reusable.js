@@ -288,7 +288,8 @@ export const request = async ({
   params = null,
   method = 'GET',
   headers = {
-    'Content-Type': 'application/json' // the request won't work without specifying headers
+    'Content-Type': 'application/json', // the request won't work without specifying headers
+    'Accept': 'application/json',
   },
   body = null,
   callback = () => { },
@@ -318,7 +319,7 @@ export const request = async ({
 
   } catch (error) {
     // generate a console log with styling red color
-    console.log(`%c Error: ${error.message}`, `background: #f00; color: #fff; padding: 0.5rem 1rem;`);
+    console.log(`%c Error: ${error.message} @ ${url}`, `background: #f00; color: #fff; padding: 0.5rem 1rem;`);
 
   }
 }

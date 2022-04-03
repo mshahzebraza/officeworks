@@ -1,159 +1,93 @@
+import { deepClone } from "../../helpers/reusable";
 import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
-
+import mwoModel from "../models/mwoModel";
 
 export const fetchPOs = CatchAsyncErrors(async (req, res) => {
-  const poList = await poModel.find({})
-  res.status(200).json({
-    success: true,
-    data: poList
-  })
+
+     const { poUUID } = req.query;
+     // Fetch a single PO if a UUID is provided
+     if (poUUID) {
+          const po = await poModel.findById(poUUID).exec();
+          if (!po) throw new Error("PO not found");
+
+          return res.status(200).json({
+               success: true,
+               error: null,
+               message: "PO fetched successfully",
+               data: { po }
+          });
+     }
+
+
+     // Fetch All POs
+     const poList = await poModel.find({}).populate("linkedModules");
+     res.status(200).json({
+          success: true,
+          error: null,
+          message: "List of All POs fetched successfully",
+          data: { poList }
+     })
 
 });
 
 export const deletePO = CatchAsyncErrors(async (req, res) => {
-  const { poUUID } = req.query;
-  const po = await poModel.findByIdAndDelete(poUUID)
-  res.status(200).json({
-    success: true,
-    data: po
-  })
+     const { poUUID } = req.query;
+     if (!poUUID) throw new Error('Please provide a valid poUUID')
+
+     const deletedPO = await poModel.findByIdAndDelete(poUUID, { new: true });
+     // TODO: delete/unlink all linked items from the deleted PO
+
+     // if deletion fails, return error
+     if (!deletedPO) throw new Error('Unsuccessful to delete PO!')
+     // return success message
+     res.status(200).json({
+          success: true,
+          message: "PO deleted successfully",
+          data: { deletedPO },
+          error: null
+     })
+
 });
 
 export const createPO = CatchAsyncErrors(async (req, res) => {
-  const { poData } = req.body;
-  // create method
-  const createdPO = await poModel.create(poData)
 
-  res.status(200).json({
-    success: true,
-    data: createdPO
-  })
+     const { poData } = req.body;
+     // create method
+     const createdPO = await poModel.create(poData)
+
+     res.status(200).json({
+          success: true,
+          message: "PO created successfully",
+          data: { createdPO },
+          error: null
+     })
 });
 
 export const updatePO = CatchAsyncErrors(async (req, res) => {
-  const { poUUID } = req.query;
-  const { poData } = req.body;
 
-  let updatedPO = await poModel.findByIdAndUpdate(
-    poUUID,
-    poData,
-    { new: true, runValidators: true }
-  )
+     const { poUUID } = req.query;
+     const { poData } = req.body;
 
-  // return RESPONSE
-  res.status(200).json({
-    success: true,
-    data: updatedPO
-  })
-});
+     if (!poUUID) throw new Error("No PO UUID provided");
+     if (!poData) throw new Error("No PO data provided");
 
-export const fetchItems = CatchAsyncErrors(async (req, res) => {
-  const { poUUID } = req.query;
-  let { items: itemList } = await poModel.findById(poUUID)
+     delete poData.linkedModules;
+     delete poData._id;
+     delete poData.__v;
 
-  res.status(200).json({
-    success: true,
-    data: itemList
-  })
-
-});
-
-export const deleteItem = CatchAsyncErrors(async (req, res) => {
-  const { poUUID, itemUUID } = req.query;
-
-  const { items: itemList } = await poModel.findByIdAndUpdate(
-    poUUID,
-    {
-      $pull: { items: { _id: itemUUID } }
-    },
-    { new: true, runValidators: true }
-  )
-
-  res.status(200).json({
-    success: true,
-    data: itemList
-  })
-
-});
-
-export const createItem = CatchAsyncErrors(async (req, res) => {
-  const { poUUID } = req.query;
-  const { itemData } = req.body;
+     const updatedPO = await poModel.findByIdAndUpdate(
+          poUUID,
+          poData,
+          { new: true, runValidators: true }
+     ).exec()/* .clone() */;
+     if (!updatedPO) throw new Error('error updating PO', err);
 
 
-  let { items: itemList } = await poModel.findByIdAndUpdate(
-    poUUID,
-    {
-      $push: { items: itemData }
-    },
-    { new: true, runValidators: true }
-  );
-
-  res.status(200).json({
-    success: true,
-    data: itemList[itemList.length - 1]
-  })
-});
-
-export const updateItem = CatchAsyncErrors(async (req, res) => {
-  const { poUUID, itemUUID } = req.query;
-  const { itemData } = req.body;
-
-
-  // Update the item with the new itemData but use findByIdAndUpdate method and $set
-  const { items: itemList } = await poModel.findByIdAndUpdate(
-    poUUID,
-    {
-      $set: {
-        "items.$[matchItem]": { // ? $[] let's us name the positional items as it is often used on multiple operations
-          _id: itemUUID, //? _id needs to passed for sub-documents bcz _ids of sub-documents are not static but dynamic (changes every time)
-          ...itemData
-        }
-      }
-    },
-    {
-      arrayFilters: [ //? can be skipped if we use findOneAndUpdate method
-        { "matchItem._id": itemUUID }
-      ],
-      new: true,
-      runValidators: true
-    }
-  )
-
-  res.status(200).json({
-    success: true,
-    data: itemList.find((item) => item._id.toString() === itemUUID)
-  })
-});
-
-export const updateSpecification = CatchAsyncErrors(async (req, res) => {
-  const { poUUID, itemUUID } = req.query;
-  const { specData } = req.body;
-
-  const poData = await poModel.findByIdAndUpdate(
-    poUUID,
-    {
-      $set: {
-        "items.$[matchItem].specification": specData
-      }
-    },
-    {
-      arrayFilters: [
-        { "matchItem._id": itemUUID }
-      ],
-      new: true,
-      runValidators: true
-    }
-  )
-  // poData.items[targetIndex].markModified("specification"); // ? markModified is not required in this case because we are not changing it, but REPLACING IT COMPLETELY.
-
-  const updatedSpecs = poData.items.find((item) => item._id.toString() === itemUUID).specification
-  // *Advanced Destructuring - Not being used now :(
-  // const { items: { [targetIndex]: { specification: updatedSpecs } } } = poData;
-
-  res.status(200).json({
-    success: true,
-    data: updatedSpecs
-  })
+     // return successful Response
+     return res.status(200).json({
+          success: true,
+          message: "PO updated successfully",
+          data: { updatedPO }
+     })
 });

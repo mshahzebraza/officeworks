@@ -156,6 +156,8 @@ Methods like `find`,`findAndUpdate` etc. skip the validation logic. Therefore, a
 
 ## Queries
 
+Queries return a promise which can only have then method. To turn it into a real promise, we can use `.exec()` method.
+
 ### Basics
 
 Some basic queries are
@@ -322,4 +324,5 @@ Useful Articles
 4. [Updating Documents with ReplaceOne - GfG](https://www.geeksforgeeks.org/mongoose-replaceone-function/)
 5. [Updating Documents with ReplaceOne - Mongoose Docs](https://mongoosejs.com/docs/api.html#model_Model.replaceOne)
 6. [Best Mongoose 101 Article - FreeCodeCamp](https://www.freecodecamp.org/news/mongoose101/)
-7. [Complex nested queries (using positional) ](https://docs.mongodb.com/manual/reference/operator/update/positional-all/)
+7. [Complex nested queries (using positional - **Use with Array Filters**) ](https://docs.mongodb.com/manual/reference/operator/update/positional-all/)
+8. [Mongoose - How to use populate()](https://www.youtube.com/watch?v=VKuY8QscZwY&list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q&index=8)

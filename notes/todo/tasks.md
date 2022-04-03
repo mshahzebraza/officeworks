@@ -29,3 +29,5 @@
 - **Bug Spotted:** Project Summary form does not get the previous target data.
 - **Bug Spotted:** Click the edit button of poEntry and then try to go to poDetail. There is a bug in the code.
 - **Bug Spotted:** target field is not being updated in project summary form. However the projectList contains target data until any project is selected. **deletion of certain keys were carried out without cloning the passed in data which was actually the state sometimes**
+
+# Work on the po-item-controller to first check for duplicate entries and then update the po-items and update their related pos

@@ -1,5 +1,5 @@
 import {
-  getAllMWOs,
+  fetchMWOs,
   deleteMWO,
   createMWO,
   updateMWO
@@ -12,7 +12,7 @@ connectDB();
 const ncHandler = nextConnect()
 
 
-ncHandler.get(getAllMWOs);
+ncHandler.get(fetchMWOs);
 ncHandler.delete(deleteMWO);
 ncHandler.post(createMWO);
 ncHandler.patch(updateMWO)

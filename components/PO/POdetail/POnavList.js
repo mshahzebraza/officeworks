@@ -2,33 +2,33 @@ import React from 'react'
 import { concatStrings, transformArray } from '../../../helpers/reusable';
 import styles from './POnavList.module.scss'
 
-export default function POnavList({ classes, data: itemList = [], activeIndex, setActiveIndex }) {
+export default function POnavList({ classes, data: itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
 
-  if (itemList.length === 0) {
-    return ('s')
-  }
+     if (itemList.length === 0) {
+          return ('s')
+     }
 
-  const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
+     const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
 
-  return (
-    <>
-      {
-        nestedList ?
-          <section className={concatStrings([...classes, styles.itemList])} >
+     return (
+          <>
+               {
+                    nestedList ?
+                         <section className={concatStrings([...classes, styles.itemList])} >
 
-            {
-              itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
-                transformArray(
-                  nestedList,
-                  (item, idx) => <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-                )
-                : <>No Items Available</>
-            }
-          </section >
-          : <p className='note'>No items - POnavList</p>
-      }
-    </>
-  )
+                              {
+                                   itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
+                                        transformArray(
+                                             nestedList,
+                                             (item, idx) => <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+                                        )
+                                        : <>No Items Available</>
+                              }
+                         </section >
+                         : <p className='note'>No items - POnavList</p>
+               }
+          </>
+     )
 }
 
 
@@ -72,26 +72,26 @@ export default function POnavList({ classes, data: itemList = [], activeIndex, s
 
 function itemsVersionsList(items) {
 
-  return items.reduce((acc, cur, arr) => {
+     return items.reduce((acc, cur, arr) => {
 
-    // check duplicate
-    const duplicateIndex = acc.findIndex((el) => {
-      return el.name === cur.name
-    })
+          // check duplicate
+          const duplicateIndex = acc.findIndex((el) => {
+               return el.name === cur.name
+          })
 
-    // found Duplicate
-    if (duplicateIndex >= 0) {
-      acc[duplicateIndex].versions.push({ id: cur.id, order: cur.order });
-      return acc;
-    }
+          // found Duplicate
+          if (duplicateIndex >= 0) {
+               acc[duplicateIndex].versions.push({ id: cur.id, order: cur.order });
+               return acc;
+          }
 
-    // No Duplicate
-    return acc.concat(
-      {
-        name: cur.name, versions: [{ id: cur.id, order: cur.order }]
-      }
-    );
-  }, []);
+          // No Duplicate
+          return acc.concat(
+               {
+                    name: cur.name, versions: [{ id: cur.id, order: cur.order }]
+               }
+          );
+     }, []);
 }
 
 
@@ -113,15 +113,15 @@ function itemsVersionsList(items) {
   }
  */
 function Category({ item, activeIndex, setActiveIndex }) {
-  return <h4
-    className={styles.item}
-  >
-    <p className={styles.itemName} >{item.name}</p>
-    <p className={styles.versionList}>
-      {renderVersions(item.versions, activeIndex, setActiveIndex)}
-    </p>
+     return <h4
+          className={styles.item}
+     >
+          <p className={styles.itemName} >{item.name}</p>
+          <p className={styles.versionList}>
+               {renderVersions(item.versions, activeIndex, setActiveIndex)}
+          </p>
 
-  </h4>
+     </h4>
 }
 
 
@@ -139,12 +139,12 @@ function Category({ item, activeIndex, setActiveIndex }) {
  */
 function renderVersions(versionList, activeIndex, setActiveIndex) {
 
-  return versionList.map((ver, verIdx) => {
-    return <span
-      key={verIdx}
-      className={`${styles.version} ${activeIndex === ver.order && styles.versionActive}`}
-      onClick={() => setActiveIndex(ver.order)}>
-      {ver.id}
-    </span>
-  })
+     return versionList.map((ver, verIdx) => {
+          return <span
+               key={verIdx}
+               className={`${styles.version} ${activeIndex === ver.order && styles.versionActive}`}
+               onClick={() => setActiveIndex(ver.order)}>
+               {ver.id}
+          </span>
+     })
 }

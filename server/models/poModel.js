@@ -1,46 +1,43 @@
 // import { Mongoose as mongoose } from "mongoose";
 const mongoose = require('mongoose');
 
-const mgSchema = mongoose.Schema;
-const mgObjectId = mongoose.Types.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
-const mgMixed = mgSchema.Types.Mixed; // to give ids to mongo objects (assigned automatically if not defined)
+const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId; // to give ids to mongo objects (assigned automatically if not defined)
 
 
-const poItemSpecSchema = new mgSchema(
-  {},
-  {
-    strict: false,
-    _id: false
-  }
-) // SubDocument is preferred over nested schema to enable the creation of _id as ObjectId 
-
-const poItemSchema = new mgSchema({
-  name: String,
-  type: String,
-  id: String,
-  qty: Number,
-  unitPrice: Number,
-  remarks: String,
-  specification: poItemSpecSchema //  = {},mgMixed , both are equivalent to Setting mixed
-})
-
-const poSchema = new mgSchema({
+const poSchema = new Schema({
   // _id: mongoose.ObjectId,
-  refType: String,
-  refId: { type: String, unique: true },
-  category: String,
-  fulfillmentSource: String,
-  currency: String,
-  totalCost: Number,
-  supplier: String,
+  refType: String, // mwo/po/cst
+  refId: { type: String, required: true, unique: true }, // mwoId
+  category: String, // Imprest || Spot || Repeat || Limited Tender // External || Internal, etc
+  fulfillmentSource: String, // null || Foreign || Local
+  currency: String, // USD / RMB / HKD / etc
+  totalCost: Number, // free || totalCost
+  supplier: String, // PPC || Chengdu || etc
   status: String,
   remarks: String,
-  items: [
-    poItemSchema // NOT { poItemSchema }
+  linkedModules: [
+    {
+      item: { type: ObjectId, ref: 'Module' },
+      qty: Number, // subject to change
+      unitPrice: Number, // subject to change
+      remarks: String, // purchase remarks
+      // no mongoose _id required for the document
+      _id: false,
+    }
   ]
 })
+/* 
 
-// console.log(mongoose.modelNames())
+linkedItems: [
+  specs: {}, // ?item related
+  type, // purchase related
+  qty, // purchase related
+  unitPrice, // purchase related
+  remarks // purchase related
+]
+
+ */
 
 
 // Search "Mongoose Models" for a Model name 'poModel' and create one if not present already.

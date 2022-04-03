@@ -1,6 +1,11 @@
+import { useRouter } from 'next/router';
+
+import dynamic from 'next/dynamic'
+
 import React from 'react';
 import POdetailPageComp from '../../../../components/PO/IndexDetail';
 
+// use react router to route to the correct PO detail page
 
 
 // export async function getStaticPaths() {
@@ -15,16 +20,31 @@ import POdetailPageComp from '../../../../components/PO/IndexDetail';
 // }
 
 // Due to some reason getStaticProps was not working !!!
-export async function getServerSideProps(context) {
-  const pageId = context.params.refId;
-  return {
-    props: {
-      pageId
-    }
-  }
+// export async function getServerSideProps(context) {
+//      const pageId = context.params.refId;
+//      return {
+//           props: {
+//                pageId
+//           }
+//      }
+// }
+
+const POdetailPage = (props) => {
+     const router = useRouter();
+
+     return (
+          <POdetailPageComp pageId={router.query.refId || ''} />
+     )
 }
+// const POdetailPage = () => {
+//      const router = useRouter();
+//      const { refId: pageId } = router.query;
 
+//      return <POdetailPageComp pageId={pageId || 99} router={router} />
+// }
 
-const POdetailPage = ({ pageId }) => <POdetailPageComp pageId={pageId || 99} />
+// export default dynamic(() => Promise.resolve(POdetailPage), {
+//      ssr: false
+// })
 
 export default POdetailPage;

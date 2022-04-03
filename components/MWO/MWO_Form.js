@@ -23,15 +23,16 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
 
   const oldMWOdataFiltered = cloneAndPluck(
     oldMWOdata,
-    ['application', 'mwoId', 'itemId', 'itemName', 'qty', 'status', 'title', 'remarks'])
+    ['application', 'mwoId', 'id', 'name', 'qty', 'status', 'title', 'remarks'])
 
 
 
   const initialValues = {
     mwoId: '',
     application: '',
-    itemId: '',
-    itemName: '',
+    id: '',
+    name: '',
+    type: '',
     qty: '',
     status: '',
     title: '',
@@ -42,8 +43,9 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
   const validationSchema = Yup.object().shape({
     mwoId: Yup.string().required('Required'),
     application: Yup.string().required('Required'),
-    itemId: Yup.string().required('Required'),
-    itemName: Yup.string().required('Required'),
+    id: Yup.string().required('Required'),
+    name: Yup.string().required('Required'),
+    type: Yup.string().required('Required'),
     qty: Yup.string().required('Required'),
     status: Yup.string().required('Required'),
     title: Yup.string().required('Required'),
@@ -96,6 +98,17 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
                     label='MWO ID'
                     disabled={!isNewSubmission}
                   />
+                  {/* type */}
+                  <FormikControl
+                    control='select'
+                    label='Item Type'
+                    name='type'
+                    options={[
+                      { key: 'Select One...', value: '' },
+                      { key: 'Special Standard', value: 'Special' }, // change this
+                      { key: 'Standard', value: 'Standard' },
+                    ]}
+                  />
                   {/* 'application' */}
                   <FormikControl
                     control='select'
@@ -109,20 +122,20 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata: oldMWOdat
                       { key: 'Miscellaneous', value: 'MISC' },
                     ]}
                   />
-                  {/* 'itemId' */}
+                  {/* 'id' */}
                   <FormikControl
                     control='input'
                     type='text'
-                    name='itemId'
+                    name='id'
                     label='Item ID'
                     placeholder='LU-20211212 OR R&D-20211212 OR PEMA-L3K-BD-0200-01'
                   />
-                  {/* 'itemName' */}
+                  {/* 'name' */}
                   <FormikControl
                     control='input'
                     type='text'
                     placeholder='Should be dependant on the Item Id field'
-                    name='itemName'
+                    name='name'
                     label='Item Name'
                   />
                   {/* 'qty' */}

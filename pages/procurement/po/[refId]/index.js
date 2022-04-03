@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic'
 
@@ -29,11 +29,24 @@ import POdetailPageComp from '../../../../components/PO/IndexDetail';
 //      }
 // }
 
-const POdetailPage = (props) => {
-     const router = useRouter();
+// use getServerSideProps to get the pageId from the url
+export async function getStaticProps({ params }) {
+     const refId = params.refId;
+     return {
+          props: {
+               refId
+          }
+     }
+}
+
+
+
+
+const POdetailPage = ({ refId }) => {
+     // const router = useRouter();
 
      return (
-          <POdetailPageComp pageId={router.query.refId || ''} />
+          <POdetailPageComp pageId={refId || ''} />
      )
 }
 // const POdetailPage = () => {

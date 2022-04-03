@@ -30,7 +30,7 @@ import POdetailPageComp from '../../../../components/PO/IndexDetail';
 // }
 
 // use getServerSideProps to get the pageId from the url
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
      const refId = params.refId;
      return {
           props: {

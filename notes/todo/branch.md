@@ -1,17 +1,7 @@
-The purpose of this branch is to restructure APIs (and the related code) to
+# Troubleshooting
 
-- receive parameters i.e. req.query instead of in req.body
-- normalizing of nested objects like po.items
-
-<!-- ! NEXT: Create restructureNavigation to change the way of Client Side Navigation and use the NEXT features -->
-<!-- Install -->
-
-Morgan dependency is required for logging.
-
-<!-- TODO: Update the Apollo Handlers to request using query params -->
-
-> Due to the complexity of the reference sub-documents, we are using the embedded sub-documents, for now!.
-
-# Current Issues
-
-- newly added items do not reflect ui changes if specs are updated. however, refresh after creating them and you'll see the changes.
+- On app start the 'item' property exists in linkedModules
+- After the transformation, the local Component state gets updated. However, the FE state should still have the 'item' property in linkedModules
+- Upon adding the item, the FE state is shown to have the 'item' property in only the last one of the linkedModules. WHY DON'T THE OTHER MODULES HAVE IT?
+- It is guessed that the actions like addItem and removeItem are not being called properly, also because of the same reason.(item property is not being found in the FE state)
+- The check of POlist & ModuleList length is not working properly. It also stops rendering if not items are present in po modules.

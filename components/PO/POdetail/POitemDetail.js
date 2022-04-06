@@ -13,18 +13,17 @@ import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
 
 
-export default function POitemDetail({ classes, moduleListData: itemList, activePOid, activeModuleIndex, setActiveModuleIndex, activeStatus = 'Active' }) {
+export default function POitemDetail({ classes, itemList = [], activePOid, activeItemIndex, setActiveModuleIndex, activeStatus = 'Active' }) {
 
      // ? "existingModuleData" contains only the module-specific moduleData
      // ? "existingModuleData" contains only the complete moduleData
      // ? "itemList" ???
 
 
-     const moduleState = [...moduleApollo()]
-     console.log('moduleState', moduleState);
+     // const moduleState = [...moduleApollo()]
      // fetch Selected item from itemList
-     const existingModuleData = itemList?.[activeModuleIndex]; // `No items found in PO`
-     console.log('existingModuleData', existingModuleData);
+     console.log('itemList[activeItemIndex]', itemList[activeItemIndex]);
+     const existingModuleData = itemList?.[activeItemIndex]; // `No items found in PO`
 
      // delete _id field
      // delete existingModuleData?.specification?._id;
@@ -65,20 +64,20 @@ export default function POitemDetail({ classes, moduleListData: itemList, active
                          {
                               itemList && itemList.length > 0 &&
                               <>
-                                   {/* <Button caption='Delete Item' click={() => { dispatch(poActions.deletePOitem([activePOid, activeModuleIndex])) }} /> */}
+                                   {/* <Button caption='Delete Item' click={() => { dispatch(poActions.deletePOitem([activePOid, activeItemIndex])) }} /> */}
                                    <Button caption='Delete Item' click={() => deletePOitemHandler([activePOid, existingModuleData?.id])} />
                                    <ModalButton
                                         caption='Update Item'
                                         ModalComponent={POitem_Form}
                                         activePOid={activePOid}
-                                        activePOitemData={itemList[activeModuleIndex]}
+                                        activePOitemData={itemList[activeItemIndex]}
                                    />
                                    <ModalButton
                                         caption={`${existingModuleData && `Update` || `Add`} Specification`}
                                         ModalComponent={POitemSpecs_Form}
                                         activePOid={activePOid}
                                         activeItemId={existingModuleData?.id}
-                                        activeItemIndex={activeModuleIndex}
+                                        activeItemIndex={activeItemIndex}
                                         activePOitemSpecs={existingModuleData}
                                    />
                               </>

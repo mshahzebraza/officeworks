@@ -31,11 +31,11 @@ function MyApp({ Component, pageProps }) {
           const res = await httpParams('http://localhost:3000/api/initialize');
           // const { data: { poList, mwoList, projectList, transactionList } } = await res.json();
           const {
-               // success,
+               success,
                data: { poList, mwoList, projectList, transactionList, moduleList }
-               // ,
-               // error,
-               // message
+               ,
+               error,
+               message
           } = await res.json();
 
           // console.log('modules', moduleList);
@@ -87,15 +87,15 @@ function MyApp({ Component, pageProps }) {
           }
           // ! END: Convert the normalized data to nested data in the po structure.
 
-          poApollo([...poList]);
-          mwoApollo([...mwoList]);
-          projectApollo([...projectList]);
-          transactionApollo([...transactionList]);
-          moduleApollo([...moduleList])
+          poApollo(poList);
+          mwoApollo(mwoList);
+          projectApollo(projectList);
+          transactionApollo(transactionList);
+          moduleApollo(moduleList)
 
           // Log the data
           console.log(
-               // "moduleList", moduleList,
+               "moduleList", moduleList,
                'poList', poList,
                // "mwoList", mwoList,
                // "projectList", projectList,
@@ -104,7 +104,6 @@ function MyApp({ Component, pageProps }) {
 
      }
      useEffect(() => {
-
           loadAppData() // Initialize the app data into app state.
 
      }, []);

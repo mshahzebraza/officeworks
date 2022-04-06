@@ -1,8 +1,8 @@
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import POdetailPageComp from '../../../../components/PO/IndexDetail';
 
 // use react router to route to the correct PO detail page
@@ -42,12 +42,18 @@ export async function getServerSideProps({ params }) {
 
 
 
+// Rendering frontend
 const POdetailPage = ({ refId }) => {
-     // const router = useRouter();
 
      return (
           <POdetailPageComp pageId={refId || ''} />
      )
+     // const { query: { refId }, isReady } = useRouter();
+     // return (
+     //      isReady ?
+     //           <POdetailPageComp pageId={refId || ''} />
+     //           : <div>Router Loading...</div>
+     // )
 }
 // const POdetailPage = () => {
 //      const router = useRouter();

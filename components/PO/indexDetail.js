@@ -16,68 +16,83 @@ import POitemDetail from './POdetail/POitemDetail'
 import Layout from '../Layout/Layout'
 
 export default function POdetailPageComp({ pageId = 'refId' }) {
+     { // Detail of Rerenders is as follows:
+          // On detail page refresh, the page renders thrice, each time with different state
+          // 1: POlistState : invalid, ModuleListState : invalid
+          // 2: POlistState : valid, ModuleListState : invalid
+          // 3: POlistState : valid, ModuleListState : valid
+          console.warn('The component renders thrice on direct pageLoad.');
+     }
      const router = useRouter();
 
-     console.log('---------');
+     console.log('POdetailPageComp >pageId ', pageId);
+
+
 
      const [activeItemIndex, setActiveItemIndex] = useState(0); // Control the active/visible item in the PO for item details
-     // BUG: server log shows that the POlistState is not updated when IndexDetail is refreshed.
-     const ModuleListState = useReactiveVar(moduleApollo) || []
-     const POlistState = useReactiveVar(poApollo) || []
-     console.log('IndexDetail >POlistState ', POlistState);
-     console.log('IndexDetail >ModuleListState ', ModuleListState);
-     // console.log('IndexDetail >POlistState > zxc', POlistState?.[0]?.linkedModules?.[2]);
+     const ModuleListState = useReactiveVar(moduleApollo) /* || [] */
+     const POlistState = useReactiveVar(poApollo) /* || [] */
 
-     // BUG: wrapping the following in deepClone seems necessary to let the app read the nested module data:
-     // BUG: However, if I try to refresh the detailPage it still throws error.(it looks like null is being passed in deepClone)
-     // BUG: looks like multiple passes are made, and the initial passes don't contain the updated State
-     const activePOdata = deepClone(POlistState?.find(el => el.refId === pageId))
+     // check & show loading state if the state is empty
+     if (POlistState.length === 0 || ModuleListState.length === 0) {
+          console.warn('POlistState/ModuleList is empty. Must Not Happen');
+          return <div>No items found / Loading Items...</div>
+     }
+
+     // check the POlist for the refId!==pageId, return 404 if not found
+     const activePOdata = POlistState.find(el => el.refId === pageId)
+     if (!activePOdata) {
+          console.warn('"activePOdata" is empty. Check pageId. Must Not Happen');
+          // TODO: either 404 or redirect to the first PO or to poList page
+          return <div>404 Not Found</div>
+     }
 
      // ?populate linkedModules with the data from ModuleListState - moduleApollo dependency means it refreshes when changes are made to ModuleListState
-     const transformedLinkedModules = activePOdata?.linkedModules?.map((linkedModule) => {
+     const transformedLinkedModules = activePOdata.linkedModules.map((linkedModule) => {
           const { item: moduleRef, ...rest } = linkedModule;
-          const matchingModule = ModuleListState?.find(module => module._id === moduleRef)
-          console.assert(!!matchingModule, 'No MatchingModule1. Must Not Happen')
-          console.assert(!!matchingModule, 'No MatchingModule. Must Not Happen')
-          delete matchingModule?.linkedPOs;
-          delete matchingModule?.linkedMWOs;
-          delete matchingModule?.__v;
+          if (moduleRef === undefined) { //? if un-transformed data is not available then ...
+               // delete linkedModule.linkedPOs;
+               // delete linkedModule.linkedMWOs;
+               // delete linkedModule.__v;
+               return linkedModule;
+          }
+
+          console.log('');
+          const matchingModule = ModuleListState.find(module => {
+               console.log('module', module);
+               return module._id === moduleRef
+          })
+          console.assert(matchingModule, 'matchingModule is empty. Must Not Happen', matchingModule);
+          // BUG: sometimes the matchingModule is not found in the ModuleListState. Probably because the ModuleListState is not updated yet.
+          // !trying to mutate the matchingModule directly doesn't work as it is a direct fragment of the ApolloState
+          // ? find method returns a reference for a reference data-type, not a copy of the object
+          // const matchingModuleClone = deepClone(matchingModule);
+          const matchingModuleClone = { ...matchingModule };
+          delete matchingModuleClone.linkedPOs;
+          delete matchingModuleClone.linkedMWOs;
+          delete matchingModuleClone.__v;
 
           return {
-               ...matchingModule,
+               ...matchingModuleClone,
                ...rest,
           }
+
      })
-     if (activePOdata?.linkedModules) activePOdata?.linkedModules = transformedLinkedModules
+
+     activePOdata.linkedModules = transformedLinkedModules
+     console.log('activePOdata.linkedModules', activePOdata.linkedModules);
+
+
+
 
      // prepare module data for NavList (limited to 'name' and 'id' only)
-     const navListData = activePOdata?.linkedModules?.map(({ name, id }, order) => {
-
+     const navListData = activePOdata.linkedModules?.map(({ name, id }, order) => {
           return {
                name,
                id,
                order
           }
      });
-
-     // BUG: Router won't work without useEffect
-     useEffect(() => {
-          if (!(POlistState && ModuleListState))
-               return <p>Loading PO/Module List ...  Generate a reusable component</p>
-
-          // TODO: DO NOT wait and redirect
-          if (POlistState.length === 0) {
-               router.push('/procurement/po/')
-               return <p>PO List is empty... Generate a reusable component</p>
-          }
-
-          if (!activePOdata) { // if poData is invalid
-               POlistState[0]
-                    ? router.push(`/procurement/po/${POlistState[0].refId}`)
-                    : router.push('/procurement/po/')
-               return <div>Invalid(or Empty) PO data. Redirecting to main PO page</div>
-          }
-     }, [])
 
      console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
 
@@ -86,7 +101,6 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 
                {/* Header */}
                {
-                    activePOdata &&
                     <POheader
                          classes={[styles.header]}
                          activePOuuid={activePOdata._id}
@@ -111,6 +125,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                }
 
 
+               {console.log('activePOdata.linkedModules', activePOdata.linkedModules)}
                {/* Detail */}
                {
 
@@ -119,9 +134,9 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                     <POitemDetail
                          classes={[styles.itemDetail]}
                          activePOid={activePOdata.refId}
-                         moduleListData={activePOdata.linkedModules} // detail for the current PO modules- nested/item/detail level
-                         activeModuleIndex={activeItemIndex}
-                         setActiveModuleIndex={setActiveItemIndex}
+                         itemList={activePOdata.linkedModules} // detail for the current PO modules- nested/item/detail level
+                         activeItemIndex={activeItemIndex}
+                         setActiveItemIndex={setActiveItemIndex}
                     /> || <p className='note'>No Modules Inside - detailPage/ItemDetail</p>
                }
           </Layout>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 
 import React, { useEffect } from 'react';
-import POdetailPageComp from '../../../../components/PO/IndexDetail';
+import POdetailPageComp from '../../../../components/PO/indexDetail.js';
 
 // use react router to route to the correct PO detail page
 

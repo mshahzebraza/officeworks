@@ -18,32 +18,54 @@ import { useReactiveVar } from "@apollo/client";
 import poApollo from '../../lib/apollo_client/poApollo';
 import moduleApollo from '../../lib/apollo_client/poItemApollo';
 import { deepClone } from '../../helpers/reusable';
-
-
-
+import Loader from '../Loader';
+import { populateLinkedModules } from '../../helpers/specific';
+// import { useRouter } from 'next/router';
 
 export default function POpageComp(pProps) {
+     // const router = useRouter();
 
+     // Section: Component States
      // initialize component state
      const [searchInput, setSearchInput] = useState(false)
      const [POlist, setPOlist] = useState(null)
-
-     // Fetching all the Projects data
+     const [loading, setLoading] = useState(true);
      const POlistState = useReactiveVar(poApollo)
      const ModuleListState = useReactiveVar(moduleApollo)
 
-
+     // Section: State Transforms
      useEffect(() => {
-          setPOlist(POlistState)
+          // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
+          // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
+          if (POlistState.fetched && ModuleListState.fetched) {
+               // clearTimeout(loadingTimeout);
+               setLoading(false);
+               // transform POlistState.list to POlist
+               populateEachPOandSetPOlist(POlistState.list, ModuleListState.list, setPOlist)
+               // Apply search filter to Limit the PO list to search results
+               if (searchInput) {
+                    // Filtering Projects w.r.t search ID (Case Insensitive)
+                    setPOlist((prevPOlist) =>
+                         prevPOlist.filter(po =>
+                              po.refId
+                                   .toLowerCase()
+                                   .includes(
+                                        searchInput.toLowerCase()
+                                   )
+                         )
+                    )
+               }
 
-     }, [POlistState])
-     if (!POlist) return <p>Loading PO List...</p> // TODO: Loading spinner must be shown only until fetching is not complete. Right now it would show even if the fetched data is invalid
 
-     // Apply search filter to Limit the PO list to search results
-     if (searchInput) {
-          // Filtering Projects w.r.t search ID (Case Insensitive)
-          POlist = POlist.filter((curPO) => curPO.refId.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase()));
-     }
+          }
+     }, [POlistState, ModuleListState, searchInput])
+
+
+     // Section: Fallback Rendering
+     if (loading) return <Loader />
+
+     console.assert(!!POlist, 'No POlist. Must never happen.') // ?should never happen
+
 
      return (
           <Layout pageClasses={[styles.container]} >
@@ -60,21 +82,7 @@ export default function POpageComp(pProps) {
                     />
                     {
                          // By default, POlist's linkedModules only contain a reference to the modules. The following code compares the references with the ModuleListState and returns the full module data.
-                         POlist?.map((poData, idx) => {
-                              poData = deepClone(poData) // ?so that the original apollo state is not mutated
-
-                              // for each of moduleRefs, find the corresponding module data in the ModuleListState
-                              const transformedLinkedModules = poData.linkedModules.map((module) => {
-                                   const { item: moduleRef, ...rest } = module;
-                                   const matchingModule = ModuleListState.find(module => module._id === moduleRef)
-                                   delete matchingModule?.linkedPOs;
-                                   delete matchingModule?.linkedMWOs;
-                                   return {
-                                        ...matchingModule,
-                                        ...rest,
-                                   }
-                              })
-                              poData.linkedModules = transformedLinkedModules
+                         POlist.map((poData, idx) => {
 
                               return <POentry
                                    key={idx}
@@ -87,4 +95,14 @@ export default function POpageComp(pProps) {
                </section>
           </Layout>
      )
+}
+function populateEachPOandSetPOlist(POList, ModuleList, setPOlist) {
+     const transformedPOlist = POList.map((poData, idx) => {
+          poData = deepClone(poData) // ?so that the original apollo state is not mutated
+          // for each of moduleRefs, find the corresponding module data in the ModuleListState
+          poData.linkedModules = populateLinkedModules(poData.linkedModules, ModuleList)
+          return poData
+     })
+     setPOlist(transformedPOlist)
+
 }

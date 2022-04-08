@@ -28,5 +28,13 @@
 	],
 	"debug.javascript.terminalOptions": {
 		"skipFiles": ["<node_internals>/**"]
+	},
+	"cSpell.customDictionaries": {
+		"custom-dictionary-workspace": {
+			"name": "custom-dictionary-workspace",
+			"path": "${workspaceFolder:office-work}/.cspell/custom-dictionary-workspace.txt",
+			"addWords": true,
+			"scope": "workspace"
+		}
 	}
 }

@@ -87,16 +87,22 @@ function MyApp({ Component, pageProps }) {
           }
           // ! END: Convert the normalized data to nested data in the po structure.
 
-          poApollo(poList);
+          poApollo({
+               list: poList,
+               fetched: true
+          });
+          moduleApollo({
+               list: moduleList,
+               fetched: true
+          })
           mwoApollo(mwoList);
           projectApollo(projectList);
           transactionApollo(transactionList);
-          moduleApollo(moduleList)
 
           // Log the data
           console.log(
-               "moduleList", moduleList,
-               'poList', poList,
+               // "moduleList", moduleList,
+               // 'poList', poList,
                // "mwoList", mwoList,
                // "projectList", projectList,
                // "transactionList", transactionList

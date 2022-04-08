@@ -22,7 +22,6 @@ export default function POitemDetail({ classes, itemList = [], activePOid, activ
 
      // const moduleState = [...moduleApollo()]
      // fetch Selected item from itemList
-     console.log('itemList[activeItemIndex]', itemList[activeItemIndex]);
      const existingModuleData = itemList?.[activeItemIndex]; // `No items found in PO`
 
      // delete _id field

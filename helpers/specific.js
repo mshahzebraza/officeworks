@@ -1,5 +1,6 @@
-// export a function named filterPOmoduleData & filterMWOmoduleData which returns the received data
+import { deepClone } from "./reusable";
 
+// export a function named filterPOmoduleData & filterMWOmoduleData which returns the received data
 /* 
   const formFieldsPOitem = {
     ? module specific
@@ -59,5 +60,31 @@ export const filterMWOmoduleData = (data) => {
 
 export const sourceSpecificKeys = (sourceType = 'po') => {
      if (sourceType === 'po') return ['unitPrice', 'qty', 'remarks']
+}
+
+
+
+// takes in a list of POitems and returns a list of POitems with the linked modules populated
+export function populateLinkedModules(linkedItemList, moduleList) {
+     return linkedItemList.map((linkedModule) => {
+          const { item: moduleRef, ...rest } = linkedModule;
+
+          const matchingModule = deepClone(
+               moduleList.find(module => {
+                    return module._id === moduleRef
+               })
+          )
+          console.assert(matchingModule, 'MatchingModule is empty. Must Not Happen', matchingModule);
+          delete matchingModule.linkedPOs;
+          delete matchingModule.linkedMWOs;
+          delete matchingModule.__v;
+
+          return {
+               ...matchingModule,
+               ...rest,
+          }
+
+     })
+
 }
 

@@ -6,11 +6,12 @@ export default function Loader(props) {
           // <Layout>
 
           <main className={styles.bg}  >
+               {/* <div className={styles.loader} ></div> */}
                <h1 className={styles.title}>
-                    Loading ...
+                    <span>Loading</span> <span className={styles.loader} ></span>
                </h1>
                {/* <h2 className={styles.subTitle}>
-                    Page Not Found!
+                    O
                </h2> */}
                {/* <button className={styles.homeBtn}>
                     <Link href='/' >

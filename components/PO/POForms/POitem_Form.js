@@ -16,8 +16,8 @@ import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
 
 export default function POitem_Form({ closer: modalCloser, activePOid, activePOindex, activePOitemData: oldPOitemData = {} }) {
 
-     const moduleState = [...moduleApollo()];
-     const nameOptions = moduleState.map(module => {
+     const moduleState = moduleApollo();
+     const nameOptions = moduleState.list.map(module => {
           return module.name
      })
 

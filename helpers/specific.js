@@ -73,8 +73,10 @@ export function populateLinkedModules(linkedItemList, moduleList) {
                moduleList.find(module => {
                     return module._id === moduleRef
                })
-          )
+          ) || {}
+          // ? " || {} " was added to solve the problem of delay in state update. In the 1/2 of the state update, the empty module is returned to avoid the error and upon the 2/2 state update the logic runs again and fetches the matchingModule
           console.assert(matchingModule, 'MatchingModule is empty. Must Not Happen', matchingModule);
+
           delete matchingModule.linkedPOs;
           delete matchingModule.linkedMWOs;
           delete matchingModule.__v;

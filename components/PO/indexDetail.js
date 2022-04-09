@@ -21,9 +21,9 @@ import { populateLinkedModules } from '../../helpers/specific'
 export default function POdetailPageComp({ pageId = 'refId' }) {
      { // ?Detail of Rerenders is as follows:
           // On detail page refresh, the page renders 04 times, each time with different state
-          // 1: POlistState : invalid, ModuleListState : invalid
-          // 2: POlistState : valid, ModuleListState : invalid
-          // 3: POlistState : valid, ModuleListState : valid
+          // 1: poState : invalid, moduleState : invalid
+          // 2: poState : valid, moduleState : invalid
+          // 3: poState : valid, moduleState : valid
           // 4: In the last (3rd) render, the loading and activePOdata state was changed (along with the transformation logic) therefore, the page rerenders again
           console.warn('The component renders 04 times on direct pageLoad.');
      }
@@ -32,19 +32,22 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
      const [loading, setLoading] = useState(true);
      const [activePOdata, setActivePOdata] = useState(null)
      const [activeItemIndex, setActiveItemIndex] = useState(0);
-     const ModuleListState = useReactiveVar(moduleApollo)
-     const POlistState = useReactiveVar(poApollo)
+     const moduleState = useReactiveVar(moduleApollo)
+     const poState = useReactiveVar(poApollo)
 
      // Section: State Transforms
      useEffect(() => {
           // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
-          if (POlistState.fetched && ModuleListState.fetched) {
+          if (poState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
                setLoading(false);
-               findAndSetActivePOdata(POlistState.list, ModuleListState.list, pageId, setActivePOdata);
+               console.log('poState.list : ', poState.list);
+               console.log('moduleState.list : ', moduleState.list);
+
+               findAndSetActivePOdata(poState.list, moduleState.list, pageId, setActivePOdata);
           }
-     }, [POlistState, ModuleListState])
+     }, [poState, moduleState])
 
      // Section: Fallback Rendering
      if (loading) return <Loader />
@@ -111,7 +114,10 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 
 
 function findAndSetActivePOdata(POlist, ModuleList, pageId, setActivePOdata) {
+
      const activePO = deepClone(POlist.find(po => po.refId === pageId));
+     // ! linkedModules contains the reference to latest added module, but the moduleList passed in to match and replace the reference doesn't contain any module of the matching reference ID as it is not yet updated.
+     console.log('');
      if (!!activePO) {
           activePO.linkedModules = populateLinkedModules(activePO.linkedModules, ModuleList)
           setActivePOdata(activePO);

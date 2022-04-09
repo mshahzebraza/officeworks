@@ -1,6 +1,5 @@
 # Troubleshooting
 
-## PO page
+## State manipulation
 
-- write transformation logic to filter the po list data
-- adjust the state variables to meet the needs of po-page
+- handle the state manipulation according to new "state.list" structure

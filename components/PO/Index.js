@@ -32,12 +32,15 @@ export default function POpageComp(pProps) {
      const [loading, setLoading] = useState(true);
      const POlistState = useReactiveVar(poApollo)
      const ModuleListState = useReactiveVar(moduleApollo)
+     console.log('POlistState (no UE): ', POlistState);
 
      // Section: State Transforms
      useEffect(() => {
+          console.log('hitting useEffect');
           // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
           if (POlistState.fetched && ModuleListState.fetched) {
+               console.log('POlistState: (with UE) ', POlistState);
                // clearTimeout(loadingTimeout);
                setLoading(false);
                // transform POlistState.list to POlist
@@ -59,6 +62,7 @@ export default function POpageComp(pProps) {
 
           }
      }, [POlistState, ModuleListState, searchInput])
+     // }, [poApollo(), moduleApollo(), searchInput])
 
 
      // Section: Fallback Rendering

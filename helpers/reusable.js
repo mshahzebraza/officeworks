@@ -34,10 +34,13 @@ export function toCamelCase(inputString) {
 
 
 // returns a deep copy of object
-export function deepClone(original /* = 'no value provided in deepClone()' */) {
-     if (!original) console.error('original not found', original);
-     if (!original) return false;
-     return JSON.parse(JSON.stringify(original))
+export function deepClone(item /* = 'no value provided in deepClone()' */) {
+     { //? The Performance expensive version
+          // if (!original) console.error('original not found', original);
+          // if (!original) return false;
+          // return JSON.parse(JSON.stringify(original))
+     }
+     return _.cloneDeep(item)
 }
 
 

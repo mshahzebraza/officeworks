@@ -42,8 +42,8 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           if (poState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
                setLoading(false);
-               console.log('poState.list : ', poState.list);
-               console.log('moduleState.list : ', moduleState.list);
+               // console.log('indexDetail -> poState.list : ', poState.list);
+               console.log('indexDetail -> moduleState.list : ', moduleState.list);
 
                findAndSetActivePOdata(poState.list, moduleState.list, pageId, setActivePOdata);
           }

@@ -31,8 +31,8 @@ export default function POitemSpecs_Form({ closer, activePOid, activeItemId, act
      });
      // delete oldPOitemSpecs.id;
 
-     const moduleState = [...moduleApollo()];
-     const nameOptions = moduleState.map(module => {
+     const moduleStateList = [...moduleApollo().list];
+     const nameOptions = moduleStateList.map(module => {
           return module.name
      })
 

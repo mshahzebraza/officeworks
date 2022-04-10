@@ -12,13 +12,22 @@
 - This lag in state updates doesn't only take place at initialization, but at every type of state update.
 
 - The deletion of modules is absolute. (No linking, directly removing it)
-
-## Add PO item
-
-- 1st render, the poState adds the item ref in itself, while moduleState contains old State. therefore matching module is not found for population
-- 2nd render, both the state contains the updated state with added po item
+  the state contains the updated state with added po item
 
 ## Delete PO item
 
-- 1st render, both the states still contain the deleted po-item
-- 2nd render, poState still contains the deleted po-item item Ref data, while the moduleState has deleted the item. This results in an empty list Item being shown in NavList with only the source-specific data displayed in itemDetail.
+- Deleting the exclusive item from the poState, still only unlinks it instead of removing it.
+
+## Add Duplicate Module in other PO
+
+- The PO refs of moduleState are not updated properly, they even point to non-existent POs sometimes.
+- 'Upon deletion, the last linkedPO ref of the module is replaced by the linkedPO\'s refID instead of \_id '
+
+## Inconsistency in server response
+
+While looking at the server responses of moduleController, it is found that
+
+- for update and add operations, server returns `added/updated module-specific module data` along with `source-specific module data` in the response.
+- However, for delete operations, server returns `deleted module-specific module data` along with the `source of deleted module` only.
+
+TODO: Fix the inconsistency in server response. Preferred fix is to have the server respond all requests by returning the complete source data, so that state manipulation in client can be done easily. However, check all the types of server requests to check if the inconsistency is a requirement

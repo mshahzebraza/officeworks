@@ -216,7 +216,7 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
                })
           }
      }
-     // ? preferDelete : delete the module completely and remove it and its linked PO's from the modulestate
+     // ? preferDelete : delete the module completely and remove it and its linked PO's from the moduleState
      else { // doesn't need to have any poUUID or mwoUUID
           // 3.B delete the current module (upon deletion of the module, the linked PO's and MWOs will be removed as well as there is no way to get to the module from POs and MWOs once it is deleted)
           if (moduleUUID) {
@@ -347,7 +347,9 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                     success: true,
                     data: {
                          createdModule: existingModule,
-                         sourceModuleData: sourceData
+                         sourceModuleData: sourceData,
+                         // TODO: add the updatedSource to the response
+                         moduleSource: updatedSource
                     },
                     message: `Module linked to ${poUUID ? 'PO' : 'MWO'} with existing data`,
                     error: null
@@ -358,6 +360,7 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
           // ?  Totally New Data. Add module to moduleList and link it to the current PO or MWO
           else if (!existingModule) {
 
+               let updatedSource;
                // If poUUID,as a source, is defined, create & link module to PO
                if (poUUID) {
 
@@ -375,7 +378,7 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                     });
 
                     // 2. UPDATE PO: in po collection with new module ID, to link it with the new id
-                    await poModel.findByIdAndUpdate(
+                    updatedSource = await poModel.findByIdAndUpdate(
                          poUUID,
                          {
                               $push: {
@@ -398,7 +401,9 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                          error: null,
                          data: {
                               createdModule: addedModule,
-                              sourceModuleData: sourceData
+                              sourceModuleData: sourceData,
+                              // TODO: add the updatedSource to the response
+                              moduleSource: updatedSource
                          }
                     })
                }
@@ -415,7 +420,7 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                     });
 
                     // 2. Update mwo in mwo collection with new module ID, to link it with the new id
-                    const updatedMWO = await mwoModel.findByIdAndUpdate(
+                    updatedSource = await mwoModel.findByIdAndUpdate(
                          mwoUUID,
                          {
                               $push: {
@@ -434,7 +439,10 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                          error: null,
                          data: {
                               createdModule: addedModule,
-                              sourceModuleData: sourceData
+                              sourceModuleData: sourceData,
+                              // TODO: add the updatedSource to the response
+                              moduleSource: updatedSource
+
                          }
                     })
                }
@@ -533,7 +541,9 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
                message: "Module updated",
                data: {
                     updatedModule,
-                    sourceModuleData: sourceData
+                    sourceModuleData: sourceData,
+                    // TODO: add the updatedSource to the response
+                    moduleSource: updatedSource
                }
           })
      } else if (mwoUUID) {
@@ -564,7 +574,9 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
                message: "Module updated",
                data: {
                     updatedModule,
-                    sourceModuleData: sourceData
+                    sourceModuleData: sourceData,
+                    // TODO: add the updatedSource to the response
+                    moduleSource: updatedSource
                }
           })
      }
@@ -573,20 +585,3 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
 
 // TODO: create another function: updateModuleSpecification
 // 1. no create function for specification as the module-specific data must have been already created at po-item creation with just the "id" field
-
-
-export const checkExisting = CatchAsyncErrors(async (req, res) => {
-     const { moduleId } = req.query;
-
-     const module = await moduleModel.findOne({ id: moduleId }).exec();
-
-     return res.status(200).json({
-          success: true,
-          message: "Module fetched successfully",
-          error: null,
-          data: {
-               module,
-          },
-     });
-
-});

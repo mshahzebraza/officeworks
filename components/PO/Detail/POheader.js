@@ -50,7 +50,7 @@ export default function POheader({ activePOuuid, activePOid, data, classes }) {
                     <ModalButton
                          caption='Update PO Summary'
                          ModalComponent={PO_Form}
-                         oldPOdata={data}
+                         activePOdata={data}
                     />
 
 

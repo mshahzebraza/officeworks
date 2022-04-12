@@ -1,9 +1,11 @@
-import { deepClone } from "./reusable";
+import { cloneAndPluck, deepClone } from "./reusable";
 
 
-
+cloneAndPluck
 
 export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
+
+
      const permanentFields = [
           // Always present
           '_id',
@@ -21,15 +23,14 @@ export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
           // 's1',
      ];
 
-     for (const iterator in moduleSpecs) {
-          // console.log('iterator: ', iterator);
-          if (!permanentFields.includes(iterator)) {
-               delete moduleSpecs[iterator];
-          }
+     moduleSpecs = {
+          ...cloneAndPluck(
+               moduleSpecs,
+               permanentFields
+          ),
+          ...updateFormData
      }
 
-     // Add the flexible fields from the form
-     moduleSpecs = { ...moduleSpecs, ...updateFormData }
 
      return moduleSpecs;
 

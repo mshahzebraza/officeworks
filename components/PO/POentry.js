@@ -107,7 +107,7 @@ export default function POentry({
                          flex={4}
                          outerClasses={[styles.entryControls]}
                          content={<>
-                              <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={PO_Form} invalidReason={'Closed PO cannot be edited'} oldPOdata={poData} /* disabled={poData.status === 'Closed'} */ />
+                              <ModalButton caption='Edit' /* tooltip='Edit' */ ModalComponent={PO_Form} invalidReason={'Closed PO cannot be edited'} activePOdata={poData} /* disabled={poData.status === 'Closed'} */ />
 
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
                               <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} />

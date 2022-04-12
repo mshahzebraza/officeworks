@@ -17,16 +17,17 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { cloneAndPluck, isObjEmpty } from '../../../helpers/reusable'
+// import { cloneAndPluck, isObjEmpty } from '../../helpers/reusable'
 
 
-export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
+export default function PO_Form({ closer: modalCloser, activePOdata = {} }) {
 
-     const isNewSubmission = isObjEmpty(oldPOdata);
+     const isNewSubmission = isObjEmpty(activePOdata);
 
      // Making sure that the forms are not getting the data that is not needed
-     // ? deleting 'index' and 'items' keys from the oldPOdata would cause difficulties in accessing the detail page which needs the 'index' key. POentry needs to update once, so that the index is available for page transition if we delete it.
-     const oldDataFiltered = cloneAndPluck(
-          oldPOdata,
+     // ? deleting 'index' and 'items' keys from the activePOdata would cause difficulties in accessing the detail page which needs the 'index' key. POentry needs to update once, so that the index is available for page transition if we delete it.
+     const activePOdataFiltered = cloneAndPluck(
+          activePOdata,
           ['refType', 'refId', 'category', 'fulfillmentSource', 'currency', 'totalCost', 'status', 'supplier', 'remarks']
      )
 
@@ -42,7 +43,7 @@ export default function PO_Form({ closer: modalCloser, oldPOdata = {} }) {
           status: '',
           supplier: '',
           remarks: '',
-          ...oldDataFiltered
+          ...activePOdataFiltered
      }
 
      const validationSchema = Yup.object({

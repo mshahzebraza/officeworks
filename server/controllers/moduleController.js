@@ -3,7 +3,7 @@ import poModel from "../models/poModel";
 import mwoModel from "../models/mwoModel";
 import moduleModel from "../models/moduleModel";
 import { asyncForEach, deepClone, invalidResponse } from "../../helpers/reusable";
-import { filterMWOmoduleData, filterPOmoduleData } from "../../helpers/specific";
+import { filterMWOmoduleData, filterPOmoduleData, separateModuleAndSourceData } from "../../helpers/specific";
 
 // ? = fetchModules (fetchModules should return the list of all modules regardless of the linked PO)
 export const fetchModules = CatchAsyncErrors(async (req, res) => {
@@ -278,7 +278,7 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                ? await moduleModel.findOne({ id: moduleDataMixed.id }/* , { id: 1, linkedPOs: 1, linkedMWOs: 1 } */)
                : null;
           // ? sourceData: module data exclusively for the current source (PO/MWO) i.e. qty, unitPrice etc.
-          const [sourceData = null, moduleData = null] = (poUUID)
+          const [moduleData, sourceData] = (poUUID)
                ? filterPOmoduleData(moduleDataMixed)
                : filterMWOmoduleData(moduleDataMixed);
 
@@ -456,8 +456,8 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
 
 export const updateModule = CatchAsyncErrors(async (req, res) => {
      const { moduleUUID, poUUID, mwoUUID } = req.query; //poUUID is not needed (un/linking is not required as neither the moduleId is changed nor is module deleted)
-     const { moduleData: moduleDataMixed } = req.body;
-
+     let { moduleData } = req.body;
+     let sourceData;
      // Unpractical to set the source-specific data in more than one source. Could've been possible for module-specific data only. 
      if (!!mwoUUID && !!poUUID)
           return invalidResponse(res, "Both mwoUUID and poUUID are defined. Only one of them is allowed")
@@ -465,17 +465,33 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
      // ?  To update the module irrespective of the parent, moduleUUID without poUUID or mwoUUID has to be allowed
      // if (!mwoUUID && !poUUID) return invalidResponse(res, "Neither mwoUUID nor poUUID is defined. One of them is required");
      if (!moduleUUID) return invalidResponse(res, "moduleUUID is not defined. moduleUUID is required");
-     if (!moduleDataMixed) return invalidResponse(res, "moduleData is not defined. moduleData is required");
+     if (!moduleData) return invalidResponse(res, "moduleData is not defined. moduleData is required");
 
-     if (!poUUID && !mwoUUID) {
+     // console.log('moduleData - without filtering:', moduleData);
 
-          // Update the module
-          const updatedModule = await moduleModel.findByIdAndUpdate(
-               moduleUUID,
-               moduleDataMixed, //? In this case, moduleDataMixed is the moduleData specific to module
-               { new: true }
-          );
+     // These fields cannot be updated (to avoid mutating the unique data)
+     delete moduleData.__v; // TODO: Is it required to delete this? It may not even be present.
 
+     // Filter source/module specific data according to the type of source (PO/MWO) - skip if no source is defined
+     if (poUUID) {
+          console.log('PO source is defined');
+          [moduleData, sourceData] = separateModuleAndSourceData(moduleData, 'PO'); //? picks up qty, unitPrice, remarks, etc.
+     } else if (mwoUUID) {
+          [moduleData, sourceData] = separateModuleAndSourceData(moduleData, 'MWO'); //? picks up qty, remarks, etc.
+     }
+
+     // Update the module - doesn't matter if the source (PO or MWO) is defined or not
+     const updatedModule = await moduleModel.findOneAndReplace(
+          { _id: moduleUUID },
+          moduleData,
+          { new: true }
+     );
+
+     // if (!updateModule) return invalidResponse(res, "Module for update not found in database");
+     if (!updateModule) return invalidResponse(res, "Module for update not found in database");
+
+
+     if (!poUUID && !mwoUUID) { //? if no source is defined, return the updated module without running source specific code
           // return response
           return res.status(200).json({
                success: true,
@@ -486,31 +502,6 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
                }
           })
      }
-
-
-     // Filter source/module specific data according to the type of source (PO/MWO)
-     const [sourceData, moduleData] = (poUUID)
-          ? filterPOmoduleData(moduleDataMixed)
-          : filterMWOmoduleData(moduleDataMixed);
-
-
-     // These fields cannot be updated (to avoid mutating the unique data)
-     delete moduleData.__v;
-     // delete moduleData._id;
-     // delete moduleData.linkedMWOs;
-     // delete moduleData.linkedPOs;
-
-     // Update the module
-     const updatedModule = await moduleModel.findByIdAndUpdate(
-          moduleUUID,
-          moduleData,
-          { new: true }
-     );
-
-     // if (!updateModule) return invalidResponse(res, "Module for update not found in database");
-     if (!updateModule) return invalidResponse(res, "Module for update not found in database");
-
-
      // update the source with the new module data
      if (poUUID) {
           // update the module in the moduleList

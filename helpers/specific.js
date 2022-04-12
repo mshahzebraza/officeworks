@@ -1,5 +1,41 @@
 import { deepClone } from "./reusable";
 
+
+
+
+export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
+     const permanentFields = [
+          // Always present
+          '_id',
+          'id',
+          'name',
+          'linkedMWOs',
+          'linkedPOs',
+          'qty',
+          'unitPrice',
+          'remarks',
+          // Present after specs-update
+          'application',
+          'type',
+          // ? Flexible - we want to delete these and add then add the flexible fields from the form
+          // 's1',
+     ];
+
+     for (const iterator in moduleSpecs) {
+          // console.log('iterator: ', iterator);
+          if (!permanentFields.includes(iterator)) {
+               delete moduleSpecs[iterator];
+          }
+     }
+
+     // Add the flexible fields from the form
+     moduleSpecs = { ...moduleSpecs, ...updateFormData }
+
+     return moduleSpecs;
+
+}
+
+
 // export a function named filterPOmoduleData & filterMWOmoduleData which returns the received data
 /* 
   const formFieldsPOitem = {
@@ -21,8 +57,8 @@ export const filterPOmoduleData = (data) => {
      const { qty, unitPrice, remarks, ...moduleData } = data;
 
      return [
-          { qty, unitPrice, remarks },
           moduleData,
+          { qty, unitPrice, remarks },
      ];
 }
 
@@ -52,11 +88,30 @@ export const filterMWOmoduleData = (data) => {
      const { qty, remarks, ...moduleData } = data;
 
      return [
-          { qty, remarks },
-          moduleData
+          moduleData,
+          { qty, remarks }
      ];
 }
 
+
+// ? source-specific and independent module data
+export const separateModuleAndSourceData = (data, sourceType = null) => {
+     let sourceData = {};
+     const { qty, unitPrice, remarks, ...moduleData } = data;
+
+     if (sourceType === 'PO') {
+          sourceData = { qty, unitPrice, remarks };
+     } else if (sourceType === 'MWO') {
+          sourceData = { qty, remarks };
+     } else {
+          return [moduleData, null];
+     }
+
+     return [
+          moduleData,
+          sourceData
+     ];
+}
 
 export const sourceSpecificKeys = (sourceType = 'po') => {
      if (sourceType === 'po') return ['unitPrice', 'qty', 'remarks']

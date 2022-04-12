@@ -2,14 +2,20 @@ import React from 'react'
 import { concatStrings, transformArray } from '../../../helpers/reusable';
 import styles from './POnavList.module.scss'
 
-export default function POnavList({ classes, data: itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
+export default function POnavList({ classes, itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
 
-     if (itemList.length === 0) {
-          return ('s')
-     }
-
+     // Section: Component Logic
+     itemList = itemList.map(({ name, id }, order) => {
+          return {
+               name,
+               id,
+               order
+          }
+     });
      const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
 
+
+     // Section: Component Rendering
      return (
           <>
                {

@@ -43,7 +43,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                // clearTimeout(loadingTimeout);
                setLoading(false);
                // console.log('indexDetail -> poState.list : ', poState.list);
-               console.log('indexDetail -> moduleState.list : ', moduleState.list);
+               // console.log('indexDetail -> moduleState.list : ', moduleState.list);
 
                findAndSetActivePOdata(poState.list, moduleState.list, pageId, setActivePOdata);
           }
@@ -52,16 +52,6 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
      // Section: Fallback Rendering
      if (loading) return <Loader />
      if (!activePOdata) return router.push('/404') && null;
-
-     // Section: Component Logic
-     // prepare module data for NavList (limited to 'name' and 'id' only)
-     const navListData = activePOdata.linkedModules?.map(({ name, id }, order) => {
-          return {
-               name,
-               id,
-               order
-          }
-     });
 
      console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
 
@@ -85,9 +75,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                     activePOdata?.linkedModules?.length > 0
                          ? <POnavList
                               classes={[styles.navList]}
-                              // const itemListArray = props.data.modules.map((el, elIdx) => {el.name})
-                              data={navListData} // list of modules in current PO - with item-name & item-ID 
-                              activeItemVersion={navListData[activeItemIndex] && navListData[activeItemIndex].id}
+                              itemList={activePOdata.linkedModules}
                               activeIndex={activeItemIndex}
                               setActiveIndex={setActiveItemIndex}
                          />
@@ -116,10 +104,10 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 function findAndSetActivePOdata(POlist, ModuleList, pageId, setActivePOdata) {
 
      const activePO = deepClone(POlist.find(po => po.refId === pageId));
-     // ! linkedModules contains the reference to latest added module, but the moduleList passed in to match and replace the reference doesn't contain any module of the matching reference ID as it is not yet updated.
-     console.log('');
      if (!!activePO) {
           activePO.linkedModules = populateLinkedModules(activePO.linkedModules, ModuleList)
+          console.log('setting activePO');
+          console.log('indexDetail -> activePO : ', activePO);
           setActivePOdata(activePO);
      } else {
           setActivePOdata(null);

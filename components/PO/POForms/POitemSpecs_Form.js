@@ -16,28 +16,28 @@ import moduleApollo, { updatePOitemSpecHandler } from '../../../lib/apollo_clien
 import { sourceSpecificKeys } from '../../../helpers/specific'
 
 
-export default function POitemSpecs_Form({ closer, activePOid, activeItemId, activePOitemSpecs: oldPOitemSpecs = {} }) {
+export default function POitemSpecs_Form({ closer, activeModuleSpecs = {} }) {
 
      // TODO: 'clone & pluck' would have been a better option but specification keys can be very different and unpredictable for each item. hence deletion is used here. '_id' is not used in the state of the application anyways, so it won't affect app performance. Nevertheless, it is not ideal. 
 
-     oldPOitemSpecs = deepClone(oldPOitemSpecs) // the deletion was moving up in the state to parent components
+     activeModuleSpecs = deepClone(activeModuleSpecs) // the deletion was moving up in the state to parent components
+     console.log('POitemSpecs_Form -> activeModuleSpecs : ', activeModuleSpecs);
 
-
-     delete oldPOitemSpecs._id;
-     delete oldPOitemSpecs.linkedPOs;
-     delete oldPOitemSpecs.linkedMWOs;
+     delete activeModuleSpecs._id;
+     delete activeModuleSpecs.linkedPOs;
+     delete activeModuleSpecs.linkedMWOs;
      sourceSpecificKeys().forEach(key => {
-          delete oldPOitemSpecs[key]
+          delete activeModuleSpecs[key]
      });
-     // delete oldPOitemSpecs.id;
+     // delete activeModuleSpecs.id;
 
      const moduleStateList = [...moduleApollo().list];
      const nameOptions = moduleStateList.map(module => {
           return module.name
      })
 
-     const isNewSubmission = isObjEmpty(oldPOitemSpecs);
-     const { id: moduleId, name: moduleName, type: moduleType, application: moduleApplication, ...restModuleSpecs } = oldPOitemSpecs;
+     const isNewSubmission = isObjEmpty(activeModuleSpecs);
+     const { id: moduleId, name: moduleName, type: moduleType, application: moduleApplication, ...restModuleSpecs } = activeModuleSpecs;
      const oldSpecsArray = Object.entries(restModuleSpecs)
 
      const initialValues = {

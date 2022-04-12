@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/poDirectory.module.scss'
 
 // Components
-import PO_Form from './PO_Form'
+import PO_Form from './Forms/PO_Form';
 import POentry from './POentry'
 import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';

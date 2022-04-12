@@ -11,7 +11,7 @@ import { deletePOHandler } from '../../lib/apollo_client/poApollo';
 
 // Components
 import PO_Summary from './PO_Summary'
-import PO_Form from './PO_Form'
+import PO_Form from './Forms/PO_Form';
 import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'

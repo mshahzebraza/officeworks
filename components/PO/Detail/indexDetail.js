@@ -1,21 +1,21 @@
 // Dependency
 import React, { useState, useEffect } from 'react'
-import { cloneAndPluck, deepClone } from '../../helpers/reusable'
+import { cloneAndPluck, deepClone } from '../../../helpers/reusable'
 import { useRouter } from 'next/router'
 import { useReactiveVar } from '@apollo/client'
-import moduleApollo from '../../lib/apollo_client/poItemApollo'
-import poApollo from '../../lib/apollo_client/poApollo'
+import moduleApollo from '../../../lib/apollo_client/poItemApollo'
+import poApollo from '../../../lib/apollo_client/poApollo'
 
 // Store & Styles
-import styles from '../../styles/poDetail.module.scss'
+import styles from '../../../styles/poDetail.module.scss'
 
 // Components
-import POheader from './POdetail/POheader'
-import POnavList from './POdetail/POnavList'
-import POitemDetail from './POdetail/POitemDetail'
-import Layout from '../Layout/Layout'
-import Loader from '../Loader'
-import { populateLinkedModules } from '../../helpers/specific'
+import POheader from './POheader'
+import POnavList from './POnavList'
+import POitemDetail from './POitemDetail'
+import Layout from '../../Layout/Layout'
+import Loader from '../../Loader'
+import { populateLinkedModules } from '../../../helpers/specific'
 
 
 export default function POdetailPageComp({ pageId = 'refId' }) {

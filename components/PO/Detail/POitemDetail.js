@@ -7,8 +7,8 @@ import styles from './POitemDetail.module.scss'
 import moduleApollo, { deletePOitemHandler, addPOitemHandler } from '../../../lib/apollo_client/poItemApollo';
 
 // Components
-import POitem_Form from '../POForms/POitem_Form';
-import POitemSpecs_Form from '../POForms/POitemSpecs_Form';
+import POitem_Form from '../Forms/POitem_Form';
+import POitemSpecs_Form from '../Forms/POitemSpecs_Form';
 import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
 

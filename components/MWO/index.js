@@ -1,5 +1,5 @@
 // Dependency
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useSelector } from 'react-redux'
 
 // Store & Styles
@@ -14,28 +14,60 @@ import Layout from '../Layout/Layout';
 import { checkDataType, deepClone } from '../../helpers/reusable';
 import ModalButton from '../UI/ModalButton';
 import SearchInput from '../UI/SearchInput';
+import moduleApollo from '../../lib/apollo_client/poItemApollo';
+import { populateLinkedModules } from '../../helpers/specific';
+import Loader from '../Loader';
 
 export default function MWOPageComp(pProps) {
+     // Section: Component States
+     // initialize component state
+     const [searchInput, setSearchInput] = useState(false)
+     const [MWOlist, setMWOlist] = useState(null)
+     const [loading, setLoading] = useState(true);
+     const MWOstate = useReactiveVar(mwoApollo);
+     const ModuleState = useReactiveVar(moduleApollo)
 
-     const [filterState, setFilterState] = useState(false)
+     // Section: State Transforms
+     useEffect(() => {
+          // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
+          // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
+          if (MWOstate.fetched && ModuleState.fetched) {
+               // clearTimeout(loadingTimeout);
+               setLoading(false);
+               // populate MWOstate.list and save it to MWOlist
+               const populatedMWOlist = populateMWOlist(MWOstate.list, ModuleState.list)
+               setMWOlist(populatedMWOlist)
 
-     // Fetching all the MWO List data
-     let filteredMWOlist = useReactiveVar(mwoApollo);
+               //? Apply search filter to Limit the PO list to search results
+               if (searchInput) {
+                    // Filtering Projects w.r.t search ID (Case Insensitive)
+                    setMWOlist((prevMWOlist) =>
+                         prevMWOlist.filter(mwo =>
+                              mwo.mwoId
+                                   .toLowerCase()
+                                   .includes(
+                                        searchInput.toLowerCase()
+                                   )
+                         )
+                    )
+               }
 
-     if (filterState) {
-          // Filtering Projects w.r.t search ID (Case Insensitive)
-          filteredMWOlist = filteredMWOlist.filter((curMWO) => {
-               return curMWO.mwoId.toLocaleLowerCase().includes(filterState.toLocaleLowerCase())
-          });
-     }
 
+          }
+     }, [MWOstate, ModuleState, searchInput])
+
+
+     // Section: Fallback Rendering
+     if (loading) return <Loader />
+
+     console.log('MWOlist', MWOlist);
 
      return (
           <Layout pageClasses={[styles.container]} >
 
                <section className={`pageHeader`}>
                     <h1 className={`pageTitle`} > Mfg Work Orders</h1>
-                    <SearchInput stateVariables={[filterState, setFilterState]} />
+                    <SearchInput stateVariables={[searchInput, setSearchInput]} />
                     <ModalButton caption='Add MWO' ModalComponent={MWO_Form} />
                </section>
 
@@ -44,13 +76,12 @@ export default function MWOPageComp(pProps) {
                          header={true}
                     />
                     {
-                         filteredMWOlist && checkDataType(filteredMWOlist) === 'array' && filteredMWOlist.length > 0 &&
-                         filteredMWOlist.map((poData, idx) => {
+                         MWOlist.map((mwoData, idx) => {
                               return <MWOentry
                                    key={idx}
-                                   mwoData={{ index: idx, ...poData }}
+                                   mwoData={{ index: idx, ...mwoData }}
                               />
-                         }) || <p className='note'>No MWO Found - MWO Page</p>
+                         })
                     }
                </section>
 
@@ -60,3 +91,14 @@ export default function MWOPageComp(pProps) {
 }
 
 
+
+function populateMWOlist(MWOList, ModuleList) {
+     const populatedMWOlist = MWOList.map((mwoData, idx) => {
+          mwoData = deepClone(mwoData) // ?so that the original apollo state is not mutated
+          // for each of moduleRefs, find the corresponding module data in the ModuleState
+          mwoData.linkedModules = populateLinkedModules(mwoData.linkedModules, ModuleList)
+          return mwoData
+     })
+     return populatedMWOlist;
+
+}

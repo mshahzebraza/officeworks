@@ -29,13 +29,13 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
 
 
      const initialValues = {
-          application: '', // module Spec F
-          id: '', // module Spec F
-          name: '', // module Spec F
-          type: '', // module Spec F
-          qty: '', // module Spec
-          mwoId: '',
+          // application: '', // module Spec F
+          // id: '', // module Spec F
+          // name: '', // module Spec F
+          // type: '', // module Spec F
+          // qty: '', // module Spec
           // TODO: supplier [PPC, MSS, External PPC, Metrology, etc]
+          mwoId: '',
           status: '',
           title: '',
           remarks: '',
@@ -43,12 +43,12 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
      }
 
      const validationSchema = Yup.object().shape({
+          // application: Yup.string().required('Required'),
+          // id: Yup.string().required('Required'),
+          // name: Yup.string().required('Required'),
+          // type: Yup.string().required('Required'),
+          // qty: Yup.string().required('Required'),
           mwoId: Yup.string().required('Required'),
-          application: Yup.string().required('Required'),
-          id: Yup.string().required('Required'),
-          name: Yup.string().required('Required'),
-          type: Yup.string().required('Required'),
-          qty: Yup.string().required('Required'),
           status: Yup.string().required('Required'),
           title: Yup.string().required('Required'),
           remarks: Yup.string(),
@@ -85,13 +85,6 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
                                    // TODO: values can be used to mutate one field w.r.t the other.
                                    return (
                                         <FormikForm>
-                                             {/* 'title' */}
-                                             <FormikControl
-                                                  control='input'
-                                                  type='text'
-                                                  name='title'
-                                                  label='Title / Description'
-                                             />
                                              {/* 'mwoId' */}
                                              <FormikControl
                                                   control='input'
@@ -100,8 +93,15 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
                                                   label='MWO ID'
                                                   disabled={!isNewSubmission}
                                              />
-                                             {/* type */}
+                                             {/* 'title' */}
                                              <FormikControl
+                                                  control='input'
+                                                  type='text'
+                                                  name='title'
+                                                  label='Title / Description'
+                                             />
+                                             {/* type */}
+                                             {/* <FormikControl
                                                   control='select'
                                                   label='Item Type'
                                                   name='type'
@@ -110,9 +110,9 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
                                                        { key: 'Special Standard', value: 'Special' }, // change this
                                                        { key: 'Standard', value: 'Standard' },
                                                   ]}
-                                             />
+                                             /> */}
                                              {/* 'application' */}
-                                             <FormikControl
+                                             {/* <FormikControl
                                                   control='select'
                                                   name='application'
                                                   label='Application / Use'
@@ -123,30 +123,30 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
                                                        { key: 'R&D', value: 'R&D' },
                                                        { key: 'Miscellaneous', value: 'MISC' },
                                                   ]}
-                                             />
+                                             /> */}
                                              {/* 'id' */}
-                                             <FormikControl
+                                             {/* <FormikControl
                                                   control='input'
                                                   type='text'
                                                   name='id'
                                                   label='Item ID'
                                                   placeholder='LU-20211212 OR R&D-20211212 OR PEMA-L3K-BD-0200-01'
-                                             />
+                                             /> */}
                                              {/* 'name' */}
-                                             <FormikControl
+                                             {/* <FormikControl
                                                   control='input'
                                                   type='text'
                                                   placeholder='Should be dependant on the Item Id field'
                                                   name='name'
                                                   label='Item Name'
-                                             />
+                                             /> */}
                                              {/* 'qty' */}
-                                             <FormikControl
+                                             {/* <FormikControl
                                                   control='input'
                                                   type='number'
                                                   name='qty'
                                                   label='Order Quantity'
-                                             />
+                                             /> */}
                                              {/* 'status' */}
                                              <FormikControl
                                                   control='select'

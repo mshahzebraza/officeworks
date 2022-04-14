@@ -1,58 +1,58 @@
 // Dependency
 import React, { useState, useEffect } from 'react'
-// import { cloneAndPluck, deepClone } from '../../../helpers/reusable'
-// import { useRouter } from 'next/router'
-// import { useReactiveVar } from '@apollo/client'
-// import moduleApollo from '../../../lib/apollo_client/poItemApollo'
-// import mwoApollo from '../../../lib/apollo_client/mwoApollo'
+import { cloneAndPluck, deepClone } from '../../../helpers/reusable'
+import { useRouter } from 'next/router'
+import { useReactiveVar } from '@apollo/client'
+import moduleApollo from '../../../lib/apollo_client/poItemApollo'
+import mwoApollo from '../../../lib/apollo_client/mwoApollo'
 
 // // Store & Styles
-// import styles from '../../styles/poDetail.module.scss'
+
+import styles from '../../../styles/mwoDetail.module.scss'
 
 // // Components
-// import POheader from './POdetail/POheader'
-// import POnavList from './POdetail/POnavList'
-// import POitemDetail from './POdetail/POitemDetail'
-// import Layout from '../../Layout/Layout'
-// import Loader from '../../Loader'
-// import { populateLinkedModules } from '../../../helpers/specific'
+import MWOheader from './MWOheader'
+// import MWOnavList from './MWOdetail/MWOnavList'
+// import MWOitemDetail from './MWOdetail/MWOitemDetail'
+import Layout from '../../Layout/Layout'
+import Loader from '../../Loader'
+import { populateLinkedModules } from '../../../helpers/specific'
 
 
-export default function POdetailPageComp({ pageId = 'refId' }) {
-     return ('Hello World');
+export default function MWOdetailPageComp({ pageId = 'refId' }) {
      { // ?Detail of Rerenders is as follows:
           // On detail page refresh, the page renders 04 times, each time with different state
-          // 1: poState : invalid, moduleState : invalid
-          // 2: poState : valid, moduleState : invalid
-          // 3: poState : valid, moduleState : valid
-          // 4: In the last (3rd) render, the loading and activePOdata state was changed (along with the transformation logic) therefore, the page rerenders again
-          console.warn('The component renders 04 times on direct pageLoad.');
+          // 1: mwoState : invalid, moduleState : invalid
+          // 2: mwoState : valid, moduleState : invalid
+          // 3: mwoState : valid, moduleState : valid
+          // 4: In the last (3rd) render, the loading and activeMWOdata state was changed (along with the transformation logic) therefore, the page rerenders again
+          console.warn('Manual Warning: The component renders 04 times on direct pageLoad.');
      }
      const router = useRouter();
      // Section: Component States
      const [loading, setLoading] = useState(true);
-     const [activePOdata, setActivePOdata] = useState(null)
+     const [activeMWOdata, setActiveMWOdata] = useState(null)
      const [activeItemIndex, setActiveItemIndex] = useState(0);
      const moduleState = useReactiveVar(moduleApollo)
-     const poState = useReactiveVar(poApollo)
+     const mwoState = useReactiveVar(mwoApollo)
 
      // Section: State Transforms
      useEffect(() => {
           // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
-          if (poState.fetched && moduleState.fetched) {
+          if (mwoState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
                setLoading(false);
-
-               findAndSetActivePOdata(poState.list, moduleState.list, pageId, setActivePOdata);
+               const populatedActiveMWO = populateActiveMWO(mwoState.list, moduleState.list, pageId);
+               setActiveMWOdata(populatedActiveMWO);
           }
-     }, [poState, moduleState])
+     }, [mwoState, moduleState])
 
      // Section: Fallback Rendering
      if (loading) return <Loader />
-     if (!activePOdata) return router.push('/404') && null;
+     if (!activeMWOdata) return router.push('/404') && null;
 
-     console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
+     console.assert(!!activeMWOdata?.linkedModules, 'Must Not Happen')
 
      // Section: Component Rendering
      return (
@@ -60,21 +60,21 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 
                {/* Header */}
                {
-                    <POheader
+                    <MWOheader
                          classes={[styles.header]}
-                         activePOuuid={activePOdata._id}
-                         activePOid={activePOdata.refId}
-                         data={activePOdata}
+                         activeMWOuuid={activeMWOdata._id}
+                         // activeMWOid={activeMWOdata.mwoId}
+                         data={activeMWOdata}
                     />
                }
 
                {/* Navigation List */}
                {
                     // TODO: No need of ternary operator here as the "Empty LinkedModules" case is already handled earlier
-                    activePOdata?.linkedModules?.length > 0
-                         ? <POnavList
+                    activeMWOdata?.linkedModules?.length > 0
+                         ? <MWOnavList
                               classes={[styles.navList]}
-                              itemList={activePOdata.linkedModules}
+                              itemList={activeMWOdata.linkedModules}
                               activeIndex={activeItemIndex}
                               setActiveIndex={setActiveItemIndex}
                          />
@@ -86,11 +86,11 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                {
 
                     // ? execute below if modules length === 0
-                    activePOdata?.linkedModules?.length > 0 &&
-                    <POitemDetail
+                    activeMWOdata?.linkedModules?.length > 0 &&
+                    <MWOitemDetail
                          classes={[styles.itemDetail]}
-                         activePOid={activePOdata.refId}
-                         itemList={activePOdata.linkedModules} // detail for the current PO modules- nested/item/detail level
+                         activeMWOid={activeMWOdata.refId}
+                         itemList={activeMWOdata.linkedModules} // detail for the current MWO modules- nested/item/detail level
                          activeItemIndex={activeItemIndex}
                          setActiveItemIndex={setActiveItemIndex}
                     /> || <p className='note'>No Modules Inside - detailPage/ItemDetail</p>
@@ -100,16 +100,14 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 }
 
 
-function findAndSetActivePOdata(POlist, ModuleList, pageId, setActivePOdata) {
+function populateActiveMWO(MWOlist, ModuleList, pageId) {
 
-     const activePO = deepClone(POlist.find(po => po.refId === pageId));
-     if (!!activePO) {
-          activePO.linkedModules = populateLinkedModules(activePO.linkedModules, ModuleList)
-          console.log('setting activePO');
-          console.log('indexDetail -> activePO : ', activePO);
-          setActivePOdata(activePO);
+     const activeMWO = deepClone(MWOlist.find(mwo => mwo.mwoId === pageId));
+     if (!!activeMWO) {
+          activeMWO.linkedModules = populateLinkedModules(activeMWO.linkedModules, ModuleList)
+          return activeMWO;
      } else {
-          setActivePOdata(null);
+          return null;
      }
 
 }

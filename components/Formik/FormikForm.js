@@ -23,8 +23,8 @@ function FormikForm({ children, outerClasses = [], multiStage = false, stepOptio
 
                <FormikStepControls
                     stepLength={children.length}
-                    activeStepOnNext={stepOptions?.[activeStep]?.onNext}
-                    activeStepOnPrev={stepOptions?.[activeStep]?.onPrev}
+                    activeStepOnNext={stepOptions?.[activeStep]?.goToNext}
+                    activeStepOnPrev={stepOptions?.[activeStep]?.goToPrev}
                     activeStepState={[activeStep, setActiveStep]}
                />
 

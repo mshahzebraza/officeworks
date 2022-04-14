@@ -14,7 +14,7 @@ import Button from '../../UI/Button'
 import { deletePOHandler } from '../../../lib/apollo_client/poApollo'
 
 
-export default function POheader({ activePOuuid, activePOid, data, classes }) {
+export default function POheader({ activePOuuid/* , activePOid */, data, classes }) {
      // const dispatch = useDispatch();
 
 

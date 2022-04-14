@@ -97,7 +97,10 @@ function MyApp({ Component, pageProps }) {
                     list: poList,
                     fetched: true
                });
-               mwoApollo(mwoList);
+               mwoApollo({
+                    list: mwoList,
+                    fetched: true
+               });
                projectApollo(projectList);
                transactionApollo(transactionList);
 

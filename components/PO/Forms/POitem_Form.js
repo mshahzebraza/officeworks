@@ -107,11 +107,11 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
                                    return (
 
                                         <FormikForm
-                                             // multiStage
-                                             stepOptions={[ //? One options object for each step
-                                                  { onNext: () => stageTwoCriteria(values, setFieldValue, validateField, errors) },
-                                                  {}
-                                             ]}
+                                        // multiStage
+                                        // stepOptions={[ //? One options object for each step
+                                        //      { goToNext: () => stageTwoCriteria(values, setFieldValue, validateField, errors) },
+                                        //      {}
+                                        // ]}
                                         >
 
                                              <>

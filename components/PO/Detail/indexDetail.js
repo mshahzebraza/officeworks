@@ -42,10 +42,9 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           if (poState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
                setLoading(false);
-               // console.log('indexDetail -> poState.list : ', poState.list);
-               // console.log('indexDetail -> moduleState.list : ', moduleState.list);
+               const populatedActivePO = populateActivePO(poState.list, moduleState.list, pageId);
+               setActivePOdata(populatedActivePO);
 
-               findAndSetActivePOdata(poState.list, moduleState.list, pageId, setActivePOdata);
           }
      }, [poState, moduleState])
 
@@ -64,7 +63,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                     <POheader
                          classes={[styles.header]}
                          activePOuuid={activePOdata._id}
-                         activePOid={activePOdata.refId}
+                         // activePOid={activePOdata.refId}
                          data={activePOdata}
                     />
                }
@@ -101,16 +100,14 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 }
 
 
-function findAndSetActivePOdata(POlist, ModuleList, pageId, setActivePOdata) {
+function populateActivePO(POlist, ModuleList, pageId) {
 
      const activePO = deepClone(POlist.find(po => po.refId === pageId));
      if (!!activePO) {
           activePO.linkedModules = populateLinkedModules(activePO.linkedModules, ModuleList)
-          console.log('setting activePO');
-          console.log('indexDetail -> activePO : ', activePO);
-          setActivePOdata(activePO);
+          return activePO
      } else {
-          setActivePOdata(null);
+          return null
      }
 
 }

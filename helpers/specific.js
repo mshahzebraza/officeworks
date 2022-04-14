@@ -121,8 +121,8 @@ export const sourceSpecificKeys = (sourceType = 'po') => {
 
 
 // takes in a list of POitems and returns a list of POitems with the linked modules populated
-export function populateLinkedModules(linkedItemList, moduleList) {
-     return linkedItemList.map((linkedModule) => {
+export function populateLinkedModules(linkedModuleList, moduleList) {
+     return linkedModuleList.map((linkedModule) => {
           const { item: moduleRef, ...rest } = linkedModule;
 
           const matchingModule = deepClone(

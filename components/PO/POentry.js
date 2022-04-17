@@ -11,12 +11,12 @@ import { deletePOHandler } from '../../lib/apollo_client/poApollo';
 
 // Components
 import PO_Summary from './PO_Summary'
-import PO_Form from './Forms/PO_Form';
 import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
 import InvalidModal from '../UI/Invalid'
+import Source_Form from '../Procurement/Forms/Source_Form';
 
 
 export default function POentry({
@@ -110,7 +110,7 @@ export default function POentry({
                               <>{ //? Following attributes can also be added to ModalButton
                               /* tooltip='Edit' */ /* disabled={poData.status === 'Closed'} */ /* invalidReason={'Closed PO cannot be edited'} */}
                               </>
-                              <ModalButton caption='Edit' ModalComponent={PO_Form} activePOdata={poData} />
+                              <ModalButton caption='Edit' ModalComponent={Source_Form} data={poData} sourceType='po' />
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
                               <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} />
                               <Button caption='Delete' click={() => deletePOHandler(poData._id)} />

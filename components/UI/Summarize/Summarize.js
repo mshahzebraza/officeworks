@@ -85,7 +85,6 @@ export function Summarize(
      }
 
 
-
      return (<div className={styles.body}>
           {
                data

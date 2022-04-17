@@ -22,7 +22,7 @@ export default function PO_Summary({ closer, poData }) {
                     <Summarize
                          data={poData}
                          dataKeyOptions={{
-                              toDelete: ['index', 'refType'],
+                              toDelete: ['_id', '__v', 'index'/* , 'refType' */],
                               toFetch: [['items', 'item']],
                               toUpdate: [['refId', 'referenceID'], ['category', 'PO Category'], ['linkedModules', 'Modules Procured']]
                          }}

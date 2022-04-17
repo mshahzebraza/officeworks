@@ -156,8 +156,8 @@ export default function MWO_Form({ closer: modalCloser, activeMWOdata = {} }) {
                                              />
                                              {/* 'remarks' */}
                                              <FormikControl
-                                                  control='textarea'
                                                   // type='text'
+                                                  control='textarea'
                                                   name='remarks'
                                                   label='Remarks'
                                              />

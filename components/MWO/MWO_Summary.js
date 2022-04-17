@@ -11,20 +11,20 @@ import { Summarize } from '../UI/Summarize/Summarize'
 
 export default function MWO_Summary({ closer, mwoData }) {
 
-  return (
-    <Portal>
-      <Modal
-        title='MWO Summary'
-        closer={closer}
-      >
-        <Summarize
-          data={mwoData}
-          dataKeyOptions={{
-            toDelete: ['_id', 'index'],
-            toUpdate: [['mwoId', 'referenceID'], ['itemId', 'itemID'], ['qty', 'Quantity']]
-          }}
-        />
-      </Modal>
-    </Portal>
-  )
+     return (
+          <Portal>
+               <Modal
+                    title='MWO Summary'
+                    closer={closer}
+               >
+                    <Summarize
+                         data={mwoData}
+                         dataKeyOptions={{
+                              toDelete: ['_id', '__v', 'index'],
+                              toUpdate: [['mwoId', 'referenceID'], ['itemId', 'itemID'], ['qty', 'Quantity'], ['linkedModules', 'Modules Ordered']]
+                         }}
+                    />
+               </Modal>
+          </Portal>
+     )
 }

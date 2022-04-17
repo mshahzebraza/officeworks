@@ -118,7 +118,6 @@ export default function MWOitem_Form({ closer: modalCloser, activeMWOid, activeM
                                                        type='text'
                                                        label='Item ID'
                                                        name='id'
-                                                       onBlur={handleBlur}
                                                        disabled={!isNewSubmission}
                                                   />
                                              </>

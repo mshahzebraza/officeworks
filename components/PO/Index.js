@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/poDirectory.module.scss'
 
 // Components
-import PO_Form from './Forms/PO_Form';
 import POentry from './POentry'
 import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';
@@ -20,7 +19,7 @@ import moduleApollo from '../../lib/apollo_client/poItemApollo';
 import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { populateLinkedModules } from '../../helpers/specific';
-// import { useRouter } from 'next/router';
+import Source_Form from '../Procurement/Forms/Source_Form';
 
 export default function POpageComp(pProps) {
      // const router = useRouter();
@@ -76,7 +75,7 @@ export default function POpageComp(pProps) {
                <section className={`pageHeader`}>
                     <h1 className={`pageTitle`} > Purchase Orders</h1>
                     <SearchInput stateVariables={[searchInput, setSearchInput]} />
-                    <ModalButton caption='Add PO' ModalComponent={PO_Form} />
+                    <ModalButton caption='Add PO' ModalComponent={Source_Form} sourceType='po' />
                </section>
 
                <section className={`pageBody`} >

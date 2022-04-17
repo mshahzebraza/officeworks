@@ -14,7 +14,7 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
 
-export default function POitem_Form({ closer: modalCloser, activePOid, activePOindex, activePOitemData: oldPOitemData = {} }) {
+export default function POitem_Form({ closer: modalCloser, activePOid, activePOitemData: oldPOitemData = {} }) {
 
      const moduleState = moduleApollo();
      const nameOptions = moduleState.list.map(module => {
@@ -56,6 +56,7 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
 
 
      const onSubmit = (values, { resetForm }) => {
+          console.log('values', values);
           isNewSubmission
                ? addPOitemHandler([activePOid, values])
                : updatePOitemHandler([activePOid, values]);
@@ -85,7 +86,7 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
      return (
           <Portal>
                <Modal
-                    title={`${isNewSubmission ? 'Add' : 'Update'} PO Item`}
+                    title={`${isNewSubmission ? 'Add' : 'Update'} POxxxxxxx Item`}
                     closer={modalCloser}
                >
                     <Formik
@@ -122,7 +123,6 @@ export default function POitem_Form({ closer: modalCloser, activePOid, activePOi
                                                        type='text'
                                                        label='Item ID'
                                                        name='id'
-                                                       onBlur={handleBlur}
                                                        disabled={!isNewSubmission}
                                                   />
                                              </>

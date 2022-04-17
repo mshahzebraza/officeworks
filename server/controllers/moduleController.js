@@ -480,6 +480,12 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
           [moduleData, sourceData] = separateModuleAndSourceData(moduleData, 'MWO'); //? picks up qty, remarks, etc.
      }
 
+     // ? HELP
+     // flexible fields must be replaced but the permanent fields must only be updated...
+     // Source Specific: qty,remarks,unitPrice
+     // Module Specific: id, name, type, application
+     // Flexible Module Fields: 
+
      // Update the module - doesn't matter if the source (PO or MWO) is defined or not
      const updatedModule = await moduleModel.findOneAndReplace(
           { _id: moduleUUID },

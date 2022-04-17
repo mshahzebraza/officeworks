@@ -116,6 +116,18 @@ export const separateModuleAndSourceData = (data, sourceType = null) => {
 
 export const sourceSpecificKeys = (sourceType = 'po') => {
      if (sourceType === 'po') return ['unitPrice', 'qty', 'remarks']
+     if (sourceType === 'mwo') return [/* 'unitPrice',  */'qty', 'remarks']
+}
+
+export const moduleSpecificKeys = (returnLinkedFields = false) => {
+     const moduleKeys = [
+          "id",
+          "name",
+          "application",
+          "type",
+     ]
+     if (!!returnLinkedFields) moduleKeys.concat(['linkedMWOs', "linkedPOs"])
+     return moduleKeys
 }
 
 
@@ -146,3 +158,28 @@ export function populateLinkedModules(linkedModuleList, moduleList) {
 
 }
 
+
+export function getObjectWithValuesAt(index, source) {
+     // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
+     // Output //? {x: 'x2', y: 'y2'}
+     const newSource = {};
+     for (const key in source) {
+          newSource[key] = source[key][index]
+     }
+     return newSource;
+}
+
+export function renderComponentWithProps(Component, componentPropsObject) {
+
+     // Loose the keys of the object and get an array of values
+     const componentProps = Object.values(componentPropsObject)
+
+     // For each value get the JSX of "FormikControl"
+     const controlArr = componentProps.map(ctrlProp => (
+          <Component
+               {...ctrlProp}
+          />
+     ))
+
+     return controlArr
+}

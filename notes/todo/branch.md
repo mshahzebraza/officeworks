@@ -24,3 +24,11 @@
 
 - Create new components and function to be reused for both PO and MWO
 - Convert the Website Look to a React App Look
+
+## Current Task
+
+- Also key prop is missing in rendering the list of formik somewhere... maybe in the itemForm
+- itemForm & poItemForm behave differently. New one discards some fields
+  - Bcz when fetching the prev fieldData.... the field other than the current form are also fetched in poItemForm.
+  - But even then the poItemForm is unable to avoid this behavior with the flexible fields....
+  - Solution 1: Use 'otherSpec' field to contain the flexible fields of the module. And replace this field on every module update

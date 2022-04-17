@@ -11,12 +11,14 @@ import mwoApollo from '../../../lib/apollo_client/mwoApollo'
 import styles from '../../../styles/mwoDetail.module.scss'
 
 // // Components
+
 import MWOheader from './MWOheader'
 // import MWOnavList from './MWOdetail/MWOnavList'
 // import MWOitemDetail from './MWOdetail/MWOitemDetail'
 import Layout from '../../Layout/Layout'
 import Loader from '../../Loader'
 import { populateLinkedModules } from '../../../helpers/specific'
+import Header from '../../Procurement/Detail/Header'
 
 
 export default function MWOdetailPageComp({ pageId = 'refId' }) {
@@ -51,6 +53,7 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
      // Section: Fallback Rendering
      if (loading) return <Loader />
      if (!activeMWOdata) return router.push('/404') && null;
+     console.log('activeMWOdata', activeMWOdata);
 
      console.assert(!!activeMWOdata?.linkedModules, 'Must Not Happen')
 
@@ -60,11 +63,10 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
 
                {/* Header */}
                {
-                    <MWOheader
+                    <Header
                          classes={[styles.header]}
-                         activeMWOuuid={activeMWOdata._id}
-                         // activeMWOid={activeMWOdata.mwoId}
                          data={activeMWOdata}
+                         sourceType='mwo'
                     />
                }
 

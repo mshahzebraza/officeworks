@@ -1,0 +1,52 @@
+@import "../../../styles/abstracts/abstracts";
+
+.itemDetail {
+	// padding: 1rem;
+	padding: 1rem 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+	// border: 1px solid darkorange !important;
+	// background: #000;
+	// border: 1px solid green;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 3rem $nuteLite5;
+	background: $lite;
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	// section title
+	.title {
+	}
+
+	// section sub-title
+	.subTitle {
+		font-size: 2rem;
+	}
+
+	.content {
+		&.summary {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0.5rem;
+		}
+
+		&.specs {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
+	&.controls {
+		flex-direction: row;
+		// display: flex;
+		gap: 1rem;
+		.btn {
+			// color: khaki;
+		}
+	}
+}

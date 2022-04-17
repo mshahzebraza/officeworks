@@ -17,6 +17,7 @@ import { sourceSpecificKeys } from '../../../helpers/specific'
 
 
 export default function POitemSpecs_Form({ closer, activeModuleSpecs = {} }) {
+     console.log('activeModuleSpecs:', activeModuleSpecs);
 
      // TODO: 'clone & pluck' would have been a better option but specification keys can be very different and unpredictable for each item. hence deletion is used here. '_id' is not used in the state of the application anyways, so it won't affect app performance. Nevertheless, it is not ideal. 
 
@@ -37,7 +38,13 @@ export default function POitemSpecs_Form({ closer, activeModuleSpecs = {} }) {
      })
 
      const isNewSubmission = isObjEmpty(activeModuleSpecs);
-     const { id: moduleId, name: moduleName, type: moduleType, application: moduleApplication, ...restModuleSpecs } = activeModuleSpecs;
+     const {
+          id: moduleId,
+          name: moduleName,
+          type: moduleType,
+          application: moduleApplication,
+          ...restModuleSpecs
+     } = activeModuleSpecs;
      const oldSpecsArray = Object.entries(restModuleSpecs)
 
      const initialValues = {

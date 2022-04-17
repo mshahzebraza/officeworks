@@ -11,6 +11,7 @@ import POitem_Form from '../Forms/POitem_Form';
 import POitemSpecs_Form from '../Forms/POitemSpecs_Form';
 import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
+import ItemSpecs_Form from '../../Procurement/Forms/ItemSpecs_Form';
 
 
 export default function POitemDetail({ classes, itemList = [], activePOid, activeItemIndex, setActiveModuleIndex, activeStatus = 'Active' }) {
@@ -63,8 +64,8 @@ export default function POitemDetail({ classes, itemList = [], activePOid, activ
                                    />
                                    <ModalButton
                                         caption={`${!!existingModuleData && `Update` || `Add`} Specification`}
-                                        ModalComponent={POitemSpecs_Form}
-                                        activeModuleSpecs={existingModuleData}
+                                        ModalComponent={ItemSpecs_Form}
+                                        data={existingModuleData}
                                    />
                               </>
                          }

@@ -111,7 +111,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
      // TODO : OR fine tune the handler function
      const initialValuesReplacement = cloneAndPluck(
           activeItemData,
-          Object.keys(formData.fields).concat(['type', 'application'])
+          Object.keys(formData.fields)
      )
 
      const initialValues = {
@@ -126,7 +126,6 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
 
      const onSubmit = (values, { resetForm }) => {
           // ? The values contain the fields that are explicitly fetched. Hence we have no way of passing in the flexible fields...
-          console.log('values', values);
           isNewSubmission
                ? formData.submitHandlers.add([activeSourceId, values])
                : formData.submitHandlers.update([activeSourceId, values]);

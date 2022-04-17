@@ -20,6 +20,8 @@ export default function ItemDetail({ classes, itemData: existingModuleData, acti
 
      if (!existingModuleData) return (<p className='note'>ItemData is not valid - ItemDetail</p>)
 
+     console.log('ItemDetail: ', existingModuleData);
+
      let itemPurchaseDetail, moduleSpecs;
 
      if (!!existingModuleData) { // setting itemPurchaseDetail & moduleSpecs
@@ -80,12 +82,9 @@ function NavControls({ existingModuleData, activeSourceId }) {
                />
                <ModalButton
                     caption='Update Item'
-                    // ModalComponent={Item_Form}
-                    // activeSourceId={activeSourceId}
-                    // data={existingModuleData}
-                    ModalComponent={POitem_Form}
-                    activePOid={activeSourceId}
-                    activePOitemData={existingModuleData}
+                    ModalComponent={Item_Form}
+                    activeSourceId={activeSourceId}
+                    data={existingModuleData}
                />
                <ModalButton
                     caption={`${!!existingModuleData && `Update` || `Add`} Specification`}
@@ -99,6 +98,9 @@ function NavControls({ existingModuleData, activeSourceId }) {
 
 function ItemSpecification({ specData }) {
 
+     // Moving the flexible fields up to the top
+     const { specs, ...mainFields } = specData
+     specData = { ...mainFields, ...specs }
 
      return (
           <div className={styles.section}>

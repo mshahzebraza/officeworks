@@ -175,8 +175,9 @@ export function renderComponentWithProps(Component, componentPropsObject) {
      const componentProps = Object.values(componentPropsObject)
 
      // For each value get the JSX of "FormikControl"
-     const controlArr = componentProps.map(ctrlProp => (
+     const controlArr = componentProps.map((ctrlProp, key) => (
           <Component
+               key={key}
                {...ctrlProp}
           />
      ))

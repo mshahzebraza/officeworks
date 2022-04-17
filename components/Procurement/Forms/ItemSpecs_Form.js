@@ -85,11 +85,12 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
           }
      }
 
-     const { id, name, type, application, ...restModuleSpecs } = activeModuleSpecs;
+     const { id, name, type, application, specs = {}, ...otherSpecs } = activeModuleSpecs;
+     Object.entries(otherSpecs).length && console.error('Manual: No other fields must be present in the object', otherSpecs)
 
      const initialValuesReplacement = {
           id, name, type, application,
-          specifications: Object.entries(restModuleSpecs)
+          specifications: Object.entries(specs)
      }
      const initialValues = {
           ...getObjectWithValuesAt(0, formData.fields),
@@ -101,13 +102,12 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
      })
 
      const onSubmit = (values, { resetForm }) => {
-          const { specifications: nestedSpecs, ...mainSpecFields } = values;
-          // transforming the nested "specifications" fields into top-level keys
-          const nestedSpecsTransformed = Object.fromEntries(nestedSpecs)
+          const { specifications, ...mainSpecFields } = values;
+          // transforming the "specifications" fields array into an object
+          const specificationsObject = Object.fromEntries(specifications)
           // append the remaining mainSpecFields to valuesObject
-          const completeSpecs = { ...nestedSpecsTransformed, ...mainSpecFields }
+          const completeSpecs = { specs: specificationsObject, ...mainSpecFields }
 
-          // TODO: The Handler function needs to be renamed
           updateItemSpecHandler([completeSpecs])
           resetForm();
           closer()

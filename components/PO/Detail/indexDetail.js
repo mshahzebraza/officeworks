@@ -10,14 +10,12 @@ import poApollo from '../../../lib/apollo_client/poApollo'
 import styles from '../../../styles/poDetail.module.scss'
 
 // Components
-import POheader from './POheader'
-import POnavList from './POnavList'
-import POitemDetail from './POitemDetail'
 import Layout from '../../Layout/Layout'
 import Loader from '../../Loader'
 import { populateLinkedModules } from '../../../helpers/specific'
 import Header from '../../Procurement/Detail/Header'
 import ItemDetail from '../../Procurement/Detail/ItemDetail'
+import NavList from '../../Procurement/Detail/NavList'
 
 
 export default function POdetailPageComp({ pageId = 'refId' }) {
@@ -73,7 +71,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                {
                     // TODO: No need of ternary operator here as the "Empty LinkedModules" case is already handled earlier
                     activePOdata?.linkedModules?.length > 0
-                         ? <POnavList
+                         ? <NavList
                               classes={[styles.navList]}
                               itemList={activePOdata.linkedModules}
                               activeIndex={activeItemIndex}
@@ -87,20 +85,9 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                {
 
                     // ? execute below if modules length > 0
-                    // activePOdata?.linkedModules?.length > 0 &&
-                    // <POitemDetail
-                    //      classes={[styles.itemDetail]}
-                    //      activePOid={activePOdata.refId}
-                    //      itemList={activePOdata.linkedModules} // detail for the current PO modules- nested/item/detail level
-                    //      activeItemIndex={activeItemIndex}
-                    //      setActiveItemIndex={setActiveItemIndex}
-                    // /> || <p className='note'>No Modules Inside - detailPage/ItemDetail</p>
-               }
-               {
-
-                    // ? execute below if modules length > 0
                     activePOdata?.linkedModules?.length > 0 &&
                     <ItemDetail
+                         sourceType='po'
                          classes={[styles.itemDetail]}
                          activeSourceId={activePOdata.refId}
                          itemData={activePOdata.linkedModules[activeItemIndex]} // detail for the current PO modules- nested/item/detail level

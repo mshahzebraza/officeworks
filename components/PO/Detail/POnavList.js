@@ -9,10 +9,13 @@ export default function POnavList({ classes, itemList = [/* { name: '1', id: '1o
           return {
                name,
                id,
-               order
+               order //? This is necessary to highlight the selected item and fetch its data
           }
      });
+     console.log('itemList', itemList);
+
      const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
+     console.log('nestedList', nestedList);
 
 
      // Section: Component Rendering
@@ -26,7 +29,9 @@ export default function POnavList({ classes, itemList = [/* { name: '1', id: '1o
                                    itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
                                         transformArray(
                                              nestedList,
-                                             (item, idx) => <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+                                             (item, idx) => {
+                                                  return <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+                                             }
                                         )
                                         : <>No Items Available</>
                               }
@@ -119,6 +124,7 @@ function itemsVersionsList(items) {
   }
  */
 function Category({ item, activeIndex, setActiveIndex }) {
+
      return <h4
           className={styles.item}
      >

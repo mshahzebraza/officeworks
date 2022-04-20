@@ -1,37 +1,40 @@
 import React from 'react'
 import { concatStrings, transformArray } from '../../../helpers/reusable';
-import styles from './POnavList.module.scss'
+import styles from './NavList.module.scss'
 
-export default function POnavList({ classes, itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
+export default function NavList({ classes, itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
+     console.log('-------------------');
 
      // Section: Component Logic
+     // Only fetch the required data from the itemList
      itemList = itemList.map(({ name, id }, order) => {
           return {
-               name,
-               id,
-               order
+               name, id, order //? This is necessary to highlight the selected item and fetch its data
           }
      });
-     const nestedList = itemList.length > 0 && itemsVersionsList(itemList);
 
+     if (itemList.length <= 0) return <p className='note'>No items - NavList</p>
+
+     // Nest the items with matching names under a new versions key
+     const reducedItemList = reduceItemsWithDupeName(itemList);
 
      // Section: Component Rendering
      return (
           <>
                {
-                    nestedList ?
-                         <section className={concatStrings([...classes, styles.itemList])} >
+                    <section className={concatStrings([...classes, styles.itemList])} >
 
-                              {
-                                   itemList ? // this must be true bcz this is the criteria for rendering the component in the parent BUT it doesn't hurt so...
-                                        transformArray(
-                                             nestedList,
-                                             (item, idx) => <Category key={idx} item={item} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-                                        )
-                                        : <>No Items Available</>
-                              }
-                         </section >
-                         : <p className='note'>No items - POnavList</p>
+                         {
+                              reducedItemList.map((item, itemIdx) => {
+                                   return <Category
+                                        key={itemIdx}
+                                        item={item}
+                                        activeIndex={activeIndex}
+                                        setActiveIndex={setActiveIndex}
+                                   />
+                              })
+                         }
+                    </section >
                }
           </>
      )
@@ -76,22 +79,21 @@ export default function POnavList({ classes, itemList = [/* { name: '1', id: '1o
 ]
  */
 
-function itemsVersionsList(items) {
+function reduceItemsWithDupeName(items) {
 
      return items.reduce((acc, cur, arr) => {
 
-          // check duplicate
+          // check duplicate name in the accumulated values
           const duplicateIndex = acc.findIndex((el) => {
-               return el.name === cur.name
+               return el.name.toLocaleLowerCase() === cur.name.toLocaleLowerCase()
           })
 
-          // found Duplicate
+          // found Duplicate - push the item under the same 'Name' tab
           if (duplicateIndex >= 0) {
                acc[duplicateIndex].versions.push({ id: cur.id, order: cur.order });
                return acc;
           }
-
-          // No Duplicate
+          // No Duplicate - create a new 'Name' tab and push the item in it
           return acc.concat(
                {
                     name: cur.name, versions: [{ id: cur.id, order: cur.order }]
@@ -119,15 +121,16 @@ function itemsVersionsList(items) {
   }
  */
 function Category({ item, activeIndex, setActiveIndex }) {
-     return <h4
+     // Render name of each item and list down multiple versions (itemIDs) for the name-tab
+     return <div
           className={styles.item}
      >
-          <p className={styles.itemName} >{item.name}</p>
-          <p className={styles.versionList}>
+          <h4 className={styles.itemName} >{item.name}</h4>
+          <ul className={styles.versionList}>
                {renderVersions(item.versions, activeIndex, setActiveIndex)}
-          </p>
+          </ul>
 
-     </h4>
+     </div>
 }
 
 
@@ -146,11 +149,11 @@ function Category({ item, activeIndex, setActiveIndex }) {
 function renderVersions(versionList, activeIndex, setActiveIndex) {
 
      return versionList.map((ver, verIdx) => {
-          return <span
+          return <li
                key={verIdx}
                className={`${styles.version} ${activeIndex === ver.order && styles.versionActive}`}
                onClick={() => setActiveIndex(ver.order)}>
                {ver.id}
-          </span>
+          </li>
      })
 }

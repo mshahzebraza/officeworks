@@ -6,30 +6,35 @@ import { isObjEmpty, toSentenceCase, transformEntries, genLog, cloneAndPluck, co
 import styles from './ItemDetail.module.scss'
 import moduleApollo, { deletePOitemHandler, addPOitemHandler } from '../../../lib/apollo_client/poItemApollo';
 
+
+
 // Components
 
 import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
 import ItemSpecs_Form from '../Forms/ItemSpecs_Form';
-import POitem_Form from '../../PO/Forms/POitem_Form';
 import Item_Form from '../Forms/Item_Form';
+import { deleteMWOitemHandler } from '../../../lib/apollo_client/mwoItemApollo';
 
 
 
-export default function ItemDetail({ classes, itemData: existingModuleData, activeSourceId }) {
+export default function ItemDetail({ classes, itemData: existingModuleData, activeSourceId, sourceType = 'po' }) {
 
      if (!existingModuleData) return (<p className='note'>ItemData is not valid - ItemDetail</p>)
 
-     console.log('ItemDetail: ', existingModuleData);
+     let itemOrderDetail, itemSpecDetail;
 
-     let itemPurchaseDetail, moduleSpecs;
-
-     if (!!existingModuleData) { // setting itemPurchaseDetail & moduleSpecs
+     if (!!existingModuleData) { // setting itemOrderDetail & itemSpecDetail
           const {
                _id, unitPrice, qty, remarks, ...itemSpecs
           } = existingModuleData
-          itemPurchaseDetail = { unitPrice, qty, remarks }
-          moduleSpecs = itemSpecs
+
+          if (sourceType === 'mwo') {
+               itemOrderDetail = { qty, remarks }
+          } else if (sourceType === 'po') {
+               itemOrderDetail = { unitPrice, qty, remarks }
+          }
+          itemSpecDetail = itemSpecs
      }
 
 
@@ -38,13 +43,13 @@ export default function ItemDetail({ classes, itemData: existingModuleData, acti
           <section className={concatStrings([...classes, styles.itemDetail])} >
 
                {/* Specifications */}
-               <ItemSpecification specData={moduleSpecs} />
+               <ItemSpecification specData={itemSpecDetail} />
 
                {/* Nav Buttons */}
                <NavControls activeSourceId={activeSourceId} existingModuleData={existingModuleData} />
 
                {/* Summary */}
-               <Summary purchaseData={itemPurchaseDetail} />
+               <Summary data={itemOrderDetail} sourceType={sourceType} />
 
 
           </section>
@@ -53,32 +58,38 @@ export default function ItemDetail({ classes, itemData: existingModuleData, acti
 
 
 // SECTION: Supporting Components
-function Summary({ purchaseData }) {
-     if (!purchaseData) return (<p className='note'>No Items Inside this PO. - POdetail</p>)
+function Summary({ data, sourceType = 'po' }) {
+
+     let orderType;
+     if (sourceType === 'po') {
+          orderType = 'Purchase'
+     } else if (sourceType = 'mwo') {
+          orderType = 'Work'
+     }
+
+     if (!data) return (<p className='note'>No Items Inside this PO. - POdetail</p>)
 
      return (
           <div className={styles.section}>
-               <h2 className={styles.title}>Purchase Summary</h2>
+               <h2 className={styles.title}>{orderType} Order Summary</h2>
                <ul className={concatStrings([styles.content, styles.summary])}>
-                    {transformEntries(purchaseData, renderListItem)}
+                    {transformEntries(data, renderListItem)}
                </ul>
           </div>
      );
 }
 
-function NavControls({ existingModuleData, activeSourceId }) {
+function NavControls({ existingModuleData, activeSourceId, sourceType = 'po' }) {
      // Active source If is needed for the handlers and form components
      return (
           <div className={concatStrings([styles.section, styles.controls])}>
                <Button
                     caption='Delete Item'
                     disabled={!existingModuleData}
-                    click={() => deletePOitemHandler(
-                         [
-                              activeSourceId,
-                              existingModuleData?.id
-                         ]
-                    )}
+                    click={sourceType === 'po'
+                         ? () => deletePOitemHandler([activeSourceId, existingModuleData?.id])
+                         : () => deleteMWOitemHandler([activeSourceId, existingModuleData?.id])
+                    }
                />
                <ModalButton
                     caption='Update Item'

@@ -3,7 +3,6 @@ import { concatStrings, transformArray } from '../../../helpers/reusable';
 import styles from './NavList.module.scss'
 
 export default function NavList({ classes, itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
-     console.log('-------------------');
 
      // Section: Component Logic
      // Only fetch the required data from the itemList

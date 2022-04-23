@@ -112,7 +112,11 @@ export default function POentry({
                               </>
                               <ModalButton caption='Edit' ModalComponent={Source_Form} data={poData} sourceType='po' />
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
-                              <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} />
+                              {/* <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} /> */}
+                              <Button caption='Detail' click={() => {
+                                   console.log('path: ', `po/${poData.refId}`);
+                                   router.push(`po/${poData.refId}`)
+                              }} />
                               <Button caption='Delete' click={() => deletePOHandler(poData._id)} />
 
                          </>}

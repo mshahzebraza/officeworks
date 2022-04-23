@@ -28,6 +28,9 @@
 ## Current Task
 
 - Changed the MWOitemApollo functions to match the MWO CRUD operations
+- First item created in MWO is not shown properly. Solve this and check if the issue exists for PO as well
+- the latest addition in MWO itemlist is not populated properly.
+  - It looks like the moduleList passed in the populate function is not updated
 
 # Old Description
 

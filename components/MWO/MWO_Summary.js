@@ -21,7 +21,7 @@ export default function MWO_Summary({ closer, mwoData }) {
                          data={mwoData}
                          dataKeyOptions={{
                               toDelete: ['_id', '__v', 'index'],
-                              toUpdate: [['mwoId', 'referenceID'], ['itemId', 'itemID'], ['qty', 'Quantity'], ['linkedModules', 'Modules Ordered']]
+                              toUpdate: [['mwoId', 'MWO ID'], ['itemId', 'itemID'], ['qty', 'Quantity'], ['linkedModules', 'Modules Ordered']]
                          }}
                     />
                </Modal>

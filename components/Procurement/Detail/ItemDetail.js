@@ -4,7 +4,8 @@ import { isObjEmpty, toSentenceCase, transformEntries, genLog, cloneAndPluck, co
 
 // Store & Styles
 import styles from './ItemDetail.module.scss'
-import moduleApollo, { deletePOitemHandler, addPOitemHandler } from '../../../lib/apollo_client/poItemApollo';
+import { deleteMWOitemHandler } from '../../../lib/apollo_client/mwoItemApollo';
+import moduleApollo, { deletePOitemHandler } from '../../../lib/apollo_client/poItemApollo';
 
 
 
@@ -14,7 +15,6 @@ import ModalButton from '../../UI/ModalButton';
 import Button from '../../UI/Button';
 import ItemSpecs_Form from '../Forms/ItemSpecs_Form';
 import Item_Form from '../Forms/Item_Form';
-import { deleteMWOitemHandler } from '../../../lib/apollo_client/mwoItemApollo';
 
 
 
@@ -46,7 +46,7 @@ export default function ItemDetail({ classes, itemData: existingModuleData, acti
                <ItemSpecification specData={itemSpecDetail} />
 
                {/* Nav Buttons */}
-               <NavControls activeSourceId={activeSourceId} existingModuleData={existingModuleData} />
+               <NavControls activeSourceId={activeSourceId} existingModuleData={existingModuleData} sourceType={sourceType} />
 
                {/* Summary */}
                <Summary data={itemOrderDetail} sourceType={sourceType} />

@@ -12,16 +12,15 @@ import styles from '../../../styles/mwoDetail.module.scss'
 
 // // Components
 
-import MWOheader from './MWOheader'
-// import MWOnavList from './MWOdetail/MWOnavList'
-// import MWOitemDetail from './MWOdetail/MWOitemDetail'
 import Layout from '../../Layout/Layout'
 import Loader from '../../Loader'
 import { populateLinkedModules } from '../../../helpers/specific'
 import Header from '../../Procurement/Detail/Header'
+import NavList from '../../Procurement/Detail/NavList'
+import ItemDetail from '../../Procurement/Detail/ItemDetail'
 
 
-export default function MWOdetailPageComp({ pageId = 'refId' }) {
+export default function MWOdetailPageComp({ pageId = 'mwoId' }) {
      { // ?Detail of Rerenders is as follows:
           // On detail page refresh, the page renders 04 times, each time with different state
           // 1: mwoState : invalid, moduleState : invalid
@@ -30,6 +29,7 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
           // 4: In the last (3rd) render, the loading and activeMWOdata state was changed (along with the transformation logic) therefore, the page rerenders again
           console.warn('Manual Warning: The component renders 04 times on direct pageLoad.');
      }
+
      const router = useRouter();
      // Section: Component States
      const [loading, setLoading] = useState(true);
@@ -44,16 +44,24 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
           if (mwoState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
-               setLoading(false);
-               const populatedActiveMWO = populateActiveMWO(mwoState.list, moduleState.list, pageId);
+               const x = mwoState.list.findIndex(mwo => mwo.mwoId === pageId)
+
+               // Stop execution if item to be populated is not found
+               const activeMWO = deepClone(mwoState.list.find(mwo => mwo.mwoId === pageId));
+
+               // ! here lies the error. The itemList sent to sub components is not populated. That is because the moduleState.list sent for population is not yet Complete. It doesn't contain the last added item.
+               const populatedActiveMWO = populateActiveMWO(activeMWO, moduleState.list);
+
+               if (!populatedActiveMWO) return null
+
                setActiveMWOdata(populatedActiveMWO);
+               setLoading(false);
           }
      }, [mwoState, moduleState])
 
      // Section: Fallback Rendering
      if (loading) return <Loader />
      if (!activeMWOdata) return router.push('/404') && null;
-     console.log('activeMWOdata', activeMWOdata);
 
      console.assert(!!activeMWOdata?.linkedModules, 'Must Not Happen')
 
@@ -74,7 +82,7 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
                {
                     // TODO: No need of ternary operator here as the "Empty LinkedModules" case is already handled earlier
                     activeMWOdata?.linkedModules?.length > 0
-                         ? <MWOnavList
+                         ? <NavList
                               classes={[styles.navList]}
                               itemList={activeMWOdata.linkedModules}
                               activeIndex={activeItemIndex}
@@ -85,16 +93,16 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
 
 
                {/* Detail */}
+
                {
 
                     // ? execute below if modules length === 0
                     activeMWOdata?.linkedModules?.length > 0 &&
-                    <MWOitemDetail
+                    <ItemDetail
+                         sourceType='mwo'
                          classes={[styles.itemDetail]}
-                         activeMWOid={activeMWOdata.refId}
-                         itemList={activeMWOdata.linkedModules} // detail for the current MWO modules- nested/item/detail level
-                         activeItemIndex={activeItemIndex}
-                         setActiveItemIndex={setActiveItemIndex}
+                         activeSourceId={activeMWOdata.mwoId}
+                         itemData={activeMWOdata.linkedModules[activeItemIndex]}
                     /> || <p className='note'>No Modules Inside - detailPage/ItemDetail</p>
                }
           </Layout>
@@ -102,11 +110,12 @@ export default function MWOdetailPageComp({ pageId = 'refId' }) {
 }
 
 
-function populateActiveMWO(MWOlist, ModuleList, pageId) {
-
-     const activeMWO = deepClone(MWOlist.find(mwo => mwo.mwoId === pageId));
+function populateActiveMWO(activeMWO, ModuleList, pageId) {
      if (!!activeMWO) {
-          activeMWO.linkedModules = populateLinkedModules(activeMWO.linkedModules, ModuleList)
+          activeMWO.linkedModules = populateLinkedModules(
+               activeMWO.linkedModules,
+               ModuleList
+          )
           return activeMWO;
      } else {
           return null;

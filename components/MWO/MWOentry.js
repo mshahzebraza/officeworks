@@ -29,7 +29,6 @@ export default function MWOentryBar({
 }) {
      const router = useRouter()
 
-     console.log('MWOentryBar -> mwoData', mwoData);
      return (
           <>
                <DataRow header={header}>

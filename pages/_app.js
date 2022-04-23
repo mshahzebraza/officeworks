@@ -41,70 +41,31 @@ function MyApp({ Component, pageProps }) {
           // console.log('modules', moduleList);
 
 
-          delete poList.__v;
+          // delete poList.__v;
           delete mwoList.__v;
           delete projectList.__v;
           delete transactionList.__v;
           delete moduleApollo.__v;
 
 
-          // Inserting data into the store
-          // ! START: Convert the normalized data to nested data in the po structure.
-          // ? This is done to make the data easier to use in the application.
-          // TODO: make the following code reusable
-          {
-               // poList = poList.reduce(
-               //      (prevPOlist, curPO) => {
+          // setTimeout(() => {
 
-               //           const { linkedModules } = curPO;
-               //           // map through each module in linkedModules of curPO and replace the _id reference with the module object matching in moduleList
-               //           const transformedLinkedModules = linkedModules.map(
-               //                (linkedModule) => {
-               //                     // fetch item(_id ref) from linkedModule 
-               //                     const { item: moduleRef } = linkedModule;
-               //                     delete linkedModule.item;
-               //                     // find the matching module in moduleList
-               //                     const matchingModuleDetail = moduleList.find(
-               //                          (module) => module._id === moduleRef
-               //                     );
-               //                     // replace the item(_id ref) with the matching module object
-               //                     return {
-               //                          ...linkedModule,
-               //                          ...matchingModuleDetail
-               //                          // item: matchingModuleDetail
-               //                     }
-               //                }
-               //           )
-               //           // replace the mapped old linkedModules with the transformedLinkedModules of the curPO
-               //           prevPOlist.push({
-               //                ...curPO,
-               //                linkedModules: transformedLinkedModules
-               //           });
-               //           return prevPOlist;
-               //      },
-               //      []
-               // )
-          }
-          // ! END: Convert the normalized data to nested data in the po structure.
+          moduleApollo({
+               list: moduleList,
+               fetched: true
+          })
+          poApollo({
+               list: poList,
+               fetched: true
+          });
+          mwoApollo({
+               list: mwoList,
+               fetched: true
+          });
+          projectApollo(projectList);
+          transactionApollo(transactionList);
 
-          setTimeout(() => {
-
-               moduleApollo({
-                    list: moduleList,
-                    fetched: true
-               })
-               poApollo({
-                    list: poList,
-                    fetched: true
-               });
-               mwoApollo({
-                    list: mwoList,
-                    fetched: true
-               });
-               projectApollo(projectList);
-               transactionApollo(transactionList);
-
-          }, 1000);
+          // }, 1000);
 
           // Log the data
           console.log(

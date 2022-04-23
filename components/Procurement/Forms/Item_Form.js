@@ -40,9 +40,10 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                          label: 'Item Name',
                          name: 'name',
                          disabled: !isNewSubmission,
-                         datalist: moduleState.list.map(module => {
-                              return module.name
-                         })
+                         datalist: moduleState.list.reduce((prev, { name: moduleName }) => {
+                              if (!prev.includes(moduleName)) prev.push(moduleName)
+                              return prev
+                         }, [])
                     }],
                     qty: ['', Yup.number().required('Required'), {
                          control: 'input',
@@ -84,9 +85,10 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                          label: 'Item Name',
                          name: 'name',
                          disabled: !isNewSubmission,
-                         datalist: moduleState.list.map(module => {
-                              return module.name
-                         })
+                         datalist: moduleState.list.reduce((prev, { name: moduleName }) => {
+                              if (!prev.includes(moduleName)) prev.push(moduleName)
+                              return prev
+                         }, [])
                     }],
                     qty: ['', Yup.number().required('Required'), {
                          control: 'input',

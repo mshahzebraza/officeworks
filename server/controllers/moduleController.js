@@ -95,14 +95,13 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
 
      //? code for unlinking module  can be configured to remove the module if it is not linked to any other PO
      // Do not delete the module if preserveIntegrity is true
-     if (preserveIntegrity && preserveIntegrity !== "false") {
+     if (preserveIntegrity && preserveIntegrity !== "false") { //? Check If it is specifically set to true by default or changed
 
           // 2. unlink current module from current PO only
           if (moduleUUID && poUUID && !mwoUUID) {
                // unlink the moduleID from the current PO
                const unlinkedPO = await poModel.findOneAndUpdate(
-                    { _id: poUUID /* , "linkedModules.item": moduleUUID  */ }, // make sure to return the module with nested linkedModule
-                    // pull the module from the linkedModules array
+                    { _id: poUUID }, // make sure to return the module with nested linkedModule
                     { $pull: { linkedModules: { item: moduleUUID } } },
                     { new: true }
                );
@@ -140,10 +139,11 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
           else if (moduleUUID && mwoUUID && !poUUID) {
                // unlink the moduleID from the current MWO
                const unlinkedMWO = await mwoModel.findOneAndUpdate(
-                    { _id: mwoUUID, linkedModules: moduleUUID }, // make sure to return the module with nested linkedModule
-                    { $pull: { linkedModules: moduleUUID } },
+                    { _id: mwoUUID }, // make sure to return the module with nested linkedModule
+                    { $pull: { linkedModules: { item: moduleUUID } } },
                     { new: true }
                );
+               if (!unlinkedMWO) return invalidResponse(res, "Module could not be unlinked from MWO");
                // unlink the mwoID from the current module
                const unlinkedModule = await moduleModel.findOneAndUpdate(
                     { _id: moduleUUID, linkedMWOs: mwoUUID }, // make sure to return the module with nested linkedMWO

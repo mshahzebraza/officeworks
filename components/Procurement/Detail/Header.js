@@ -36,7 +36,8 @@ export default function Header({ sourceType = 'mwo', data: activeSourceData = {}
                editSource: {
                     caption: `Update ${sourceType.toUpperCase()} Summary`,
                     ModalComponent: Source_Form,
-                    data: activeSourceData
+                    data: activeSourceData,
+                    sourceType
                }
           }
 

@@ -27,6 +27,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           // 4: In the last (3rd) render, the loading and activePOdata state was changed (along with the transformation logic) therefore, the page rerenders again
           console.warn('The component renders 04 times on direct pageLoad.');
      }
+     console.log('po pageId', pageId);
      const router = useRouter();
      // Section: Component States
      const [loading, setLoading] = useState(true);
@@ -41,9 +42,12 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
           if (poState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
-               setLoading(false);
-               const populatedActivePO = populateActivePO(poState.list, moduleState.list, pageId);
+               const activePO = deepClone(poState.list.find(mwo => mwo.refId === pageId));
+
+               const populatedActivePO = populateActivePO(activePO, moduleState.list);
+
                setActivePOdata(populatedActivePO);
+               setLoading(false);
 
           }
      }, [poState, moduleState])
@@ -98,11 +102,13 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
 }
 
 
-function populateActivePO(POlist, ModuleList, pageId) {
+function populateActivePO(activePO, ModuleList, pageId) {
 
-     const activePO = deepClone(POlist.find(po => po.refId === pageId));
      if (!!activePO) {
-          activePO.linkedModules = populateLinkedModules(activePO.linkedModules, ModuleList)
+          activePO.linkedModules = populateLinkedModules(
+               activePO.linkedModules,
+               ModuleList
+          )
           return activePO
      } else {
           return null

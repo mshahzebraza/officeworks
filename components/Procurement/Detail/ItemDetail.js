@@ -96,6 +96,7 @@ function NavControls({ existingModuleData, activeSourceId, sourceType = 'po' }) 
                     ModalComponent={Item_Form}
                     activeSourceId={activeSourceId}
                     data={existingModuleData}
+                    sourceType={sourceType}
                />
                <ModalButton
                     caption={`${!!existingModuleData && `Update` || `Add`} Specification`}

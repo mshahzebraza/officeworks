@@ -177,8 +177,7 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
 
                // check if module exists
                const moduleExists = await moduleModel.exists({ _id: moduleUUID });
-               console.log('module', moduleExists);
-               console.log('module');
+               if (!moduleExists) return invalidResponse(res, "Module not found for deletion");
                // unlink all poIDs from the current module
                const unlinkedModule = await moduleModel.findByIdAndUpdate(
                     moduleUUID,
@@ -208,7 +207,6 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
                return res.status(200).json({
                     success: true,
                     message: "Module unlinked from all POs & MWOs",
-                    // data: { unlinkedModule }
                     data: {
                          deletedModule: unlinkedModule // to match the moduleState item in the frontend
                     },
@@ -222,16 +220,16 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
           if (moduleUUID) {
                const deletedModule = await moduleModel.findByIdAndDelete(moduleUUID, { new: true });
                // unlink current module ID from all linked PO's
-               await asyncForEach(deletedModule.linkedPOs, async (poId) => {
+               await asyncForEach(deletedModule.linkedPOs, async (linkedPOid) => {
                     await poModel.findByIdAndUpdate(
-                         poId,
+                         linkedPOid,
                          { $pull: { linkedModules: moduleUUID } }
                     );
                })
                // unlink current module ID from all linked MWO's
-               await asyncForEach(deletedModule.linkedMWOs, async (mwoId) => {
+               await asyncForEach(deletedModule.linkedMWOs, async (linkedMWOid) => {
                     await mwoModel.findByIdAndUpdate(
-                         mwoId,
+                         linkedMWOid,
                          { $pull: { linkedModules: moduleUUID } }
                     );
                })
@@ -240,15 +238,17 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
                     success: true,
                     data: { deletedModule },
                     error: null,
-                    message: "Module deleted successfully and unlinked from all linked PO's"
+                    message: "Module deleted successfully and unlinked from all linked POs and MWOs"
                })
           }
           // no specific moduleUUID provided, delete all modules in the current PO
           else if (!moduleUUID && poUUID) {
+               return invalidResponse(res, "Module deletion not supported for all modules of the current PO");
                // TODO: create Code Snippet 02
           }
           // no specific moduleUUID provided, delete all modules in the current MWO
           else if (!moduleUUID && mwoUUID) {
+               return invalidResponse(res, "Module deletion not supported for all modules of the current MWO");
                // TODO: create Code Snippet 03
           }
      }
@@ -257,7 +257,6 @@ export const deleteModule = CatchAsyncErrors(async (req, res) => {
 
 export const createModule = CatchAsyncErrors(async (req, res) => {
      try {
-
           const {
                poUUID = null,
                mwoUUID = null,
@@ -410,8 +409,9 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                // If mwoUUID, as a source, is defined, create & link module to MWO
                else if (mwoUUID) {
                     // check if a document exists in the mwoModel with the mwoUUID
-                    const mwoExists = await mwoModel.exists({ _id: mwoUUID });
-                    if (!mwoExists) return invalidResponse(res, "MWO, to link the module with, does not exist");
+                    const mwoExists = await mwoModel.exists({ _id: mwoUUID }).catch(
+                         (err) => { return invalidResponse(res, "MWO, to link the module with, does not exist") }
+                    );;
 
                     // add the module to the moduleList
                     const addedModule = await moduleModel.create({
@@ -424,7 +424,8 @@ export const createModule = CatchAsyncErrors(async (req, res) => {
                          mwoUUID,
                          {
                               $push: {
-                                   linkedModules: {
+                                   linkedModules:
+                                   {
                                         item: addedModule._id,
                                         ...sourceData
                                    }
@@ -474,7 +475,6 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
 
      // Filter source/module specific data according to the type of source (PO/MWO) - skip if no source is defined
      if (poUUID) {
-          console.log('PO source is defined');
           [moduleData, sourceData] = separateModuleAndSourceData(moduleData, 'PO'); //? picks up qty, unitPrice, remarks, etc.
      } else if (mwoUUID) {
           [moduleData, sourceData] = separateModuleAndSourceData(moduleData, 'MWO'); //? picks up qty, remarks, etc.

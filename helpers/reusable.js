@@ -170,7 +170,7 @@ export function genLog(label, data, background = '#78f086', padding = '0.5rem 1r
     }
 ]
  */
-export function removeDuplicate(list = [], label = 'item') {
+export function removeDuplicateAndCategorize(list = [], label = 'item') {
      let result;
      if (list.length === 0) {
           result = []
@@ -635,6 +635,7 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
 
 
 /* Input
+
 {
     refId: 'PO-001', //* String
     totalCost: '$1,000', //* String
@@ -658,17 +659,132 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
     parts: [{name: "Ball Lead Screw", qty: 1}, {name: "Screw", qty: 3}] //* Array of objects reqKey @ name
   ]
  */
+{
+     // export function summarizer11(
+     //      data = {},
+     //      arrOptions = [],
+     //      /* //? What is the purpose of this?
+     //      There are two ways to transform the array values.
+     //      1. concatenate the values
+     //      2. remove the unique values
+     //      To control the choice of the transformation, key-value pair for each data-field is passed to the function.
+     //      Each key-value pair is an array of two elements.
+     //      Each key indicates the name of data-field. and Each value indicates the transformation choice for that data-field.
+     //      By Default, the transformation choice is concatenation for each data-type and the default separator is ','.
+     //      However, if it is intended to change the separator, from ',' to '||', then the key-value pair should be passed to the function as arrOptions.
+     //      Let's say that the data contains three arrays of strings. X, Y, Z.
+     //      We want X's items to be concatenated by ',' by default. But we want Y's items to be concatenated by '||'. As per the Z's items, we don't want them concatenated, we want them categorized.
+     //       */
+     //      // * indicates at parent key of array of strings, the options to be used (default is concatenated)
+     //      /* arrOptions example:
+     //        [
+     //          ['commaTags', '___' ], //? Here, we intend to concatenate array at key: 'commaTags' with concatSeparator: '___'
+     //          ['dailySalesRepeated', 'removeUnique'] //? Here, we intend to categorize array at key: 'dailySalesRepeated'
+     //           ? Here, For all the other keys, we concatenate (default array transformation choice) with ',' (default separator)
+     //        ]
+     //       */
+     //      objOptions = false
+     //   // * indicates at parent key of objects, the child keys to be used
+     //   /* objOptions example:
+     //     [
+     //       ['parts', 'name'],
+     //       ['modules', 'nomenclature']
+     //     ]
+     //   */,
+     //      objDeleteKeys = false
+     //      /*
+     //        objDeleteKeys example:
+     //        [ 'index', '_id']
+     //       */
+     // ) {
+
+     //      // Delete unwanted keys if any
+     //      if (objDeleteKeys) {
+     //           objDeleteKeys.forEach(
+     //                (key) => data.hasOwnProperty(key) && delete data[key]
+     //           )
+     //      }
+
+     //      // Assuming that the arrOptions & objOptions are both array of arrays with 2 elements
+     //      const arrOptionsMap = arrOptions && new Map(arrOptions);
+     //      const objOptionsMap = objOptions && new Map(objOptions);
+
+     //      const result = Object.entries(data)
+     //           .reduce(
+     //                (acc, [key, val]/* , index, arr */) => {
+     //                     let returnValue;
+
+     //                     const valDataType = checkDataType(val);
+
+     //                     // *String
+     //                     if (valDataType !== 'array' && valDataType !== 'object') {
+     //                          returnValue = val;
+     //                     }
+
+     //                     // *Array of Strings
+     //                     if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
+
+     //                          /* //? What happens in this block?
+     //                          Does current dataField-key matches any key in the arrOptions (is arrOptions for the current dataField-key is specifically defined?)
+     //                               - If Not: use the "defaultConcatSeparator" to "concatenate" the values
+     //                               - If Yes: check if the value against that key is 'removeUnique'
+     //                                    -- If NO: define the value against key as 'overrideConcatSeparator, use the "overrideConcatSeparator" to "concatenate" the values
+     //                                    -- If YES: DO not concatenate the values; remove the duplicates instead
+     //                          */
+
+     //                          // If the key is in the arrOptionsMap, then value against that key would be the 'concatenateSeparator', unless the value is 'removeUnique'
+     //                          const arrOptionDefinedForKey = arrOptionsMap.get(key) || ', ';
+     //                          const shouldConcatenate = arrOptionDefinedForKey !== 'removeUnique';
+     //                          // Either concatenate or remove-duplicates-and-categorize the items
+     //                          returnValue = shouldConcatenate
+     //                               ? concatStrings(val, arrOptionDefinedForKey)
+     //                               : removeDuplicateAndCategorize(val);
+     //                     }
+
+     //                     // *Array of Objects - required key is a string : 'name'
+     //                     if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
+     //                          // check if curKey matches any of the keys in the objOptionsMap otherwise return false
+     //                          // filter only the required key from the array of objects into an array of strings
+     //                          if (objOptions) {
+     //                               returnValue =
+     //                                    [...objOptionsMap.keys()].includes(key)
+     //                                         ? removeDuplicateAndCategorize(
+     //                                              val.map(el => el[objOptionsMap.get(key)]) // filter only the required key'values from the each element of array of objects and return an array of strings
+     //                                         )
+     //                                         : false;
+     //                          } else {
+     //                               returnValue = false;
+     //                          }
+
+
+     //                     }
+
+     //                     if (valDataType === 'array' && val.length === 0) {
+     //                          returnValue = [];
+     //                     }
+
+     //                     // TODO: Add support for nested objects of strings/numbers
+     //                     acc.push([key, returnValue]);
+     //                     return acc;
+     //                }, [])
+
+     //      return result
+
+     // }
+}
 export function summarizer(
      data = {},
-     arrOptions = false,
-     // * indicates at parent key of array of strings, the options to be used (default is concatenated)
-     /* arrOptions example:
-       [
-         ['commaTags', '___' ], //* 2nd param: concatenationSeparator, it is assumed that concatenation is required 
-         ['dailySalesRepeated', 'removeUnique']
-       ]
-      */
+     arrOptions = [/* 
+     [
+         ['commaTags', '___' ], //? concatenate AoS with ___ as separator
+         ['dailySalesRepeated', 'removeUnique'] //? categorize AoS
+          //? Other than this, every AoS will be concatenated with ', '
+          ['AoO_name', 'objKeyToCategorize']
+          //? And every AoO, will first be reduced to AoS (strings being the 'objKeyToCategorize'), then will be categorized 
+       ] */
+     ],
      objOptions = false
+
   // * indicates at parent key of objects, the child keys to be used
   /* objOptions example:
     [
@@ -694,59 +810,71 @@ export function summarizer(
      const arrOptionsMap = arrOptions && new Map(arrOptions);
      const objOptionsMap = objOptions && new Map(objOptions);
 
-     //todo: convert arrOptions & objOptions to a map
-
      const result = Object.entries(data)
           .reduce(
-               (acc, [key, val]/* , index, arr */) => {
+               (acc, [key, val], index/* , arr */) => {
                     let returnValue;
 
                     const valDataType = checkDataType(val);
 
                     // *String
                     if (valDataType !== 'array' && valDataType !== 'object') {
+                         console.log('index: ', index, 'key: ', key, '----  String');
                          returnValue = val;
                     }
 
                     // *Array of Strings
                     if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
+                         console.log('index: ', index, 'key: ', key, '---- Array of Strings');
 
-                         // check if the current key is in the arrOptionsMap'keys & if the value against that key is 'removeUnique'
-                         if (arrOptions) {
-                              returnValue =
-                                   [...arrOptionsMap.keys()].includes(key)
-                                        && arrOptionsMap.get(key) === 'removeUnique'
-                                        ? removeDuplicate(val)
-                                        : concatStrings(val, ', '); // ? concatenationSeparator= arrOptionsMap.get(key)
-                         } else {
-                              returnValue = concatStrings(val, ', ');
-                         }
+                         // If the key is in the arrOptionsMap, then value against that key would be the 'concatenateSeparator', unless the value is 'removeUnique'
+                         const arrOptionDefinedForKey = arrOptionsMap.get(key) || ', ';
+                         const shouldConcatenate = arrOptionDefinedForKey !== 'removeUnique';
+                         // Either concatenate or remove-duplicates-and-categorize the items
+                         returnValue = shouldConcatenate
+                              ? concatStrings(val, arrOptionDefinedForKey)
+                              : removeDuplicateAndCategorize(val);
                     }
 
-                    // *Array of Objects - required key is a string : 'name'
+                    // *Array of Objects 
                     if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
-                         // check if curKey matches any of the keys in the objOptionsMap otherwise return false
-                         // filter only the required key from the array of objects into an array of strings
-                         if (objOptions) {
-                              returnValue =
-                                   [...objOptionsMap.keys()].includes(key)
-                                        // && objOptionsMap.get(key) === 'removeUnique'
-                                        ? removeDuplicate(
-                                             val.map(el => el[objOptionsMap.get(key)]) // filter only the required key'values from the each element of array of objects and return an array of strings
-                                        )
-                                        : false;
-                         } else {
-                              returnValue = false;
-                         }
+                         console.log('index: ', index, 'key: ', key, '---- Array of Objects');
 
+
+                         const selectedKeyToCategorize = arrOptionsMap.get(key) || false;
+                         if (!selectedKeyToCategorize) return acc // Don't bother to return anything at all against the current-data-key, if no key is selected from the objects in AoO
+
+                         // filter only the required key'values from the each element of array of objects and return an array of strings
+                         returnValue = removeDuplicateAndCategorize(
+                              val.map(AoOitem => AoOitem[selectedKeyToCategorize])
+                         )
 
                     }
 
+                    // *Object 
+                    // TODO: review and add support for nested objects of strings/numbers
+                    if (valDataType === 'object') {
+                         returnValue = val
+                    }
+
+                    // *Object Options - key replacement
+                    // replace the key with the value of the objOptionsMap
+                    // Check:-
+                    // Is the current key included in objOptionsMap
+                    // If yes then get the value of map and replace the existing key with the value of map against the key
+                    if (objOptions) {
+                         const objOptionDefinedForKey = objOptionsMap.get(key) || false;
+                         if (objOptionDefinedForKey) {
+                              key = objOptionDefinedForKey;
+                              // returnValue = returnValue[objOptionDefinedForKey];
+                         }
+                    }
+
+                    // *Array with zero length
                     if (valDataType === 'array' && val.length === 0) {
                          returnValue = [];
                     }
 
-                    // TODO: Add support for nested objects of strings/numbers
                     acc.push([key, returnValue]);
                     return acc;
                }, [])

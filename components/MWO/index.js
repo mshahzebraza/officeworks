@@ -60,8 +60,6 @@ export default function MWOPageComp(pProps) {
      // Section: Fallback Rendering
      if (loading) return <Loader />
 
-     console.log('MWOlist', MWOlist);
-
      return (
           <Layout pageClasses={[styles.container]} >
 

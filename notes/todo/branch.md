@@ -27,12 +27,10 @@
 
 ## Current Task
 
-- Changed the MWOitemApollo functions to match the MWO CRUD operations
-- First item created in MWO is not shown properly. Solve this and check if the issue exists for PO as well
-- the latest addition in MWO itemlist is not populated properly.
-  - It looks like the moduleList passed in the populate function is not updated
+- Add support to summarizer to handle the 'false' as inputs to arrOptions or objOptions
+- Also add support for items in summary
 
-# Old Description
+## Old Description - Fiverr Gig
 
 As a team of professional web designer/developer we believe your online presence should be as unique as your business.
 
@@ -53,7 +51,7 @@ STANDARD Package: Beautiful responsive website made in WordPress (up to 5 pages)
 
 PREMIUM Package: You will get the same features as in Silver Package but unlimited pages + Offsite SEO which includes 10HQ backlinks that will help you to rank your site higher in search engines and e-Commerce or Membership functionality (if needed)
 
-## New Description
+## New Description - Fiverr Gig
 
 Hello! I am a Frontend React Web developer who builds Mobile-Friendly/ Responsive, Pixel-Perfect, beautiful, dynamic Websites and Web Applications with React JS.
 

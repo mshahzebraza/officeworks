@@ -44,24 +44,21 @@ export default function MWOdetailPageComp({ pageId = 'mwoId' }) {
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
           if (mwoState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
-               const x = mwoState.list.findIndex(mwo => mwo.mwoId === pageId)
-
                // Stop execution if item to be populated is not found
                const activeMWO = deepClone(mwoState.list.find(mwo => mwo.mwoId === pageId));
 
-               // ! here lies the error. The itemList sent to sub components is not populated. That is because the moduleState.list sent for population is not yet Complete. It doesn't contain the last added item.
                const populatedActiveMWO = populateActiveMWO(activeMWO, moduleState.list);
-
-               if (!populatedActiveMWO) return null
 
                setActiveMWOdata(populatedActiveMWO);
                setLoading(false);
+
+               if (!populatedActiveMWO) return null
           }
      }, [mwoState, moduleState])
 
      // Section: Fallback Rendering
      if (loading) return <Loader />
-     if (!activeMWOdata) return router.push('/404') && null;
+     if (!activeMWOdata) return router.push('/404?goto=procurement/mwo&caption=MWO%20List') && null;
 
      console.assert(!!activeMWOdata?.linkedModules, 'Must Not Happen')
 

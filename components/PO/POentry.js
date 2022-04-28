@@ -24,7 +24,7 @@ export default function POentry({
           index: 'Sr',
           refType: 'Ref Type',
           refId: 'Ref ID',
-          items: 'Items',
+          linkedModules: 'Items',
           status: 'Status',
      },
      header = false
@@ -34,17 +34,19 @@ export default function POentry({
 
      poData = header ? poData :
           Object.fromEntries(
-               summarizer(poData, false, [['items', 'name']], ['__v'])
+               summarizer(
+                    poData,
+                    [['linkedModules', 'name']],
+                    [/* ['items', 'name'] */],
+                    ['__v']
+               )
           )
 
-     const poItems = poData?.items;
+     const poItems = poData?.linkedModules;
 
-     // Removal of Duplicate Items
+     // Removal of Duplicate Items and categorization of items
      let itemsJSX;
-
-
      if (checkDataType(poItems) === 'array' && poItems?.length > 0) {
-
           // create the JSX for the items
           itemsJSX = poItems.map((el, idx) => {
                return <EntryItemName content={el.item} key={idx} />
@@ -52,7 +54,6 @@ export default function POentry({
      } else {
           itemsJSX = <EntryItemName isEmpty />
      }
-
 
      return (
           <>
@@ -114,7 +115,6 @@ export default function POentry({
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
                               {/* <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} /> */}
                               <Button caption='Detail' click={() => {
-                                   console.log('path: ', `po/${poData.refId}`);
                                    router.push(`po/${poData.refId}`)
                               }} />
                               <Button caption='Delete' click={() => deletePOHandler(poData._id)} />

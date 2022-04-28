@@ -1,12 +1,15 @@
 import Layout from '../components/Layout/Layout'
 import styles from '../styles/404.module.scss'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function defaultFallback(props) {
+     const router = useRouter()
+     const { query: { goto = '', caption = 'Home' }, isReady } = router;
+     if (!isReady) return <div>Router Loading...</div>
 
      return (
           // <Layout>
-
           <main className={styles.bg}  >
                <h1 className={styles.title}>
                     404
@@ -15,9 +18,9 @@ export default function defaultFallback(props) {
                     Page Not Found!
                </h2>
                <button className={styles.homeBtn}>
-                    <Link href='/' >
+                    <Link href={`/${goto}`} >
                          <a className={styles.link} >
-                              Go Home
+                              {`Go to ${caption}`}
                          </a>
                     </Link>
                </button>

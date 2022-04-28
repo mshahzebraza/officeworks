@@ -65,15 +65,16 @@ export function Summarize(
      }
 ) {
 
+     console.log('Summarize: ', data);
 
      // ? Convert obj to array of arrays
      data = summarizer(
           deepClone(data), // ? not to mutate the original data object (passed in as a state sometimes)
-          false,
+          [],
           // ? Fetch Nested Data keys using dataKeyOptions 
-          dataKeyOptions.toFetch ? dataKeyOptions.toFetch : false,
+          dataKeyOptions.toFetch ? dataKeyOptions.toFetch : [],
           // ? Delete Main Data Keys using dataKeyOptions
-          dataKeyOptions.toDelete ? dataKeyOptions.toDelete : false
+          dataKeyOptions.toDelete ? dataKeyOptions.toDelete : []
      )
 
      // ? Update Name of Main Keys to a different name using dataKeyOptions

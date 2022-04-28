@@ -27,7 +27,6 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           // 4: In the last (3rd) render, the loading and activePOdata state was changed (along with the transformation logic) therefore, the page rerenders again
           console.warn('The component renders 04 times on direct pageLoad.');
      }
-     console.log('po pageId', pageId);
      const router = useRouter();
      // Section: Component States
      const [loading, setLoading] = useState(true);
@@ -42,6 +41,7 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
           // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
           if (poState.fetched && moduleState.fetched) {
                // clearTimeout(loadingTimeout);
+               // Stop execution if item to be populated is not found
                const activePO = deepClone(poState.list.find(mwo => mwo.refId === pageId));
 
                const populatedActivePO = populateActivePO(activePO, moduleState.list);
@@ -49,12 +49,13 @@ export default function POdetailPageComp({ pageId = 'refId' }) {
                setActivePOdata(populatedActivePO);
                setLoading(false);
 
+               if (!populatedActivePO) return null
           }
      }, [poState, moduleState])
 
      // Section: Fallback Rendering
      if (loading) return <Loader />
-     if (!activePOdata) return router.push('/404') && null;
+     if (!activePOdata) return router.push('/404?goto=procurement/po&caption=PO%20List') && null;
 
      console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
 

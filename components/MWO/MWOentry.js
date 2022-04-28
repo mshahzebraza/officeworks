@@ -1,7 +1,7 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { checkDataType, summarizer } from '../../helpers/reusable';
+import { checkDataType, summarizerNew2 } from '../../helpers/reusable';
 
 // Store & Styles
 import styles from './MWOentry.module.scss';
@@ -22,7 +22,7 @@ export default function MWOentryBar({
           index: 'Sr',
           mwoId: 'MWO ID',
           title: 'Title',
-          itemName: 'Item Name',
+          items: 'Items',// linkedModules was swapped with Items keyName using summarizerNew2
           qty: 'Qty',
           application: 'Application',
           status: 'Status'
@@ -32,26 +32,36 @@ export default function MWOentryBar({
      const router = useRouter()
 
      mwoData = header ? mwoData :
-          Object.fromEntries(
-               summarizer(
-                    mwoData,
-                    [['linkedModules', 'name']],
-                    [['linkedModules', 'itemName']],
-                    ['__v']
-               )
+          summarizerNew2(
+               mwoData,
+               {
+                    replaceKeys: [['linkedModules', 'items']], //? keyName "linkedModules" must be changed to itemName 
+                    deleteKeys: ['__v'],
+                    array: {
+                         categorizeKeys: [],
+                         concatenateKeys: []
+                    },
+                    nestedArrayOfObjects: [['linkedModules', 'name']]
+               }
           )
 
-     const mwoItems = mwoData?.itemName;
-     // Removal of Duplicate Items and categorization of items
-     let itemsJSX;
-     if (checkDataType(mwoItems) === 'array' && mwoItems?.length > 0) {
-          // create the JSX for the items
-          itemsJSX = mwoItems.map((el, idx) => {
-               return <EntryItemName content={el.item} key={idx} />
-          })
-     } else {
-          itemsJSX = <EntryItemName isEmpty />
+     let mwoItems = mwoData?.items; // default for header, data will be string
+
+     if (!header) {// data will be AoOs
+          if (checkDataType(mwoItems) === 'array' && mwoItems?.length > 0) {
+               mwoItems = mwoItems.map((el, idx) => {
+                    return <EntryItemName content={el.item} key={idx} />
+               })
+          } else {
+               mwoItems = <EntryItemName isEmpty />
+          }
      }
+
+     // ? extra line for mwoEntry
+     // Due to this line, the mwoData will always show only one item. (remove this and change mwoItem to mwoItems in DataRowItem)
+     const mwoItem = header ? mwoItems : mwoItems?.[0]
+
+
 
      return (
           <>
@@ -65,7 +75,7 @@ export default function MWOentryBar({
                     {/* MWO Title */}
                     <DataRowItem flex={5} outerClasses={[styles.entryTitle]} content={mwoData.title} />
                     {/* MWO Item Name */}
-                    <DataRowItem flex={3} outerClasses={[styles.entryItemName]} content={header ? mwoItems : itemsJSX} />
+                    <DataRowItem flex={3} outerClasses={[styles.entryItemName]} content={mwoItem} />
 
 
                     {/* MWO Qty */}

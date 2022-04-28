@@ -1,7 +1,7 @@
 // Dependency
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { checkDataType, summarizer, toCamelCase } from '../../helpers/reusable'
+import { checkDataType, summarizer, summarizerNew2, toCamelCase } from '../../helpers/reusable'
 // import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
@@ -24,36 +24,39 @@ export default function POentry({
           index: 'Sr',
           refType: 'Ref Type',
           refId: 'Ref ID',
-          linkedModules: 'Items',
+          items: 'Items', // linkedModules was swapped with items keyName using summarizerNew2
           status: 'Status',
      },
      header = false
 }) {
 
      const router = useRouter()
-
      poData = header ? poData :
-          Object.fromEntries(
-               summarizer(
-                    poData,
-                    [['linkedModules', 'name']],
-                    [/* ['items', 'name'] */],
-                    ['__v']
-               )
+          summarizerNew2(
+               poData,
+               {
+                    replaceKeys: [['linkedModules', 'items']],//? keyName "linkedModules" must be changed to itemName 
+                    deleteKeys: ['__v'],
+                    array: {
+                         categorizeKeys: [],
+                         concatenateKeys: []
+                    },
+                    nestedArrayOfObjects: [['linkedModules', 'name']]
+               }
           )
 
-     const poItems = poData?.linkedModules;
+     let poItems = poData?.items; // default for header, data will be string
 
-     // Removal of Duplicate Items and categorization of items
-     let itemsJSX;
-     if (checkDataType(poItems) === 'array' && poItems?.length > 0) {
-          // create the JSX for the items
-          itemsJSX = poItems.map((el, idx) => {
-               return <EntryItemName content={el.item} key={idx} />
-          })
-     } else {
-          itemsJSX = <EntryItemName isEmpty />
+     if (!header) {// data will be AoOs
+          if (checkDataType(poItems) === 'array' && poItems?.length > 0) {
+               poItems = poItems.map((el, idx) => {
+                    return <EntryItemName content={el.item} key={idx} />
+               })
+          } else {
+               poItems = <EntryItemName isEmpty />
+          }
      }
+
 
      return (
           <>
@@ -85,7 +88,7 @@ export default function POentry({
                     <DataRowItem
                          flex={5}
                          outerClasses={[styles.entryItemList]}
-                         content={header ? poItems : itemsJSX}
+                         content={poItems}
                     />
 
                     {/* PO Status */}

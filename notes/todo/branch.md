@@ -27,7 +27,7 @@
 
 ## Current Task
 
-- Add support to summarizer to handle the 'false' as inputs to arrOptions or objOptions
+- Add support to summarizer to handle the 'false' as inputs to arrOptions or objOptions - done
 - Also add support for items in summary
 
 ## Old Description - Fiverr Gig

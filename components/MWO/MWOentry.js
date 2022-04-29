@@ -22,7 +22,7 @@ export default function MWOentryBar({
           index: 'Sr',
           mwoId: 'MWO ID',
           title: 'Title',
-          items: 'Items',// linkedModules was swapped with Items keyName using summarizerNew2
+          linkedModules: 'Item Name',// linkedModules was swapped with Items keyName using summarizerNew2
           qty: 'Qty',
           application: 'Application',
           status: 'Status'
@@ -35,7 +35,7 @@ export default function MWOentryBar({
           summarizerNew2(
                mwoData,
                {
-                    replaceKeys: [['linkedModules', 'items']], //? keyName "linkedModules" must be changed to itemName 
+                    // replaceKeys: [['linkedModules', 'items']], //? keyName "linkedModules" must be changed to itemName 
                     deleteKeys: ['__v'],
                     array: {
                          categorizeKeys: [],
@@ -45,21 +45,21 @@ export default function MWOentryBar({
                }
           )
 
-     let mwoItems = mwoData?.items; // default for header, data will be string
+     let mwoModules = mwoData?.linkedModules; // default for header, data will be string
 
      if (!header) {// data will be AoOs
-          if (checkDataType(mwoItems) === 'array' && mwoItems?.length > 0) {
-               mwoItems = mwoItems.map((el, idx) => {
+          if (checkDataType(mwoModules) === 'array' && mwoModules?.length > 0) {
+               mwoModules = mwoModules.map((el, idx) => {
                     return <EntryItemName content={el.item} key={idx} />
                })
           } else {
-               mwoItems = <EntryItemName isEmpty />
+               mwoModules = <EntryItemName isEmpty />
           }
      }
 
      // ? extra line for mwoEntry
-     // Due to this line, the mwoData will always show only one item. (remove this and change mwoItem to mwoItems in DataRowItem)
-     const mwoItem = header ? mwoItems : mwoItems?.[0]
+     // Due to this line, the mwoData will always show only one item. (remove this and change mwoItem to mwoModules in DataRowItem)
+     const mwoItem = header ? mwoModules : mwoModules?.[0]
 
 
 

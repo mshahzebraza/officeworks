@@ -1,4 +1,4 @@
-import { checkDataType, deepClone, replaceKeysMap, summarizer, toSentenceCase } from "../../../helpers/reusable";
+import { checkDataType, deepClone, replaceKeysMap, summarizer, summarizerNew2, toSentenceCase } from "../../../helpers/reusable";
 import DetailItem from "../../Detail&Summary/DetailItem";
 import styles from './Summarize.module.scss'
 
@@ -56,43 +56,42 @@ function SummaryItem({ field = 'noField', value = 'noValue', isList = false }) {
 export function Summarize(
      {
           data,
-          OwnSummaryItem = SummaryItem, // if true, will use SummaryItem as a child. Use When custom entries are required
+          //? if true, will use SummaryItem as a child. Use When custom entries are required
+          CustomSummaryItem = SummaryItem,
+          //? Only pass the keys which are available in the data. 
           dataKeyOptions = {
-               toDelete: false, // array of strings // ['keyToDelete'] // TODO: Improve to delete nested data later
-               toFetch: false, // array of array of strings // [['objKey', 'nestedKeyToFetch']]
-               toUpdate: false // array of array of strings // [['keyToUpdate', 'replacementValue']]
+               //? Will not show in the final Summary Modal
+               toDelete: [], // array of strings // ['keyToDelete'] 
+               //? Any nested Keys from AoOs to be categorized and shown in the final Summary Modal
+               toFetch: [], // array of array of strings // [['objKey', 'nestedKeyToFetch']]
+               //? to Replace keys with new ones in the final Summary Modal
+               toUpdate: [] // array of array of strings // [['keyToUpdate', 'replacementValue']]
           }
      }
 ) {
 
-     console.log('Summarize: ', data);
 
-     // ? Convert obj to array of arrays
-     data = summarizer(
-          deepClone(data), // ? not to mutate the original data object (passed in as a state sometimes)
-          [],
-          // ? Fetch Nested Data keys using dataKeyOptions 
-          dataKeyOptions.toFetch ? dataKeyOptions.toFetch : [],
-          // ? Delete Main Data Keys using dataKeyOptions
-          dataKeyOptions.toDelete ? dataKeyOptions.toDelete : []
+     data = summarizerNew2(
+          deepClone(data),
+          {
+               replaceKeys: dataKeyOptions.toUpdate, //? keyName "linkedModules" must be changed to itemName 
+               deleteKeys: dataKeyOptions.toDelete,
+               array: {
+                    categorizeKeys: [],
+                    concatenateKeys: []
+               },
+               nestedArrayOfObjects: dataKeyOptions.toFetch
+          }
      )
-
-     // ? Update Name of Main Keys to a different name using dataKeyOptions
-     if (dataKeyOptions?.toUpdate) {
-          data = replaceKeysMap(
-               data,
-               dataKeyOptions.toUpdate
-          )
-     }
 
 
      return (<div className={styles.body}>
           {
-               data
+               Object.entries(data)
                     .map(
                          ([itemField, itemValue], index) => {
                               return (
-                                   <OwnSummaryItem
+                                   <CustomSummaryItem
                                         key={index}
                                         field={toSentenceCase(itemField)}
                                         value={itemValue}

@@ -24,7 +24,7 @@ export default function POentry({
           index: 'Sr',
           refType: 'Ref Type',
           refId: 'Ref ID',
-          items: 'Items', // linkedModules was swapped with items keyName using summarizerNew2
+          linkedModules: 'Items', // linkedModules was swapped with items keyName using summarizerNew2
           status: 'Status',
      },
      header = false
@@ -35,7 +35,7 @@ export default function POentry({
           summarizerNew2(
                poData,
                {
-                    replaceKeys: [['linkedModules', 'items']],//? keyName "linkedModules" must be changed to itemName 
+                    // replaceKeys: [['linkedModules', 'items']],//? keyName "linkedModules" must be changed to itemName 
                     deleteKeys: ['__v'],
                     array: {
                          categorizeKeys: [],
@@ -45,15 +45,16 @@ export default function POentry({
                }
           )
 
-     let poItems = poData?.items; // default for header, data will be string
+     console.log('poData', poData);
+     let poModules = poData?.linkedModules; // default for header, data will be string
 
      if (!header) {// data will be AoOs
-          if (checkDataType(poItems) === 'array' && poItems?.length > 0) {
-               poItems = poItems.map((el, idx) => {
+          if (checkDataType(poModules) === 'array' && poModules?.length > 0) {
+               poModules = poModules.map((el, idx) => {
                     return <EntryItemName content={el.item} key={idx} />
                })
           } else {
-               poItems = <EntryItemName isEmpty />
+               poModules = <EntryItemName isEmpty />
           }
      }
 
@@ -88,7 +89,7 @@ export default function POentry({
                     <DataRowItem
                          flex={5}
                          outerClasses={[styles.entryItemList]}
-                         content={poItems}
+                         content={poModules}
                     />
 
                     {/* PO Status */}

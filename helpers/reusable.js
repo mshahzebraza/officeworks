@@ -916,7 +916,7 @@ export function summarizerNew2(
 
                          const nestedCtgKey = arrNestedMap.get(key);
                          if (!nestedCtgKey) {
-                              console.error('No categorization options found for key:');
+                              console.error('No categorization options found for key: ', key);
                               // returnValue = val; //? if you want to keep the AoO data intact
                               return acc //? if you want to remove the array of objects in the final data
                          }

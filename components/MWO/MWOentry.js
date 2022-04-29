@@ -72,11 +72,11 @@ export default function MWOentryBar({
                     {/* MWO ID */}
                     <DataRowItem flex={1.5} outerClasses={[styles.entryMWOid]} content={mwoData.mwoId} />
 
-                    {/* MWO Title */}
-                    <DataRowItem flex={5} outerClasses={[styles.entryTitle]} content={mwoData.title} />
                     {/* MWO Item Name */}
                     <DataRowItem flex={3} outerClasses={[styles.entryItemName]} content={mwoItem} />
 
+                    {/* MWO Title */}
+                    <DataRowItem flex={5} outerClasses={[styles.entryTitle]} content={mwoData.title} />
 
                     {/* MWO Qty */}
                     {/* //TODO: Use of 'Qty' would not be justified if multiple items are order against a single MWO. So its not that reusable for future */}

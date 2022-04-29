@@ -55,6 +55,8 @@ export const createMWO = CatchAsyncErrors(async (req, res) => {
 
      res.status(200).json({
           success: true,
+          error: null,
+          message: 'MWO created successfully',
           data: { createdMWO }
      })
 
@@ -75,7 +77,15 @@ export const updateMWO = CatchAsyncErrors(async (req, res) => {
      if (!updatedMWO) throw new Error('Unsuccessful to update MWO')
      res.status(200).json({
           success: true,
+          error: null,
+          message: 'MWO updated successfully',
           data: { updatedMWO }
      })
 
 });
+/* 
+ success: true,
+          error: null,
+          message: 'MWO deleted successfully',
+          data: { deletedMWO }
+ */

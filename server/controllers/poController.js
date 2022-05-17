@@ -35,11 +35,12 @@ export const deletePO = CatchAsyncErrors(async (req, res) => {
      const { poUUID } = req.query;
      if (!poUUID) throw new Error('Please provide a valid poUUID')
 
+     // ?? delete/unlink all linked items from the deleted PO
      const deletedPO = await poModel.findByIdAndDelete(poUUID, { new: true });
-     // TODO: delete/unlink all linked items from the deleted PO
 
      // if deletion fails, return error
      if (!deletedPO) throw new Error('Unsuccessful to delete PO!')
+
      // return success message
      res.status(200).json({
           success: true,
@@ -88,6 +89,7 @@ export const updatePO = CatchAsyncErrors(async (req, res) => {
      return res.status(200).json({
           success: true,
           message: "PO updated successfully",
-          data: { updatedPO }
+          data: { updatedPO },
+          error: null
      })
 });

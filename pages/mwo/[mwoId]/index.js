@@ -3,29 +3,29 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 
 import React, { useEffect } from 'react';
-import POdetailPageComp from '../../../../components/PO/Detail/indexDetail.js';
+import MWOdetailPageComp from '../../../components/MWO/Detail/indexDetail.js';
 
 // use getServerSideProps to get the pageId from the url
 export async function getServerSideProps({ params }) {
-     const refId = params.refId;
+     const mwoId = params.mwoId;
      return {
           props: {
-               refId
+               mwoId
           }
      }
 }
 
 // Rendering frontend
-const POdetailPage = ({ refId }) => {
+const MWOdetailPage = ({ mwoId }) => {
 
      return (
-          <POdetailPageComp pageId={refId || ''} />
+          <MWOdetailPageComp pageId={mwoId || ''} />
      )
-     // const { query: { refId }, isReady } = useRouter();
+     // const { query: { mwoId }, isReady } = useRouter();
      // return (
      //      isReady ?
-     //           <POdetailPageComp pageId={refId || ''} />
+     //           <MWOdetailPageComp pageId={mwoId || ''} />
      //           : <div>Router Loading...</div>
      // )
 }
-export default POdetailPage;
+export default MWOdetailPage;

@@ -45,7 +45,6 @@ export default function POentry({
                }
           )
 
-     console.log('poData', poData);
      let poModules = poData?.linkedModules; // default for header, data will be string
 
      if (!header) {// data will be AoOs

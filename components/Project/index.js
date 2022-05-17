@@ -20,50 +20,50 @@ import projectApollo from '../../lib/apollo_client/projectApollo'
 
 
 export default function ProjectPageComp() {
-  // Fetching all the Projects data
-  // const projectList = useSelector(state => state.projectList)
+     // Fetching all the Projects data
+     // const projectList = useSelector(state => state.projectList)
 
-  const [filterState, setFilterState] = useState(false)
+     const [filterState, setFilterState] = useState(false)
 
-  const [activeProjectIndex, setActiveProjectIndex] = useState(false)
+     const [activeProjectIndex, setActiveProjectIndex] = useState(false)
 
-  let filteredProjects = useReactiveVar(projectApollo);
+     let filteredProjects = useReactiveVar(projectApollo);
 
-  // Filtering Projects w.r.t search ID 
-  if (filterState) {
-    filteredProjects = filteredProjects?.filter((curProject) => {
-      return curProject.summary?.nomenclature?.toLocaleLowerCase().includes(filterState?.toLocaleLowerCase());
-    });
-  }
+     // Filtering Projects w.r.t search ID 
+     if (filterState) {
+          filteredProjects = filteredProjects?.filter((curProject) => {
+               return curProject.summary?.nomenclature?.toLocaleLowerCase().includes(filterState?.toLocaleLowerCase());
+          });
+     }
 
-  // Fetching data of selected Project Id (highlighted in the SideNav)
-  const activeProject = filteredProjects?.[activeProjectIndex];
-
-
-  return (
-    <Layout pageClasses={[styles.container]}>
-      <section className={concatStrings([`pageHeader`, styles.header])}>
-
-        <h1 className={`pageTitle`} > sProjects</h1>
-        <SearchInput stateVariables={[filterState, setFilterState]} />
-        <ModalButton caption='Add Project' ModalComponent={ProjectSummary_Form} />
-
-      </section>
-
-      <SideNav
-        outerClasses={[styles.sideNav]}
-        list={filteredProjects}
-        projectIndexStates={[activeProjectIndex, setActiveProjectIndex]}
-      // detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
-      // detailSummaryStates={[activeProjectIndex, setActiveProjectIndex]}
-      />
-      <ProjectDetail
-        outerClasses={[styles.body]}
-        activeProjectData={activeProject}
-      />
+     // Fetching data of selected Project Id (highlighted in the SideNav)
+     const activeProject = filteredProjects?.[activeProjectIndex];
 
 
+     return (
+          <Layout pageClasses={[styles.container]}>
+               <section className={concatStrings([`pageHeader`, styles.header])}>
 
-    </Layout>
-  )
+                    <h1 className={`pageTitle`} > Projects</h1>
+                    <SearchInput stateVariables={[filterState, setFilterState]} />
+                    <ModalButton caption='Add Project' ModalComponent={ProjectSummary_Form} />
+
+               </section>
+
+               <SideNav
+                    outerClasses={[styles.sideNav]}
+                    list={filteredProjects}
+                    projectIndexStates={[activeProjectIndex, setActiveProjectIndex]}
+               // detailSummaryStates={[activeProjectTypeIndex, setActiveProjectTypeIndex, activeProjectIndex, setActiveProjectIndex]}
+               // detailSummaryStates={[activeProjectIndex, setActiveProjectIndex]}
+               />
+               <ProjectDetail
+                    outerClasses={[styles.body]}
+                    activeProjectData={activeProject}
+               />
+
+
+
+          </Layout>
+     )
 }

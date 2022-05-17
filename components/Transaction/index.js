@@ -20,56 +20,84 @@ import transactionApollo from '../../lib/apollo_client/transactionApollo'
 // import delete txn handler from apollo client
 import Button from '../UI/Button';
 import TxnEntry from './TxnEntry'
+import Loader from '../Loader'
 
 
 export default function TransactionPageComp(pProps) {
 
-  // const dispatch = useDispatch();
-  const [filterState, setFilterState] = useState(false)
-
-  const filteredTxnList = useReactiveVar(transactionApollo)
-
-  if (filterState) {
-    // Filtering Projects w.r.t search ID (Case Insensitive)
-    filteredTxnList = filteredTxnList.filter((curTxn) => curTxn.product.toLocaleLowerCase().includes(filterState.toLocaleLowerCase()));
-  }
-
-  // useEffect(() => {
-  // dispatch(fetchTransactions_Thunk()) // resets the PO & MWO transactions
-  // }, [dispatch]);
 
 
+     // Section: Component States
+     // initialize component state
+     const [searchInput, setSearchInput] = useState(false)
+     const [transactionList, setTransactionList] = useState(null)
+     const [loading, setLoading] = useState(true);
+     const TransactionState = useReactiveVar(transactionApollo)
 
 
-  return (
-    <Layout pageClasses={[styles.container]}>
-      <section className={concatStrings([`pageHeader`, styles.header])}>
+     // Section: State Transforms
+     useEffect(() => {
+          // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
+          // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
+          if (TransactionState.fetched) {
+               // clearTimeout(loadingTimeout);
+               setLoading(false);
+               setTransactionList(TransactionState.list)
 
-        <h1 className={`pageTitle`} > Transaction</h1>
-        <SearchInput placeholder='Search by product' stateVariables={[filterState, setFilterState]} />
-        <ModalButton caption='Add Transaction' ModalComponent={Transaction_Form} />
-
-      </section>
-
-      <section className='pageBody'>
-        <TxnEntry
-          header={true}
-        />
-        {
-          filteredTxnList?.map((txn, idx) => {
-            return <TxnEntry
-              key={idx}
-              txnIndex={idx}
-              txnData={txn}
-            />
-          })
-        }
-
-      </section>
+               //? Apply search filter to Limit the Transaction list to search results
+               if (searchInput) {
+                    // Filtering Projects w.r.t search ID (Case Insensitive)
+                    setTransactionList((prevTransactionList) =>
+                         prevTransactionList.filter(txn =>
+                              txn.product
+                                   .toLowerCase()
+                                   .includes(
+                                        searchInput.toLowerCase()
+                                   )
+                         )
+                    )
+               }
+          }
+     }, [TransactionState, searchInput])
 
 
-    </Layout>
-  )
+     // Section: Fallback Rendering
+     if (loading) return <Loader />
+
+
+     console.log('test: transactionList', transactionList);
+     console.assert(!!transactionList, 'No POlist. Must never happen.') // ?should never happen
+
+
+     return (
+          <Layout pageClasses={[styles.container]}>
+               <section className={concatStrings([`pageHeader`, styles.header])}>
+
+                    <h1 className={`pageTitle`} > Transaction</h1>
+                    <SearchInput placeholder='Search by product' stateVariables={[searchInput, setSearchInput]} />
+                    <ModalButton caption='Add Transaction' ModalComponent={Transaction_Form} />
+
+               </section>
+
+               <section className='pageBody'>
+                    <TxnEntry
+                         header={true}
+                    />
+                    {
+                         transactionList?.map((txn, idx) => {
+                              return <TxnEntry
+                                   key={idx}
+                                   txnIndex={idx}
+                                   txnData={txn}
+                              />
+                         })
+                    }
+
+               </section>
+
+
+          </Layout>
+     )
 
 
 }

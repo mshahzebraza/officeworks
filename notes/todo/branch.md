@@ -27,8 +27,13 @@
 
 ## Current Task
 
-- Add support to summarizer to handle the 'false' as inputs to arrOptions or objOptions - done
-- Also add support for items in summary
+- Look into closing logic for PO and MWO entries. Closing PO throws an error
+  - Closing of PO entries especially
+  - Also make use of "request" helper instead of "httpParams" ???
+- Transaction Delete Check
+  - Apollo is good.
+  - Checking BE ...
+  - Implementing the new fetched+list structure in TxnPageComp similar to POPageComp ...
 
 ## Old Description - Fiverr Gig
 

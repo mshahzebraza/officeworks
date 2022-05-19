@@ -8,7 +8,7 @@ import styles from './MWOentry.module.scss';
 
 // Components
 import MWO_Summary from './MWO_Summary'
-import MWO_Form from './Forms/MWO_Form';
+import Source_Form from '../Procurement/Forms/Source_Form';
 import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
@@ -103,7 +103,7 @@ export default function MWOentryBar({
                          flex={4}
                          outerClasses={[styles.entryControls]}
                          content={<>
-                              <ModalButton caption='Edit' ModalComponent={MWO_Form} disabled={mwoData.status === 'Closed'} activeMWOdata={mwoData} />
+                              <ModalButton caption='Edit' ModalComponent={Source_Form} sourceType='mwo' disabled={mwoData.status === 'Closed'} data={mwoData} />
                               <ModalButton caption='Summary' ModalComponent={MWO_Summary} mwoData={mwoData} />
                               <Button caption='Detail' click={() => router.push(`mwo/${mwoData.mwoId}`)} />
                               <Button caption='Delete' click={() => deleteMWOHandler(mwoData._id)} />

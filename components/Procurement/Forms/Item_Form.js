@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 // Store & Styles
-import moduleApollo, { addPOitemHandler, updatePOitemHandler } from '../../../lib/apollo_client/poItemApollo'
+import moduleApollo, { addMWOmoduleHandler, addPOmoduleHandler, updateMWOmoduleHandler, updatePOmoduleHandler } from '../../../lib/apollo_client/moduleApollo'
 
 // Components
 import Portal from '../../UI/Portal'
@@ -14,14 +14,13 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
-import { addMWOitemHandler, updateMWOitemHandler } from '../../../lib/apollo_client/mwoItemApollo'
 
 
 export default function Item_Form({ closer: modalCloser, activeSourceId, data: activeItemData = {}, sourceType = 'po' }) {
 
      const moduleState = moduleApollo();
      const isNewSubmission = isObjEmpty(activeItemData); // is item a non-empty object
-
+     console.log('moduleState.list', moduleState.list);
 
      const formData = (sourceType === 'po')
           ? {
@@ -65,8 +64,8 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     }],
                },
                submitHandlers: {
-                    add: addPOitemHandler,
-                    update: updatePOitemHandler,
+                    add: addPOmoduleHandler,
+                    update: updatePOmoduleHandler,
                }
           }
           : {
@@ -104,8 +103,8 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     }],
                },
                submitHandlers: {
-                    add: addMWOitemHandler,
-                    update: updateMWOitemHandler,
+                    add: addMWOmoduleHandler,
+                    update: updateMWOmoduleHandler,
                }
           }
 

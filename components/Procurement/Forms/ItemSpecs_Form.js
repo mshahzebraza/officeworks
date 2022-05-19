@@ -12,8 +12,8 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { cloneAndPluck, deepClone, isObjEmpty } from '../../../helpers/reusable'
-import moduleApollo, { updateItemSpecHandler } from '../../../lib/apollo_client/poItemApollo'
-import { getObjectWithValuesAt, moduleSpecificKeys, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
+import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_client/moduleApollo'
+import { getObjectWithValuesAt, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
 export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} }) {
@@ -108,7 +108,7 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
           // append the remaining mainSpecFields to valuesObject
           const completeSpecs = { specs: specificationsObject, ...mainSpecFields }
 
-          updateItemSpecHandler([completeSpecs])
+          updateModuleSpecHandler([completeSpecs])
           resetForm();
           closer()
      }

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { cloneAndPluck, deepClone } from '../../../helpers/reusable'
 import { useRouter } from 'next/router'
 import { useReactiveVar } from '@apollo/client'
-import moduleApollo from '../../../lib/apollo_client/poItemApollo'
+import moduleApollo from '../../../lib/apollo_client/moduleApollo'
 import poApollo from '../../../lib/apollo_client/poApollo'
 
 // Store & Styles

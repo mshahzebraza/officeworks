@@ -15,7 +15,7 @@ import SearchInput from '../UI/SearchInput';
 
 import { useReactiveVar } from "@apollo/client";
 import poApollo from '../../lib/apollo_client/poApollo';
-import moduleApollo from '../../lib/apollo_client/poItemApollo';
+import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { populateLinkedModules } from '../../helpers/specific';

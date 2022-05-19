@@ -4,10 +4,7 @@ import { isObjEmpty, toSentenceCase, transformEntries, genLog, cloneAndPluck, co
 
 // Store & Styles
 import styles from './ItemDetail.module.scss'
-import { deleteMWOitemHandler } from '../../../lib/apollo_client/mwoItemApollo';
-import moduleApollo, { deletePOitemHandler } from '../../../lib/apollo_client/poItemApollo';
-
-
+import moduleApollo, { deleteMWOmoduleHandler, deletePOmoduleHandler } from '../../../lib/apollo_client/moduleApollo';
 
 // Components
 
@@ -87,8 +84,8 @@ function NavControls({ existingModuleData, activeSourceId, sourceType = 'po' }) 
                     caption='Delete Item'
                     disabled={!existingModuleData}
                     click={sourceType === 'po'
-                         ? () => deletePOitemHandler([activeSourceId, existingModuleData?.id])
-                         : () => deleteMWOitemHandler([activeSourceId, existingModuleData?.id])
+                         ? () => deletePOmoduleHandler([activeSourceId, existingModuleData?.id])
+                         : () => deleteMWOmoduleHandler([activeSourceId, existingModuleData?.id])
                     }
                />
                <ModalButton

@@ -8,13 +8,13 @@ import { useReactiveVar } from '@apollo/client';
 import mwoApollo from '../../lib/apollo_client/mwoApollo';
 
 // Components
-import MWO_Form from './Forms/MWO_Form';
+import Source_Form from '../Procurement/Forms/Source_Form';
 import MWOentry from './MWOentry'
 import Layout from '../Layout/Layout';
 import { checkDataType, deepClone } from '../../helpers/reusable';
 import ModalButton from '../UI/ModalButton';
 import SearchInput from '../UI/SearchInput';
-import moduleApollo from '../../lib/apollo_client/poItemApollo';
+import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { populateLinkedModules } from '../../helpers/specific';
 import Loader from '../Loader';
 
@@ -66,7 +66,7 @@ export default function MWOPageComp(pProps) {
                <section className={`pageHeader`}>
                     <h1 className={`pageTitle`} > Mfg Work Orders</h1>
                     <SearchInput stateVariables={[searchInput, setSearchInput]} />
-                    <ModalButton caption='Add MWO' ModalComponent={MWO_Form} />
+                    <ModalButton caption='Add MWO' ModalComponent={Source_Form} sourceType='mwo' />
                </section>
 
                <section className={`pageBody`} >

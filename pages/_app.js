@@ -10,7 +10,7 @@ import poApollo from '../lib/apollo_client/poApollo';
 import mwoApollo from '../lib/apollo_client/mwoApollo';
 import projectApollo from '../lib/apollo_client/projectApollo';
 import transactionApollo from '../lib/apollo_client/transactionApollo';
-import moduleApollo from '../lib/apollo_client/poItemApollo';
+import moduleApollo from '../lib/apollo_client/moduleApollo';
 
 import { useEffect } from 'react';
 import { httpParams, request } from '../helpers/reusable';

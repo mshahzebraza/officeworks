@@ -112,9 +112,11 @@ export default function POentry({
                          outerClasses={[styles.entryControls]}
                          content={<>
                               <>{ //? Following attributes can also be added to ModalButton
-                              /* tooltip='Edit' */ /* disabled={poData.status === 'Closed'} */ /* invalidReason={'Closed PO cannot be edited'} */}
+                              /* tooltip='Edit' */
+                              /* disabled={poData.status === 'Closed'} */
+                              /* invalidReason={'Closed PO cannot be edited'} */}
                               </>
-                              <ModalButton caption='Edit' ModalComponent={Source_Form} data={poData} sourceType='po' />
+                              <ModalButton caption='Edit' ModalComponent={Source_Form} disabled={poData.status === 'Closed'} data={poData} sourceType='po' />
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
                               {/* <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} /> */}
                               <Button caption='Detail' click={() => {

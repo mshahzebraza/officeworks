@@ -103,7 +103,7 @@ export default function MWOentryBar({
                          flex={4}
                          outerClasses={[styles.entryControls]}
                          content={<>
-                              <ModalButton caption='Edit' ModalComponent={MWO_Form} activeMWOdata={mwoData} />
+                              <ModalButton caption='Edit' ModalComponent={MWO_Form} disabled={mwoData.status === 'Closed'} activeMWOdata={mwoData} />
                               <ModalButton caption='Summary' ModalComponent={MWO_Summary} mwoData={mwoData} />
                               <Button caption='Detail' click={() => router.push(`mwo/${mwoData.mwoId}`)} />
                               <Button caption='Delete' click={() => deleteMWOHandler(mwoData._id)} />

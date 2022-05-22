@@ -16,30 +16,29 @@ import DetailItem from '../../Detail&Summary/DetailItem'
 
 export default function SideNav({ list = [], outerClasses = [], projectIndexStates }) {
 
-  return (
+     return (
 
-    <section className={concatStrings([styles.nav, ...outerClasses])} >
+          <section className={concatStrings([styles.nav, ...outerClasses])} >
 
-      <Detail
-        title={'Projects'}
-        defaultOpen
-      >
-        {
-          list.length > 0 && list.map(
-            (project, projectIndex) =>
-              <DetailItem
-                key={projectIndex}
-                detailItemId={projectIndex}
-                detailItemStates={projectIndexStates}
-              >
-                {project && project.summary && project.summary.nomenclature}
+               <Detail
+                    title={'Projects'}
+                    defaultOpen
+               >
+                    {
+                         list.length > 0 && list.map(
+                              (project, projectIndex) =>
+                                   <DetailItem
+                                        key={projectIndex}
+                                        detailItemId={projectIndex}
+                                        detailItemStates={projectIndexStates}
+                                   >
+                                        {project?.summary?.nomenclature}
+                                   </DetailItem>
 
-              </DetailItem>
+                         )
+                    }
+               </Detail>
 
-          )
-        }
-      </Detail>
-
-    </section >
-  )
+          </section >
+     )
 }

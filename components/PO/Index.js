@@ -60,7 +60,6 @@ export default function POpageComp(pProps) {
 
           }
      }, [POstate, ModuleState, searchInput])
-     // }, [poApollo(), moduleApollo(), searchInput])
 
 
      // Section: Fallback Rendering

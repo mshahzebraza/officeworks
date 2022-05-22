@@ -54,6 +54,7 @@ export const deletePO = CatchAsyncErrors(async (req, res) => {
 export const createPO = CatchAsyncErrors(async (req, res) => {
 
      const { poData } = req.body;
+     if (!poData) throw new Error('Please provide a valid poData')
      // create method
      const createdPO = await poModel.create(poData)
 

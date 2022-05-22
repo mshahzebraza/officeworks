@@ -397,9 +397,10 @@ export function superArray(itemCount = 10, prefix = 'prefix', suffixDigits = 3, 
      return Array(itemCount)
           .fill(initialValue)
           .map(
-               (_, idx) => (
-                    `${prefix}${separator}${setDigits((indexShift + idx + 1), suffixDigits)}`
-               )
+               (_, idx) => (`${prefix}${separator}${setDigits(
+                    (indexShift + idx + 1),
+                    suffixDigits
+               )}`)
           )
 }
 

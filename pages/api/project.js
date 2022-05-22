@@ -1,12 +1,12 @@
+
 import {
-  fetchProjects,
-  deleteProject,
-  createProject,
-  updateProject
+     fetchProjects,
+     deleteProject,
+     createProject,
+     updateProject
 } from '../../server/controllers/projectController';
 import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';
-
 
 
 connectDB();

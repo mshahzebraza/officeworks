@@ -1,5 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createPart, deletePart, fetchParts, updatePart } from '../../server/controllers/projectController';
+import {
+     fetchParts,
+     deletePart,
+     createPart,
+     updatePart
+} from '../../server/controllers/projectController';
 import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';
 // next-connect is makes the process of http requests easier.

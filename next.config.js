@@ -13,6 +13,7 @@ module.exports = {
                PROJECT_PART: "http://localhost:3000/api/project-part",
                PROJECT_ASSY: "http://localhost:3000/api/project-assembly",
                TRANSACTION: "http://localhost:3000/api/transaction",
+               INVENTORY: "http://localhost:3000/api/inventory",
           }
      }
 }

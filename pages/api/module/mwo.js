@@ -1,23 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import { createModule, fetchModules, updateModule, deleteModule } from '../../../server/controllers/moduleController';
+import { createMWOmodule, fetchMWOmodules, updateMWOmodule, deleteMWOmodule } from '../../../server/controllers/mwoModuleController';
 import connectDB from '../../../server/config/config'
 import nextConnect from 'next-connect';
 
 connectDB();
 const ncHandler = nextConnect()
 
-ncHandler.get(async (req, res) => {
-  const { x } = req.query;
-  return res.status(200).json({
-    data: 'POitem_Form.js',
-    x
-  });
-}
-);
-// ncHandler.delete(deleteModule);
-// ncHandler.post(createModule);
-// ncHandler.patch(updateModule)
-// ncHandler.delete(deletePO);
+// TODO: These functions are not yet created
+ncHandler.get(fetchMWOmodules);
+ncHandler.delete(deleteMWOmodule);
+ncHandler.post(createMWOmodule);
+ncHandler.patch(updateMWOmodule)
 
 export default ncHandler;
 

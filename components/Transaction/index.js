@@ -19,7 +19,7 @@ import { useReactiveVar } from '@apollo/client'
 import transactionApollo from '../../lib/apollo_client/transactionApollo'
 // import delete txn handler from apollo client
 import Button from '../UI/Button';
-import TxnEntry from './TxnEntry'
+import TXNentry from './TXNentry'
 import Loader from '../Loader'
 
 
@@ -65,7 +65,6 @@ export default function TransactionPageComp(pProps) {
      if (loading) return <Loader />
 
 
-     console.log('test: transactionList', transactionList);
      console.assert(!!transactionList, 'No POlist. Must never happen.') // ?should never happen
 
 
@@ -80,12 +79,12 @@ export default function TransactionPageComp(pProps) {
                </section>
 
                <section className='pageBody'>
-                    <TxnEntry
+                    <TXNentry
                          header={true}
                     />
                     {
                          transactionList?.map((txn, idx) => {
-                              return <TxnEntry
+                              return <TXNentry
                                    key={idx}
                                    txnIndex={idx}
                                    txnData={txn}

@@ -116,7 +116,7 @@ export default function POentry({
                               /* disabled={poData.status === 'Closed'} */
                               /* invalidReason={'Closed PO cannot be edited'} */}
                               </>
-                              <ModalButton caption='Edit' ModalComponent={Source_Form} disabled={poData.status === 'Closed'} data={poData} sourceType='po' />
+                              <ModalButton caption='Edit' ModalComponent={Source_Form} /* disabled={poData.status === 'Closed'} */ data={poData} sourceType='po' />
                               <ModalButton caption='Summary' ModalComponent={PO_Summary} poData={poData} />
                               {/* <Button caption='Detail' click={() => router.push(`po/${poData.refId}`)} /> */}
                               <Button caption='Detail' click={() => {

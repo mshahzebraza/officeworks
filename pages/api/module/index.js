@@ -10,7 +10,6 @@ ncHandler.get(fetchModules);
 ncHandler.delete(deleteModule);
 ncHandler.post(createModule);
 ncHandler.patch(updateModule)
-// ncHandler.delete(deletePO);
 
 export default ncHandler;
 

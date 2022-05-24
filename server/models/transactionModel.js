@@ -8,8 +8,13 @@ const mgSchema = mongoose.Schema;
 const txnSchema = new mgSchema({
      // tid: { type: String, unique: true },
      txnType: String, // 'deposit' or 'withdrawal'
-     productNomenclature: String, // deposited/withdrawn product nomenclature ... Potentiometer
-     productId: String, // deposited/withdrawn product id .... MLS-100-SN
+     product: {
+          name: String,
+          id: String,
+          uuid: String,
+     },
+     // productNomenclature: String, // deposited/withdrawn product nomenclature ... Potentiometer
+     // productId: String, // deposited/withdrawn product id .... MLS-100-SN
      partIDs: [String], // ids array need to be assigned to each item in the po.
      // qty: Number, // deposited/withdrawn qty
      intent: String, // reason of transaction (MWO#, PO#, initiate a service (with TSR ID), service completed etc)

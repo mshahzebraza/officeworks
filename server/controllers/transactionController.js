@@ -1,5 +1,7 @@
+import { invalidResponse } from "../../helpers/reusable";
 import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import transactionModel from "../models/transactionModel";
+
 
 // Fetch all transactions
 export const getAllTransactions = CatchAsyncErrors(async (req, res) => {
@@ -14,14 +16,15 @@ export const getAllTransactions = CatchAsyncErrors(async (req, res) => {
 
 // delete transaction
 export const deleteTransaction = CatchAsyncErrors(async (req, res) => {
+     console.log('deleteTransaction!!!');
      const { transactionUUID } = req.query;
-     if (!transactionUUID) throw new Error('Please provide a valid transactionUUID')
+     if (!transactionUUID) invalidResponse(res, 'Please provide a valid transactionUUID')
 
      const deletedTransaction = await transactionModel.findByIdAndDelete(transactionUUID, { new: true });
-     console.log("deletedTransaction", deletedTransaction);
+     console.log("deletedTransaction product", deletedTransaction.product);
 
      // if deletion fails, return error
-     if (!deletedTransaction) throw new Error('Unsuccessful to delete Transaction!')
+     if (!deletedTransaction) invalidResponse(res, 'Unsuccessful to delete Transaction!')
 
      // return success message
      res.status(200).json({
@@ -37,40 +40,31 @@ export const deleteTransaction = CatchAsyncErrors(async (req, res) => {
 // create a transaction
 export const createTransaction = CatchAsyncErrors(async (req, res) => {
      const { transactionData, transactionDataList } = req.body;
-     const isMultipleDataPassed = transactionDataList?.length > 0 && !transactionData;
+     const isMultipleDataPassed = transactionDataList?.length > 0 && !transactionData; //! Always multiple!!!
      // ? Each data-set of transactionDataList must be converted to a single transaction. 
      // ? If transactionDataList is empty, then create a single transaction against the transactionData.
-     let returnData;
+     let createdTxnList;
 
-     if (isMultipleDataPassed) {
-          returnData = [];
-          // let txnList = [];
-          // add each of the incoming transactions to the database
+     createdTxnList = [];
+     // let txnList = [];
+     // add each of the incoming transactions to the database
 
-          // *Working Alternative 01 (PC-01): replaced the above forEach loop with a forOf loop. This works on sequential execution.
-          for (const transaction of transactionDataList) {
-               const newTransaction = await transactionModel.create(transaction);
-               // txnList.push(newTransaction);
-               returnData.push(newTransaction);
-          }
-
-          // returnData = txnList;
-
-     } else if (!isMultipleDataPassed) {
-
-          returnData = await transactionModel.create(transactionData);
-          // const transaction = await transactionModel.create(transactionData);
-          // returnData = transaction;
+     // *Working Alternative 01 (PC-01): replaced the above forEach loop with a forOf loop. This works on sequential execution.
+     for (const transaction of transactionDataList) {
+          const newTransaction = await transactionModel.create(transaction);
+          // txnList.push(newTransaction);
+          createdTxnList.push(newTransaction);
      }
+
+     // createdTxnList = txnList;
+
+
 
      res.status(200).json({
           success: true,
-          message: `
-          ${isMultipleDataPassed ? "Multiple" : "Single"}
-          ${"Transaction(s) created successfully!"}
-          `,
+          message: "Multiple Transaction(s) created successfully!",
           data: {
-               [isMultipleDataPassed ? "createdTxnList" : "createdTxn"]: returnData
+               createdTxnList
           },
           error: null,
      });

@@ -10,8 +10,18 @@ const moduleSchema = new Schema(
           name: String, // defined
           application: String, // project specific (should be checked dynamically against the available projects by matching with the module id with project modules/module-alias)
           type: String, // module specific
-          specs: {},
+          inv: {
+               total: {
+                    type: Number,
+                    default: 0,
+               },
+               qualified: {
+                    type: Number,
+                    default: 0,
+               },
+          }, // quantity in inventory (added or subtracted upon transactions)
 
+          specs: {},
           linkedMWOs: [{ type: ObjectId, ref: 'MWO' }],
           linkedPOs: [{ type: ObjectId, ref: 'PO' }],
      },

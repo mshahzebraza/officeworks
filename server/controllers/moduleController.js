@@ -2,8 +2,9 @@ import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
 import mwoModel from "../models/mwoModel";
 import moduleModel from "../models/moduleModel";
-import { asyncForEach, deepClone, invalidResponse } from "../../helpers/reusable";
+import { asyncForEach, invalidResponse } from "../../helpers/reusable";
 import { filterMWOmoduleData, filterPOmoduleData, separateModuleAndSourceData } from "../../helpers/specific";
+import _, { isNumber } from "lodash";
 
 // ? = fetchModules (fetchModules should return the list of all modules regardless of the linked PO)
 export const fetchModules = CatchAsyncErrors(async (req, res) => {
@@ -78,6 +79,7 @@ export const fetchModules = CatchAsyncErrors(async (req, res) => {
 
 export const deleteModule = CatchAsyncErrors(async (req, res) => {
      const { mwoUUID, poUUID, moduleUUID, preserveIntegrity = true } = req.query; // use poUUID for unlinking
+     console.log('this was hit!!!');
 
      //? providing mwoUUID or poUUID is optional
      // if mwoUUID or poUUID is provided, delete the module from the linked list of the respective model
@@ -481,8 +483,8 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
      }
 
      // Update the module - doesn't matter if the source (PO or MWO) is defined or not
-     const updatedModule = await moduleModel.findOneAndUpdate(
-          { _id: moduleUUID },
+     const updatedModule = await moduleModel.findByIdAndUpdate(
+          moduleUUID,
           moduleData,
           { new: true }
      );
@@ -574,5 +576,201 @@ export const updateModule = CatchAsyncErrors(async (req, res) => {
 
 });
 
+export const updateInventory = CatchAsyncErrors(async (req, res) => {
+     let { isIncrement } = req.query;
+     const { txnList } = req.body;
+     if (isIncrement === undefined) return invalidResponse(res, "isIncrement is not defined. isIncrement is required");
+     if (!txnList) return invalidResponse(res, "txnList is not defined. txnList is required");
+
+     if (isIncrement === "true") isIncrement = true;
+     if (isIncrement === "false") isIncrement = false;
+
+     console.log('isIncrement:', isIncrement);
+
+     const updatedModules = [];
+     // call the updateMany function of the moduleModule for each product in the txnList
+     await asyncForEach(txnList, async (txn, index) => {
+          const { product: { uuid: productUUID }, partIDs } = txn;
+
+          //  call the updateMany function of the moduleModel for each product in the txnList
+          const updatedModule = await moduleModel.findByIdAndUpdate(
+               productUUID,
+               {
+                    $inc: {
+                         "inv.total": isIncrement ? partIDs.length : -partIDs.length, // ! WORKING !!!
+                         // TODO: Next is the same logic for decrementing the inventory in deleteTransaction Apollo
+                    }
+               },
+               { new: true }
+          )
+          if (!updatedModule) return invalidResponse(res, "Module for update not found in database");
+          updatedModules.push(updatedModule);
+     })
+
+     if (!updatedModules) return invalidResponse(res, "Module not found in database");
+
+     return res.status(200).json({
+          success: true,
+          error: null,
+          message: "Module Inventory incremented",
+          data: {
+               updatedModules
+          }
+     })
+});
+
+
 // TODO: create another function: updateModuleSpecification
-// 1. no create function for specification as the module-specific data must have been already created at po-item creation with just the "id" field
+// TODO: Do the following
+// 1. Create source-specific versions of all 4 functions above.
+// 2. Link 4 with po-module-api and mwo-module-api each
+// 3. The module apollo functions with link with three different api paths. (po-module-api, mwo-module-api, module-api)
+// 4. Finish copying the above functions and change them to the source-specific versions.
+
+export const fetchPOmodules = CatchAsyncErrors(async (req, res) => {
+     const { poUUID, mwoUUID, moduleUUID, moduleId } = req.query;
+     // TODO: add the following functionality to the function
+     if (poUUID && mwoUUID) return invalidResponse(res, "Cannot fetch modules for both PO and MWO");
+     if ((poUUID && moduleUUID) || (poUUID && moduleUUID)) return invalidResponse(res, "Cannot fetch a single module for from a source");
+     // 1. moduleUUID is provided return the module with the matching UUID only
+     // 2. if poUUID is provided return the list of modules for the matching PO
+     // 3. if both are provided return the module with the matching UUID for the matching PO
+     // 4. if neither is provided return the list of all modules
+
+     // Fetch all modules of the source
+     if (poUUID || mwoUUID && !moduleUUID) {
+          const query = poUUID ? { linkedPOs: poUUID } : { linkedMWOs: mwoUUID };
+          const moduleList = await moduleModel.find(query).exec();
+
+          return res.status(200).json({
+               success: true,
+               message: "Module list fetched successfully",
+               error: null,
+               data: {
+                    moduleList,
+               },
+          });
+     }
+     // Find a single matching module (based on UUID: _id)
+     else if (!poUUID && !mwoUUID && moduleUUID) {
+          const module = await moduleModel.findById(moduleUUID).exec();
+
+          return res.status(200).json({
+               success: true,
+               message: "Module fetched successfully",
+               error: null,
+               data: {
+                    module,
+               },
+          });
+
+     }
+     // Find a single matching module (based on id)
+     else if (!poUUID && !mwoUUID && moduleId) {
+          const module = await moduleModel.findOne({ id: moduleId }).exec();
+
+          if (!module) return invalidResponse(res, "Module not found");
+
+          return res.status(200).json({
+               success: true,
+               message: "Module fetched successfully",
+               error: null,
+               data: {
+                    module,
+               },
+          });
+
+     }
+     // Find list of all modules
+     else {
+          const moduleList = await moduleModel.find().exec()/* .populate("linkedMWOs linkedPOs") */
+
+          return res.status(200).json({
+               success: true,
+               error: null,
+               message: "List of All Modules fetched successfully",
+               data: {
+                    moduleList,
+               },
+          })
+     }
+
+});
+export const deletePOmodule = 1;
+export const createPOmodule = 1;
+export const updatePOmodule = 1;
+
+export const fetchMWOmodules = CatchAsyncErrors(async (req, res) => {
+     const { poUUID, mwoUUID, moduleUUID, moduleId } = req.query;
+     // TODO: add the following functionality to the function
+     if (poUUID && mwoUUID) return invalidResponse(res, "Cannot fetch modules for both PO and MWO");
+     if ((poUUID && moduleUUID) || (poUUID && moduleUUID)) return invalidResponse(res, "Cannot fetch a single module for from a source");
+     // 1. moduleUUID is provided return the module with the matching UUID only
+     // 2. if poUUID is provided return the list of modules for the matching PO
+     // 3. if both are provided return the module with the matching UUID for the matching PO
+     // 4. if neither is provided return the list of all modules
+
+     // Fetch all modules of the source
+     if (poUUID || mwoUUID && !moduleUUID) {
+          const query = poUUID ? { linkedPOs: poUUID } : { linkedMWOs: mwoUUID };
+          const moduleList = await moduleModel.find(query).exec();
+
+          return res.status(200).json({
+               success: true,
+               message: "Module list fetched successfully",
+               error: null,
+               data: {
+                    moduleList,
+               },
+          });
+     }
+     // Find a single matching module (based on UUID: _id)
+     else if (!poUUID && !mwoUUID && moduleUUID) {
+          const module = await moduleModel.findById(moduleUUID).exec();
+
+          return res.status(200).json({
+               success: true,
+               message: "Module fetched successfully",
+               error: null,
+               data: {
+                    module,
+               },
+          });
+
+     }
+     // Find a single matching module (based on id)
+     else if (!poUUID && !mwoUUID && moduleId) {
+          const module = await moduleModel.findOne({ id: moduleId }).exec();
+
+          if (!module) return invalidResponse(res, "Module not found");
+
+          return res.status(200).json({
+               success: true,
+               message: "Module fetched successfully",
+               error: null,
+               data: {
+                    module,
+               },
+          });
+
+     }
+     // Find list of all modules
+     else {
+          const moduleList = await moduleModel.find().exec()/* .populate("linkedMWOs linkedPOs") */
+
+          return res.status(200).json({
+               success: true,
+               error: null,
+               message: "List of All Modules fetched successfully",
+               data: {
+                    moduleList,
+               },
+          })
+     }
+
+});
+export const deleteMWOmodule = 1;
+export const createMWOmodule = 1;
+export const updateMWOmodule = 1;
+
+

@@ -15,6 +15,11 @@
 - RN any new addition to purchase/mwo is listed in the module as a new item. Also, the existing module's nomenclature is listed as dropdown while adding a new po/mwo item.
 - However, the same doesn't happen for projects. The parts listed in the projects are isolated and cannot be tracked to the module.
 - Therefore, a module directory must be maintained on the FE and any new addition to PO/MWO/Project must be done after the module is created in directory only through linkage.
+- All the fields of modules from moduleList must be displayed in the Inventory Page except the linked POs/MWOs.
+- Linked Requests, QC etc. must also be added in future to the structure.
+- Required Quantity field may also be calculated dynamically on each:
+  - update in the project target quantity
+  - linking/de-linking with project
 
 ##### 2. Implement Dropdown functionality in name and id both for itemForm
 

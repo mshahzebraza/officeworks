@@ -19,8 +19,8 @@ import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helper
 export default function Item_Form({ closer: modalCloser, activeSourceId, data: activeItemData = {}, sourceType = 'po' }) {
 
      const moduleState = moduleApollo();
+     const moduleStateList = [...moduleState.list]
      const isNewSubmission = isObjEmpty(activeItemData); // is item a non-empty object
-     console.log('moduleState.list', moduleState.list);
 
      const formData = (sourceType === 'po')
           ? {
@@ -39,7 +39,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                          label: 'Item Name',
                          name: 'name',
                          disabled: !isNewSubmission,
-                         datalist: moduleState.list.reduce((prev, { name: moduleName }) => {
+                         datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
                               if (!prev.includes(moduleName)) prev.push(moduleName)
                               return prev
                          }, [])
@@ -84,7 +84,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                          label: 'Item Name',
                          name: 'name',
                          disabled: !isNewSubmission,
-                         datalist: moduleState.list.reduce((prev, { name: moduleName }) => {
+                         datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
                               if (!prev.includes(moduleName)) prev.push(moduleName)
                               return prev
                          }, [])
@@ -153,6 +153,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                                    return (
 
                                         <FormikForm
+                                             multiStage
                                         >
                                              {
                                                   renderComponentWithProps(FormikControl,

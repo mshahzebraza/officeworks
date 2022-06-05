@@ -2,30 +2,66 @@
 
 ### Bonus
 
-- Create new components and function to be reused for both PO and MWO
-- Convert the Website Look to a React App Look
+- Change UI to look like a dashboard-app instead of a website
 
 ## Task(s)
 
+### Current
+
+##### 1. Make a Module Directory - Sort of a Catalogue
+
+- Make a Module Directory where all the items (purchase/not purchased/mfg/non-mfg) must be listed.
+- User must create and list a new module before linking with purchase/mwo/project.
+- RN any new addition to purchase/mwo is listed in the module as a new item. Also, the existing module's nomenclature is listed as dropdown while adding a new po/mwo item.
+- However, the same doesn't happen for projects. The parts listed in the projects are isolated and cannot be tracked to the module.
+- Therefore, a module directory must be maintained on the FE and any new addition to PO/MWO/Project must be done after the module is created in directory only through linkage.
+
+##### 2. Implement Dropdown functionality in name and id both for itemForm
+
+- Make the addItem logic of mwo/po-details such that the id and nomenclature both are fetched simultaneously.
+
+### Others
+
+- Inventory
+
+  - What happens to transactions when the original PO/MWO is deleted.
+  - "Qualified/Total/Target" field must be added in each of sub-assy and part(s) in project details to get an idea of how many parts are needed currently. Colors can be used to indicate the current state.
+    - Green: qualified inventory fulfills demand
+    - Yellow: Total Inventory fulfils demand
+    - Orange: Production/Purchase In-Process to meet demands
+    - Red: PO/MWO required to meet demands
+
+- Linking of Inventory with PartList
+
+  - If a part is added to a partList without it being present in the module list then a new module with a tempID and secondaryID (same as partList partID) will be created and hence the partList part will be linked to the module.
+  - If the partID already corresponds to the moduleID then the project part will be linked to the module directly using the moduleID.
+
 - Transactions
+
+  - transactionController still has the logic for single transaction addition. Remove that
   - po & mwo deliver different details to transaction-mapping functions
   - Still do not have some fields
   - error on deleting - sometimes
+
 - Projects Page
+  - Parts of the project(s) are not linked to procured/manufactured parts... Addition of project-parts must be bound to po/mwo/inventory list.
+    - Any part that is not present in the list, must be created after the addition of the part in the module list.
+    - If after adding the module from project-parts, the parts is then ordered through po/mwo then the primary name of the part must be the one in the po/mwo.
+      - For example, part a2 was added through project, and a1 was ordered through po. And later on it was found that a2 is same as a1, At this point, there should be an option in both/any summary of po/project-part to link the two parts. project-part summary (linked with module list) should give an option to link with po-part, and po-part summary should give an option to link with project-part. However, this may not be possible as both summaries, project & po/mwo, show the part details from the module list. Hence, the option should say "Merge with another part" maybe.
   - Summary button to show summary of project is not working
   - view-logic of projects is not working
   - restructuring of apollo & controller logic to make the project consistent with projectModel is needed.
   - Create a tree of assemblies using the parent-child linkage
 - centralization of MWO_Summary? and of MWO_entry
 - module state-manipulation functions are combined for po & mwo
-  - segregate the po-module and mwo-module into separate functions to avoid separating the logic using if-else on params
-  - where do we keep the item-spec function
-- Inv is the combo of Projects and Transactions.
-  - Correct the Project Adding Logic (FE & BE)
-  - What happens to txns when the original PO/MWO is deleted.
-  - What happens to inventory when a transaction is updated/deleted? Is inventory a realtime sum of transactions or is it static?
 
-## Old Description - Fiverr Gig
+- Module-api controller segregation
+  - Segregate the module-controllers for po and mwo to separate functions instead of using if-else on params to decide the controller logic
+  - Upon segregation, where do we keep the item-spec function. does it stay in common module-api or in module-po-api etc.
+
+# Fiver Gig Descriptions
+
+## Old Description
 
 As a team of professional web designer/developer we believe your online presence should be as unique as your business.
 
@@ -46,7 +82,7 @@ STANDARD Package: Beautiful responsive website made in WordPress (up to 5 pages)
 
 PREMIUM Package: You will get the same features as in Silver Package but unlimited pages + Offsite SEO which includes 10HQ backlinks that will help you to rank your site higher in search engines and e-Commerce or Membership functionality (if needed)
 
-## New Description - Fiverr Gig
+## New Description
 
 Hello! I am a Frontend React Web developer who builds Mobile-Friendly/ Responsive, Pixel-Perfect, beautiful, dynamic Websites and Web Applications with React JS.
 

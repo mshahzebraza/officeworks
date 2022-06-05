@@ -99,8 +99,7 @@ export default function POentry({
                               header ? poData.status :
                                    <>
                                         <span
-                                             className={`
-              ${styles.entryStatusIcon} ${styles[`entryStatusIcon-${toCamelCase(poData.status)}`]}`} />
+                                             className={`${styles.entryStatusIcon} ${styles[`entryStatusIcon-${toCamelCase(poData.status)}`]}`} />
                                         <span className={styles.entryStatusText} >{poData.status}</span>
                                    </>
                          }

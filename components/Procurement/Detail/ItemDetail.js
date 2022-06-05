@@ -23,18 +23,18 @@ export default function ItemDetail({ classes, itemData: existingModuleData, acti
 
      if (!!existingModuleData) { // setting itemOrderDetail & itemSpecDetail
           const {
-               _id, unitPrice, qty, remarks, ...itemSpecs
+               _id, unitPrice, qty, inv: { total: totalInventory, qualified: qualifiedInventory }, remarks, ...itemSpecs
           } = existingModuleData
 
           if (sourceType === 'mwo') {
-               itemOrderDetail = { qty, remarks }
+               itemOrderDetail = { totalInventory, qualifiedInventory, qty, remarks }
           } else if (sourceType === 'po') {
-               itemOrderDetail = { unitPrice, qty, remarks }
+               itemOrderDetail = { totalInventory, qualifiedInventory, unitPrice, qty, remarks }
           }
           itemSpecDetail = itemSpecs
      }
 
-
+     console.log('itemSpecDetail: ', itemSpecDetail);
 
      return (
           <section className={concatStrings([...classes, styles.itemDetail])} >

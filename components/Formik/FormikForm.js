@@ -10,6 +10,9 @@ function FormikForm({ children, outerClasses = [], multiStage = false, stepOptio
           /* {
                multiStage
                stepOptions={[ //? One options object for each direction
+                    - 'goToNext' is a conventional name for the function that will be called when the user clicks the next button
+                    - here it triggers the criteria function to decide whether to go to the next step or not
+                    - if the criteria function returns true, the form will go to the next step otherwise it will stay in the current step
                     { goToNext: () => stageTwoCriteria(values, setFieldValue, validateField, errors) }, //? TRUE return of the goTo funcs will show the next step only
                     {}
                ]}

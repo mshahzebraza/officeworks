@@ -596,6 +596,7 @@ export const updateInventory = CatchAsyncErrors(async (req, res) => {
           const updatedModule = await moduleModel.findByIdAndUpdate(
                productUUID,
                {
+                    // TODO: should check if the inventory is less than 0.
                     $inc: {
                          "inv.total": isIncrement ? partIDs.length : -partIDs.length, // ! WORKING !!!
                          // TODO: Next is the same logic for decrementing the inventory in deleteTransaction Apollo

@@ -16,7 +16,7 @@ import ModalButton from '../UI/ModalButton'
 import ModuleEntry from './ModuleEntry'
 import moduleApollo from '../../lib/apollo_client/moduleApollo'
 import Loader from '../Loader'
-
+import Module_Form from './Forms/Module_Form'
 
 
 export default function ModulePageComp() {
@@ -65,7 +65,7 @@ export default function ModulePageComp() {
 
                     <h1 className={`pageTitle`} > Modules</h1>
                     <SearchInput stateVariables={[searchInput, setSearchInput]} />
-                    <ModalButton caption='Add Module' ModalComponent={'ProjectSummary_Form'} />
+                    <ModalButton caption='Add Module' ModalComponent={Module_Form} />
 
                </section>
                <section className={`pageBody`} >

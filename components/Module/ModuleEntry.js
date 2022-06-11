@@ -3,7 +3,6 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { checkDataType } from '../../helpers/reusable'
 // import { useDispatch } from 'react-redux'
-
 // Store & Styles
 
 
@@ -12,7 +11,8 @@ import DataRow from '../UI/DataRow/DataRow'
 import DataRowItem from '../UI/DataRow/DataRowItem'
 import ModalButton from '../UI/ModalButton'
 import Button from '../UI/Button'
-
+import { deleteModuleHandler, updateModuleHandler } from '../../lib/apollo_client/moduleApollo'
+import Module_Form from './Forms/Module_Form'
 
 export default function ModuleEntry({
      header = false,
@@ -69,13 +69,9 @@ export default function ModuleEntry({
       content={moduleData.batches}
     /> */}
 
-          {/* <DataRowItem
-      flex={0.75}
-      content={moduleData.status}
-    /> */}
           <DataRowItem
                flex={0.75}
-               content={moduleData.req}
+               content={moduleData.req || 'depends on project target'}
           />
           <DataRowItem
                flex={0.75}
@@ -87,13 +83,16 @@ export default function ModuleEntry({
                 poData={poData}
                 itemList={refinedItemList}
               /> */}
-                    <Button
+                    <ModalButton
                          caption='Edit'
-                    // click={() => deleteTxnHandler(moduleData._id)}
+                         ModalComponent={Module_Form}
+                         data={moduleData}
+
                     />
+
                     <Button
                          caption='Delete'
-                    // click={() => deleteTxnHandler(moduleData._id)}
+                         onClick={() => { deleteModuleHandler(moduleData._id) }}
                     />
                     <Button
                          // *this should be a modal with a list of batches just like inventory itself

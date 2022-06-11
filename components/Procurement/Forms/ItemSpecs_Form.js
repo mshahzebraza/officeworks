@@ -88,10 +88,12 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
      const { id, name, type, application, specs = {}, ...otherSpecs } = activeModuleSpecs;
      Object.entries(otherSpecs).length && console.error('Manual: No other fields must be present in the object', otherSpecs)
 
+     // Keys of required fields from the data.
      const initialValuesReplacement = {
           id, name, type, application,
           specifications: Object.entries(specs)
      }
+     // fetching the data according to the keys of the initialValuesReplacement
      const initialValues = {
           ...getObjectWithValuesAt(0, formData.fields),
           ...initialValuesReplacement

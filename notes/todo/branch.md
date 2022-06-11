@@ -20,6 +20,14 @@
 - Required Quantity field may also be calculated dynamically on each:
   - update in the project target quantity
   - linking/de-linking with project
+- Add forms for:
+  - Adding Module
+  - Update Module
+- **Complete form functionality**
+  - Ensure that all field data is properly reflected in Edit fields including specs
+  - Ensure that the data gets passed to the moduleApollo for every form
+  - Ensure that all the form Data connects with backend functions
+  - Ensure all BE functions to Update DB
 
 ##### 2. Implement Dropdown functionality in name and id both for itemForm
 

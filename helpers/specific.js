@@ -1,4 +1,4 @@
-import { cloneAndPluck, deepClone } from "./reusable";
+import { checkDataType, cloneAndPluck, deepClone } from "./reusable";
 
 
 cloneAndPluck
@@ -159,28 +159,88 @@ export function populateLinkedModules(linkedModuleList, moduleList) {
 }
 
 
-export function getObjectWithValuesAt(index, source) {
+export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) {
      // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
      // Output //? {x: 'x2', y: 'y2'}
-     const newSource = {};
+
+     const responseObj = {};
      for (const key in source) {
-          newSource[key] = source[key][index]
+
+          const [firstKey, ...nestedKeys] = key.split('.');
+
+          if (!!nestedKeys.length) { // if nested keys exist
+               const [secondKey, ...deepNestedKeys] = nestedKeys;
+               if (!!deepNestedKeys.length) throw new Error('Multi-Nested keys are not supported yet');
+
+               // if the first key is not defined already set it to {}
+               responseObj[firstKey] = responseObj[firstKey] ?? {};
+               responseObj[firstKey][secondKey] = source[key][index];
+
+
+          } else { // if nested keys do not exist
+               responseObj[firstKey] = source[key][index]
+          }
      }
-     return newSource;
+
+     // Wrap the nested keys in a nestedKeysWrapper object
+     if (nestedKeysWrapper) {
+          // check if any nested keys exist
+          const wrappedResponseObj = Object.entries(responseObj).reduce(
+               (acc, [key, value]) => {
+                    // check if the value is an object
+                    checkDataType(value) === 'object'
+                         ? acc[key] = nestedKeysWrapper(value)
+                         : acc[key] = value;
+                    return acc;
+               }, []
+          )
+          return Object.fromEntries(wrappedResponseObj);
+     }
+     return responseObj;
+
 }
 
-export function renderComponentWithProps(Component, componentPropsObject) {
+export function renderComponentWithProps(Component, componentPropsObject, nestedKeys = false) {
 
      // Loose the keys of the object and get an array of values
-     const componentProps = Object.values(componentPropsObject)
+     const componentPropsEntries = Object.entries(componentPropsObject)
 
      // For each value get the JSX of "FormikControl"
-     const controlArr = componentProps.map((ctrlProp, key) => (
-          <Component
-               key={key}
-               {...ctrlProp}
-          />
-     ))
 
-     return controlArr
+     const compArr = componentPropsEntries.reduce(
+          (acc, [compName, compProps], idx) => {
+
+               if (!!nestedKeys) {
+                    if (nestedKeys.includes(compName)) {
+                         Object.entries(compProps).forEach(([nestedKeyCompName, nestedKeyCompProps], nestedIdx) => {
+                              acc.push(
+                                   <Component
+                                        key={`${nestedKeyCompName}_${nestedIdx}`}
+                                        {...nestedKeyCompProps}
+                                   />)
+                         })
+
+                    } else {
+                         acc.push(
+                              <Component
+                                   key={`${compName}_${idx}`}
+                                   {...compProps}
+                              />)
+                    }
+
+               } else {
+                    acc.push(
+                         <Component
+                              key={`${compName}_${idx}`}
+                              {...compProps}
+                         />
+                    )
+               }
+
+               return acc;
+          },
+          []
+     )
+
+     return compArr
 }

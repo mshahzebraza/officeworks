@@ -18,7 +18,6 @@ import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helper
 
 export default function Module_Form({ closer: modalCloser, data: activeModuleData = {} }) {
 
-     console.log("activeModuleData", activeModuleData);
      const moduleState = moduleApollo();
      const moduleStateList = [...moduleState.list]
      const isNewSubmission = isObjEmpty(activeModuleData); // is item a non-empty object
@@ -56,27 +55,27 @@ export default function Module_Form({ closer: modalCloser, data: activeModuleDat
                     label: 'Module Type',
                     name: 'type',
                }],
-               totalInventory: [0, Yup.number().required('Required'), {
+               "inv.total": [0, Yup.number().required('Required'), {
                     control: 'input',
                     type: 'number',
                     label: 'Total Inventory',
-                    name: 'totalInventory'
+                    name: 'inv.total'
                }],
                // ! Must not be greater than totalInventory
-               qualifiedInventory: [0, Yup.number().required('Required'), {
+               "inv.qualified": [0, Yup.number().required('Required'), {
                     control: 'input',
                     type: 'number',
                     label: 'Qualified Inventory',
-                    name: 'qualifiedInventory'
+                    name: 'inv.qualified'
                }],
-               application: ['', Yup.string(), {
+               application: [[], Yup.array()/* .nullable() */, {
                     control: 'checkbox',
                     options: [
                          { key: 'R&D', value: 'R&D' },
                          { key: 'R1', value: 'Regular 1' }, // either internally or externally
                          { key: 'R2', value: 'Regular 2' }
                     ],
-                    label: 'Remarks / Description',
+                    label: 'Application',
                     name: 'application'
                }],
                specs: [[], Yup.array(), {
@@ -93,35 +92,48 @@ export default function Module_Form({ closer: modalCloser, data: activeModuleDat
      }
 
 
-
-     const initialValuesReplacement = cloneAndPluck(
-          activeModuleData,
-          [
+     function getPrevWithNewValues(prevObject = activeModuleData,
+          reqKeys = [
                'id',
                'name',
                'inv',
                'application',
                'type',
                'specs',
-          ]
-     )
-     const { id, name, inv: { total: totalInventory, qualified: qualifiedInventory }, application, type, specs = {} } = initialValuesReplacement
+          ]) {
 
-     const initialValues = {
-          ...getObjectWithValuesAt(0, formData.fields),
-          // ...initialValuesReplacement
-          id,
-          name,
-          totalInventory,
-          qualifiedInventory,
-          application,
-          type,
-          specs: Object.entries(initialValuesReplacement.specs || {})
+          // fetch the req. keys from previous Data (activeModuleData)
+          // must be empty object in case of empty previous data (empty/undefined keys are not returned)
+
+          const dataFromPrevious = cloneAndPluck(
+               prevObject,
+               reqKeys
+          )
+          // convert the specs-object to specs-array to match the format initial values of the form fields
+          const { specs: specsObj } = dataFromPrevious
+          if (specsObj) {
+               dataFromPrevious.specs = Object.entries(specsObj)
+          }
+
+          return {
+               ...getObjectWithValuesAt(0, formData.fields), // get the default values from the formData object's fields
+               ...dataFromPrevious
+               // specs: Object.entries(initialValuesReplacement.specs || {})
+          }
      }
 
-     const validationSchema = Yup.object({
-          ...getObjectWithValuesAt(0, formData.fields)
+
+     // const { specs: specsArr, ...restInitialValues } = getPrevWithNewValues()
+
+     // const initialValues = { ...restInitialValues, specs: Object.fromEntries(specsArr) }
+     // console.log('newValidation', getObjectWithValuesAt(1, formData.fields));
+
+     const initialValues = getPrevWithNewValues();
+
+     const validationSchema = Yup.object().shape({
+          ...getObjectWithValuesAt(1, formData.fields, (val) => { Yup.object().shape(val) }),
      })
+
 
 
      const onSubmit = (values, { resetForm }) => {
@@ -155,8 +167,10 @@ export default function Module_Form({ closer: modalCloser, data: activeModuleDat
                                         // multiStage
                                         >
                                              {
-                                                  renderComponentWithProps(FormikControl,
-                                                       getObjectWithValuesAt(2, formData.fields)
+                                                  renderComponentWithProps(
+                                                       FormikControl,
+                                                       getObjectWithValuesAt(2, formData.fields),
+                                                       ['inv']
                                                   )
                                              }
 

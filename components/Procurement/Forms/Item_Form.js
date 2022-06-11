@@ -111,7 +111,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
      // TODO: Here the other specs like application etc. must be concatenated with the values
      // TODO : OR fine tune the handler function
      const initialValuesReplacement = cloneAndPluck(
-          activeItemData,
+          activeItemData, // empty
           Object.keys(formData.fields)
      )
 

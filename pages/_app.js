@@ -17,83 +17,88 @@ import { httpParams, request } from '../helpers/reusable';
 
 function MyApp({ Component, pageProps }) {
 
-     // Function to get the application data from the server
-     const loadAppData = async () => {
-          // Fetching the data from the server
-          /*   const {
-                 success,
-                 data: { poList, mwoList, projectList, transactionList },
-                 error,
-                 message
-            } = await request({
-                 url: 'http://localhost:3000/api/initialize',
-            }); */
-          const res = await httpParams('http://localhost:3000/api/initialize');
-          // const { data: { poList, mwoList, projectList, transactionList } } = await res.json();
-          const {
+    // Function to get the application data from the server
+    const loadAppData = async () => {
+        // Fetching the data from the server
+        /*   const {
                success,
-               data: { poList, mwoList, projectList, transactionList, moduleList }
-               ,
+               data: { poList, mwoList, projectList, transactionList },
                error,
                message
-          } = await res.json();
+          } = await request({
+               url: 'http://localhost:3000/api/initialize',
+          }); */
+        const res = await httpParams('http://localhost:3000/api/initialize');
+        const {
+            success,
+            data: { poList, mwoList, projectList, transactionList, moduleList },
+            error,
+            message
+        } = await res.json();
 
-          // console.log('modules', moduleList);
+        // const {
+        //     success,
+        //     data: { poList, mwoList, projectList, transactionList, moduleList },
+        //     error,
+        //     message
+        // } = await request({
+        //     url: process.env.API.INITIALIZE
+        // });
 
 
-          // delete poList.__v;
-          delete mwoList.__v;
-          delete projectList.__v;
-          delete transactionList.__v;
-          delete moduleApollo.__v;
+        // delete poList.__v;
+        delete mwoList.__v;
+        delete projectList.__v;
+        delete transactionList.__v;
+        delete moduleApollo.__v;
 
 
-          // setTimeout(() => {
+        // setTimeout(() => {
 
-          moduleApollo({
-               list: moduleList,
-               fetched: true
-          })
-          poApollo({
-               list: poList,
-               fetched: true
-          });
-          mwoApollo({
-               list: mwoList,
-               fetched: true
-          });
-          projectApollo({
-               list: projectList,
-               fetched: true
-          });
-          transactionApollo({
-               list: transactionList,
-               fetched: true
-          });
+        moduleApollo({
+            list: moduleList,
+            fetched: true
+        })
+        poApollo({
+            list: poList,
+            fetched: true
+        });
+        mwoApollo({
+            list: mwoList,
+            fetched: true
+        });
+        projectApollo({
+            list: projectList,
+            fetched: true
+        });
+        transactionApollo({
+            list: transactionList,
+            fetched: true
+        });
 
-          // }, 1000);
+        // }, 1000);
 
-          // Log the data
-          console.log(
-               // "moduleList", moduleList,
-               // 'poList', poList,
-               // "mwoList", mwoList,
-               // "projectList", projectList,
-               // "transactionList", transactionList
-          );
+        // Log the data
+        console.log(
+            // "moduleList", moduleList,
+            // 'poList', poList,
+            // "mwoList", mwoList,
+            // "projectList", projectList,
+            // "transactionList", transactionList
+        );
 
-     }
-     useEffect(() => {
-          loadAppData() // Initialize the app data into app state.
+    }
+    useEffect(() => {
+        loadAppData() // Initialize the app data into app state.
 
-     }, []);
+    }, []);
 
-     return (
-          <ApolloProvider client={client} >
-               <div id="portalRoot"></div>
-               <Component {...pageProps} />
-          </ApolloProvider>
-     )
+    return (
+        <ApolloProvider client={client} >
+            <div id="portalRoot"></div>
+            <Component {...pageProps} />
+        </ApolloProvider>
+    )
 }
 
 export default MyApp

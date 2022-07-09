@@ -6,13 +6,13 @@ import styles from './Layout.module.scss'
 export default function Layout({ children, pageClasses = [] }) {
 
 
-  return (
-    <div className={styles.layoutContainer} >
-      <Header />
-      {/* <nav>Nav</nav> */}
-      <main className={concatStrings([...pageClasses, styles.page])}>
-        {children}
-      </main>
-    </div>
-  )
+    return (
+        <div className={styles.layoutContainer} >
+            <Header />
+            {/* <nav>Nav</nav> */}
+            <main className={concatStrings([...pageClasses, styles.page])}>
+                {children}
+            </main>
+        </div>
+    )
 }

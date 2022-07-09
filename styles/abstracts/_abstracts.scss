@@ -132,3 +132,8 @@ $nuteLite7: lighten($nute, 46%);
 		height: 0.15rem;
 	}
 }
+
+// SCSS SYNTAX
+// @mixin newRem($property, $remValue, $sizeType: rem) {
+// 	#{$property}: calc($remValue / 16 * 1$sizeType);
+// }

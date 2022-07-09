@@ -6,7 +6,7 @@
 	display: grid;
 	grid-template-rows: 20rem;
 	grid-template-columns: 30rem 1fr 17.5rem;
-	gap: 2rem;
+	gap: calc(2 / 16 * 1rem);
 
 	// grid-template-columns: 30rem 1fr 15rem;
 	grid-template-areas: "overview meta controls";

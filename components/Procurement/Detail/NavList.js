@@ -4,39 +4,40 @@ import styles from './NavList.module.scss'
 
 export default function NavList({ classes, itemList = [/* { name: '1', id: '1o1', order: 0 } */], activeIndex, setActiveIndex }) {
 
-     // Section: Component Logic
-     // Only fetch the required data from the itemList
-     itemList = itemList.map(({ name, id }, order) => {
-          return {
-               name, id, order //? This is necessary to highlight the selected item and fetch its data
-          }
-     });
+    console.log('NavList', itemList);
+    // Section: Component Logic
+    // Only fetch the required data from the itemList
+    itemList = itemList.map(({ name = 'null', id }, order) => {
+        return {
+            name, id, order //? This is necessary to highlight the selected item and fetch its data
+        }
+    });
 
-     if (itemList.length <= 0) return <p className='note'>No items - NavList</p>
+    if (itemList.length <= 0) return <p className='note'>No items - NavList</p>
 
-     // Nest the items with matching names under a new versions key
-     const reducedItemList = reduceItemsWithDupeName(itemList);
+    // Nest the items with matching names under a new versions key
+    const reducedItemList = reduceItemsWithDupeName(itemList);
 
-     // Section: Component Rendering
-     return (
-          <>
-               {
-                    <section className={concatStrings([...classes, styles.itemList])} >
+    // Section: Component Rendering
+    return (
+        <>
+            {
+                <section className={concatStrings([...classes, styles.itemList])} >
 
-                         {
-                              reducedItemList.map((item, itemIdx) => {
-                                   return <Category
-                                        key={itemIdx}
-                                        item={item}
-                                        activeIndex={activeIndex}
-                                        setActiveIndex={setActiveIndex}
-                                   />
-                              })
-                         }
-                    </section >
-               }
-          </>
-     )
+                    {
+                        reducedItemList.map((item, itemIdx) => {
+                            return <Category
+                                key={itemIdx}
+                                item={item}
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                            />
+                        })
+                    }
+                </section >
+            }
+        </>
+    )
 }
 
 
@@ -80,25 +81,25 @@ export default function NavList({ classes, itemList = [/* { name: '1', id: '1o1'
 
 function reduceItemsWithDupeName(items) {
 
-     return items.reduce((acc, cur, arr) => {
+    return items.reduce((acc, cur, arr) => {
 
-          // check duplicate name in the accumulated values
-          const duplicateIndex = acc.findIndex((el) => {
-               return el.name.toLocaleLowerCase() === cur.name.toLocaleLowerCase()
-          })
+        // check duplicate name in the accumulated values
+        const duplicateIndex = acc.findIndex((el) => {
+            return el.name.toLocaleLowerCase() === cur.name.toLocaleLowerCase()
+        })
 
-          // found Duplicate - push the item under the same 'Name' tab
-          if (duplicateIndex >= 0) {
-               acc[duplicateIndex].versions.push({ id: cur.id, order: cur.order });
-               return acc;
-          }
-          // No Duplicate - create a new 'Name' tab and push the item in it
-          return acc.concat(
-               {
-                    name: cur.name, versions: [{ id: cur.id, order: cur.order }]
-               }
-          );
-     }, []);
+        // found Duplicate - push the item under the same 'Name' tab
+        if (duplicateIndex >= 0) {
+            acc[duplicateIndex].versions.push({ id: cur.id, order: cur.order });
+            return acc;
+        }
+        // No Duplicate - create a new 'Name' tab and push the item in it
+        return acc.concat(
+            {
+                name: cur.name, versions: [{ id: cur.id, order: cur.order }]
+            }
+        );
+    }, []);
 }
 
 
@@ -120,16 +121,16 @@ function reduceItemsWithDupeName(items) {
   }
  */
 function Category({ item, activeIndex, setActiveIndex }) {
-     // Render name of each item and list down multiple versions (itemIDs) for the name-tab
-     return <div
-          className={styles.item}
-     >
-          <h4 className={styles.itemName} >{item.name}</h4>
-          <ul className={styles.versionList}>
-               {renderVersions(item.versions, activeIndex, setActiveIndex)}
-          </ul>
+    // Render name of each item and list down multiple versions (itemIDs) for the name-tab
+    return <div
+        className={styles.item}
+    >
+        <h4 className={styles.itemName} >{item.name}</h4>
+        <ul className={styles.versionList}>
+            {renderVersions(item.versions, activeIndex, setActiveIndex)}
+        </ul>
 
-     </div>
+    </div>
 }
 
 
@@ -147,12 +148,12 @@ function Category({ item, activeIndex, setActiveIndex }) {
  */
 function renderVersions(versionList, activeIndex, setActiveIndex) {
 
-     return versionList.map((ver, verIdx) => {
-          return <li
-               key={verIdx}
-               className={`${styles.version} ${activeIndex === ver.order && styles.versionActive}`}
-               onClick={() => setActiveIndex(ver.order)}>
-               {ver.id}
-          </li>
-     })
+    return versionList.map((ver, verIdx) => {
+        return <li
+            key={verIdx}
+            className={`${styles.version} ${activeIndex === ver.order && styles.versionActive}`}
+            onClick={() => setActiveIndex(ver.order)}>
+            {ver.id}
+        </li>
+    })
 }

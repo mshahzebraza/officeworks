@@ -5,7 +5,7 @@
 // updateInventory
 // } from '../../server/controllers/moduleController';
 
-import connectDB from '../../server/config/config'
+import connectDB from '../../server/config/config/index'
 import nextConnect from 'next-connect';
 
 connectDB();

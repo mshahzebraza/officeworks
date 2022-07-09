@@ -1,10 +1,10 @@
 
 import {
-     fetchProjects,
-     deleteProject,
-     createProject,
-     updateProject
-} from '../../server/controllers/projectController';
+    fetchProjects,
+    deleteProject,
+    createProject,
+    updateProject
+} from '../../server/controllers/projectController/index';
 import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';
 

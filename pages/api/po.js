@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import {
-     createPO,
-     deletePO,
-     fetchPOs,
-     updatePO
-} from '../../server/controllers/poController';
+    createPO,
+    deletePO,
+    fetchPOs,
+    updatePO
+} from '../../server/controllers/poController/index';
 
 import connectDB from '../../server/config/config' // next-connect is makes the process of http requests easier.
 import nextConnect from 'next-connect';

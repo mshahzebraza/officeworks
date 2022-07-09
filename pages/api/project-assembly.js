@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createAssembly, deleteAssembly, fetchAssemblies, updateAssembly } from '../../server/controllers/projectController';
+import { createAssembly, deleteAssembly, fetchAssemblies, updateAssembly } from '../../server/controllers/projectController/index';
 import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';
 

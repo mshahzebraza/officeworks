@@ -1,9 +1,9 @@
 import {
-  fetchMWOs,
-  deleteMWO,
-  createMWO,
-  updateMWO
-} from '../../server/controllers/mwoController';
+    fetchMWOs,
+    deleteMWO,
+    createMWO,
+    updateMWO
+} from '../../server/controllers/mwoController/index';
 
 import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';

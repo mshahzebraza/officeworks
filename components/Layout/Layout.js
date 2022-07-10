@@ -1,14 +1,21 @@
 import React from 'react'
-import { concatStrings } from '../../helpers/reusable'
-import Header from './Header/Header'
-import styles from './Layout.module.scss'
+import NavBar from './NavBar'
 import Head from 'next/head';
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Drawer from '@mui/material/Drawer'
+import { Box, Container, Grid, Paper } from '@mui/material';
+import { concatStrings } from '../../helpers/reusable';
 
-export default function Layout({ children, pageClasses = [] }) {
+
+// TODO: Implement Lazy Loading using "Next/Dynamic" and Dynamic Imports 
+export default function Layout({ children }) {
+    const navType = 'drawer'; // change to 'appBar' to use the appBar navbar
+    const contentStyles = navType === 'appBar' ? {
+        mt: 12,
+    } : {
+        mt: 15,
+        ml: 34,
+        border: '1px solid red',
+    };
+
 
     return (
         <>
@@ -18,26 +25,15 @@ export default function Layout({ children, pageClasses = [] }) {
                 <meta name="author" content="M Shahzeb Raza" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <AppBar position="static" color={'secondary'} >
-                <Toolbar>
-                    <Typography variant="h6">
-                        Brand
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <div>
 
-                {/* <Drawer variant="permanent">
-                    This is Drawer
-                </Drawer> */}
-            </div>
-            <div className={styles.layoutContainer} >
-                <Header />
-                {/* <nav>Nav</nav> */}
-                <main className={concatStrings([...pageClasses, styles.page])}>
-                    {children}
-                </main>
-            </div>
+            <Grid container /* sx={contentStyles} */ /*  disableGutters */ >
+                <NavBar navType={navType} />
+                <Grid item xs>
+                    <Container disableGutters>
+                        {children}
+                    </Container>
+                </Grid>
+            </Grid>
         </>
     )
 }

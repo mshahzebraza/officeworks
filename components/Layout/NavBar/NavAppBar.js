@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonLink } from '../../MUI-reusable'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import { Box, Container } from '@mui/material'
+import { Box, Container, List } from '@mui/material'
 
 const styles = {
     brand: {
@@ -29,13 +29,13 @@ function Brand() {
 }
 
 function NavList() {
-    return (<Box component='ul'>
+    return (<List >
         <ButtonLink href={'/po'} variant='standard'>POs</ButtonLink>
         <ButtonLink href={'/mwo'} variant='standard'>MWOs</ButtonLink>
         <ButtonLink href={'/module'} variant='standard'>Modules</ButtonLink>
         <ButtonLink href={'/transaction'} variant='standard'>Transactions</ButtonLink>
         <ButtonLink href={'/project'} variant='standard'>Projects</ButtonLink>
-    </Box>);
+    </List>);
 }
 
 function Actions() {
@@ -45,7 +45,7 @@ function Actions() {
 }
 
 
-export default function Header() {
+export default function NavAppBar() {
     return (
         <>
             {/* header */}

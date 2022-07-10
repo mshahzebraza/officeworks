@@ -8,7 +8,23 @@
 	$header-width: calc((120 / 16) * 10rem);
 	padding: 0 calc((100vw - $header-width) / 2);
 
-	background: $lite;
+	// background: $lite;
+	box-shadow: 0 0 2rem $nuteLite4;
+	// color: #000;
+	& > * {
+		// color: #222;
+	}
+}
+
+.header2 {
+	// height: calc(7rem / 16 * 10);
+	// display: flex;
+	// align-items: center;
+	// justify-content: space-between;
+	$header-width: calc((120 / 16) * 10rem);
+	padding: 0 calc((100vw - $header-width) / 2);
+
+	// background: $lite;
 	box-shadow: 0 0 2rem $nuteLite4;
 	// color: #000;
 	& > * {
@@ -17,12 +33,10 @@
 }
 
 .brand {
-	font-size: calc((2.4 / 16) * 10rem);
-	letter-spacing: 0.018em;
+	font-size: calc((2 / 16) * 10rem);
+	letter-spacing: 0.1em;
 	font-weight: 800;
 	text-transform: uppercase;
-
-	text-shadow: 0 0 15px rgba($color: #111, $alpha: 0.35);
 }
 .nav {
 	&List {

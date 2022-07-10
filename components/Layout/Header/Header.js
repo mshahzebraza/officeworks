@@ -1,44 +1,75 @@
 import React from 'react'
-import styles from './Header.module.scss'
-import Link from 'next/link'
+import { ButtonLink } from '../../MUI-reusable'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import { makeStyles } from '@mui/styles'
+import { Box, Container } from '@mui/material'
+
+const useStyles = makeStyles(theme => ({
+    brand: {
+        fontSize: 'calc((2 / 16) * 10rem)',
+        letterSpacing: '0.1em',
+        fontWeight: '800',
+        textTransform: 'uppercase',
+    }
+}))
 
 
+
+function Brand() {
+    const classes = useStyles();
+    return (
+        <Box>
+            <ButtonLink href={'/'} variant='standard' className={classes.brand}>
+                {
+                    /* <Typography variant="h6"> */
+                }
+                Office Works
+            </ButtonLink>
+        </Box>
+    );
+}
+
+
+
+function NavList() {
+    return (<Box component='ul'>
+        <ButtonLink href={'/po'} variant='standard'>POs</ButtonLink>
+        <ButtonLink href={'/mwo'} variant='standard'>MWOs</ButtonLink>
+        <ButtonLink href={'/module'} variant='standard'>Modules</ButtonLink>
+        <ButtonLink href={'/transaction'} variant='standard'>Transactions</ButtonLink>
+        <ButtonLink href={'/project'} variant='standard'>Projects</ButtonLink>
+    </Box>);
+}
+
+function Actions() {
+    return (<Box>
+        <ButtonLink href={'/'} variant='standard'>Signup</ButtonLink>
+    </Box>);
+}
 
 
 export default function Header() {
-     return (
-          <header className={styles.header}>
-               {/* Logo */}
-               <div className={styles.brand}>
-                    <Link href={'/'}>
-                         <a>Office Works</a>
-                    </Link>
-               </div>
-               {/* Nav */}
-               <nav className={styles.nav}>
+    return (
+        <>
+            {/* header */}
+            <AppBar position="fixed" color="primary" >
+                <Container disableGutters maxWidth='lg' >
                     {/* Nav */}
-                    <ul className={styles.navList}>
-                         {/* <NavItem text={'Procurement'} path={`/procurement`}></NavItem> */}
-                         <NavItem text={'POs'} path={`/po`}></NavItem>
-                         <NavItem text={'MWOs'} path={`/mwo`}></NavItem>
+                    <Toolbar disableGutters component='nav' sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                    }} >
+                        {/* Brand */}
+                        <Brand />
+                        {/* Nav List */}
+                        <NavList />
+                        {/* Actions */}
+                        <Actions />
+                    </Toolbar>
+                </Container>
+            </AppBar>
 
-                         <NavItem text={'Module'} path={`/module`}></NavItem>
-                         <NavItem text={'Transactions'} path={`/transaction`}></NavItem>
-                         <NavItem text={'Projects'} path={`/project`}></NavItem>
-                    </ul>
-               </nav>
-               {/* toolbox */}
-               <div className={styles.toolbox}>
-                    Signup
-               </div>
-          </header>
-     )
-}
-
-function NavItem({ text, path }) {
-     return (<li className={styles.navItem}>
-          <Link href={path}>
-               <a className={styles.navLink}>{text}</a>
-          </Link>
-     </li>);
+        </>
+    )
 }

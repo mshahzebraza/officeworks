@@ -2,35 +2,31 @@ import React from 'react'
 import { ButtonLink } from '../../MUI-reusable'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import { makeStyles } from '@mui/styles'
 import { Box, Container } from '@mui/material'
 
-const useStyles = makeStyles(theme => ({
+const styles = {
     brand: {
-        fontSize: 'calc((2 / 16) * 10rem)',
+        fontSize: '1.25rem',
         letterSpacing: '0.1em',
-        fontWeight: '800',
-        textTransform: 'uppercase',
+        fontWeight: '400',
+    },
+    toolBar: {
+        display: 'flex',
+        justifyContent: 'space-between',
     }
-}))
+}
 
 
 
 function Brand() {
-    const classes = useStyles();
     return (
-        <Box>
-            <ButtonLink href={'/'} variant='standard' className={classes.brand}>
-                {
-                    /* <Typography variant="h6"> */
-                }
+        <Box sx={styles.newBox}>
+            <ButtonLink href={'/'} variant='standard' sx={styles.brand}>
                 Office Works
             </ButtonLink>
-        </Box>
+        </Box >
     );
 }
-
-
 
 function NavList() {
     return (<Box component='ul'>
@@ -56,10 +52,7 @@ export default function Header() {
             <AppBar position="fixed" color="primary" >
                 <Container disableGutters maxWidth='lg' >
                     {/* Nav */}
-                    <Toolbar disableGutters component='nav' sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                    }} >
+                    <Toolbar disableGutters component='nav' sx={styles.toolBar} >
                         {/* Brand */}
                         <Brand />
                         {/* Nav List */}

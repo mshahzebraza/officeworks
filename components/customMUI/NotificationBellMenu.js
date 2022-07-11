@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { BasicMenu } from './BasicMenu';
 import { NotificationBell } from './NotificationBell';
 
-export function NotificationBellMenu({ badgeContent = 0, iconColor = 'primary' }) {
+export function NotificationBellMenu({ notifications = [], iconColor = 'primary' }) {
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
 
     const handleOpen = (event) => {
-        setAnchorEl(event.currentTarget)
+        setAnchorEl(event.currentTarget) // set anchorEl to the current event.currentTarget (DOM Element)
         setOpen(true);
     };
     const handleClose = () => {
@@ -18,7 +18,7 @@ export function NotificationBellMenu({ badgeContent = 0, iconColor = 'primary' }
     return (
         <>
             <NotificationBell
-                badgeContent={badgeContent}
+                badgeContent={notifications.length}
                 iconColor={iconColor}
                 anchorEl={anchorEl}
                 onClick={handleOpen}
@@ -27,6 +27,7 @@ export function NotificationBellMenu({ badgeContent = 0, iconColor = 'primary' }
                 open={open}
                 anchorEl={anchorEl}
                 handleClose={handleClose}
+                menuItems={notifications}
             />
         </>
     )

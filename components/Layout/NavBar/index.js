@@ -1,17 +1,50 @@
 import React from 'react'
-import NavAppBar from './NavAppBar'
-import NavDrawer from './NavDrawer'
+import {
+    Toolbar,
+    Divider,
+    Drawer,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText
+} from '@mui/material'
 
-function NavBar({ navType }) {
+import { mainNavbarItems } from "../../../constants/navbarItems";
+import { useRouter } from 'next/dist/client/router';
+import { navbarStyles } from './navbarStyles';
+
+export default function NavBar() {
     return (
         <>
-            {
-                navType === 'appBar' ?
-                    <NavAppBar /> :
-                    <NavDrawer />
-            }
+            {/* header */}
+            <Drawer
+                sx={navbarStyles.drawer}
+                variant="permanent"
+                anchor="left"
+            >
+                <Toolbar />
+                <Divider />
+                {<List>
+                    {mainNavbarItems.map((itemData, index) => (
+                        <NavItem key={index} {...itemData} />
+                    ))}
+                </List>}
+            </Drawer>
         </>
     )
 }
 
-export default NavBar
+function NavItem(props) {
+    const router = useRouter();
+
+    const { id = 'id', route = '/', icon: Icon, label = 'default' } = props;
+    return <ListItem disablePadding onClick={() => { router.push(route) }} >
+        <ListItemButton>
+            <ListItemIcon sx={navbarStyles.icons}>
+                <Icon />
+            </ListItemIcon>
+            <ListItemText sx={navbarStyles.text} primary={label} />
+        </ListItemButton>
+    </ListItem>
+}

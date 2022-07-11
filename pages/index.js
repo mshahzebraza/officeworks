@@ -1,7 +1,6 @@
 import Layout from '../components/Layout/Layout';
-import { ButtonLink, NotificationBellMenu } from '../components/MUI-reusable';
+import { ButtonLink } from '../components/customMUI';
 import { Paper } from '@mui/material';
-
 
 export default function Home() {
 
@@ -16,11 +15,6 @@ export default function Home() {
     return (
         <>
             <Layout >
-                <NotificationBellMenu
-                    badgeContent={0}
-                    iconColor='primary'
-                />
-
                 <Paper sx={paperStyles}  >
                     <ButtonLink href='/po'>Purchase Orders</ButtonLink>
                     <ButtonLink href='/wo'>Work Orders</ButtonLink>

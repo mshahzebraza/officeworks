@@ -11,9 +11,8 @@ export default function Layout({ children }) {
     const contentStyles = navType === 'appBar' ? {
         mt: 12,
     } : {
-        mt: 15,
-        ml: 34,
-        border: '1px solid red',
+        // mt: 15,
+        // ml: 34,
     };
 
 
@@ -26,10 +25,10 @@ export default function Layout({ children }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Grid container /* sx={contentStyles} */ /*  disableGutters */ >
+            <Grid container sx={contentStyles} >
                 <NavBar navType={navType} />
                 <Grid item xs>
-                    <Container disableGutters>
+                    <Container maxWidth="xl" disableGutters>
                         {children}
                     </Container>
                 </Grid>

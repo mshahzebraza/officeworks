@@ -1,10 +1,10 @@
 import Layout from '../components/Layout/Layout';
-import { ButtonLink, NotificationBell } from '../components/MUI-reusable';
+import { ButtonLink, NotificationBellMenu } from '../components/MUI-reusable';
 import { Paper } from '@mui/material';
 
 
-
 export default function Home() {
+
     const paperStyles = {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -16,11 +16,14 @@ export default function Home() {
     return (
         <>
             <Layout >
-                <NotificationBell />
+                <NotificationBellMenu
+                    badgeContent={0}
+                    iconColor='primary'
+                />
 
                 <Paper sx={paperStyles}  >
                     <ButtonLink href='/po'>Purchase Orders</ButtonLink>
-                    <ButtonLink href='/mwo'>Manufacturing</ButtonLink>
+                    <ButtonLink href='/wo'>Work Orders</ButtonLink>
                     <ButtonLink href='/transaction'>Transactions</ButtonLink>
                     <ButtonLink href='/project'>Projects</ButtonLink>
                     <ButtonLink href='/inventory'>Inventory</ButtonLink>

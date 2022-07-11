@@ -5,7 +5,7 @@ import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 
 
-export function NotificationBell({ badgeContent = 0, iconColor = 'primary', ...rest }) {
+export function NotificationBell({ badgeContent = 0, iconColor = 'primary', onClick = () => { }, anchorEl, ...rest }) {
     const newNotificationText = `You have ${badgeContent} new notifications`;
     const noNotificationText = 'You have no new notifications';
     const notificationText = badgeContent > 0 ? newNotificationText : noNotificationText;
@@ -15,7 +15,8 @@ export function NotificationBell({ badgeContent = 0, iconColor = 'primary', ...r
             title={notificationText}
         >
             <IconButton
-                aria-label="notification"
+                onClick={onClick}
+                anchorEl={anchorEl}
                 color={iconColor}
             >
                 <Badge

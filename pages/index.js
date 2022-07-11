@@ -1,5 +1,5 @@
 import Layout from '../components/Layout/Layout';
-import { ButtonLink } from '../components/MUI-reusable';
+import { ButtonLink, NotificationBell } from '../components/MUI-reusable';
 import { Paper } from '@mui/material';
 
 
@@ -16,6 +16,8 @@ export default function Home() {
     return (
         <>
             <Layout >
+                <NotificationBell />
+
                 <Paper sx={paperStyles}  >
                     <ButtonLink href='/po'>Purchase Orders</ButtonLink>
                     <ButtonLink href='/mwo'>Manufacturing</ButtonLink>

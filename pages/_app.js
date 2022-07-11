@@ -14,6 +14,10 @@ import moduleApollo from '../lib/apollo_client/moduleApollo';
 
 import { useEffect } from 'react';
 import { httpParams, request } from '../helpers/reusable';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import projectTheme from '../projectTheme';
+
+
 
 function MyApp({ Component, pageProps }) {
 
@@ -94,10 +98,13 @@ function MyApp({ Component, pageProps }) {
     }, []);
 
     return (
-        <ApolloProvider client={client} >
-            <div id="portalRoot"></div>
-            <Component {...pageProps} />
-        </ApolloProvider>
+        <ThemeProvider theme={projectTheme} >
+            <CssBaseline />
+            <ApolloProvider client={client} >
+                <div id="portalRoot"></div>
+                <Component {...pageProps} />
+            </ApolloProvider>
+        </ThemeProvider>
     )
 }
 

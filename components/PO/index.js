@@ -73,32 +73,11 @@ export default function POpageComp(pProps) {
     return (
         <Layout pageClasses={[styles.container]} >
             <Paper>
-                <POtable />
-            </Paper>
-            <section>-----</section>
-            <section className={`pageHeader`}>
-                <h1 className={`pageTitle`} > Purchase Orders</h1>
-                <SearchInput stateVariables={[searchInput, setSearchInput]} />
-                <ModalButton caption='Add PO' ModalComponent={Source_Form} sourceType='po' />
-            </section>
+                <POtable
+                // loading={loading}
 
-            <section className={`pageBody`} >
-                <POentry
-                    header={true}
                 />
-                {
-                    // By default, POlist's linkedModules only contain a reference to the modules. The following code compares the references with the ModuleState and returns the full module data.
-                    POlist.map((poData, idx) => {
-
-                        return <POentry
-                            key={idx}
-                            poData={{ index: idx, ...poData }}
-                        />
-
-                    })
-                }
-
-            </section>
+            </Paper>
         </Layout>
     )
 }

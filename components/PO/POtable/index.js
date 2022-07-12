@@ -1,20 +1,28 @@
+import dynamic from 'next/dynamic'
+
+import { data } from './tableData';
+import { columns } from './fieldConfig';
+
 import { Grid } from '@mui/material';
-
-import { columns, rows } from './poTableData';
 import { tableIcons } from '../../../constants/tableIcons';
-import MaterialTable from 'material-table'
-import { tableOptions } from './tableConfig';
+import { tableConfig } from './tableConfig';
+import MaterialTable from 'material-table';
+import { useEffect } from 'react';
 
 
-export default function POtable() {
+export default function POtable({
+    title,
+    data,
+    columns,
+    options,
+    ...rest
+}) {
     return (
         <>
             <MaterialTable
                 icons={tableIcons}
-                title='PO Table'
-                data={rows}
-                columns={columns}
-
+                {...tableConfig}
+                {...rest}
             />
         </>
 

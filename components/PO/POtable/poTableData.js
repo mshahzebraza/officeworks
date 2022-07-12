@@ -2,47 +2,47 @@
 export const columns = [
     {
         field: 'id',
-        headerName: 'Sr.',
-        flex: 1,
+        title: 'Sr.',
+        // flex: 1,
     },
     {
         field: 'refType',
-        headerName: 'Source',
+        title: 'Source',
         description: 'Source of Data',
-        flex: 1,
+        // flex: 1,
     },
     {
         field: 'refId',
-        headerName: 'Source ID',
+        title: 'Source ID',
         description: 'ID of Data Source',
-        flex: 1,
+        // flex: 1,
     },
     {
         field: 'ID',
-        headerName: 'Reference',
+        title: 'Reference',
         description: 'Type & ID of Data Source',
         valueGetter: (params) => (`${params.row.refType || ''}# ${params.row.refId || ''}`),
-        flex: 1,
+        // flex: 1,
     },
     {
         field: 'linkedModules', // inv.total
-        headerName: 'Items',
+        title: 'Items',
         description: 'What type of items were procured',
         sortable: false,
-        flex: 1,
+        // flex: 1,
     },
     {
         field: 'status',
-        headerName: 'Status',
+        title: 'Status',
         description: 'Current Status of PO',
-        flex: 1,
+        // flex: 1,
     },
     {
         field: 'controls',
-        headerName: 'Actions',
+        title: 'Actions',
         description: 'Options to view or edit the details',
         sortable: false,
-        flex: 1,
+        // flex: 1,
     },
 ];
 

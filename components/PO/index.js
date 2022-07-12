@@ -20,6 +20,8 @@ import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { populateLinkedModules } from '../../helpers/specific';
 import Source_Form from '../Procurement/Forms/Source_Form';
+import POtable from './POtable';
+import { Paper } from '@mui/material'
 
 export default function POpageComp(pProps) {
     // const router = useRouter();
@@ -70,7 +72,10 @@ export default function POpageComp(pProps) {
 
     return (
         <Layout pageClasses={[styles.container]} >
-
+            <Paper>
+                <POtable />
+            </Paper>
+            <section>-----</section>
             <section className={`pageHeader`}>
                 <h1 className={`pageTitle`} > Purchase Orders</h1>
                 <SearchInput stateVariables={[searchInput, setSearchInput]} />

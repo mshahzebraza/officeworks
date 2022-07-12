@@ -101,7 +101,7 @@ function MyApp({ Component, pageProps }) {
         <ThemeProvider theme={projectTheme} >
             <CssBaseline />
             <ApolloProvider client={client} >
-                <div id="portalRoot"></div>
+                <div id="portalRoot" style={{ position: 'absolute', zIndex: 1201 }} ></div>
                 <Component {...pageProps} />
             </ApolloProvider>
         </ThemeProvider>

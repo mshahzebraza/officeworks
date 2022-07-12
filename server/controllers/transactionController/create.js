@@ -1,10 +1,9 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import transactionModel from "../models/transactionModel";
 
 
 // create a transaction
-export const createTransaction = CatchAsyncErrors(async (req, res) => {
+export const createTransaction = async (req, res) => {
     const { transactionData, transactionDataList } = req.body;
     const isMultipleDataPassed = transactionDataList?.length > 0 && !transactionData; //! Always multiple!!!
     // ? Each data-set of transactionDataList must be converted to a single transaction. 
@@ -34,4 +33,4 @@ export const createTransaction = CatchAsyncErrors(async (req, res) => {
         },
         error: null,
     });
-});
+};

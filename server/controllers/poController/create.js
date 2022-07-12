@@ -1,9 +1,6 @@
-import { deepClone } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
-import mwoModel from "../models/mwoModel";
 
-export const createPO = CatchAsyncErrors(async (req, res) => {
+export const createPO = async (req, res) => {
 
     const { poData } = req.body;
     if (!poData) throw new Error('Please provide a valid poData')
@@ -16,4 +13,4 @@ export const createPO = CatchAsyncErrors(async (req, res) => {
         data: { createdPO },
         error: null
     })
-});
+};

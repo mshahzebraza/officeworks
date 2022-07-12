@@ -11,33 +11,40 @@ import moduleModel from '../../server/models/moduleModel';
 
 
 const fetchAppData = async (req, res) => {
-     try {
-          const poList = await poModel.find({})/* .populate('linkedModules') */.exec()
-          const mwoList = await mwoModel.find({})
-          const projectList = await projectModel.find({})
-          const transactionList = await transactionModel.find({});
-          const moduleList = await moduleModel.find({});
+    const poList = await poModel.find({})/* .populate('linkedModules') */.exec()
+    const mwoList = await mwoModel.find({})
+    const projectList = await projectModel.find({})
+    const transactionList = await transactionModel.find({});
+    const moduleList = await moduleModel.find({});
 
-          // console.log('pos', poList);
-          // console.log('mwos', mwoList);
-          // console.log('projects', projectList);
-          // console.log('transactions', transactionList);
-          // console.log('modules', moduleList);
+    // console.log('pos', poList);
+    // console.log('mwos', mwoList);
+    // console.log('projects', projectList);
+    // console.log('transactions', transactionList);
+    // console.log('modules', moduleList);
 
-          res.status(200).json({
-               success: true,
-               data: { poList, mwoList, projectList, transactionList, moduleList }
-          })
-
-     } catch (error) {
-          console.log(error);
-     }
+    res.status(200).json({
+        success: true,
+        data: { poList, mwoList, projectList, transactionList, moduleList }
+    })
 };
 
+
+
+
+// Define Middlewares for "Error" & "No Match"
+const handlerConfig = {
+    onNoMatch: (req, res) => {
+        invalidResponse(res, `Method ${req.method} not allowed`, 405)
+    },
+    onError: (err, req, res) => {
+        invalidResponse(res, err.message, 500)
+    }
+}
 // Establish connection to MongoDB
 
 connectDB();
-const ncHandler = nextConnect();
+const ncHandler = nextConnect(handlerConfig);
 ncHandler.get(fetchAppData)
 
 export default ncHandler;

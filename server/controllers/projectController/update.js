@@ -1,10 +1,9 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import projectModel from "../models/projectModel";
 
 
 //? Updates summary of project
-export const updateProject = CatchAsyncErrors(async (req, res) => {
+export const updateProject = async (req, res) => {
     const { projectUUID } = req.query;
     const { projectSummary } = req.body;
     if (!projectSummary) return invalidResponse(res, "Please provide a valid projectSummary")
@@ -29,9 +28,9 @@ export const updateProject = CatchAsyncErrors(async (req, res) => {
         }
     })
 
-});
+};
 
-export const updatePart = CatchAsyncErrors(async (req, res) => {
+export const updatePart = async (req, res) => {
     const { projectUUID, partID } = req.query;
     const { partData } = req.body;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
@@ -59,9 +58,9 @@ export const updatePart = CatchAsyncErrors(async (req, res) => {
             updatedParts
         }
     })
-});
+};
 
-export const updateAssembly = CatchAsyncErrors(async (req, res) => {
+export const updateAssembly = async (req, res) => {
     const { projectUUID, assemblyID } = req.query;
     const { assemblyData } = req.body;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
@@ -91,5 +90,5 @@ export const updateAssembly = CatchAsyncErrors(async (req, res) => {
             updatedAssemblies
         }
     })
-});
+};
 

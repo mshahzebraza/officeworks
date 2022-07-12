@@ -1,8 +1,8 @@
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
-import mwoModel from "../models/mwoModel";
+import mwoModel from "../../models/mwoModel";
+
 
 // delete mwo
-export const deleteMWO = CatchAsyncErrors(async (req, res) => {
+export const deleteMWO = async (req, res) => {
     const { mwoUUID } = req.query;
     if (!mwoUUID) throw new Error('Please provide a valid mwoUUID')
 
@@ -16,4 +16,4 @@ export const deleteMWO = CatchAsyncErrors(async (req, res) => {
         data: { deletedMWO }
     })
 
-});
+};

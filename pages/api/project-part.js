@@ -9,8 +9,21 @@ import connectDB from '../../server/config/config'
 import nextConnect from 'next-connect';
 // next-connect is makes the process of http requests easier.
 
+
+
+// Define Middlewares for "Error" & "No Match"
+const handlerConfig = {
+    onNoMatch: (req, res) => {
+        invalidResponse(res, `Method ${req.method} not allowed`, 405)
+    },
+    onError: (err, req, res) => {
+        invalidResponse(res, err.message, 500)
+    }
+}
+
+
 connectDB();
-const ncHandler = nextConnect();
+const ncHandler = nextConnect(handlerConfig);
 
 ncHandler.get(fetchParts);
 ncHandler.delete(deletePart);

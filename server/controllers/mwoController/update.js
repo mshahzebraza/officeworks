@@ -1,8 +1,7 @@
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
-import mwoModel from "../models/mwoModel";
+import mwoModel from "../../models/mwoModel";
 
 // update a mwo
-export const updateMWO = CatchAsyncErrors(async (req, res) => {
+export const updateMWO = async (req, res) => {
     const { mwoUUID } = req.query;
     const { mwoData } = req.body
     if (!mwoUUID) throw new Error('mwoUUID is required to update MWO')
@@ -21,4 +20,4 @@ export const updateMWO = CatchAsyncErrors(async (req, res) => {
         data: { updatedMWO }
     })
 
-});
+};

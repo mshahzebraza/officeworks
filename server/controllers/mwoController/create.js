@@ -1,8 +1,7 @@
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
-import mwoModel from "../models/mwoModel";
+import mwoModel from "../../models/mwoModel";
 
 // create a mwo
-export const createMWO = CatchAsyncErrors(async (req, res) => {
+export const createMWO = async (req, res) => {
     const { mwoData } = req.body
     if (!mwoData) throw new Error('Please provide valid data to create MWO.')
 
@@ -16,4 +15,4 @@ export const createMWO = CatchAsyncErrors(async (req, res) => {
         data: { createdMWO }
     })
 
-});
+};

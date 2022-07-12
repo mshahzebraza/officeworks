@@ -1,9 +1,6 @@
-import { deepClone } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
-import mwoModel from "../models/mwoModel";
 
-export const deletePO = CatchAsyncErrors(async (req, res) => {
+export const deletePO = async (req, res) => {
     const { poUUID } = req.query;
     if (!poUUID) throw new Error('Please provide a valid poUUID')
 
@@ -21,4 +18,4 @@ export const deletePO = CatchAsyncErrors(async (req, res) => {
         error: null
     })
 
-});
+};

@@ -1,13 +1,11 @@
-import CatchAsyncErrors from "../../middlewares/CatchAsyncErrors";
 import poModel from "../../models/poModel";
 import mwoModel from "../../models/mwoModel";
 import moduleModel from "../../models/moduleModel";
 import { asyncForEach, invalidResponse } from "../../../helpers/reusable";
 import { filterMWOmoduleData, filterPOmoduleData, separateModuleAndSourceData } from "../../../helpers/specific";
-import _, { isNumber } from "lodash";
 
 // ? = fetchModules (fetchModules should return the list of all modules regardless of the linked PO)
-export const fetchModules = CatchAsyncErrors(async (req, res) => {
+export const fetchModules = async (req, res) => {
     const { poUUID, mwoUUID, moduleUUID, moduleId } = req.query;
     // TODO: add the following functionality to the function
     if (poUUID && mwoUUID) return invalidResponse(res, "Cannot fetch modules for both PO and MWO");
@@ -75,4 +73,4 @@ export const fetchModules = CatchAsyncErrors(async (req, res) => {
         })
     }
 
-});
+};

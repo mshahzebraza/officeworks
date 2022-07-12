@@ -1,10 +1,9 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import projectModel from "../models/projectModel";
 
 
 //? Creates summary and 02x assemblies of project
-export const createProject = CatchAsyncErrors(async (req, res) => {
+export const createProject = async (req, res) => {
     const { projectSummary, projectAssemblies } = req.body;
     if (!projectSummary) return invalidResponse(res, "Please provide a valid projectSummary")
     if (!projectAssemblies) return invalidResponse(res, "Please provide valid projectAssemblies")
@@ -27,9 +26,9 @@ export const createProject = CatchAsyncErrors(async (req, res) => {
         }
     })
 
-});
+};
 
-export const createPart = CatchAsyncErrors(async (req, res) => {
+export const createPart = async (req, res) => {
     const { projectUUID } = req.query;
     const { partData } = req.body;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
@@ -52,9 +51,9 @@ export const createPart = CatchAsyncErrors(async (req, res) => {
             createdPart
         }
     })
-});
+};
 
-export const createAssembly = CatchAsyncErrors(async (req, res) => {
+export const createAssembly = async (req, res) => {
     const { projectUUID } = req.query;
     const { assemblyData } = req.body;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
@@ -80,4 +79,4 @@ export const createAssembly = CatchAsyncErrors(async (req, res) => {
             createdAssembly
         }
     })
-});
+};

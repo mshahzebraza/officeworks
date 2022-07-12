@@ -1,8 +1,7 @@
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
-import mwoModel from "../models/mwoModel";
+import mwoModel from "../../models/mwoModel";
 
 // Fetch all MWOs
-export const fetchMWOs = CatchAsyncErrors(async (req, res) => {
+export const fetchMWOs = async (req, res) => {
 
     const { mwoUUID } = req.query;
 
@@ -27,4 +26,4 @@ export const fetchMWOs = CatchAsyncErrors(async (req, res) => {
         data: { mwoList }
     })
 
-});
+};

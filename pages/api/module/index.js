@@ -6,7 +6,7 @@ import { invalidResponse } from '../../../helpers/reusable';
 
 
 
-
+// Define Middlewares for "Error" & "No Match"
 const handlerConfig = {
     onNoMatch: (req, res) => {
         invalidResponse(res, `Method ${req.method} not allowed`, 405)

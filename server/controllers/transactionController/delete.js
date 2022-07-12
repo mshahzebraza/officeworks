@@ -1,10 +1,9 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import transactionModel from "../models/transactionModel";
 
 
 // delete transaction
-export const deleteTransaction = CatchAsyncErrors(async (req, res) => {
+export const deleteTransaction = async (req, res) => {
     console.log('deleteTransaction!!!');
     const { transactionUUID } = req.query;
     if (!transactionUUID) invalidResponse(res, 'Please provide a valid transactionUUID')
@@ -24,4 +23,4 @@ export const deleteTransaction = CatchAsyncErrors(async (req, res) => {
         },
         error: null
     });
-});
+};

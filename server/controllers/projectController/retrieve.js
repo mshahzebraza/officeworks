@@ -1,10 +1,9 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import projectModel from "../models/projectModel";
 
 
 // Project.Summary
-export const fetchProjects = CatchAsyncErrors(async (req, res) => {
+export const fetchProjects = async (req, res) => {
     const projectList = await projectModel.find({})
     if (!projectList) return invalidResponse(res, "No project found")
 
@@ -15,10 +14,10 @@ export const fetchProjects = CatchAsyncErrors(async (req, res) => {
         }
     })
 
-});
+};
 
 // Project.Parts
-export const fetchParts = CatchAsyncErrors(async (req, res) => {
+export const fetchParts = async (req, res) => {
     const { projectUUID } = req.query;
     if (!projectUUID) return invalidResponse(res);
 
@@ -34,11 +33,11 @@ export const fetchParts = CatchAsyncErrors(async (req, res) => {
             partList: parts
         }
     })
-});
+};
 
 
 // Project.Assemblies
-export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
+export const fetchAssemblies = async (req, res) => {
     const { projectUUID } = req.query;
     const { assemblies = [] } = await projectModel.findById(projectUUID)
     if (!projectUUID) return invalidResponse(res);
@@ -52,4 +51,4 @@ export const fetchAssemblies = CatchAsyncErrors(async (req, res) => {
             assemblyList: assemblies
         }
     })
-});
+};

@@ -1,8 +1,7 @@
 import { invalidResponse } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import projectModel from "../models/projectModel";
 
-export const deleteProject = CatchAsyncErrors(async (req, res) => {
+export const deleteProject = async (req, res) => {
     const { projectUUID } = req.query;
     if (!projectUUID) return invalidResponse(res);
 
@@ -18,9 +17,9 @@ export const deleteProject = CatchAsyncErrors(async (req, res) => {
         }
     })
 
-});
+};
 
-export const deletePart = CatchAsyncErrors(async (req, res) => {
+export const deletePart = async (req, res) => {
     const { projectUUID, partID } = req.query;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
     if (!partID) return invalidResponse(res, "Please provide a valid partID");
@@ -43,9 +42,9 @@ export const deletePart = CatchAsyncErrors(async (req, res) => {
             updatedParts
         }
     })
-});
+};
 
-export const deleteAssembly = CatchAsyncErrors(async (req, res) => {
+export const deleteAssembly = async (req, res) => {
     const { projectUUID, assemblyID } = req.query;
     if (!projectUUID) return invalidResponse(res, "Please provide a valid projectUUID");
     if (!assemblyID) return invalidResponse(res, "Please provide a valid assemblyID");
@@ -74,4 +73,4 @@ export const deleteAssembly = CatchAsyncErrors(async (req, res) => {
             updatedAssemblies
         }
     })
-});
+};

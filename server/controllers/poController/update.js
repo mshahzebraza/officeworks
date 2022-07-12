@@ -1,9 +1,6 @@
-import { deepClone } from "../../helpers/reusable";
-import CatchAsyncErrors from "../middlewares/CatchAsyncErrors";
 import poModel from "../models/poModel";
-import mwoModel from "../models/mwoModel";
 
-export const updatePO = CatchAsyncErrors(async (req, res) => {
+export const updatePO = async (req, res) => {
 
     const { poUUID } = req.query;
     const { poData } = req.body;
@@ -30,4 +27,4 @@ export const updatePO = CatchAsyncErrors(async (req, res) => {
         data: { updatedPO },
         error: null
     })
-});
+};

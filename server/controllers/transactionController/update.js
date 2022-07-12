@@ -1,4 +1,4 @@
-import { invalidResponse } from "../../helpers/reusable";
+import { invalidResponse } from "../../../helpers/reusable";
 import transactionModel from "../models/transactionModel";
 
 // update a transaction

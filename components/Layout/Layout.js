@@ -24,6 +24,11 @@ export default function Layout({ children }) {
                 <link rel="icon" type="image/png" sizes="32x32" href={`${faviconPathPrefix}/favicon-32x32.png`} />
                 <link rel="icon" type="image/png" sizes="16x16" href={`${faviconPathPrefix}/favicon-16x16.png`} />
                 <link rel="manifest" href={`${faviconPathPrefix}/site.webmanifest`} />
+                {/* Fonts */}
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500,600,700&display=swap"
+                />
             </Head>
 
             <Grid container  >
@@ -31,7 +36,15 @@ export default function Layout({ children }) {
                 <Grid item xs>
                     <Container maxWidth="xl" disableGutters>
                         <Header title={getHeaderTitle(router.pathname)} />
-                        {children}
+                        <Container
+                            sx={{
+                                backgroundColor: 'white.main',
+                                p: 2
+                            }}
+                            maxWidth="xl"
+                            disableGutters>
+                            {children}
+                        </Container>
                     </Container>
                 </Grid>
             </Grid>

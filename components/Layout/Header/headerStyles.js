@@ -1,10 +1,10 @@
 export const headerStyles = {
     wrapper: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        // width: '100%',
+        // display: 'flex',
+        // flexDirection: 'col//umn',
         backgroundColor: '#009be5',
-        padding: '20px',
+        p: 2,
     },
     topRow: {
         display: 'flex',
@@ -25,7 +25,7 @@ export const headerStyles = {
         color: 'rgba(255, 255, 255, 0.7)',
         "&:hover": {
             color: '#fff',
-            cursor: 'pointer',
+            // cursor: 'pointer',
         },
     },
     webButton: {

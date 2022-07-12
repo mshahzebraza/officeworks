@@ -3,7 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 
-export function BasicMenu({ anchorEl, handleClose = () => { }, open = false, menuItems = [] }) {
+export function BasicMenu({ anchorEl, handleClose = () => { }, open = false, menuItems = [], fallback = 'No menu items available' }) {
 
     return (
         <div>
@@ -23,7 +23,7 @@ export function BasicMenu({ anchorEl, handleClose = () => { }, open = false, men
                             )
                         })
                         : <MenuItem onClick={handleClose}>
-                            No menu item
+                            {fallback}
                         </MenuItem>
                 }
             </Menu>

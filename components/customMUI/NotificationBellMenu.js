@@ -28,6 +28,7 @@ export function NotificationBellMenu({ notifications = [], iconColor = 'primary'
                 anchorEl={anchorEl}
                 handleClose={handleClose}
                 menuItems={notifications}
+                fallback="No notifications available"
             />
         </>
     )

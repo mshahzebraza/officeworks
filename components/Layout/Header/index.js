@@ -1,20 +1,20 @@
 import React from 'react'
-import { Avatar, Box, Typography, Button, Tooltip, IconButton } from '@mui/material';
+import { Avatar, Box, Typography, Button, Tooltip, IconButton, Container } from '@mui/material';
 import HelpIcon from '@mui/icons-material/Help';
 import { ButtonLink, NotificationBellMenu } from '../../customMUI';
 import { headerStyles } from './headerStyles';
 
-
 function Header({ title = 'Header Title' }) {
 
     return (
-        <Box sx={headerStyles.wrapper}>
+        <Container sx={headerStyles.wrapper} maxWidth='xl' disableGutters >
             <Box sx={headerStyles.topRow}>
-                <Typography
+                <ButtonLink
                     sx={headerStyles.link}
+                    variant='standard'
                 >
                     Go to docs
-                </Typography>
+                </ButtonLink>
                 <NotificationBellMenu
                     iconColor="white"
                 />
@@ -46,7 +46,7 @@ function Header({ title = 'Header Title' }) {
                     </Tooltip>
                 </Box>
             </Box>
-        </Box>
+        </Container>
     )
 }
 

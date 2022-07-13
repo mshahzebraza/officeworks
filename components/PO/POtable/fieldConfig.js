@@ -29,25 +29,28 @@ export const columns = [
         // ?this field now is not editable in the table... must be added dynamically
         editable: false,
         tooltip: 'Serial Number',
+        grouping: false,
         // flex: 1,
     },
     {
         field: 'refType',
         title: 'Source',
         tooltip: 'Source of Data',
+
         // flex: 1,
     },
     {
         field: 'refId',
         title: 'Source ID',
         tooltip: 'ID of Data Source',
+        grouping: false,
         // flex: 1,
     },
     {
         field: 'ID',
         title: 'Reference',
         tooltip: 'Type & ID of Data Source',
-
+        grouping: false,
         // flex: 1,
     },
     {
@@ -55,6 +58,7 @@ export const columns = [
         title: 'Items',
         tooltip: 'What type of items were procured',
         sortable: false,
+        grouping: false,
         //? Custom Components | Formatters
         render: (rowData) => formatModules(rowData.linkedModules),
         // flex: 1,
@@ -73,6 +77,8 @@ export const columns = [
         title: 'Status',
         tooltip: 'Current Status of PO',
         lookup: statusLookup, // ? Lookups
+        defaultGroupOrder: 0,
+        defaultGroupSort: 'desc',
         // flex: 1,
     },
 

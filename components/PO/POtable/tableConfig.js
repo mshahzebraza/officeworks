@@ -33,15 +33,16 @@ const componentOverrides = {
 
 
 export const tableOptions = {
-    // Set by Default
+    // Set to Default Values
     paging: true,
     search: true,
     filtering: false,
 
-    // Set by User
+    // Set Other than default
     exportButton: true,
     actionsColumnIndex: -1, //? to position the actions column to the right
     addRowPosition: 'first', // | 'last' //? to add new rows to the top 
+    grouping: true, // certain columns can be configured otherwise.
 }
 
 

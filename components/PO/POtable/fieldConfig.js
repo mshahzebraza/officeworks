@@ -1,4 +1,5 @@
-import Button from '@mui/material/Button'
+import { Box, Grid, Button, Avatar, Typography, Tooltip } from '@mui/material';
+import CellAvatar from '../../customMUI/tableComponents/CellAvatar';
 
 
 const statusLookup = {
@@ -13,6 +14,42 @@ const statusLookup = {
     8: 'Delivery Confirmed',
     9: 'Closed',
 }
+
+
+const defaultPhotoPath = '/images/avatar.png';
+const initiatorData = {
+    7320: {
+        name: 'Shahzeb',
+        photoPath: '/images/avatar.png'
+    },
+    7321: {
+        name: 'Jane Doe',
+    },
+    7322: {
+        name: 'Jack Doe',
+    },
+    7323: {
+        name: 'Jill Doe',
+    },
+    7324: {
+        name: 'Joe Doe',
+    },
+    7325: {
+        name: 'Juan Doe',
+    },
+    7326: {
+        name: 'Julie Doe',
+    },
+    7327: {
+        name: 'Jenny Doe',
+    },
+    7328: {
+        name: 'John Doe',
+    },
+
+}
+
+
 
 function formatModules(modules) {
     if (!modules || modules.length === 0) return null;
@@ -48,7 +85,7 @@ export const columns = [
     },
     {
         field: 'ID',
-        title: 'Reference',
+        title: 'Reference ID',
         tooltip: 'Type & ID of Data Source',
         grouping: false,
         // flex: 1,
@@ -77,9 +114,29 @@ export const columns = [
         title: 'Status',
         tooltip: 'Current Status of PO',
         lookup: statusLookup, // ? Lookups
-        defaultGroupOrder: 0,
-        defaultGroupSort: 'desc',
+        // defaultGroupOrder: 0, // ? group by default
+        // defaultGroupSort: 'desc',
         // flex: 1,
+    },
+    {
+        field: 'initiator',
+        title: 'Initiator',
+        grouping: false,
+        tooltip: 'Initiator of Purchase Case',
+        render: (rowData) => { // ? images can be added with this method
+            const initiatorID = rowData.initiator;
+            const initiator = initiatorData[initiatorID];
+            let fallback = false;
+            if (!initiator) {
+                fallback = initiatorID;
+            }
+
+            return <CellAvatar
+                data={initiator}
+                fallback={fallback}
+                text={initiator?.name ?? initiatorID}
+            />
+        }
     },
 
 ];

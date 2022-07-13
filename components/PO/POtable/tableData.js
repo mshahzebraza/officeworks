@@ -6,68 +6,79 @@ export const data = [
         // refId: '024',
         linkedModules: ['35', 'sd'],
         status: 5,
+        initiator: 7321,
+
     },
     {
         id: 2,
         refType: 'PO',
         refId: '3325',
         linkedModules: ['42', 'sd'],
-        status: 3
+        status: 3,
+        initiator: 7322,
     },
     {
         id: 3,
         refType: 'PO',
         refId: '553',
         linkedModules: ['45', 'sd'],
-        status: 2
+        status: 2,
+        initiator: 7323,
     },
     {
         id: 4,
         refType: 'PO',
         refId: '2235',
         linkedModules: ['16', 'sd'],
-        status: 1
+        status: 1,
+        initiator: 7324,
     },
     {
         id: 5,
         refType: 'PO',
         refId: '870',
         linkedModules: ['null', 'sd'],
-        status: 4
+        status: 4,
+        initiator: 7325,
     },
     {
         id: 6,
         refType: 'PO',
         refId: "192",
         linkedModules: ['150', 'sd'],
-        status: 0
+        status: 0,
+        initiator: 7326,
     },
     {
         id: 7,
         refType: 'PO',
         refId: '136',
         linkedModules: ['44', 'sd'],
-        status: 6
+        status: 6,
+        initiator: 7327,
     },
     {
         id: 8,
         refType: 'PO',
         refId: '634',
         linkedModules: ['36', 'sd'],
-        status: 7
+        status: 7,
+        initiator: 7329,
     },
     {
         id: 9,
         refType: 'PO',
         refId: '614',
         linkedModules: ['65', 'sd'],
-        status: 9
+        status: 9,
+        initiator: 7320,
     },
     {
         id: 10,
         refType: 'DN',
         refId: '668',
         linkedModules: ['15', 'sa'],
-        status: 8
+        status: 8,
+        initiator: 7320,
     },
 ];

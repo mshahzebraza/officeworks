@@ -28,32 +28,32 @@ export const columns = [
         title: 'Sr.',
         // ?this field now is not editable in the table... must be added dynamically
         editable: false,
+        tooltip: 'Serial Number',
         // flex: 1,
     },
     {
         field: 'refType',
         title: 'Source',
-        description: 'Source of Data',
+        tooltip: 'Source of Data',
         // flex: 1,
     },
     {
         field: 'refId',
         title: 'Source ID',
-        description: 'ID of Data Source',
+        tooltip: 'ID of Data Source',
         // flex: 1,
     },
     {
         field: 'ID',
         title: 'Reference',
-        description: 'Type & ID of Data Source',
-        // ? Value Getters || Dependent Fields
-        valueGetter: (params) => (`${params.row.refType || ''}# ${params.row.refId || ''}`),
+        tooltip: 'Type & ID of Data Source',
+
         // flex: 1,
     },
     {
         field: 'linkedModules', // inv.total
         title: 'Items',
-        description: 'What type of items were procured',
+        tooltip: 'What type of items were procured',
         sortable: false,
         //? Custom Components | Formatters
         render: (rowData) => formatModules(rowData.linkedModules),
@@ -71,7 +71,7 @@ export const columns = [
     {
         field: 'status',
         title: 'Status',
-        description: 'Current Status of PO',
+        tooltip: 'Current Status of PO',
         lookup: statusLookup, // ? Lookups
         // flex: 1,
     },

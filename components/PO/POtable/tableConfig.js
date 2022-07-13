@@ -1,7 +1,8 @@
 import { tableIcons } from "../../../constants/tableIcons"
 import { columns } from "./fieldConfig"
 import { data } from "./tableData"
-
+import { MTableAction, MTableActions } from 'material-table'
+import RowOverlay from "../../customMUI/tableComponents/RowOverlay"
 
 
 // ? Adding the icons automatically create icons for each action
@@ -24,6 +25,11 @@ const editableOptions = {
 }
 
 
+const componentOverrides = {
+    // Row: RowOverlay,
+
+}
+
 
 
 export const tableOptions = {
@@ -45,5 +51,20 @@ export const tableConfig = {
     data,
     columns,
     options: tableOptions,
-    editable: editableOptions,
+    editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
+    actions: [
+        {
+            icon: tableIcons.Details,
+            tooltip: 'Go To Purchase Details',
+            onClick: (event, rowData) => alert(rowData)
+        },
+        {
+            icon: tableIcons.Summary,
+            tooltip: 'View Summary',
+            onClick: (event, rowData) => console.log(rowData)
+        },
+    ],
+    components: componentOverrides
+
+
 }

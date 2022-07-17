@@ -3,6 +3,7 @@ import { columns } from "./fieldConfig"
 import { data } from "./tableData"
 import { MTableAction, MTableActions } from 'material-table'
 import RowOverlay from "../../customMUI/tableComponents/RowOverlay"
+import { Switch } from "@mui/material"
 
 
 // ? Adding the icons automatically create icons for each action
@@ -21,9 +22,32 @@ const editableOptions = {
     onBulkUpdate: (updatedRows) => new Promise((resolve, reject) => {
         setTimeout(() => { console.log('updatedRows', updatedRows); resolve(); }, 600);
     }),
+    isDeleteHidden: (rowData) => rowData.id === 1,
+    isDeletable: (rowData) => rowData.id !== 2,
+    isEditHidden: (rowData) => rowData.id === 3,
+    onRowAddCancelled: (rowData) => console.log('Row adding cancelled'),
+    onRowUpdateCancelled: (rowData) => console.log('Row editing cancelled'),
+
 
 }
-
+const customActions = [
+    {
+        icon: tableIcons.Details,
+        tooltip: 'Go To Purchase Details',
+        onClick: (event, rowData) => alert(rowData)
+    },
+    {
+        icon: tableIcons.Summary,
+        tooltip: 'View Summary',
+        onClick: (event, rowData) => console.log(rowData)
+    },
+    {
+        icon: () => <Switch />,
+        tooltip: 'Theme Switch',
+        onClick: (event, rowData) => console.log(rowData),
+        isFreeAction: true,
+    }
+]
 
 const componentOverrides = {
     // Row: RowOverlay,
@@ -53,18 +77,7 @@ export const tableConfig = {
     columns,
     options: tableOptions,
     editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
-    actions: [
-        {
-            icon: tableIcons.Details,
-            tooltip: 'Go To Purchase Details',
-            onClick: (event, rowData) => alert(rowData)
-        },
-        {
-            icon: tableIcons.Summary,
-            tooltip: 'View Summary',
-            onClick: (event, rowData) => console.log(rowData)
-        },
-    ],
+    actions: customActions,
     components: componentOverrides
 
 

@@ -1,4 +1,4 @@
-import { Box, Grid, Button, Avatar, Typography, Tooltip } from '@mui/material';
+import { Chip, Box, Grid, Button, Avatar, Typography, Tooltip } from '@mui/material';
 import CellAvatar from '../../customMUI/tableComponents/CellAvatar';
 
 
@@ -97,7 +97,14 @@ export const columns = [
         sortable: false,
         grouping: false,
         //? Custom Components | Formatters
-        render: (rowData) => formatModules(rowData.linkedModules),
+        render: (rowData) => <Grid container gap={1}>
+            {rowData.linkedModules.map(
+                (module, index) => <Grid item key={index}>
+                    <Chip label={module} />
+                </Grid>
+            )}
+            {/* {formatModules(rowData.linkedModules)} */}
+        </Grid>,
         // flex: 1,
         //? to assign a custom component to a column, you can use the following syntax: 
         // editComponent: props => (

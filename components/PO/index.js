@@ -8,9 +8,6 @@ import styles from '../../styles/poDirectory.module.scss'
 // Components
 import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';
-import ModalButton from '../UI/ModalButton';
-import SearchInput from '../UI/SearchInput';
-
 
 import { useReactiveVar } from "@apollo/client";
 import poApollo from '../../lib/apollo_client/poApollo';
@@ -19,22 +16,20 @@ import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { mapModulesToPO } from '../../helpers/specific';
 import Source_Form from '../Procurement/Forms/Source_Form';
-import { Paper } from '@mui/material'
+import { Paper, Button, Tooltip } from '@mui/material'
 import MaterialTable from 'material-table';
 import { tableIcons, data, columns } from './POtable';
-
-
-
-
-
-
-
-
+import PO_Summary from './PO_Summary';
 
 
 export default function POpageComp(pProps) {
     // const router = useRouter();
 
+    const [modalState, setModalState] = useState({
+        addForm: { state: false, data: null },
+        editForm: { state: false, data: null },
+        summaryDialog: { state: false, data: null },
+    })
     const POstate = useReactiveVar(poApollo)
     const ModuleState = useReactiveVar(moduleApollo)
 
@@ -69,7 +64,13 @@ export default function POpageComp(pProps) {
         {
             icon: tableIcons.Add,
             tooltip: 'Add Purchase Record',
-            onClick: (event, rowData) => alert('add'),
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                addForm: {
+                    ...prevState.addForm,
+                    state: true
+                }
+            })),
             isFreeAction: true,
         },
         {
@@ -80,12 +81,26 @@ export default function POpageComp(pProps) {
         {
             icon: tableIcons.Edit,
             tooltip: 'Edit Purchase Record',
-            onClick: (event, rowData) => alert('edit')
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                editForm: {
+                    ...prevState.editForm,
+                    state: true,
+                    data: rowData
+                }
+            })),
         },
         {
             icon: tableIcons.Summary,
             tooltip: 'View Summary',
-            onClick: (event, rowData) => alert('summary')
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                summaryDialog: {
+                    ...prevState.summaryDialog,
+                    state: true,
+                    data: rowData
+                }
+            })),
         },
         {
             icon: tableIcons.Details,
@@ -112,27 +127,71 @@ export default function POpageComp(pProps) {
         // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
         actions: customActions,
     }
-    console.log('POlist', POlist)
-    console.log('data', data)
-
 
     return (
-        <Layout >
-            <Paper>
-                <MaterialTable
-                    title='Purchase Cases'
-                    icons={tableIcons}
-                    data={POlist}
-                    {...tableConfig}
+        <>
+            {modalState.addForm.state &&
+                <Source_Form
+                    sourceType='po'
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                addForm: {
+                                    ...prevState.addForm,
+                                    state: false,
+                                }
+                            }))}
                 />
-            </Paper>
-        </Layout>
+            }
+            {modalState.editForm.state &&
+                <Source_Form
+                    sourceType='po'
+                    data={modalState.editForm.data}
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                editForm: {
+                                    ...prevState.editForm,
+                                    state: false,
+                                }
+                            }))}
+                />
+            }
+            {modalState.summaryDialog.state &&
+                // ! Delete or use the summarizer function to pass in only the key-value pairs ... or create a new function
+                <PO_Summary
+                    poData={modalState.summaryDialog.data}
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                summaryDialog: {
+                                    ...prevState.summaryDialog,
+                                    state: false,
+                                }
+                            }))}
+                />
+            }
+
+            <Layout >
+                <Paper>
+                    <MaterialTable
+                        title='Purchase Cases'
+                        icons={tableIcons}
+                        data={POlist}
+                        {...tableConfig}
+                    />
+                </Paper>
+            </Layout>
+        </>
+
     )
 }
 
 function populatePOlist(POList, ModuleList) {
 
-    console.log('POList[0]', POList[0])
     const populatedPOlist = POList.map((currentRecord, idx) => {
         currentRecord = deepClone(currentRecord) // ?so that the original apollo state is not mutated
         // for each of moduleRefs, find the corresponding module data in the ModuleState
@@ -144,4 +203,40 @@ function populatePOlist(POList, ModuleList) {
 
 
     return populatedPOlist;
+}
+
+
+
+function ModalButton({ caption = 'Show Modal', ModalComponent, outerClasses = [], tooltip = '', disabled, children, ...rest }) {
+
+
+    const [modalState, setModalState] = useState(false)
+    return (
+        <>
+            {/* <Button
+                outerClasses={outerClasses}
+                click={() => setModalState(true)}
+                caption={caption && caption}
+                tooltip={tooltip}
+                disabled={disabled}
+            >
+                {children}
+            </Button> */}
+
+            <Tooltip title={tooltip || caption}>
+
+                <Button
+                    variant="text"
+                    color="primary"
+                    click={() => setModalState(true)}
+                >
+                    {caption}
+
+                </Button>
+            </Tooltip>
+
+            {modalState && <ModalComponent {...rest} closer={() => setModalState(false)} />}
+
+        </>
+    )
 }

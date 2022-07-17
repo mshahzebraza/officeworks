@@ -20,7 +20,7 @@ const defaultPhotoPath = '/images/avatar.png';
 const initiatorData = {
     7320: {
         name: 'Shahzeb',
-        photoPath: '/images/avatar.png'
+        photoPath: defaultPhotoPath
     },
     7321: {
         name: 'Jane Doe',
@@ -51,20 +51,13 @@ const initiatorData = {
 
 
 
-function formatModules(modules) {
-    if (!modules || modules.length === 0) return null;
-    // return modules.map(module => module.name).join(', ');
-    return modules.join(', ');
-}
-
-
 
 export const columns = [
     {
         field: 'id',
         title: 'Sr.',
         // ?this field now is not editable in the table... must be added dynamically
-        editable: false,
+        // editable: false,
         tooltip: 'Serial Number',
         grouping: false,
         // width: 100,
@@ -84,6 +77,7 @@ export const columns = [
         tooltip: 'ID of Data Source',
         grouping: false,
         hidden: true,
+        default: '-',
         // flex: 1,
     },
     {
@@ -92,6 +86,13 @@ export const columns = [
         tooltip: 'Type & ID of Data Source',
         grouping: false,
         render: (rowData) => `${rowData.refType} ${rowData.refId}`,
+        // flex: 1,
+    },
+    {
+        field: 'category',
+        title: 'Category',
+        tooltip: 'Category of Purchase',
+        grouping: false,
         // flex: 1,
     },
     {
@@ -104,10 +105,9 @@ export const columns = [
         render: (rowData) => <Grid container gap={1}>
             {rowData.linkedModules.map(
                 (module, index) => <Grid item key={index}>
-                    <Chip label={module} />
+                    <Chip label={module.name || 'Null'} />
                 </Grid>
             )}
-            {/* {formatModules(rowData.linkedModules)} */}
         </Grid>,
         // flex: 1,
         //? To render a custom input component when editing the row data: 
@@ -130,7 +130,7 @@ export const columns = [
         // flex: 1,
     },
     {
-        field: 'initiator',
+        field: 'initiatorID',
         title: 'Initiator',
         grouping: false,
         tooltip: 'Initiator of Purchase Case',
@@ -145,7 +145,7 @@ export const columns = [
             return <CellAvatar
                 data={initiator}
                 fallback={fallback}
-                text={initiator?.name ?? initiatorID}
+                text={initiator?.name ?? initiatorID ?? 'NULL'}
             />
         }
     },

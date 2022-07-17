@@ -19,6 +19,7 @@ export function BasicMenu({ anchorEl, handleClose = () => { }, open = false, men
                             return (
                                 <MenuItem key={index} onClick={handleClose}>
                                     {item.label}
+                                    {/* There could be icons as well defined in the menuItems.icon */}
                                 </MenuItem>
                             )
                         })

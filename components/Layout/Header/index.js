@@ -17,6 +17,7 @@ function Header({ title = 'Header Title' }) {
                 </ButtonLink>
                 <NotificationBellMenu
                     iconColor="white"
+                    notifications={[{ label: 'Notification 1' }, { label: 'Notification 2' }]}
                 />
                 <Avatar src="/images/avatar.png" />
             </Box>

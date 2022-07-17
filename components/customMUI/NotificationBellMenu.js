@@ -20,7 +20,6 @@ export function NotificationBellMenu({ notifications = [], iconColor = 'primary'
             <NotificationBell
                 badgeContent={notifications.length}
                 iconColor={iconColor}
-                anchorEl={anchorEl}
                 onClick={handleOpen}
             />
             <BasicMenu

@@ -7,13 +7,13 @@ const CellAvatar = ({ data: avatarData, fallback = false, text = false }) => { /
     return (
         <Grid container gap={2} alignItems='center' >
             {/* Tooltip Avatar */}
-            <Tooltip title={avatarData?.name} >
+            <Tooltip title={avatarData?.name || text} >
                 <Avatar
                     src={avatarData?.photoPath}
                     alt={avatarData?.name}
                     sx={{ border: !fallback ? '2px solid black' : '2px solid crimson' }}
                 />
-            </Tooltip>
+            </Tooltip >
             {/* Avatar Text */}
             {text && <Typography>
                 {text}

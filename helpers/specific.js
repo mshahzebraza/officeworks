@@ -6,33 +6,33 @@ cloneAndPluck
 export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
 
 
-     const permanentFields = [
-          // Always present
-          '_id',
-          'id',
-          'name',
-          'linkedMWOs',
-          'linkedPOs',
-          'qty',
-          'unitPrice',
-          'remarks',
-          // Present after specs-update
-          'application',
-          'type',
-          // ? Flexible - we want to delete these and add then add the flexible fields from the form
-          // 's1',
-     ];
+    const permanentFields = [
+        // Always present
+        '_id',
+        'id',
+        'name',
+        'linkedMWOs',
+        'linkedPOs',
+        'qty',
+        'unitPrice',
+        'remarks',
+        // Present after specs-update
+        'application',
+        'type',
+        // ? Flexible - we want to delete these and add then add the flexible fields from the form
+        // 's1',
+    ];
 
-     moduleSpecs = {
-          ...cloneAndPluck(
-               moduleSpecs,
-               permanentFields
-          ),
-          ...updateFormData
-     }
+    moduleSpecs = {
+        ...cloneAndPluck(
+            moduleSpecs,
+            permanentFields
+        ),
+        ...updateFormData
+    }
 
 
-     return moduleSpecs;
+    return moduleSpecs;
 
 }
 
@@ -54,13 +54,13 @@ export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
 */
 // ? source-specific and independent module data
 export const filterPOmoduleData = (data) => {
-     // const { id, name, application, type, ...sourceData } = data;
-     const { qty, unitPrice, remarks, ...moduleData } = data;
+    // const { id, name, application, type, ...sourceData } = data;
+    const { qty, unitPrice, remarks, ...moduleData } = data;
 
-     return [
-          moduleData,
-          { qty, unitPrice, remarks },
-     ];
+    return [
+        moduleData,
+        { qty, unitPrice, remarks },
+    ];
 }
 
 /*
@@ -85,162 +85,164 @@ export const filterPOmoduleData = (data) => {
 
 */
 export const filterMWOmoduleData = (data) => {
-     // const { itemId: id, itemName: name, application, type, ...sourceData } = data;
-     const { qty, remarks, ...moduleData } = data;
+    // const { itemId: id, itemName: name, application, type, ...sourceData } = data;
+    const { qty, remarks, ...moduleData } = data;
 
-     return [
-          moduleData,
-          { qty, remarks }
-     ];
+    return [
+        moduleData,
+        { qty, remarks }
+    ];
 }
 
 
 // ? source-specific and independent module data
 export const separateModuleAndSourceData = (data, sourceType = null) => {
-     let sourceData = {};
-     const { qty, unitPrice, remarks, ...moduleData } = data;
+    let sourceData = {};
+    const { qty, unitPrice, remarks, ...moduleData } = data;
 
-     if (sourceType === 'PO') {
-          sourceData = { qty, unitPrice, remarks };
-     } else if (sourceType === 'MWO') {
-          sourceData = { qty, remarks };
-     } else {
-          return [moduleData, null];
-     }
+    if (sourceType === 'PO') {
+        sourceData = { qty, unitPrice, remarks };
+    } else if (sourceType === 'MWO') {
+        sourceData = { qty, remarks };
+    } else {
+        return [moduleData, null];
+    }
 
-     return [
-          moduleData,
-          sourceData
-     ];
+    return [
+        moduleData,
+        sourceData
+    ];
 }
 
 export const sourceSpecificKeys = (sourceType = 'po') => {
-     if (sourceType === 'po') return ['unitPrice', 'qty', 'remarks']
-     if (sourceType === 'mwo') return [/* 'unitPrice',  */'qty', 'remarks']
+    if (sourceType === 'po') return ['unitPrice', 'qty', 'remarks']
+    if (sourceType === 'mwo') return [/* 'unitPrice',  */'qty', 'remarks']
 }
 
 export const moduleSpecificKeys = (returnLinkedFields = false) => {
-     const moduleKeys = [
-          "id",
-          "name",
-          "application",
-          "type",
-     ]
-     if (!!returnLinkedFields) moduleKeys.concat(['linkedMWOs', "linkedPOs"])
-     return moduleKeys
+    const moduleKeys = [
+        "id",
+        "name",
+        "application",
+        "type",
+    ]
+    if (!!returnLinkedFields) moduleKeys.concat(['linkedMWOs', "linkedPOs"])
+    return moduleKeys
 }
 
 
 
 // takes in a list of POitems and returns a list of POitems with the linked modules populated
-export function populateLinkedModules(linkedModuleList, moduleList) {
-     return linkedModuleList.map((linkedModule) => {
-          const { item: moduleRef, ...rest } = linkedModule;
+export function mapModulesToPO(linkedModules, moduleList) {
+    return linkedModules.map((linkedModule) => {
+        const { item: moduleRef, ...rest } = linkedModule;
 
-          const matchingModule = deepClone(
-               moduleList.find(module => {
-                    return module._id === moduleRef
-               })
-          ) || {}
-          // ? " || {} " was added to solve the problem of delay in state update. In the 1/2 of the state update, the empty module is returned to avoid the error and upon the 2/2 state update the logic runs again and fetches the matchingModule
-          console.assert(matchingModule, 'MatchingModule is empty. Must Not Happen', matchingModule);
+        // match module._id with linkedModule.item
+        const matchingModule = deepClone(
+            moduleList.find(module => {
+                return module._id === moduleRef
+            })
+        ) || {}
 
-          delete matchingModule.linkedPOs;
-          delete matchingModule.linkedMWOs;
-          delete matchingModule.__v;
+        // ? " || {} " was added to solve the problem of delay in state update. In the 1/2 of the state update, the empty module is returned to avoid the error and upon the 2/2 state update the logic runs again and fetches the matchingModule
+        console.assert(matchingModule, 'MatchingModule is empty. Must Not Happen', matchingModule);
 
-          return {
-               ...matchingModule,
-               ...rest,
-          }
+        delete matchingModule.linkedPOs;
+        delete matchingModule.linkedMWOs;
+        delete matchingModule.__v;
 
-     })
+        return {
+            ...matchingModule,
+            ...rest,
+        }
+
+    })
 
 }
 
 
 export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) {
-     // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
-     // Output //? {x: 'x2', y: 'y2'}
+    // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
+    // Output //? {x: 'x2', y: 'y2'}
 
-     const responseObj = {};
-     for (const key in source) {
+    const responseObj = {};
+    for (const key in source) {
 
-          const [firstKey, ...nestedKeys] = key.split('.');
+        const [firstKey, ...nestedKeys] = key.split('.');
 
-          if (!!nestedKeys.length) { // if nested keys exist
-               const [secondKey, ...deepNestedKeys] = nestedKeys;
-               if (!!deepNestedKeys.length) throw new Error('Multi-Nested keys are not supported yet');
+        if (!!nestedKeys.length) { // if nested keys exist
+            const [secondKey, ...deepNestedKeys] = nestedKeys;
+            if (!!deepNestedKeys.length) throw new Error('Multi-Nested keys are not supported yet');
 
-               // if the first key is not defined already set it to {}
-               responseObj[firstKey] = responseObj[firstKey] ?? {};
-               responseObj[firstKey][secondKey] = source[key][index];
+            // if the first key is not defined already set it to {}
+            responseObj[firstKey] = responseObj[firstKey] ?? {};
+            responseObj[firstKey][secondKey] = source[key][index];
 
 
-          } else { // if nested keys do not exist
-               responseObj[firstKey] = source[key][index]
-          }
-     }
+        } else { // if nested keys do not exist
+            responseObj[firstKey] = source[key][index]
+        }
+    }
 
-     // Wrap the nested keys in a nestedKeysWrapper object
-     if (nestedKeysWrapper) {
-          // check if any nested keys exist
-          const wrappedResponseObj = Object.entries(responseObj).reduce(
-               (acc, [key, value]) => {
-                    // check if the value is an object
-                    checkDataType(value) === 'object'
-                         ? acc[key] = nestedKeysWrapper(value)
-                         : acc[key] = value;
-                    return acc;
-               }, []
-          )
-          return Object.fromEntries(wrappedResponseObj);
-     }
-     return responseObj;
+    // Wrap the nested keys in a nestedKeysWrapper object
+    if (nestedKeysWrapper) {
+        // check if any nested keys exist
+        const wrappedResponseObj = Object.entries(responseObj).reduce(
+            (acc, [key, value]) => {
+                // check if the value is an object
+                checkDataType(value) === 'object'
+                    ? acc[key] = nestedKeysWrapper(value)
+                    : acc[key] = value;
+                return acc;
+            }, []
+        )
+        return Object.fromEntries(wrappedResponseObj);
+    }
+    return responseObj;
 
 }
 
 export function renderComponentWithProps(Component, componentPropsObject, nestedKeys = false) {
 
-     // Loose the keys of the object and get an array of values
-     const componentPropsEntries = Object.entries(componentPropsObject)
+    // Loose the keys of the object and get an array of values
+    const componentPropsEntries = Object.entries(componentPropsObject)
 
-     // For each value get the JSX of "FormikControl"
+    // For each value get the JSX of "FormikControl"
 
-     const compArr = componentPropsEntries.reduce(
-          (acc, [compName, compProps], idx) => {
+    const compArr = componentPropsEntries.reduce(
+        (acc, [compName, compProps], idx) => {
 
-               if (!!nestedKeys) {
-                    if (nestedKeys.includes(compName)) {
-                         Object.entries(compProps).forEach(([nestedKeyCompName, nestedKeyCompProps], nestedIdx) => {
-                              acc.push(
-                                   <Component
-                                        key={`${nestedKeyCompName}_${nestedIdx}`}
-                                        {...nestedKeyCompProps}
-                                   />)
-                         })
+            if (!!nestedKeys) {
+                if (nestedKeys.includes(compName)) {
+                    Object.entries(compProps).forEach(([nestedKeyCompName, nestedKeyCompProps], nestedIdx) => {
+                        acc.push(
+                            <Component
+                                key={`${nestedKeyCompName}_${nestedIdx}`}
+                                {...nestedKeyCompProps}
+                            />)
+                    })
 
-                    } else {
-                         acc.push(
-                              <Component
-                                   key={`${compName}_${idx}`}
-                                   {...compProps}
-                              />)
-                    }
-
-               } else {
+                } else {
                     acc.push(
-                         <Component
-                              key={`${compName}_${idx}`}
-                              {...compProps}
-                         />
-                    )
-               }
+                        <Component
+                            key={`${compName}_${idx}`}
+                            {...compProps}
+                        />)
+                }
 
-               return acc;
-          },
-          []
-     )
+            } else {
+                acc.push(
+                    <Component
+                        key={`${compName}_${idx}`}
+                        {...compProps}
+                    />
+                )
+            }
 
-     return compArr
+            return acc;
+        },
+        []
+    )
+
+    return compArr
 }

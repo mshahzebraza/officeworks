@@ -67,12 +67,14 @@ export const columns = [
         editable: false,
         tooltip: 'Serial Number',
         grouping: false,
+        // width: 100,
         // flex: 1,
     },
     {
         field: 'refType',
         title: 'Source',
         tooltip: 'Source of Data',
+        hidden: true,
 
         // flex: 1,
     },
@@ -81,6 +83,7 @@ export const columns = [
         title: 'Source ID',
         tooltip: 'ID of Data Source',
         grouping: false,
+        hidden: true,
         // flex: 1,
     },
     {
@@ -88,6 +91,7 @@ export const columns = [
         title: 'Reference ID',
         tooltip: 'Type & ID of Data Source',
         grouping: false,
+        render: (rowData) => `${rowData.refType} ${rowData.refId}`,
         // flex: 1,
     },
     {
@@ -106,14 +110,14 @@ export const columns = [
             {/* {formatModules(rowData.linkedModules)} */}
         </Grid>,
         // flex: 1,
-        //? to assign a custom component to a column, you can use the following syntax: 
+        //? To render a custom input component when editing the row data: 
         // editComponent: props => (
         //     <input
-        //       type="text"
-        //       value={props.value}
-        //       onChange={e => props.onChange(e.target.value)}
+        //         type="text"
+        //         value={props.value}
+        //         onChange={e => props.onChange(e.target.value)}
         //     />
-        //   )
+        // )
 
     },
     {

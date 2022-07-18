@@ -10,7 +10,7 @@ import Layout from '../Layout/Layout';
 // import { deepClone } from '../../helpers/reusable';
 
 import { useReactiveVar } from "@apollo/client";
-import poApollo from '../../lib/apollo_client/poApollo';
+import poApollo, { deletePOHandler } from '../../lib/apollo_client/poApollo';
 import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
@@ -76,7 +76,7 @@ export default function POpageComp(pProps) {
         {
             icon: tableIcons.Delete,
             tooltip: 'Delete Purchase Record',
-            onClick: (event, rowData) => alert('delete')
+            onClick: (event, rowData) => deletePOHandler(rowData._id),
         },
         {
             icon: tableIcons.Edit,

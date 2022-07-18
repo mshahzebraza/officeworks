@@ -1,4 +1,4 @@
-import poModel from "../models/poModel";
+import poModel from "../../models/poModel";
 
 export const updatePO = async (req, res) => {
 

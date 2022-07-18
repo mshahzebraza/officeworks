@@ -1,7 +1,8 @@
-import poModel from "../models/poModel";
+import poModel from "../../models/poModel";
 
 export const fetchPOs = async (req, res) => {
 
+    console.log('api/fetchPOs')
     const { poUUID } = req.query;
     // Fetch a single PO if a UUID is provided
     if (poUUID) {

@@ -1,4 +1,4 @@
-import poModel from "../models/poModel";
+import poModel from "../../models/poModel";
 
 export const deletePO = async (req, res) => {
     const { poUUID } = req.query;

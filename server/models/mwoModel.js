@@ -7,7 +7,7 @@ const ObjectId = Schema.Types.ObjectId;
 const mwoSchema = new Schema({
     mwoId: { type: String, unique: true },
     title: String,
-    status: { type: String, default: 0 },
+    status: { type: Number, default: 0 },
     initiatorId: { type: ObjectId, default: 0 },
     remarks: String,
     // supplier: PPC, MSS, etc

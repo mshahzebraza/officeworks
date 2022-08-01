@@ -8,7 +8,7 @@ import Header from './Header';
 import { useRouter } from "next/router"
 
 // TODO: Implement Lazy Loading using "Next/Dynamic" and Dynamic Imports 
-export default function Layout({ children }) {
+export default function Layout({ children, pageTitle = null }) {
     const router = useRouter()
     const theme = 'light';
     const faviconPathPrefix = `/favicons/AIMS/${theme}`;
@@ -35,7 +35,7 @@ export default function Layout({ children }) {
                 <NavBar />
                 <Grid item xs>
                     <Container maxWidth="xl" disableGutters>
-                        <Header title={getHeaderTitle(router.pathname)} />
+                        <Header title={pageTitle || getHeaderTitle(router.pathname)} />
                         <Container
                             sx={{
                                 backgroundColor: 'white.main',

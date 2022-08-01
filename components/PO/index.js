@@ -20,10 +20,11 @@ import { Paper, Button, Tooltip } from '@mui/material'
 import MaterialTable from 'material-table';
 import { tableIcons, data, columns } from './POtable';
 import PO_Summary from './PO_Summary';
+import { useRouter } from 'next/router';
 
 
 export default function POpageComp(pProps) {
-    // const router = useRouter();
+    const router = useRouter();
 
     const [modalState, setModalState] = useState({
         addForm: { state: false, data: null },
@@ -61,6 +62,7 @@ export default function POpageComp(pProps) {
 
 
     const customActions = [
+        // Add PO
         {
             icon: tableIcons.Add,
             tooltip: 'Add Purchase Record',
@@ -73,11 +75,13 @@ export default function POpageComp(pProps) {
             })),
             isFreeAction: true,
         },
+        // Delete PO
         {
             icon: tableIcons.Delete,
             tooltip: 'Delete Purchase Record',
             onClick: (event, rowData) => deletePOHandler(rowData._id),
         },
+        // Edit PO
         {
             icon: tableIcons.Edit,
             tooltip: 'Edit Purchase Record',
@@ -90,6 +94,7 @@ export default function POpageComp(pProps) {
                 }
             })),
         },
+        // Summary PO
         {
             icon: tableIcons.Summary,
             tooltip: 'View Summary',
@@ -102,13 +107,14 @@ export default function POpageComp(pProps) {
                 }
             })),
         },
+        // GO TO DETAIL-PAGE
         {
             icon: tableIcons.Details,
             tooltip: 'Go To Purchase Details',
-            onClick: (event, rowData) => alert('detail page')
+            onClick: (event, rowData) => {
+                router.push(`po/${rowData.refType}__${rowData.refId}`)
+            }
         },
-
-
     ]
 
     const tableOptions = {
@@ -119,6 +125,27 @@ export default function POpageComp(pProps) {
         grouping: true, // certain columns can be configured otherwise.
     }
 
+    const tableDetailPanel = [
+        {
+            tooltip: 'Show PO Details',
+            render: rowData => {
+                console.log(rowData)
+                return (
+                    <div
+                        style={{
+                            fontSize: 100,
+                            textAlign: 'center',
+                            color: 'white',
+                            backgroundColor: '#43A047',
+                        }}
+                    >
+                        {rowData.refId}
+                    </div>
+                )
+            },
+        }
+    ]
+
     const tableConfig = {
         // title: 'Purchase Cases',
         // data,
@@ -126,10 +153,12 @@ export default function POpageComp(pProps) {
         options: tableOptions,
         // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
         actions: customActions,
+        // detailPanel: tableDetailPanel,
     }
 
     return (
         <>
+            {/* Modal Logic */}
             {modalState.addForm.state &&
                 <Source_Form
                     sourceType='po'

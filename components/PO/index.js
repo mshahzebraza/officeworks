@@ -16,12 +16,11 @@ import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { mapModulesToPO } from '../../helpers/specific';
 import Source_Form from '../Procurement/Forms/Source_Form';
-import { Paper, Button, Tooltip } from '@mui/material'
-import MaterialTable from 'material-table';
+import { Paper, Button, Tooltip, TableCell } from '@mui/material'
+import MaterialTable, { MTableHeader } from 'material-table';
 import { tableIcons, data, columns } from './POtable';
 import PO_Summary from './PO_Summary';
 import { useRouter } from 'next/router';
-
 
 export default function POpageComp(pProps) {
     const router = useRouter();
@@ -125,6 +124,23 @@ export default function POpageComp(pProps) {
         grouping: true, // certain columns can be configured otherwise.
     }
 
+    const componentOverrides = {
+        Header: props => {
+            return (
+                <div
+                    style={{
+                        display: 'contents',
+                        textAlign: 'center',
+                        color: 'white',
+                        backgroundColor: '#000',
+                    }}
+                >
+                    <MTableHeader {...props} />
+                </div>
+            )
+        }
+    }
+
     const tableDetailPanel = [
         {
             tooltip: 'Show PO Details',
@@ -154,6 +170,12 @@ export default function POpageComp(pProps) {
         // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
         actions: customActions,
         // detailPanel: tableDetailPanel,
+        // ! Not working
+        components: componentOverrides,
+        headerStyle: {
+            backgroundColor: '#000',
+            color: 'white',
+        },
     }
 
     return (

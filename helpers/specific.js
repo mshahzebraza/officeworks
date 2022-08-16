@@ -159,7 +159,35 @@ export function mapModulesToPO(linkedModules, moduleList) {
     })
 
 }
+export function getOf(sourceObject, desiredDataKey) {
+    // desiredDataKey === 'key2'
+    // Input
+    /* { 
+        id: {key1:'',key2:'hello'} , 
+        name: {key1:'',key2:'Jane Doe'} 
+    } */
+    // Output
+    /* { 
+        id: 'hello' , 
+        name: 'Jane Doe' 
+    } */
 
+    const sourceEntries = Object.entries(sourceObject);
+    /* 
+    [ 
+        ['id', {key1:'',key2:'hello'} ], 
+        ['name', {key1:'',key2:'Jane Doe'} ] 
+    ]
+    */
+    const reducedObject = sourceEntries.reduce(
+        (prev, cur) => {
+            const [sourceKey, sourceValue] = cur;
+            prev[sourceKey] = sourceValue[desiredDataKey];
+            return prev;
+        }, {}
+    )
+    return reducedObject;
+}
 
 export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) {
     // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}

@@ -37,7 +37,6 @@ export default function POdetailPageComp({ pageId }) {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const moduleState = useReactiveVar(moduleApollo)
     const poState = useReactiveVar(poApollo)
-    console.log('POdetailPageComp: poState:', poState);
 
     // Section: State Transforms
     useEffect(() => {
@@ -49,8 +48,6 @@ export default function POdetailPageComp({ pageId }) {
             // const activePO = deepClone(poState.list.find(po => po.refId === pageId));
             const activePO = deepClone(poState.list.find(po => {
                 const [sourceType, sourceId] = pageId.split('__');
-                console.log('sourceType:', sourceType);
-                console.log('sourceId:', sourceId);
                 if (po.refId === sourceId && po.refType === sourceType) return true;
             }));
 
@@ -66,7 +63,9 @@ export default function POdetailPageComp({ pageId }) {
 
     // Section: Fallback Rendering
     if (loading) return <Loader />
-    if (!activePOdata) return router.push('/404?goto=procurement/po&caption=PO%20List') && null;
+    if (!activePOdata) return router.push('/404?goto=po&caption=PO%20List') && null;
+
+    console.log('activePOdata', activePOdata)
 
     console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
 

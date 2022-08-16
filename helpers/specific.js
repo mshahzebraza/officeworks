@@ -231,6 +231,19 @@ export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) 
 }
 
 export function renderComponentWithProps(Component, componentPropsObject, nestedKeys = false) {
+    // Input
+    /*
+    Component: 'CustomComponent'
+    componentPropsObjects: {
+        id: {x:1,y:2},
+        name: {a:3,b:4},
+    }
+    */
+    // Output:(JSX)
+    /* [
+        <CustomComponent key='id' x='1' y='2' /> 
+        <CustomComponent key='name' a='3' b='4' /> 
+    ] */
 
     // Loose the keys of the object and get an array of values
     const componentPropsEntries = Object.entries(componentPropsObject)

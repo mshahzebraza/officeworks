@@ -14,6 +14,7 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
 import { getObjectWithValuesAt, getOf, renderComponentWithProps } from '../../../helpers/specific'
+import { Grid } from '@mui/material'
 
 
 export default function Item_Form({ closer: modalCloser, activeSourceId, data: activeItemData = {}, sourceType = 'po' }) {
@@ -41,15 +42,15 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string().required('Required'),
                     options: {
-                        control: 'input',
-                        type: 'text',
+                        control: 'select',
+                        options: moduleStateList.reduce((prev, { name: moduleName }) => {
+                            if (!prev.includes(moduleName)) prev.push({ label: moduleName, value: moduleName })
+                            return prev
+                        }, [{ label: "Select an option", value: "" }]),
+                        // type: 'text',
                         label: 'Item Name',
                         name: 'name',
                         disabled: !isNewSubmission,
-                        datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
-                            if (!prev.includes(moduleName)) prev.push(moduleName)
-                            return prev
-                        }, [])
                     }
                 },
                 qty: {
@@ -190,25 +191,28 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                             return (
 
                                 <FormikForm
-                                // multiStage
+                                    // multiStage
+                                    autoComplete="off"
                                 >
-                                    {
-                                        renderComponentWithProps(FormikControl,
-                                            // getObjectWithValuesAt(2, formData.fields)
-                                            getOf(formData.fields, 'options'),
-                                        )
-                                    }
+                                    <Grid container spacing={2}>
 
-                                    <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                        {/* all 3 must be false to disable */}
                                         {
-                                            isValid ?
-                                                dirty
-                                                    ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                    : 'No edits made'
-                                                : 'Incomplete/Invalid Data'
+                                            renderComponentWithProps(FormikControl,
+                                                getOf(formData.fields, 'options'),
+                                            )
                                         }
-                                    </FormikSubmit>
+
+                                        <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                                            {/* all 3 must be false to disable */}
+                                            {
+                                                isValid ?
+                                                    dirty
+                                                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                                                        : 'No edits made'
+                                                    : 'Incomplete/Invalid Data'
+                                            }
+                                        </FormikSubmit>
+                                    </Grid>
 
 
                                 </FormikForm>)

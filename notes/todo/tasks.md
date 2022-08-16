@@ -1,6 +1,6 @@
 # Tasks/Issues
 
 - **Add PO item:**
-  - PO items cannot be added directly instead they must be chosen from a list of available items fetched from module-list.
-  - MUI-formik must be employed to the forms for this.
-  - convert black buttons to mui buttons
+  - conversion of addPOitem forms to MUI form elements ongoing...
+  - Need to add some dropdown features to the forms.
+  - MUI form elements are not yet fully implemented.

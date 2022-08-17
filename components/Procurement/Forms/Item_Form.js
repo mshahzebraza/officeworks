@@ -8,7 +8,7 @@ import moduleApollo, { addMWOmoduleHandler, addPOmoduleHandler, updateMWOmoduleH
 
 // Components
 import Portal from '../../UI/Portal'
-import Modal from '../../UI/OldModal'
+import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
@@ -63,8 +63,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string(),
                     options: {
-                        control: 'input',
-                        type: 'text',
+                        control: 'textarea',
                         label: 'Remarks / Description',
                         name: 'remarks'
                     }
@@ -173,16 +172,20 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                                             )
                                         }
 
-                                        <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                            {/* all 3 must be false to disable */}
-                                            {
-                                                isValid ?
-                                                    dirty
-                                                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                        : 'No edits made'
-                                                    : 'Incomplete/Invalid Data'
-                                            }
-                                        </FormikSubmit>
+                                        <Grid item ml='auto' xs={4} textAlign='right' >
+
+                                            <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                                                {/* all 3 must be false to disable */}
+                                                {
+                                                    isValid ?
+                                                        dirty
+                                                            ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                                                            : 'No edits made'
+                                                        : 'Incomplete/Invalid Data'
+                                                }
+                                            </FormikSubmit>
+                                        </Grid>
+
                                     </Grid>
 
 

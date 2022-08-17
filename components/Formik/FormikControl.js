@@ -11,37 +11,35 @@ import FormControls from './FormControls'
 import { Grid } from '@mui/material'
 
 
-function GridWrapper(customComponent) {
-    return <Grid item xs={12} >{customComponent}</Grid>
+function GridWrapper({ children, size = 6 }) {
+    return <Grid item xs={size} >{children}</Grid>
 }
 
 
 function FormikControl(props) {
-    console.log('')
     const { control, ...rest } = props
-    console.log(`FormikControl props: [${control}] `, rest)
 
     switch (control) {
         case 'input':
-            return <FormControls.TextField {...rest} />
+            return <GridWrapper><FormControls.TextField {...rest} /></GridWrapper>
         //   return <Input {...rest} />
         case 'textarea':
-            return <FormControls.TextField multiline rows={4} {...rest} />
+            return <GridWrapper size={12} ><FormControls.TextField multiline rows={4} {...rest} /></GridWrapper>
         // return <Textarea {...rest} />
         case 'select':
-            return <FormControls.Select {...rest} />
+            return <GridWrapper><FormControls.Select {...rest} /></GridWrapper>
         case 'radio':
-            return <FormControls.Radio row {...rest} /> // legend, name, options <[array of objects]>
+            return <GridWrapper><FormControls.Radio row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
         case 'checkbox':
-            return <FormControls.CheckboxList row {...rest} /> // legend, name, options <[array of objects]>
+            return <GridWrapper><FormControls.CheckboxList row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
         // case 'fieldList':
         //     return <FieldList {...rest} /> 
         case 'fieldListPair':
-            return <FormControls.FieldArrayNested {...rest} /> // legend, name, fieldName, structure
+            return <GridWrapper><FormControls.FieldArrayNested {...rest} /></GridWrapper> // legend, name, fieldName, structure
         // return <FieldListPair {...rest} />
         default:
             return null
     }
 }
 
-export default FormikControl
+export default FormikControl;

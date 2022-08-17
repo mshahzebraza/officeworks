@@ -22,6 +22,20 @@ html {
 body {
 	// font-size: 1.6rem;
 }
+// Styles for Scroll Bars -- START
+*::-webkit-scrollbar {
+	width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #004d72;
+}
+
+/* Firefox */
+.selector {
+	scrollbar-width: none;
+}
+// Styles for Scroll Bars -- END
 
 a {
 	cursor: pointer;

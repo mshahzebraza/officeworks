@@ -19,6 +19,7 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
+import Grid from '@mui/material/Grid'
 
 export default function Source_Form({ closer: modalCloser, data: activeSourceData = {}, sourceType = 'mwo' }) {
 
@@ -34,11 +35,11 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'refType',
                     label: 'Data Reference',
                     options: [
-                        { key: 'Select One...', value: '' },
-                        { key: 'CST', value: 'CST' },
-                        { key: 'Bill', value: 'Bill' },
-                        { key: 'PO', value: 'PO' },
-                        { key: 'Requisition', value: 'REQ' },
+                        { label: 'Select One...', value: '' },
+                        { label: 'CST', value: 'CST' },
+                        { label: 'Bill', value: 'Bill' },
+                        { label: 'PO', value: 'PO' },
+                        { label: 'Requisition', value: 'REQ' },
                     ]
                 }],
                 refId: ['', Yup.string().required('Required'), {
@@ -53,12 +54,12 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'category',
                     label: 'PO Category',
                     options: [
-                        { key: 'Select One ...', value: '' },
-                        { key: 'Limited Tender', value: 'Limited Tender' },
-                        { key: 'Single Quotation', value: 'Single Quotation' },
-                        { key: 'Repeat Order', value: 'Repeat Order' },
-                        { key: 'Spot Purchase', value: 'Spot Purchase' },
-                        { key: 'Imprest', value: 'Imprest' },
+                        { label: 'Select One ...', value: '' },
+                        { label: 'Limited Tender', value: 'Limited Tender' },
+                        { label: 'Single Quotation', value: 'Single Quotation' },
+                        { label: 'Repeat Order', value: 'Repeat Order' },
+                        { label: 'Spot Purchase', value: 'Spot Purchase' },
+                        { label: 'Imprest', value: 'Imprest' },
                     ]
                 }],
                 fulfillmentSource: ['', Yup.string().required('Required'), {
@@ -66,9 +67,9 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'fulfillmentSource',
                     label: 'Source of Fulfillment',
                     options: [
-                        { key: 'Select One', value: '' },
-                        { key: 'Local Purchase', value: 'Local' },
-                        { key: 'Foreign Purchase', value: 'Foreign' },
+                        { label: 'Select One', value: '' },
+                        { label: 'Local Purchase', value: 'Local' },
+                        { label: 'Foreign Purchase', value: 'Foreign' },
                     ]
                 }],
                 currency: ['', Yup.string().required('Required'), {
@@ -76,10 +77,10 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'currency',
                     label: 'Currency of Payment',
                     options: [
-                        { key: 'Select One', value: '' },
-                        { key: 'RMB', value: 'RMB' },
-                        { key: 'USD', value: 'USD' },
-                        { key: 'PKR', value: 'PKR' },
+                        { label: 'Select One', value: '' },
+                        { label: 'RMB', value: 'RMB' },
+                        { label: 'USD', value: 'USD' },
+                        { label: 'PKR', value: 'PKR' },
                     ]
                 }],
                 totalCost: [0, Yup.number().required('Required'), {
@@ -93,17 +94,17 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'status',
                     label: 'Current Status',
                     options: [
-                        { key: 'Select One ...', value: null },
-                        { key: 'Rejected', value: 0 },
-                        { key: 'Draft', value: 1 },
-                        { key: 'Initiated', value: 2 },
-                        { key: 'ERP Approved', value: 3 },
-                        { key: 'Supplier Evaluated', value: 4 },
-                        { key: 'Concurrence Approved', value: 5 },
-                        { key: 'PO Approved', value: 6 },
-                        { key: 'LC Opened', value: 7 },
-                        { key: 'Delivery Confirmed', value: 8 },
-                        { key: 'Closed', value: 9 },
+                        { label: 'Select One ...', value: null },
+                        { label: 'Rejected', value: 0 },
+                        { label: 'Draft', value: 1 },
+                        { label: 'Initiated', value: 2 },
+                        { label: 'ERP Approved', value: 3 },
+                        { label: 'Supplier Evaluated', value: 4 },
+                        { label: 'Concurrence Approved', value: 5 },
+                        { label: 'PO Approved', value: 6 },
+                        { label: 'LC Opened', value: 7 },
+                        { label: 'Delivery Confirmed', value: 8 },
+                        { label: 'Closed', value: 9 },
                     ],
                 }],
                 supplier: ['', Yup.string().required('Required'), {
@@ -111,10 +112,10 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'supplier',
                     label: 'Supplier',
                     options: [
-                        { key: 'Select One...', value: '' },
-                        { key: 'Wuhan', value: 'Wuhan' },
-                        { key: 'Chengdu', value: 'Chengdu' },
-                        { key: 'E-Tech', value: 'E-Tech' },
+                        { label: 'Select One...', value: '' },
+                        { label: 'Wuhan', value: 'Wuhan' },
+                        { label: 'Chengdu', value: 'Chengdu' },
+                        { label: 'E-Tech', value: 'E-Tech' },
                     ]
                 }],
                 remarks: ['', Yup.string(), {
@@ -210,23 +211,28 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                         // 2. Make the Don't go to send stage before confirming the status of refId entered.
                         return (
                             <FormikForm>
-                                {/* Render Form Inputs */}
-                                {
-                                    renderComponentWithProps(
-                                        FormikControl,
-                                        getObjectWithValuesAt(2, formData.fields)
-                                    )
-                                }
-                                {/* Render Form Submit */}
-                                <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                                <Grid container spacing={2}>
+
+                                    {/* Render Form Inputs */}
                                     {
-                                        isValid ?
-                                            dirty
-                                                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                : 'No edits made'
-                                            : 'Incomplete/Invalid Data'
+                                        renderComponentWithProps(
+                                            FormikControl,
+                                            getObjectWithValuesAt(2, formData.fields)
+                                        )
                                     }
-                                </FormikSubmit>
+                                    {/* Render Form Submit */}
+                                    <Grid item ml='auto' xs={4} textAlign='right' >
+                                        <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                                            {
+                                                isValid ?
+                                                    dirty
+                                                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                                                        : 'No edits made'
+                                                    : 'Incomplete/Invalid Data'
+                                            }
+                                        </FormikSubmit>
+                                    </Grid>
+                                </Grid>
 
                             </FormikForm>
                         )

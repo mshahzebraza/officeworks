@@ -8,7 +8,7 @@ import moduleApollo, { addMWOmoduleHandler, addPOmoduleHandler, updateMWOmoduleH
 
 // Components
 import Portal from '../../UI/Portal'
-import Modal from '../../UI/Modal'
+import Modal from '../../UI/OldModal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
@@ -31,25 +31,11 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string().required('Required'),
                     options: {
-                        control: 'input',
-                        type: 'text',
+                        control: 'select',
+                        options: getModuleOptions(moduleStateList),
+                        // type: 'text',
                         label: 'Item ID',
                         name: 'id',
-                        disabled: !isNewSubmission
-                    }
-                },
-                name: {
-                    initialValue: '',
-                    validation: Yup.string().required('Required'),
-                    options: {
-                        control: 'select',
-                        options: moduleStateList.reduce((prev, { name: moduleName }) => {
-                            if (!prev.includes(moduleName)) prev.push({ label: moduleName, value: moduleName })
-                            return prev
-                        }, [{ label: "Select an option", value: "" }]),
-                        // type: 'text',
-                        label: 'Item Name',
-                        name: 'name',
                         disabled: !isNewSubmission,
                     }
                 },
@@ -96,26 +82,11 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string().required('Required'),
                     options: {
-                        control: 'input',
-                        type: 'text',
+                        control: 'select',
+                        options: getModuleOptions(moduleStateList),
                         label: 'Item ID',
                         name: 'id',
-                        disabled: !isNewSubmission
-                    }
-                },
-                name: {
-                    initialValue: '',
-                    validation: Yup.string().required('Required'),
-                    options: {
-                        control: 'input',
-                        type: 'text',
-                        label: 'Item Name',
-                        name: 'name',
                         disabled: !isNewSubmission,
-                        datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
-                            if (!prev.includes(moduleName)) prev.push(moduleName)
-                            return prev
-                        }, [])
                     }
                 },
                 qty: {
@@ -223,3 +194,15 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
         </Portal >
     )
 }
+
+function getModuleOptions(moduleStateList) {
+    return moduleStateList.reduce(
+        (prev, module) => {
+            const { name: moduleName, id: moduleId } = module;
+            if (!prev.includes(moduleName))
+                prev.push(
+                    { label: `${moduleName} | ${moduleId}`, value: moduleId })
+            return prev
+        }, [{ label: "Select an option", value: "" }])
+}
+

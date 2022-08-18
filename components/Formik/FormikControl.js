@@ -11,23 +11,25 @@ import FormControls from './FormControls'
 import { Grid } from '@mui/material'
 
 
-function GridWrapper({ children, size = 6 }) {
-    return <Grid item xs={size} >{children}</Grid>
-}
-
 
 function FormikControl(props) {
-    const { control, ...rest } = props
+    const { control, gridSize = 6, ...rest } = props
+
+    function GridWrapper({ children, size = gridSize }) {
+        return <Grid item xs={size} >{children}</Grid>
+    }
 
     switch (control) {
         case 'input':
             return <GridWrapper><FormControls.TextField {...rest} /></GridWrapper>
         //   return <Input {...rest} />
         case 'textarea':
-            return <GridWrapper size={12} ><FormControls.TextField multiline rows={4} {...rest} /></GridWrapper>
+            return <GridWrapper ><FormControls.TextField multiline rows={4} {...rest} /></GridWrapper>
         // return <Textarea {...rest} />
         case 'select':
             return <GridWrapper><FormControls.Select {...rest} /></GridWrapper>
+        case 'combobox':
+            return <GridWrapper><FormControls.ComboBox {...rest} /></GridWrapper>
         case 'radio':
             return <GridWrapper><FormControls.Radio row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
         case 'checkbox':

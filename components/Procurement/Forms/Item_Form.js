@@ -31,9 +31,12 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string().required('Required'),
                     options: {
-                        control: 'select',
-                        options: getModuleOptions(moduleStateList),
-                        // type: 'text',
+                        control: 'combobox',
+                        gridSize: 12,
+                        options: /* getModuleOptions(moduleStateList) */ moduleStateList,
+                        groupBy: 'type',
+                        focalValue: 'id',
+                        getOptionDisplay: (option) => `${option.id} | ${option.name}`,
                         label: 'Item ID',
                         name: 'id',
                         disabled: !isNewSubmission,
@@ -63,6 +66,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string(),
                     options: {
+                        gridSize: 12,
                         control: 'textarea',
                         label: 'Remarks / Description',
                         name: 'remarks'
@@ -81,8 +85,12 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     initialValue: '',
                     validation: Yup.string().required('Required'),
                     options: {
-                        control: 'select',
-                        options: getModuleOptions(moduleStateList),
+                        control: 'combobox',
+                        gridSize: 12,
+                        options: /* getModuleOptions(moduleStateList) */moduleStateList,
+                        groupBy: 'type',
+                        focalValue: 'id', // will store the id field in the form data - _id can also be used instead
+                        getOptionDisplay: (option) => `${option.id} | ${option.name}`,
                         label: 'Item ID',
                         name: 'id',
                         disabled: !isNewSubmission,
@@ -103,6 +111,7 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                     validation: Yup.string(),
                     options: {
                         control: 'input',
+                        gridSize: 12,
                         type: 'text',
                         label: 'Remarks / Description',
                         name: 'remarks'
@@ -199,13 +208,11 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
 }
 
 function getModuleOptions(moduleStateList) {
-    return moduleStateList.reduce(
-        (prev, module) => {
-            const { name: moduleName, id: moduleId } = module;
-            if (!prev.includes(moduleName))
-                prev.push(
-                    { label: `${moduleName} | ${moduleId}`, value: moduleId })
-            return prev
-        }, [{ label: "Select an option", value: "" }])
+    return moduleStateList.map(
+        (module) => {
+            const { name, id } = module;
+            console.log(module)
+            return { name, id };
+        })
 }
 

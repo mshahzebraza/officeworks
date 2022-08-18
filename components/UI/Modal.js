@@ -10,7 +10,7 @@ const containerStyles = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
-    "max-height": 750,
+    maxHeight: 750,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -19,7 +19,7 @@ const containerStyles = {
 function ModalContainer({ children }) {
     return (
         <Grid
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
             container
             wrap='nowrap'
             gap={2}
@@ -67,7 +67,7 @@ function ModalCloseBtn(props) {
 }
 
 
-const bodyStyles = { height: 600, "overflow-y": 'auto', p: 1, pr: 2 };
+const bodyStyles = { height: 600, overflowY: 'auto', p: 1, pr: 2 };
 function ModalBody({ children }) {
     return (
         <Grid

@@ -120,6 +120,7 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                 }],
                 remarks: ['', Yup.string(), {
                     control: 'textarea',
+                    gridSize: 12,
                     name: 'remarks',
                     label: 'Remarks/Description'
                 }],
@@ -160,6 +161,7 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                 }],
                 remarks: ['', Yup.string(), {
                     control: 'textarea',
+                    gridSize: 12,
                     name: 'remarks',
                     label: 'Remarks/Description'
                 }],

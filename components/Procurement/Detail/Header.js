@@ -9,12 +9,40 @@ import { deletePOHandler } from '../../../lib/apollo_client/poApollo'
 
 // UI Components
 import ModalButton from '../../UI/ModalButton'
-import Button from '../../UI/Button'
+// import Button from '../../UI/Button'
 
 // Major Components
 import Source_Form from '../Forms/Source_Form'
 import Item_Form from '../Forms/Item_Form'
-import { Grid, Divider } from '@mui/material'
+import { Grid, Divider, Typography, Button, Tooltip } from '@mui/material'
+import { camelCase } from 'lodash'
+
+const dataCardStyles = {
+    bgcolor: 'background.paper',
+    border: '2px solid #999',
+    boxShadow: 6,
+    borderRadius: 1,
+    px: 3,
+    py: 4,
+    justifyContent: 'space-between'
+
+}
+
+function ActionButton({ children, caption = 'Action Button', tooltip = '', disabled = false, click, ...rest }) {
+    return (
+        <Tooltip title={tooltip || caption}>
+
+            <Button
+                variant="contained"
+                disabled={disabled}
+                onClick={click}
+                {...rest}
+            >
+                {children || caption}
+            </Button>
+        </Tooltip>
+    )
+}
 
 export default function Header({ sourceType = 'mwo', data: activeSourceData = {}, classes }) {
 
@@ -53,9 +81,9 @@ export default function Header({ sourceType = 'mwo', data: activeSourceData = {}
             {/* Overview */}
             <Grid
                 item xs
-                container direction='column'
-                px={2} py={4}
-                className={styles.overview}
+                container
+                direction='column'
+                sx={dataCardStyles}
             >
                 {/* <div className={styles.overview}> */}
                 {transformEntries(OV_data, entryCallback)}
@@ -64,26 +92,24 @@ export default function Header({ sourceType = 'mwo', data: activeSourceData = {}
 
             {/* Meta */}
             <Grid
-                item xs={5}
+                item xs
                 container direction='column'
-                px={2} py={4}
-                // className={styles.overview}
-                className={styles.meta}
+                sx={dataCardStyles}
             >
                 {transformEntries(meta_data, entryCallback)}
             </Grid>
             {/* Controls */}
             <Grid
-                item xs={2}
+                item xs={3}
                 container direction='column'
-                px={2} py={4}
-                className={styles.controls}
+                gap={2}
+                sx={dataCardStyles}
             >
 
                 <ModalButton
                     {...headerData.controls.addItem}
                 />
-                <Button
+                <ActionButton
                     {...headerData.controls.deleteSource}
                 />
 
@@ -98,10 +124,11 @@ export default function Header({ sourceType = 'mwo', data: activeSourceData = {}
 }
 
 export function entryCallback(pairArr, pairIndex) {
+    const [fieldText, valueText] = pairArr
     return (
-        <h3 key={`summaryPair-${pairIndex}`} className={concatStrings(['pair', styles.pair])} >
-            <span className={concatStrings(['pairField', styles.pairField])} >{toSentenceCase(pairArr[0])}</span>
-            <span className={concatStrings(['pairValue', styles.pairValue])} >{pairArr[1]}</span>
-        </h3>
+        <Grid key={pairIndex} item container alignItems='center' justifyContent='space-between' >
+            <Typography variant="h6" component='p'>{toSentenceCase(fieldText)}</Typography>
+            <Typography variant="body1" sx={{ fontSize: 18 }} >{valueText}</Typography>
+        </Grid>
     )
 }

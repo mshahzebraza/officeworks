@@ -10,7 +10,7 @@ const containerStyles = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 800,
-    height: 600,
+    "max-height": 750,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,

@@ -13,7 +13,7 @@ import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
-import { getObjectWithValuesAt, getOf, renderComponentWithProps } from '../../../helpers/specific'
+import { getOf, renderComponentWithProps } from '../../../helpers/specific'
 import { Grid } from '@mui/material'
 
 
@@ -133,13 +133,11 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
 
     const initialValues = {
         ...getOf(formData.fields, 'initialValue'),
-        // ...getObjectWithValuesAt(0, formData.fields),
         ...initialValuesReplacement
     }
 
     const validationSchema = Yup.object({
         ...getOf(formData.fields, 'validation'),
-        // ...getObjectWithValuesAt(0, formData.fields)
     })
 
     const onSubmit = (values, { resetForm }) => {
@@ -180,7 +178,6 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                                                 getOf(formData.fields, 'options'),
                                             )
                                         }
-
                                         <Grid item ml='auto' xs={4} textAlign='right' >
 
                                             <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
@@ -196,7 +193,6 @@ export default function Item_Form({ closer: modalCloser, activeSourceId, data: a
                                         </Grid>
 
                                     </Grid>
-
 
                                 </FormikForm>)
 

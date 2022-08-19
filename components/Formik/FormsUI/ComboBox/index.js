@@ -8,7 +8,7 @@ import { Autocomplete, TextField } from '@mui/material'
 function ComboBoxWrapper(props) {
     // fetching props from the parent component and field input
     // ? [focalValue] can be adjusted to use the entire object as the storage value. However, the validation must also be set appropriately.
-    const { groupBy = null, focalValue = 'title', getOptionDisplay = (option) => option[focalValue], label, name, options = [], ...restProps } = props
+    const { inputSize = 'small', groupBy = null, focalValue = 'title', getOptionDisplay = (option) => option[focalValue], label, name, options = [], ...restProps } = props
     //? getOptionDisplay() can be passed in by the user to display a custom value in the dropdown
     // For Instance // const getOptionDisplay = (option) => `${option[focalValue]} | ${option.year}`
 
@@ -16,9 +16,9 @@ function ComboBoxWrapper(props) {
     const [_, meta, helpers] = useField(name);
     const errorText = meta?.touched && meta?.error;
 
+
     const [comboBoxValue, setComboBoxValue] = useState(null);
     const [comboBoxInputValue, setComboBoxInputValue] = useState('');
-
 
 
     // config for ComboBoxWrapper props
@@ -52,11 +52,11 @@ function ComboBoxWrapper(props) {
                     setComboBoxValue(value) // can also be set to store the entire object
                 }}
 
-                inputValue={comboBoxInputValue}
-                onInputChange={(event, newInputValue) => setComboBoxInputValue(newInputValue[focalValue])}
+                inputValue={comboBoxInputValue} // this value will be displayed in the input field
+                onInputChange={(event, newInputValue) => setComboBoxInputValue(newInputValue)}
                 /*  //! Setting it to only newInputValue disables the writing feature in the input */
 
-                renderInput={(params) => <TextField {...params} label={label} size='small' />}
+                renderInput={(params) => <TextField {...params} label={label} size={inputSize} />}
             />
         )
     }

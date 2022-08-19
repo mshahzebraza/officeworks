@@ -5,10 +5,12 @@ import React, { useEffect, useState } from 'react';
 // Store & Styles
 import styles from '../../styles/poDirectory.module.scss'
 import { useReactiveVar } from '@apollo/client';
-import mwoApollo from '../../lib/apollo_client/mwoApollo';
+import mwoApollo, { deleteMWOHandler } from '../../lib/apollo_client/mwoApollo';
 
 // Components
 import Source_Form from '../Procurement/Forms/Source_Form';
+import { Paper, Button, Tooltip, TableCell } from '@mui/material'
+import MaterialTable, { MTableHeader } from 'material-table';
 import MWOentry from './MWOentry'
 import Layout from '../Layout/Layout';
 import { checkDataType, deepClone } from '../../helpers/reusable';
@@ -17,15 +19,25 @@ import SearchInput from '../UI/SearchInput';
 import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { mapModulesToPO as populateLinkedModules } from '../../helpers/specific';
 import Loader from '../Loader';
-
+import { columns, tableIcons } from './MWOtable';
+import MWO_Summary from './MWO_Summary';
 export default function MWOPageComp(pProps) {
-    // Section: Component States
-    // initialize component state
-    const [searchInput, setSearchInput] = useState(false)
-    const [MWOlist, setMWOlist] = useState(null)
-    const [loading, setLoading] = useState(true);
+
+
+
+    const [modalState, setModalState] = useState({
+        addForm: { state: false, data: null },
+        editForm: { state: false, data: null },
+        summaryDialog: { state: false, data: null },
+    })
     const MWOstate = useReactiveVar(mwoApollo);
     const ModuleState = useReactiveVar(moduleApollo)
+    // const [searchInput, setSearchInput] = useState(false)
+
+
+    // Section: Component States
+    const [MWOlist, setMWOlist] = useState(null)
+    const [loading, setLoading] = useState(true);
 
     // Section: State Transforms
     useEffect(() => {
@@ -38,52 +50,187 @@ export default function MWOPageComp(pProps) {
             const populatedMWOlist = populateMWOlist(MWOstate.list, ModuleState.list)
             setMWOlist(populatedMWOlist)
 
-            //? Apply search filter to Limit the PO list to search results
-            if (searchInput) {
-                // Filtering Projects w.r.t search ID (Case Insensitive)
-                setMWOlist((prevMWOlist) =>
-                    prevMWOlist.filter(mwo =>
-                        mwo.mwoId
-                            .toLowerCase()
-                            .includes(
-                                searchInput.toLowerCase()
-                            )
-                    )
-                )
-            }
-
-
         }
-    }, [MWOstate, ModuleState, searchInput])
+    }, [MWOstate, ModuleState])
 
 
     // Section: Fallback Rendering
     if (loading) return <Loader />
 
-    return (
-        <Layout pageClasses={[styles.container]} >
-
-            <section className={`pageHeader`}>
-                <h1 className={`pageTitle`} > Mfg Work Orders</h1>
-                <SearchInput stateVariables={[searchInput, setSearchInput]} />
-                <ModalButton caption='Add MWO' ModalComponent={Source_Form} sourceType='mwo' />
-            </section>
-
-            <section className={`pageBody`} >
-                <MWOentry
-                    header={true}
-                />
-                {
-                    MWOlist.map((mwoData, idx) => {
-                        return <MWOentry
-                            key={idx}
-                            mwoData={{ index: idx, ...mwoData }}
-                        />
-                    })
+    // Section: Table Config
+    const customActions = [
+        // Add MWO
+        {
+            icon: tableIcons.Add,
+            tooltip: 'Add Manufacturing Record',
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                addForm: {
+                    ...prevState.addForm,
+                    state: true
                 }
-            </section>
+            })),
+            isFreeAction: true,
+        },
+        // Delete MWO
+        {
+            icon: tableIcons.Delete,
+            tooltip: 'Delete Manufacturing Record',
+            onClick: (event, rowData) => deleteMWOHandler(rowData._id),
+        },
+        // Edit MWO
+        {
+            icon: tableIcons.Edit,
+            tooltip: 'Edit Manufacturing Record',
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                editForm: {
+                    ...prevState.editForm,
+                    state: true,
+                    data: rowData
+                }
+            })),
+        },
+        // Summary MWO
+        {
+            icon: tableIcons.Summary,
+            tooltip: 'View Summary',
+            onClick: (event, rowData) => setModalState((prevState) => ({
+                ...prevState,
+                summaryDialog: {
+                    ...prevState.summaryDialog,
+                    state: true,
+                    data: rowData
+                }
+            })),
+        },
+    ]
 
-        </Layout>
+    const tableOptions = {
+        columnsButton: true,
+        exportButton: true,
+        actionsColumnIndex: -1, //? to position the actions column to the right
+        addRowPosition: 'first', // | 'last' //? to add new rows to the top 
+        grouping: true, // certain columns can be configured otherwise.
+    }
+
+    const componentOverrides = {
+        Header: props => {
+            return (
+                <div
+                    style={{
+                        display: 'contents',
+                        textAlign: 'center',
+                        color: 'white',
+                        backgroundColor: '#000',
+                    }}
+                >
+                    <MTableHeader {...props} />
+                </div>
+            )
+        }
+    }
+
+    const tableConfig = {
+        title: 'Work Orders',
+        icons: tableIcons,
+        data: MWOlist,
+        columns,
+        options: tableOptions,
+        // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
+        actions: customActions,
+        // detailPanel: tableDetailPanel,
+        // ! Not working
+        components: componentOverrides,
+        headerStyle: {
+            backgroundColor: '#000',
+            color: 'white',
+        },
+    }
+
+    return (
+        <>
+            {/* Modal Logic */}
+            {modalState.addForm.state &&
+                <Source_Form
+                    sourceType='mwo'
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                addForm: {
+                                    ...prevState.addForm,
+                                    state: false,
+                                }
+                            }))}
+                />
+            }
+            {modalState.editForm.state &&
+                <Source_Form
+                    sourceType='mwo'
+                    data={modalState.editForm.data}
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                editForm: {
+                                    ...prevState.editForm,
+                                    state: false,
+                                }
+                            }))}
+                />
+            }
+            {modalState.summaryDialog.state &&
+                // ! Delete or use the summarizer function to pass in only the key-value pairs ... or create a new function
+                <MWO_Summary
+                    mwoData={modalState.summaryDialog.data}
+                    closer={() => setModalState(
+                        (prevState) => (
+                            {
+                                ...prevState,
+                                summaryDialog: {
+                                    ...prevState.summaryDialog,
+                                    state: false,
+                                }
+                            }))}
+                />
+            }
+
+
+            <Layout >
+                <Paper>
+                    <MaterialTable
+                        // title='Purchase Cases'
+                        // icons={tableIcons}
+                        // data={POlist}
+                        {...tableConfig}
+                    />
+                </Paper>
+            </Layout>
+
+            {/* <Layout pageClasses={[styles.container]} >
+
+                <section className={`pageHeader`}>
+                    <h1 className={`pageTitle`} > Mfg Work Orders</h1>
+                    <ModalButton caption='Add MWO' ModalComponent={Source_Form} sourceType='mwo' />
+                </section>
+
+                <section className={`pageBody`} >
+                    <MWOentry
+                        header={true}
+                    />
+                    {
+                        MWOlist.map((mwoData, idx) => {
+                            return <MWOentry
+                                key={idx}
+                                mwoData={{ index: idx, ...mwoData }}
+                            />
+                        })
+                    }
+                </section>
+
+            </Layout> */}
+        </>
     )
 
 }
@@ -91,11 +238,11 @@ export default function MWOPageComp(pProps) {
 
 
 function populateMWOlist(MWOList, ModuleList) {
-    const populatedMWOlist = MWOList.map((mwoData, idx) => {
-        mwoData = deepClone(mwoData) // ?so that the original apollo state is not mutated
+    const populatedMWOlist = MWOList.map((currentRecord, idx) => {
+        currentRecord = deepClone(currentRecord) // ?so that the original apollo state is not mutated
         // for each of moduleRefs, find the corresponding module data in the ModuleState
-        mwoData.linkedModules = populateLinkedModules(mwoData.linkedModules, ModuleList)
-        return mwoData
+        currentRecord.linkedModules = populateLinkedModules(currentRecord.linkedModules, ModuleList)
+        return { ...currentRecord, id: idx }
     })
     return populatedMWOlist;
 

@@ -18,7 +18,7 @@ import { mapModulesToPO } from '../../helpers/specific';
 import Source_Form from '../Procurement/Forms/Source_Form';
 import { Paper, Button, Tooltip, TableCell } from '@mui/material'
 import MaterialTable, { MTableHeader } from 'material-table';
-import { tableIcons, data, columns } from './POtable';
+import { tableIcons, data as dummyData, columns } from './POtable';
 import PO_Summary from './PO_Summary';
 import { useRouter } from 'next/router';
 
@@ -54,12 +54,9 @@ export default function POpageComp(pProps) {
     // Section: Fallback Rendering
     if (loading) return <Loader />
 
-    console.assert(!!POlist, 'No POlist. Must never happen.') // ?should never happen
-
+    console.assert(!!POlist, 'No POlist. Must never happen.') // !must never happen
 
     // Section: Table Config
-
-
     const customActions = [
         // Add PO
         {
@@ -163,6 +160,9 @@ export default function POpageComp(pProps) {
     ]
 
     const tableConfig = {
+        title: 'Purchase Cases',
+        icons: tableIcons,
+        data: POlist,
         // title: 'Purchase Cases',
         // data,
         columns,
@@ -229,9 +229,9 @@ export default function POpageComp(pProps) {
             <Layout >
                 <Paper>
                     <MaterialTable
-                        title='Purchase Cases'
-                        icons={tableIcons}
-                        data={POlist}
+                        // title='Purchase Cases'
+                        // icons={tableIcons}
+                        // data={POlist}
                         {...tableConfig}
                     />
                 </Paper>
@@ -247,11 +247,8 @@ function populatePOlist(POList, ModuleList) {
         currentRecord = deepClone(currentRecord) // ?so that the original apollo state is not mutated
         // for each of moduleRefs, find the corresponding module data in the ModuleState
         currentRecord.linkedModules = mapModulesToPO(currentRecord.linkedModules, ModuleList)
-        if (idx === 0) console.log('currentRecord', currentRecord)
         return { ...currentRecord, id: idx }
     })
-    console.log('populatedPOlist[0]', populatedPOlist[0])
-
 
     return populatedPOlist;
 }

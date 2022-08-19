@@ -63,29 +63,29 @@ export const columns = [
         // width: 100,
         // flex: 1,
     },
-    {
-        field: 'refType',
-        title: 'Source',
-        tooltip: 'Source of Data',
-        hidden: true,
+    // {
+    //     field: 'refType',
+    //     title: 'Source',
+    //     tooltip: 'Source of Data',
+    //     hidden: true,
 
+    //     // flex: 1,
+    // },
+    {
+        field: 'mwoId',
+        title: 'MWO ID',
+        tooltip: 'ID of Manufacturing WO',
+        grouping: false,
+        // hidden: true,
+        default: '-', //? if no value is provided, this will be displayed
         // flex: 1,
     },
     {
-        field: 'refId',
-        title: 'Source ID',
-        tooltip: 'ID of Data Source',
+        field: 'title',
+        title: 'MWO Title',
+        tooltip: 'Description of Work',
         grouping: false,
-        hidden: true,
-        default: '-',
-        // flex: 1,
-    },
-    {
-        field: 'ID',
-        title: 'Reference ID',
-        tooltip: 'Type & ID of Data Source',
-        grouping: false,
-        render: (rowData) => `${rowData.refType} ${rowData.refId}`,
+        // render: (rowData) => `${rowData.refType} ${rowData.refId}`,
         // flex: 1,
     },
     {
@@ -98,7 +98,7 @@ export const columns = [
     {
         field: 'linkedModules', // inv.total
         title: 'Item(s)',
-        tooltip: 'What type of items were procured',
+        tooltip: 'What modules are to be manufactured',
         sortable: false,
         grouping: false,
         //? Custom Components | Formatters
@@ -123,7 +123,7 @@ export const columns = [
     {
         field: 'status',
         title: 'Status',
-        tooltip: 'Current Status of PO',
+        tooltip: 'Current Status of MWO',
         lookup: statusLookup, // ? Lookups
         // defaultGroupOrder: 0, // ? group by default
         // defaultGroupSort: 'desc',
@@ -133,7 +133,7 @@ export const columns = [
         field: 'initiatorID',
         title: 'Initiator',
         grouping: false,
-        tooltip: 'Initiator of Purchase Case',
+        tooltip: 'Initiator of Manufacturing WO',
         render: (rowData) => { // ? images can be added with this method
             const initiatorID = rowData.initiator;
             const initiator = initiatorData[initiatorID];

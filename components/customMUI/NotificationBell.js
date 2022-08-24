@@ -1,9 +1,6 @@
 import React from 'react'
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge';
-import Tooltip from '@mui/material/Tooltip';
-
+import { NotificationsNoneOutlined } from '@mui/icons-material';
+import { Badge, Tooltip, IconButton } from '@mui/material';
 
 export function NotificationBell({ badgeContent = 0, iconColor = 'primary', onClick = () => { }, ...rest }) {
     const newNotificationText = `You have ${badgeContent} new notifications`;
@@ -22,7 +19,7 @@ export function NotificationBell({ badgeContent = 0, iconColor = 'primary', onCl
                     badgeContent={badgeContent}
                     color={'error'}
                 >
-                    <NotificationsNoneOutlinedIcon />
+                    <NotificationsNoneOutlined />
                 </Badge>
             </IconButton>
         </Tooltip>

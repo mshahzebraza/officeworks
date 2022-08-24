@@ -1,4 +1,4 @@
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout';
 import { ButtonLink } from '../components/customMUI';
 import { Paper } from '@mui/material';
 

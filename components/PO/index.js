@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/poDirectory.module.scss'
 
 // Components
-import Layout from '../Layout/Layout';
+import Layout from '../Layout';
 // import { deepClone } from '../../helpers/reusable';
 
 import { useReactiveVar } from "@apollo/client";
@@ -119,21 +119,17 @@ export default function POpageComp(pProps) {
         actionsColumnIndex: -1, //? to position the actions column to the right
         addRowPosition: 'first', // | 'last' //? to add new rows to the top 
         grouping: true, // certain columns can be configured otherwise.
+        headerStyle: {
+            // backgroundColor: '#101f33',
+            // color: 'white',
+            borderBottom: "1px solid #101f33",
+        },
     }
 
     const componentOverrides = {
         Header: props => {
             return (
-                <div
-                    style={{
-                        display: 'contents',
-                        textAlign: 'center',
-                        color: 'white',
-                        backgroundColor: '#000',
-                    }}
-                >
-                    <MTableHeader {...props} />
-                </div>
+                <MTableHeader {...props} />
             )
         }
     }
@@ -144,14 +140,7 @@ export default function POpageComp(pProps) {
             render: rowData => {
                 console.log(rowData)
                 return (
-                    <div
-                        style={{
-                            fontSize: 100,
-                            textAlign: 'center',
-                            color: 'white',
-                            backgroundColor: '#43A047',
-                        }}
-                    >
+                    <div>
                         {rowData.refId}
                     </div>
                 )
@@ -172,10 +161,7 @@ export default function POpageComp(pProps) {
         // detailPanel: tableDetailPanel,
         // ! Not working
         components: componentOverrides,
-        headerStyle: {
-            backgroundColor: '#000',
-            color: 'white',
-        },
+
     }
 
     return (

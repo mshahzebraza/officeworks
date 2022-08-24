@@ -1,10 +1,10 @@
 import Button from '@mui/material/Button'
 import Link from 'next/link'
 
-export function ButtonLink({ href = "/", variant = 'contained', children, sx, ...rest }) {
+export function ButtonLink({ href = "/", variant = 'contained', children, ...rest }) {
     return (
         <Link href={href} >
-            <Button variant={variant} sx={sx} {...rest} >
+            <Button variant={variant}  {...rest} >
                 {children}
             </Button>
         </Link>

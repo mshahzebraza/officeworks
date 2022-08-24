@@ -1,8 +1,5 @@
 export const headerStyles = {
     wrapper: {
-        // width: '100%',
-        // display: 'flex',
-        // flexDirection: 'col//umn',
         backgroundColor: '#009be5',
         p: 2,
     },
@@ -11,7 +8,7 @@ export const headerStyles = {
         justifyContent: 'end',
         alignItems: 'center',
         mb: 2,
-        gap: 0.5
+        gap: 1
     },
     middleRow: {
         display: 'flex',
@@ -22,11 +19,14 @@ export const headerStyles = {
     },
     link: {
         fontWeight: 500,
-        color: 'rgba(255, 255, 255, 0.7)',
-        "&:hover": {
-            color: '#fff',
-            // cursor: 'pointer',
-        },
+        // color: 'rgba(255, 255, 255, 0.7)',
+        // "&:hover": {
+        //     color: '#fff',
+        //     // cursor: 'pointer',
+        // },
+    },
+    bellButton: {
+        marginRight: '5px',
     },
     webButton: {
         marginRight: '5px',

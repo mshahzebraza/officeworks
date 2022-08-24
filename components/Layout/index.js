@@ -1,14 +1,13 @@
 import React from 'react'
-import NavBar from './NavBar'
-import Head from 'next/head';
-import { Box, Container, Grid, Paper } from '@mui/material';
-import { concatStrings } from '../../helpers/reusable';
-import Header from './Header';
-
 import { useRouter } from "next/router"
+import Head from 'next/head';
+import NavBar from './NavBar'
+import { Container, Grid } from '@mui/material';
+import Header from './Header';
 
 // TODO: Implement Lazy Loading using "Next/Dynamic" and Dynamic Imports 
 export default function Layout({ children, pageTitle = null }) {
+
     const router = useRouter()
     const theme = 'light';
     const faviconPathPrefix = `/favicons/AIMS/${theme}`;
@@ -32,10 +31,12 @@ export default function Layout({ children, pageTitle = null }) {
             </Head>
 
             <Grid container  >
-                <NavBar />
+                <Grid item >
+                    <NavBar />
+                </Grid>
                 <Grid item xs>
                     <Container maxWidth="xl" disableGutters>
-                        <Header title={pageTitle || getHeaderTitle(router.pathname)} />
+                        <Header title={pageTitle || getRouteName(router.pathname)} />
                         <Container
                             sx={{
                                 backgroundColor: 'white.main',
@@ -45,6 +46,7 @@ export default function Layout({ children, pageTitle = null }) {
                             disableGutters>
                             {children}
                         </Container>
+
                     </Container>
                 </Grid>
             </Grid>
@@ -53,7 +55,7 @@ export default function Layout({ children, pageTitle = null }) {
 }
 
 
-function getHeaderTitle(route) {
+function getRouteName(route) {
     switch (route) {
         case '/':
             return 'Home'

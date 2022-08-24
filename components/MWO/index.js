@@ -12,7 +12,7 @@ import Source_Form from '../Procurement/Forms/Source_Form';
 import { Paper, Button, Tooltip, TableCell } from '@mui/material'
 import MaterialTable, { MTableHeader } from 'material-table';
 import MWOentry from './MWOentry'
-import Layout from '../Layout/Layout';
+import Layout from '../Layout';
 import { checkDataType, deepClone } from '../../helpers/reusable';
 import ModalButton from '../UI/ModalButton';
 import SearchInput from '../UI/SearchInput';
@@ -112,6 +112,11 @@ export default function MWOPageComp(pProps) {
         actionsColumnIndex: -1, //? to position the actions column to the right
         addRowPosition: 'first', // | 'last' //? to add new rows to the top 
         grouping: true, // certain columns can be configured otherwise.
+        headerStyle: {
+            // backgroundColor: '#101f33',
+            // color: 'white',
+            borderBottom: "1px solid #101f33",
+        },
     }
 
     const componentOverrides = {
@@ -142,10 +147,6 @@ export default function MWOPageComp(pProps) {
         // detailPanel: tableDetailPanel,
         // ! Not working
         components: componentOverrides,
-        headerStyle: {
-            backgroundColor: '#000',
-            color: 'white',
-        },
     }
 
     return (

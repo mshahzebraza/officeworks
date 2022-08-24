@@ -39,7 +39,7 @@ function NavItem(props) {
     const router = useRouter();
 
     const { id = 'id', route = '/', icon: Icon, label = 'default' } = props;
-    return <ListItem disablePadding onClick={() => { router.push(route) }} >
+    return <ListItem disablePadding onClick={() => { router.push(route) }} sx={navbarStyles.listItem} >
         <ListItemButton>
             <ListItemIcon sx={navbarStyles.icons}>
                 <Icon />

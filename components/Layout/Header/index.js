@@ -1,54 +1,56 @@
 import React from 'react'
-import { Avatar, Box, Typography, Button, Tooltip, IconButton, Container } from '@mui/material';
-import HelpIcon from '@mui/icons-material/Help';
-import { ButtonLink, NotificationBellMenu } from '../../customMUI';
+import { Avatar, Box, Typography, Button, Tooltip, Container, IconButton } from '@mui/material';
+import { HelpOutline } from '@mui/icons-material';
 import { headerStyles } from './headerStyles';
+import { ButtonLink, NotificationBellMenu } from '../../customMUI';
 
-function Header({ title = 'Header Title' }) {
+export default function Header({ title = 'Header Title' }) {
+
+    const mockNotifications = [{ label: 'Notification 1' }, { label: 'Notification 2' }];
 
     return (
         <Container sx={headerStyles.wrapper} maxWidth='xl' disableGutters >
-            <Box sx={headerStyles.topRow}>
+            <Box sx={headerStyles.topRow} >
                 <ButtonLink
+                    href='/'
                     sx={headerStyles.link}
-                    variant='standard'
+                    variant='text' color="white"
                 >
                     Go to docs
                 </ButtonLink>
                 <NotificationBellMenu
                     iconColor="white"
-                    notifications={[{ label: 'Notification 1' }, { label: 'Notification 2' }]}
+                    notifications={mockNotifications}
                 />
-                <Avatar src="/images/avatar.png" />
+                <Avatar src="/images/avatar.png" ml={2} />
             </Box>
             <Box sx={headerStyles.middleRow}>
                 <Typography
-                    variant="h1"
-                    color="white"
+                    variant="h4"
+                    color="#ddd"
                 >
                     {title}
                 </Typography>
-                <Box>
-                    <Button
-                        sx={headerStyles.webButton}
-                        variant="outlined"
+                <Box >
+                    <ButtonLink
+                        href='/'
+                        sx={headerStyles.link}
+                        variant="text" color="white"
                     >
                         Web setup
-                    </Button>
+                    </ButtonLink>
                     <Tooltip
                         title="Help"
                     >
                         <IconButton
                             color="white"
-                            sx={headerStyles.helpIcon}
                         >
-                            <HelpIcon />
+                            <HelpOutline />
                         </IconButton>
                     </Tooltip>
                 </Box>
             </Box>
+
         </Container>
     )
 }
-
-export default Header

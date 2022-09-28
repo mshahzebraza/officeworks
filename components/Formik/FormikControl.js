@@ -27,7 +27,7 @@ function FormikControl(props) {
             return <GridWrapper gridSize={gridSize} ><FormControls.CheckboxList row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
         // case 'fieldList':
         //     return <FieldList {...rest} /> 
-        case 'fieldListPair':
+        case 'nestedFieldArray':
             return <GridWrapper gridSize={gridSize} ><FormControls.FieldArrayNested {...rest} /></GridWrapper> // legend, name, fieldName, structure
         // return <FieldListPair {...rest} />
         default:

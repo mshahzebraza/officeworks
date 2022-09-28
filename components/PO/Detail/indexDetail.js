@@ -10,7 +10,7 @@ import poApollo from '../../../lib/apollo_client/poApollo'
 import styles from '../../../styles/poDetail.module.scss'
 
 // Components
-import Layout from '../../Layout/Layout'
+import Layout from '../../Layout'
 import Loader from '../../Loader'
 import { mapModulesToPO } from '../../../helpers/specific'
 import Header from '../../Procurement/Detail/Header'

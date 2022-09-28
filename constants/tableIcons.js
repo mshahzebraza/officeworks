@@ -18,6 +18,9 @@ import ViewColumn from '@mui/icons-material/ViewColumn';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
 
+
+// ! Commenting the forwardRef code throws errors
+// Study the reason of using forwardRef
 export const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),

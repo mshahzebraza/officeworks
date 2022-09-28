@@ -118,20 +118,6 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                         { label: 'E-Tech', value: 'E-Tech' },
                     ]
                 }],
-                items: [[], Yup.string().required('Required'), {
-                    control: 'nestedFieldArray',
-                    legend: 'List the Procured Items',
-                    fieldName: 'Procured Items',
-                    structure: {
-                        itemType: '',
-                        itemID: '',
-                        qty: '',
-                    },
-                    name: 'items',
-
-
-                }],
-
                 remarks: ['', Yup.string(), {
                     control: 'textarea',
                     gridSize: 12,
@@ -160,10 +146,10 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'status',
                     label: 'Status',
                     options: [
-                        { key: 'Select One ...', value: '' },
-                        { key: 'Not Started', value: 'Not Started' },
-                        { key: 'Active', value: 'Active' },
-                        { key: 'Delivered', value: 'Delivered' },
+                        { label: 'Select One ...', value: '' },
+                        { label: 'Not Started', value: 'Not Started' },
+                        { label: 'Active', value: 'Active' },
+                        { label: 'Delivered', value: 'Delivered' },
                     ]
 
                 }],
@@ -227,7 +213,7 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                         // 2. Make the Don't go to send stage before confirming the status of refId entered.
                         return (
                             <FormikForm>
-                                <Grid container spacing={2}  >
+                                <Grid container spacing={2}>
 
                                     {/* Render Form Inputs */}
                                     {

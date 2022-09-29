@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 // Store & Styles
 
-import styles from '../../styles/poDirectory.module.scss'
-
 // Components
 import Layout from '../Layout';
 // import { deepClone } from '../../helpers/reusable';
@@ -15,15 +13,13 @@ import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { mapModulesToPO } from '../../helpers/specific';
-import Source_Form from '../Procurement/Forms/Source_Form';
-import { Paper, Button, Tooltip, TableCell } from '@mui/material'
-import MaterialTable, { MTableHeader } from 'material-table';
-import { tableIcons, data as dummyData, columns } from './POtable';
-import PO_Summary from './PO_Summary';
-import { useRouter } from 'next/router';
+import POtable from './POtable';
+import getActiveModals from './modalHandler';
+
+
+
 
 export default function POpageComp(pProps) {
-    const router = useRouter();
 
     const [modalState, setModalState] = useState({
         addForm: { state: false, data: null },
@@ -56,171 +52,18 @@ export default function POpageComp(pProps) {
 
     console.assert(!!POlist, 'No POlist. Must never happen.') // !must never happen
 
-    // Section: Table Config
-    const customActions = [
-        // Add PO
-        {
-            icon: tableIcons.Add,
-            tooltip: 'Add Purchase Record',
-            onClick: (event, rowData) => setModalState((prevState) => ({
-                ...prevState,
-                addForm: {
-                    ...prevState.addForm,
-                    state: true
-                }
-            })),
-            isFreeAction: true,
-        },
-        // Delete PO
-        {
-            icon: tableIcons.Delete,
-            tooltip: 'Delete Purchase Record',
-            onClick: (event, rowData) => deletePOHandler(rowData._id),
-        },
-        // Edit PO
-        {
-            icon: tableIcons.Edit,
-            tooltip: 'Edit Purchase Record',
-            onClick: (event, rowData) => setModalState((prevState) => ({
-                ...prevState,
-                editForm: {
-                    ...prevState.editForm,
-                    state: true,
-                    data: rowData
-                }
-            })),
-        },
-        // Summary PO
-        {
-            icon: tableIcons.Summary,
-            tooltip: 'View Summary',
-            onClick: (event, rowData) => setModalState((prevState) => ({
-                ...prevState,
-                summaryDialog: {
-                    ...prevState.summaryDialog,
-                    state: true,
-                    data: rowData
-                }
-            })),
-        },
-        // GO TO DETAIL-PAGE
-        {
-            icon: tableIcons.Details,
-            tooltip: 'Go To Purchase Details',
-            onClick: (event, rowData) => {
-                router.push(`po/${rowData.refType}__${rowData.refId}`)
-            }
-        },
-    ]
-
-    const tableOptions = {
-        columnsButton: true,
-        exportButton: true,
-        actionsColumnIndex: -1, //? to position the actions column to the right
-        addRowPosition: 'first', // | 'last' //? to add new rows to the top 
-        grouping: true, // certain columns can be configured otherwise.
-        headerStyle: {
-            // backgroundColor: '#101f33',
-            // color: 'white',
-            borderBottom: "1px solid #101f33",
-        },
-    }
-
-    const componentOverrides = {
-        Header: props => {
-            return (
-                <MTableHeader {...props} />
-            )
-        }
-    }
-
-    const tableDetailPanel = [
-        {
-            tooltip: 'Show PO Details',
-            render: rowData => {
-                console.log(rowData)
-                return (
-                    <div>
-                        {rowData.refId}
-                    </div>
-                )
-            },
-        }
-    ]
-
-    const tableConfig = {
-        title: 'Purchase Cases',
-        icons: tableIcons,
-        data: POlist,
-        // title: 'Purchase Cases',
-        // data,
-        columns,
-        options: tableOptions,
-        // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
-        actions: customActions,
-        // detailPanel: tableDetailPanel,
-        // ! Not working
-        components: componentOverrides,
-
-    }
 
     return (
         <>
             {/* Modal Logic */}
-            {modalState.addForm.state &&
-                <Source_Form
-                    sourceType='po'
-                    closer={() => setModalState(
-                        (prevState) => (
-                            {
-                                ...prevState,
-                                addForm: {
-                                    ...prevState.addForm,
-                                    state: false,
-                                }
-                            }))}
-                />
-            }
-            {modalState.editForm.state &&
-                <Source_Form
-                    sourceType='po'
-                    data={modalState.editForm.data}
-                    closer={() => setModalState(
-                        (prevState) => (
-                            {
-                                ...prevState,
-                                editForm: {
-                                    ...prevState.editForm,
-                                    state: false,
-                                }
-                            }))}
-                />
-            }
-            {modalState.summaryDialog.state &&
-                // ! Delete or use the summarizer function to pass in only the key-value pairs ... or create a new function
-                <PO_Summary
-                    poData={modalState.summaryDialog.data}
-                    closer={() => setModalState(
-                        (prevState) => (
-                            {
-                                ...prevState,
-                                summaryDialog: {
-                                    ...prevState.summaryDialog,
-                                    state: false,
-                                }
-                            }))}
-                />
-            }
-
+            {getActiveModals(modalState, setModalState)}
             <Layout >
-                <Paper>
-                    <MaterialTable
-                        // title='Purchase Cases'
-                        // icons={tableIcons}
-                        // data={POlist}
-                        {...tableConfig}
-                    />
-                </Paper>
+                <POtable
+                    setModalState={setModalState}
+                    deleteHandler={deletePOHandler}
+                    data={POlist}
+                />
+
             </Layout>
         </>
 

@@ -1,5 +1,5 @@
 
-export const data = [
+export const mockData = [
     {
         id: 1,
         refType: 'PO',

@@ -2,7 +2,7 @@
 export const mockData = [
     {
         id: 1,
-        refType: 'PO',
+        refType: 'MWO',
         // refId: '024',
         linkedModules: ['35', 'sd'],
         status: 5,
@@ -11,7 +11,7 @@ export const mockData = [
     },
     {
         id: 2,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '3325',
         linkedModules: ['42', 'sd'],
         status: 3,
@@ -19,7 +19,7 @@ export const mockData = [
     },
     {
         id: 3,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '553',
         linkedModules: ['45', 'sd'],
         status: 2,
@@ -27,7 +27,7 @@ export const mockData = [
     },
     {
         id: 4,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '2235',
         linkedModules: ['16', 'sd'],
         status: 1,
@@ -35,7 +35,7 @@ export const mockData = [
     },
     {
         id: 5,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '870',
         linkedModules: ['null', 'sd'],
         status: 4,
@@ -43,7 +43,7 @@ export const mockData = [
     },
     {
         id: 6,
-        refType: 'PO',
+        refType: 'MWO',
         refId: "192",
         linkedModules: ['150', 'sd'],
         status: 0,
@@ -51,7 +51,7 @@ export const mockData = [
     },
     {
         id: 7,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '136',
         linkedModules: ['44', 'sd'],
         status: 6,
@@ -59,7 +59,7 @@ export const mockData = [
     },
     {
         id: 8,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '634',
         linkedModules: ['36', 'sd'],
         status: 7,
@@ -67,7 +67,7 @@ export const mockData = [
     },
     {
         id: 9,
-        refType: 'PO',
+        refType: 'MWO',
         refId: '614',
         linkedModules: ['65', 'sd'],
         status: 9,

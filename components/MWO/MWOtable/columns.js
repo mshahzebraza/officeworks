@@ -58,8 +58,8 @@ export const columns = [
         // editable: false,
         tooltip: 'Serial Number',
         grouping: false,
-        // width: 100,
-        // flex: 1,
+        // render: null
+        // flex: 0.1,
     },
     // {
     //     field: 'refType',

@@ -61,13 +61,11 @@ export default function MWOPageComp(pProps) {
             {getActiveModals(modalState, setModalState)}
             {/* Normal JSX */}
             <Layout >
-                <Paper>
-                    <MWOtable
-                        stateSetter={setModalState}
-                        deleteHandler={deleteMWOHandler}
-                        data={MWOlist}
-                    />
-                </Paper>
+                <MWOtable
+                    stateSetter={setModalState}
+                    deleteHandler={deleteMWOHandler}
+                    data={MWOlist}
+                />
             </Layout>
         </>
     )

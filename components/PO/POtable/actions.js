@@ -6,12 +6,13 @@ import { tableIcons } from "../../../constants/tableIcons"
  * @param  {Function} deleteHandler - used for deletion for a particular MWO
  * @returns {[{},{},{},{}]} - an array containing config-object of each MT-action
  */
-export function getAllMTactions(setModalState, deleteHandler) {
+export function getAllMTactions(setModalState, deleteHandler, router) {
     return [
         getMTactionAdd(setModalState),
         getMTactionDelete(deleteHandler),
         getMTactionEdit(setModalState),
         getMTactionSummary(setModalState),
+        getMTactionDetails(router)
     ]
 }
 
@@ -26,7 +27,7 @@ export function getAllMTactions(setModalState, deleteHandler) {
 const getMTactionAdd = (
     setModalState = () => { },
     icon = tableIcons.Add,
-    tooltip = "Add Manufacturing Record",
+    tooltip = "Add Purchase Record",
     isFreeAction = true,
 ) => (
     {
@@ -54,7 +55,7 @@ const getMTactionAdd = (
 const getMTactionDelete = (
     deleteHandler = () => { }, // deleteMWOHandler
     icon = tableIcons.Delete,
-    tooltip = "Delete Manufacturing Record",
+    tooltip = "Delete Purchase Record",
     isFreeAction = false,
 ) => (
     {
@@ -76,7 +77,7 @@ const getMTactionDelete = (
 const getMTactionEdit = (
     setModalState = () => { },
     icon = tableIcons.Edit,
-    tooltip = "Edit Manufacturing Record",
+    tooltip = "Edit Purchase Record",
     isFreeAction = false,
 ) => (
     {
@@ -105,7 +106,7 @@ const getMTactionEdit = (
 const getMTactionSummary = (
     setModalState = () => { },
     icon = tableIcons.Summary,
-    tooltip = "Summary Manufacturing Record",
+    tooltip = "Summary Purchase Record",
     isFreeAction = false,
 ) => (
     {
@@ -120,6 +121,31 @@ const getMTactionSummary = (
                 data: rowData
             }
         })),
+    }
+)
+
+
+/**
+ * ? Details Action Getter 
+ * @param  {Function} router=()=>{}
+ * @param  {JSX.element} icon=tableIcons.Summary
+ * @param  {string} tooltip="SummaryManufacturingRecord"
+ * @param  {boolean} isFreeAction=false
+ */
+const getMTactionDetails = (
+    router = () => { },
+    icon = tableIcons.Details,
+    tooltip = "Go to Purchase Details",
+    isFreeAction = false,
+) => (
+    {
+        icon,
+        tooltip,
+        isFreeAction,
+        onClick: (event, rowData) => {
+            const { refType, refId } = rowData;
+            router.push(`po/${refType}__${refId}`)
+        },
     }
 )
 

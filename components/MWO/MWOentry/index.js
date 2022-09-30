@@ -1,20 +1,20 @@
 // Dependency
 import React from 'react'
-import { checkDataType, summarizerNew2 } from '../../helpers/reusable';
+import { checkDataType, summarizerNew2 } from '../../../helpers/reusable';
 
 // Store & Styles
 import styles from './MWOentry.module.scss';
 
 // Components
-import MWO_Summary from './MWO_Summary'
-import Source_Form from '../Procurement/Forms/Source_Form';
-import DataRow from '../UI/DataRow/DataRow'
-import DataRowItem from '../UI/DataRow/DataRowItem'
-import ModalButton from '../UI/ModalButton'
-import Button from '../UI/Button'
-import { deleteMWOHandler } from '../../lib/apollo_client/mwoApollo';
+import MWO_Summary from '../MWO_Summary'
+import Source_Form from '../../Procurement/Forms/Source_Form';
+import DataRow from '../../UI/DataRow/DataRow'
+import DataRowItem from '../../UI/DataRow/DataRowItem'
+import ModalButton from '../../UI/ModalButton'
+import Button from '../../UI/Button'
+import { deleteMWOHandler } from '../../../lib/apollo_client/mwoApollo';
 import { useRouter } from 'next/router';
-import { EntryItemName } from '../PO/POentry';
+import { EntryItemName } from '../../PO/POentry';
 
 export default function MWOentryBar({
     mwoData = {

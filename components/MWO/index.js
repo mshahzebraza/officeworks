@@ -62,7 +62,7 @@ export default function MWOPageComp(pProps) {
             {/* Normal JSX */}
             <Layout >
                 <MWOtable
-                    stateSetter={setModalState}
+                    setModalState={setModalState}
                     deleteHandler={deleteMWOHandler}
                     data={MWOlist}
                 />

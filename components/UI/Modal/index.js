@@ -1,13 +1,33 @@
-import { Modal } from "@mui/material";
+import React from "react";
+import { Dialog } from "@mui/material";
+import { ModalHeader } from "./ModalHeader";
 import { ModalContent } from "./ModalContent";
+import { ModalActions } from "./ModalActions";
 
-export default function BasicModal({ title, closer, children }) {
+export default function Modal({
+    title,
+    description,
+    closer,
+    submit,
+    children
+}) {
     return (
-        <Modal open onClose={closer} aria-labelledby={title}>
-            {/* Modal Content */}
-            <ModalContent title={title} closer={closer}>
-                {children}
-            </ModalContent>
-        </Modal>
+        <Dialog
+            open
+            onClose={closer}
+            aria-labelledby={title}
+            fullWidth={true}
+            maxWidth={'md'}
+        >
+
+            <ModalHeader handleClose={closer} title={title} />
+
+            <ModalContent description={description} children={children} />
+
+            <ModalActions handleClose={closer} handleSubmit={submit} />
+
+        </Dialog>
+
+
     );
 }

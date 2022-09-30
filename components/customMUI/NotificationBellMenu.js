@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BasicMenu } from './BasicMenu';
 import { NotificationBell } from './NotificationBell';
 
-export function NotificationBellMenu({ notifications = [], iconColor = 'primary' }) {
+export function NotificationBellMenu({ notifications = [], iconColor = 'primary', ...rest }) {
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
 
@@ -18,6 +17,7 @@ export function NotificationBellMenu({ notifications = [], iconColor = 'primary'
     return (
         <>
             <NotificationBell
+                {...rest}
                 badgeContent={notifications.length}
                 iconColor={iconColor}
                 onClick={handleOpen}

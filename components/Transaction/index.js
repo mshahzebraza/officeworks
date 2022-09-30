@@ -7,7 +7,7 @@ import { concatStrings, transformArray } from '../../helpers/reusable'
 import styles from '../../styles/inventoryDirectory.module.scss'
 
 // Components
-import Layout from '../Layout/Layout'
+import Layout from '../Layout'
 import SearchInput from '../UI/SearchInput'
 import ModalButton from '../UI/ModalButton'
 import DataRow from '../UI/DataRow/DataRow'
@@ -27,76 +27,76 @@ export default function TransactionPageComp(pProps) {
 
 
 
-     // Section: Component States
-     // initialize component state
-     const [searchInput, setSearchInput] = useState(false)
-     const [transactionList, setTransactionList] = useState(null)
-     const [loading, setLoading] = useState(true);
-     const TransactionState = useReactiveVar(transactionApollo)
+    // Section: Component States
+    // initialize component state
+    const [searchInput, setSearchInput] = useState(false)
+    const [transactionList, setTransactionList] = useState(null)
+    const [loading, setLoading] = useState(true);
+    const TransactionState = useReactiveVar(transactionApollo)
 
 
-     // Section: State Transforms
-     useEffect(() => {
-          // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
-          // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
-          if (TransactionState.fetched) {
-               // clearTimeout(loadingTimeout);
-               setLoading(false);
-               setTransactionList(TransactionState.list)
+    // Section: State Transforms
+    useEffect(() => {
+        // TODO: handle the case when loading state remains true for a long time. re-route to 404 page if stuck in loading state for a long time
+        // const loadingTimeout = setTimeout(() => console.error('Loading failed'), 3000)
+        if (TransactionState.fetched) {
+            // clearTimeout(loadingTimeout);
+            setLoading(false);
+            setTransactionList(TransactionState.list)
 
-               //? Apply search filter to Limit the Transaction list to search results
-               if (searchInput) {
-                    // Filtering Projects w.r.t search ID (Case Insensitive)
-                    setTransactionList((prevTransactionList) =>
-                         prevTransactionList.filter(txn =>
-                              txn.product
-                                   .toLowerCase()
-                                   .includes(
-                                        searchInput.toLowerCase()
-                                   )
-                         )
+            //? Apply search filter to Limit the Transaction list to search results
+            if (searchInput) {
+                // Filtering Projects w.r.t search ID (Case Insensitive)
+                setTransactionList((prevTransactionList) =>
+                    prevTransactionList.filter(txn =>
+                        txn.product
+                            .toLowerCase()
+                            .includes(
+                                searchInput.toLowerCase()
+                            )
                     )
-               }
-          }
-     }, [TransactionState, searchInput])
+                )
+            }
+        }
+    }, [TransactionState, searchInput])
 
 
-     // Section: Fallback Rendering
-     if (loading) return <Loader />
+    // Section: Fallback Rendering
+    if (loading) return <Loader />
 
 
-     console.assert(!!transactionList, 'No POlist. Must never happen.') // ?should never happen
+    console.assert(!!transactionList, 'No POlist. Must never happen.') // ?should never happen
 
 
-     return (
-          <Layout pageClasses={[styles.container]}>
-               <section className={concatStrings([`pageHeader`, styles.header])}>
+    return (
+        <Layout pageClasses={[styles.container]}>
+            <section className={concatStrings([`pageHeader`, styles.header])}>
 
-                    <h1 className={`pageTitle`} > Transaction</h1>
-                    <SearchInput placeholder='Search by product' stateVariables={[searchInput, setSearchInput]} />
-                    <ModalButton caption='Add Transaction' ModalComponent={Transaction_Form} />
+                <h1 className={`pageTitle`} > Transaction</h1>
+                <SearchInput placeholder='Search by product' stateVariables={[searchInput, setSearchInput]} />
+                <ModalButton caption='Add Transaction' ModalComponent={Transaction_Form} />
 
-               </section>
+            </section>
 
-               <section className='pageBody'>
-                    <TXNentry
-                         header={true}
-                    />
-                    {
-                         transactionList?.map((txn, idx) => {
-                              return <TXNentry
-                                   key={idx}
-                                   txnIndex={idx}
-                                   txnData={txn}
-                              />
-                         })
-                    }
+            <section className='pageBody'>
+                <TXNentry
+                    header={true}
+                />
+                {
+                    transactionList?.map((txn, idx) => {
+                        return <TXNentry
+                            key={idx}
+                            txnIndex={idx}
+                            txnData={txn}
+                        />
+                    })
+                }
 
-               </section>
+            </section>
 
 
-          </Layout>
-     )
+        </Layout>
+    )
 
 
 }

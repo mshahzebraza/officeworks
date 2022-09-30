@@ -13,32 +13,38 @@ import transactionApollo from '../lib/apollo_client/transactionApollo';
 import moduleApollo from '../lib/apollo_client/moduleApollo';
 
 import { useEffect } from 'react';
-import { httpParams, request } from '../helpers/reusable';
+import { httpParams, request as requestAPI } from '../helpers/reusable';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import projectTheme from '../projectTheme';
 
 
 
 function MyApp({ Component, pageProps }) {
+    console.log('_app.js')
 
     // Function to get the application data from the server
     const loadAppData = async () => {
         // Fetching the data from the server
-        /*   const {
-               success,
-               data: { poList, mwoList, projectList, transactionList },
-               error,
-               message
-          } = await request({
-               url: 'http://localhost:3000/api/initialize',
-          }); */
-        const res = await httpParams('http://localhost:3000/api/initialize');
         const {
             success,
             data: { poList, mwoList, projectList, transactionList, moduleList },
             error,
             message
-        } = await res.json();
+        } = await requestAPI({
+            url: 'http://localhost:3000/api/initialize',
+        });
+
+        if (!success) {
+            console.error(error);
+            return null;
+        }
+        // const res = await httpParams('http://localhost:3000/api/initialize');
+        // const {
+        //     success,
+        //     data: { poList, mwoList, projectList, transactionList, moduleList },
+        //     error,
+        //     message
+        // } = await res.json();
 
         // const {
         //     success,
@@ -50,7 +56,7 @@ function MyApp({ Component, pageProps }) {
         // });
 
 
-        // delete poList.__v;
+        delete poList.__v;
         delete mwoList.__v;
         delete projectList.__v;
         delete transactionList.__v;

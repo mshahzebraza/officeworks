@@ -146,10 +146,10 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                     name: 'status',
                     label: 'Status',
                     options: [
-                        { key: 'Select One ...', value: '' },
-                        { key: 'Not Started', value: 'Not Started' },
-                        { key: 'Active', value: 'Active' },
-                        { key: 'Delivered', value: 'Delivered' },
+                        { label: 'Select One ...', value: '' },
+                        { label: 'Not Started', value: 'Not Started' },
+                        { label: 'Active', value: 'Active' },
+                        { label: 'Delivered', value: 'Delivered' },
                     ]
 
                 }],

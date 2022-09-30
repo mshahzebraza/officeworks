@@ -1,4 +1,4 @@
-import { Chip, Box, Grid, Button, Avatar, Typography, Tooltip } from '@mui/material';
+import { Chip, Grid } from '@mui/material';
 import CellAvatar from '../../customMUI/tableComponents/CellAvatar';
 
 
@@ -15,8 +15,8 @@ const statusLookup = {
     9: 'Closed',
 }
 
-
 const defaultPhotoPath = '/images/avatar.png';
+
 const initiatorData = {
     7320: {
         name: 'Shahzeb',
@@ -50,8 +50,6 @@ const initiatorData = {
 }
 
 
-
-
 export const columns = [
     {
         field: 'id',
@@ -60,8 +58,8 @@ export const columns = [
         // editable: false,
         tooltip: 'Serial Number',
         grouping: false,
-        // width: 100,
-        // flex: 1,
+        // render: null
+        // flex: 0.1,
     },
     // {
     //     field: 'refType',

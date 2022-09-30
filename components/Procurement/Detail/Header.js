@@ -15,7 +15,6 @@ import ModalButton from '../../UI/ModalButton'
 import Source_Form from '../Forms/Source_Form'
 import Item_Form from '../Forms/Item_Form'
 import { Grid, Divider, Typography, Button, Tooltip } from '@mui/material'
-import { camelCase } from 'lodash'
 
 const dataCardStyles = {
     bgcolor: 'background.paper',
@@ -29,6 +28,8 @@ const dataCardStyles = {
 }
 
 function ActionButton({ children, caption = 'Action Button', tooltip = '', disabled = false, click, ...rest }) {
+    console.log('Procurement/Header/ActionButton.js')
+
     return (
         <Tooltip title={tooltip || caption}>
 
@@ -45,6 +46,7 @@ function ActionButton({ children, caption = 'Action Button', tooltip = '', disab
 }
 
 export default function Header({ sourceType = 'mwo', data: activeSourceData = {}, classes }) {
+    console.log('Procurement/Header.js')
 
     const headerData = {
         overview: sourceType === 'po' ? ['refId', 'refType', 'totalCost'] : ['mwoId', 'status'],

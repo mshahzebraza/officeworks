@@ -1,19 +1,19 @@
 // Dependency
 import React from 'react'
-import { checkDataType, summarizerNew2, toCamelCase } from '../../helpers/reusable'
+import { checkDataType, summarizerNew2, toCamelCase } from '../../../helpers/reusable'
 import { useRouter } from 'next/router'
 
 // Store & Styles
 import styles from './POentry.module.scss';
-import { deletePOHandler } from '../../lib/apollo_client/poApollo';
+import { deletePOHandler } from '../../../lib/apollo_client/poApollo';
 
 // Components
-import PO_Summary from './PO_Summary'
-import Source_Form from '../Procurement/Forms/Source_Form';
-import DataRow from '../UI/DataRow/DataRow'
-import DataRowItem from '../UI/DataRow/DataRowItem'
-import ModalButton from '../UI/ModalButton'
-import Button from '../UI/Button'
+import PO_Summary from '../PO_Summary'
+import Source_Form from '../../Procurement/Forms/Source_Form';
+import DataRow from '../../UI/DataRow/DataRow'
+import DataRowItem from '../../UI/DataRow/DataRowItem'
+import ModalButton from '../../UI/ModalButton'
+import Button from '../../UI/Button'
 
 
 export default function POentry({

@@ -336,7 +336,7 @@ export async function request({
             url, {
             method,
             headers,
-            body: JSON.stringify(body)
+            body: body && JSON.stringify(body)
         }
         )
 

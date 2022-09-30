@@ -22,6 +22,13 @@ export const navbarStyles = {
             color: 'red',
         },
     },
-    icons: { color: '#ddd', ml: 2 },
-    text: { color: '#ddd', fontSize: '2rem !important', fontWeight: '600' },
+    listItem: {
+        color: '#ddd',
+        '&:hover': {
+            background: '#0b1726',
+            color: '#009be5',
+        }
+    },
+    icons: { color: 'inherit', ml: 2 },
+    text: { color: 'inherit', fontSize: '2rem !important', fontWeight: '600' },
 }

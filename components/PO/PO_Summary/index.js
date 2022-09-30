@@ -4,9 +4,9 @@ import React from 'react'
 // Store & Styles
 
 // Components
-import Portal from '../UI/Portal'
-import Modal from '../UI/Modal'
-import { Summarize } from '../UI/Summarize/Summarize'
+import Portal from '../../UI/Portal'
+import Modal from '../../UI/Modal'
+import { Summarize } from '../../UI/Summarize/Summarize'
 
 
 export default function PO_Summary({ closer, poData }) {

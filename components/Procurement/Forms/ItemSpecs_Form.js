@@ -16,7 +16,7 @@ import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_clien
 import { getObjectWithValuesAt, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
-export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} }) {
+export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {}, open }) {
 
     const moduleStateList = [...moduleApollo().list];
 
@@ -33,56 +33,7 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
 
     const formData = {
         title: 'Item Specifications',
-        fields: {
-            id: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                label: 'Item Id',
-                name: 'id',
-                disabled: !isNewSubmission
-            }],
-            name: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                label: 'Item Name',
-                name: 'name',
-                datalist: [
-                    ...moduleStateList.map(module => {
-                        return module.name
-                    })
-                ]
-            }],
-            type: ['', Yup.string().required('Required'), {
-                control: 'select',
-                label: 'Item Type',
-                name: 'type',
-                options: [
-                    { key: 'Select One...', value: '' },
-                    { key: 'Special Standard', value: 'Special' },
-                    { key: 'Standard', value: 'Standard' },
-                    { key: 'Manufactured', value: 'Manufactured' }, // either internally or externally
-                ]
-            }],
-            application: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'application',
-                label: 'Application / Use',
-                options: [
-                    { key: 'Select One ...', value: '' },
-                    { key: 'Make most of the list dynamically load from projects - or even better, get this data from the project directory automatically and remove the field from here altogether', value: 'Dynamic' },
-                    { key: '3K', value: 'PEMA-L3K-BD' },
-                    { key: 'Lab Use', value: 'LU' },
-                    { key: 'R&D', value: 'R&D' },
-                    { key: 'Miscellaneous', value: 'MISC' },
-                ]
-            }],
-            specifications: [[], Yup.array(), {
-                control: 'fieldListPair',
-                label: 'Add the Specifications in pairs',
-                name: 'specifications',
-                placeholders: ['Shelf Life', '10 years']
-            }],
-        }
+        fields: getItemSpecsFieldConfig(isNewSubmission, moduleStateList)
     }
 
     const { id, name, type, application, specs = {}, ...otherSpecs } = activeModuleSpecs;
@@ -117,28 +68,27 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
 
 
     return (
-        <Portal>
 
-            <Modal title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`} closer={closer}>
+        <Modal title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`} closer={closer} open={open} >
 
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    {
-                        ({ isValid, dirty, isSubmitting }) => (
-                            <FormikForm>
-                                {
-                                    renderComponentWithProps(
-                                        FormikControl,
-                                        getObjectWithValuesAt(2, formData.fields)
-                                    )
-                                }
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                {
+                    ({ isValid, dirty, isSubmitting }) => (
+                        <FormikForm>
+                            {
+                                renderComponentWithProps(
+                                    FormikControl,
+                                    getObjectWithValuesAt(2, formData.fields)
+                                )
+                            }
 
-                                <FormikSubmit />
+                            <FormikSubmit />
 
-                                {/* <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
+                            {/* <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
                                              {
                                                   isValid ?
                                                        dirty
@@ -147,13 +97,65 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {} })
                                                        : 'Incomplete/Invalid Data'
                                              }
                                         </FormikSubmit> */}
-                            </FormikForm>
-                        )
-                    }
-                </Formik>
+                        </FormikForm>
+                    )
+                }
+            </Formik>
 
-            </Modal>
-        </Portal>
+        </Modal>
     )
+}
+
+function getItemSpecsFieldConfig(isNewSubmission, moduleStateList) {
+    return {
+        id: ['', Yup.string().required('Required'), {
+            control: 'input',
+            type: 'text',
+            label: 'Item Id',
+            name: 'id',
+            disabled: !isNewSubmission
+        }],
+        name: ['', Yup.string().required('Required'), {
+            control: 'input',
+            type: 'text',
+            label: 'Item Name',
+            name: 'name',
+            datalist: [
+                ...moduleStateList.map(module => {
+                    return module.name
+                })
+            ]
+        }],
+        type: ['', Yup.string().required('Required'), {
+            control: 'select',
+            label: 'Item Type',
+            name: 'type',
+            options: [
+                { key: 'Select One...', value: '' },
+                { key: 'Special Standard', value: 'Special' },
+                { key: 'Standard', value: 'Standard' },
+                { key: 'Manufactured', value: 'Manufactured' }, // either internally or externally
+            ]
+        }],
+        application: ['', Yup.string().required('Required'), {
+            control: 'select',
+            name: 'application',
+            label: 'Application / Use',
+            options: [
+                { key: 'Select One ...', value: '' },
+                { key: 'Make most of the list dynamically load from projects - or even better, get this data from the project directory automatically and remove the field from here altogether', value: 'Dynamic' },
+                { key: '3K', value: 'PEMA-L3K-BD' },
+                { key: 'Lab Use', value: 'LU' },
+                { key: 'R&D', value: 'R&D' },
+                { key: 'Miscellaneous', value: 'MISC' },
+            ]
+        }],
+        specifications: [[], Yup.array(), {
+            control: 'fieldListPair',
+            label: 'Add the Specifications in pairs',
+            name: 'specifications',
+            placeholders: ['Shelf Life', '10 years']
+        }],
+    }
 }
 

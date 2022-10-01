@@ -147,52 +147,55 @@ export default function Module_Form({ closer: modalCloser, data: activeModuleDat
     }
 
     return (
-        <Portal>
-            <Modal
-                title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                closer={modalCloser}
-            >
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    {
 
-                        (formik) => {
-                            const { dirty, isValid, isSubmitting } = formik
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+        >
+            {
 
-                            return (
+                (formik) => {
+                    const { dirty, isValid, isSubmitting } = formik
 
-                                <FormikForm
-                                // multiStage
-                                >
-                                    {
-                                        renderComponentWithProps(
-                                            FormikControl,
-                                            getObjectWithValuesAt(2, formData.fields),
-                                            ['inv']
-                                        )
-                                    }
+                    return (
+                        <Modal
+                            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+                            closer={modalCloser}
+                            handleClose={modalCloser}
+                            open={open}
+                            submitProps={{
+                                disabled: !isValid || !dirty || isSubmitting,
+                                text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+                            }}
+                        >
+                            <FormikForm
+                            // multiStage
+                            >
+                                {
+                                    renderComponentWithProps(
+                                        FormikControl,
+                                        getObjectWithValuesAt(2, formData.fields),
+                                        ['inv']
+                                    )
+                                }
 
+                            </FormikForm>
+                        </Modal>
 
-                                    <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                        {/* all 3 must be false to disable */}
-                                        {
-                                            isValid ?
-                                                dirty
-                                                    ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                    : 'No edits made'
-                                                : 'Incomplete/Invalid Data'
-                                        }
-                                    </FormikSubmit>
+                    )
 
-
-                                </FormikForm>)
-
-                        }}
-                </Formik>
-            </Modal>
-        </Portal >
+                }}
+        </Formik>
     )
+}
+
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
 }

@@ -8,25 +8,32 @@ export default function Modal({
     title,
     description,
     closer,
-    submit,
     children,
-    // handleClose,
-    // open=false
+
+    open = true,
+    handleClose,
+    handleSubmit,
+    closeProps,
+    submitProps
 }) {
     return (
         <Dialog
-            open/* ={open} */
-            onClose={closer}
+            open={open}
+            onClose={closer || handleClose}
             aria-labelledby={title}
             fullWidth={true}
             maxWidth={'md'}
         >
-
-            <ModalHeader handleClose={closer} title={title} />
+            <ModalHeader handleClose={closer || handleClose} title={title} />
 
             <ModalContent description={description} children={children} />
 
-            <ModalActions handleClose={closer} handleSubmit={submit} />
+            <ModalActions
+                handleClose={closer || handleClose}
+                handleSubmit={handleSubmit}
+                closeProps={closeProps}
+                submitProps={submitProps}
+            />
 
         </Dialog>
 

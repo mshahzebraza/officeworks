@@ -53,58 +53,57 @@ export default function Item_Form({ open, closer: modalCloser, activeSourceId, d
     }
 
     return (
-        <Modal
-            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-            closer={modalCloser}
-            open={open}
+
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
         >
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-            >
-                {
+            {
 
-                    (formik) => {
-                        const { dirty, isValid, isSubmitting } = formik
+                (formik) => {
+                    const { dirty, isValid, isSubmitting } = formik
 
-                        return (
-
+                    return (
+                        <Modal
+                            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+                            closer={modalCloser}
+                            handleClose={modalCloser}
+                            open={open}
+                            submitProps={{
+                                disabled: !isValid || !dirty || isSubmitting,
+                                text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+                            }}
+                        >
                             <FormikForm
-                                // multiStage
-                                autoComplete="off"
+                            // multiStage
                             >
                                 <Grid container spacing={2}>
-
                                     {
                                         renderComponentWithProps(FormikControl,
                                             getOf(formData.fields, 'options'),
                                         )
                                     }
-                                    <Grid item ml='auto' xs={4} textAlign='right' >
-
-                                        <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                            {/* all 3 must be false to disable */}
-                                            {
-                                                isValid ?
-                                                    dirty
-                                                        ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                        : 'No edits made'
-                                                    : 'Incomplete/Invalid Data'
-                                            }
-                                        </FormikSubmit>
-                                    </Grid>
-
                                 </Grid>
 
-                            </FormikForm>)
+                            </FormikForm>
+                        </Modal>
+                    )
 
-                    }}
-            </Formik>
-        </Modal>
+                }}
+        </Formik>
     )
 }
 
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
+}
 function getMWOitemFieldConfig(moduleStateList, isNewSubmission) {
     return {
         title: 'MWO Item',

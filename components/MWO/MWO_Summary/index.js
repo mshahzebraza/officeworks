@@ -9,23 +9,26 @@ import Modal from '../../UI/Modal'
 import { Summarize } from '../../UI/Summarize/Summarize'
 
 
-export default function MWO_Summary({ closer, mwoData }) {
+export default function MWO_Summary({ closer: modalCloser, mwoData }) {
 
     return (
-        <Portal>
-            <Modal
-                title='MWO Summary'
-                closer={closer}
-            >
-                <Summarize
-                    data={mwoData}
-                    dataKeyOptions={{
-                        toDelete: ['_id', '__v', 'index'],
-                        toFetch: [['linkedModules', 'item']],
-                        toUpdate: [['mwoId', 'MWO ID'], ['linkedModules', 'Modules Ordered']]
-                    }}
-                />
-            </Modal>
-        </Portal>
+        <Modal
+            title='MWO Summary'
+            closer={modalCloser}
+            handleClose={modalCloser}
+            open={open}
+            submitProps={{
+                hidden: true
+            }}
+        >
+            <Summarize
+                data={mwoData}
+                dataKeyOptions={{
+                    toDelete: ['_id', '__v', 'index'],
+                    toFetch: [['linkedModules', 'item']],
+                    toUpdate: [['mwoId', 'MWO ID'], ['linkedModules', 'Modules Ordered']]
+                }}
+            />
+        </Modal>
     )
 }

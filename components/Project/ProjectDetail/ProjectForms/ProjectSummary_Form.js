@@ -19,126 +19,135 @@ import { addProjectSummaryHandler, updateProjectSummaryHandler } from '../../../
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function ProjectSummary_Form({ closer: modalCloser, activeSummaryData: oldSummaryData = {} }) {
+export default function ProjectSummary_Form({ open, closer: modalCloser, activeSummaryData: oldSummaryData = {} }) {
 
-     // const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-     const isNewSubmission = isObjEmpty(oldSummaryData);
+    const isNewSubmission = isObjEmpty(oldSummaryData);
 
-     // Initial Values
-     const initialValues = {
-          type: '', // EM-Linear (DropDown)
-          nomenclature: '', // PEMA-L3K-BD (Input)
-          application: [], // AbWS (Multiple Checkbox)
-          status: '', // Production (Dropdown)
-          stock: '', // fetched dynamically from inventory based on the project nomenclature
-          target: '', // fetched dynamically from targets based on the project nomenclature
-          ...oldSummaryData
-     }
+    // Initial Values
+    const initialValues = {
+        type: '', // EM-Linear (DropDown)
+        nomenclature: '', // PEMA-L3K-BD (Input)
+        application: [], // AbWS (Multiple Checkbox)
+        status: '', // Production (Dropdown)
+        stock: '', // fetched dynamically from inventory based on the project nomenclature
+        target: '', // fetched dynamically from targets based on the project nomenclature
+        ...oldSummaryData
+    }
 
-     // Validation Schema
-     const validationSchema = Yup.object({
-          type: Yup.string().required('Required'),
-          nomenclature: Yup.string().required('Required'),
-          application: Yup.array().nullable(), //.min('Select at least one Application'), 
-          status: Yup.string()/* .required('Required') */,
-          stock: Yup.number()/* .required('Required') */,
-          target: Yup.number()/* .required('Required') */,
-     })
+    // Validation Schema
+    const validationSchema = Yup.object({
+        type: Yup.string().required('Required'),
+        nomenclature: Yup.string().required('Required'),
+        application: Yup.array().nullable(), //.min('Select at least one Application'), 
+        status: Yup.string()/* .required('Required') */,
+        stock: Yup.number()/* .required('Required') */,
+        target: Yup.number()/* .required('Required') */,
+    })
 
-     const onSubmit = (values, { resetForm }) => {
-          isNewSubmission
-               ? addProjectSummaryHandler(values)
-               : updateProjectSummaryHandler(values);
-          resetForm();
-          modalCloser()
-     }
+    const onSubmit = (values, { resetForm }) => {
+        isNewSubmission
+            ? addProjectSummaryHandler(values)
+            : updateProjectSummaryHandler(values);
+        resetForm();
+        modalCloser()
+    }
 
-     return (
-          <Portal>
-               <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`} closer={modalCloser} >
+    return (
 
-                    <Formik
-                         initialValues={initialValues}
-                         validationSchema={validationSchema}
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+        >
+            {({ isSubmitting, isValid, dirty }) => (
+                <Modal
+                    title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`}
+                    closer={modalCloser}
+                    handleClose={modalCloser}
+                    open={open}
+                    submitProps={{
+                        disabled: !isValid || !dirty || isSubmitting,
+                        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+                    }}
+                >
 
-                         onSubmit={onSubmit}
-                    >
-                         {({ isSubmitting, isValid, dirty }) => (
-                              <FormikForm>
-                                   {/* Type */}
-                                   <FormikControl
-                                        label='Type'
-                                        name='type'
-                                        control='select'
-                                        options={[
-                                             { key: 'Select an option', value: '' },
-                                             { key: 'EM-Linear', value: 'EM-Linear' },
-                                             { key: 'EM-Rotary', value: 'EM-Rotary' }
-                                        ]}
-                                   />
+                    <FormikForm>
+                        {/* Type */}
+                        <FormikControl
+                            label='Type'
+                            name='type'
+                            control='select'
+                            options={[
+                                { key: 'Select an option', value: '' },
+                                { key: 'EM-Linear', value: 'EM-Linear' },
+                                { key: 'EM-Rotary', value: 'EM-Rotary' }
+                            ]}
+                        />
 
-                                   {/* nomenclature */}
-                                   <FormikControl
-                                        label='Nomenclature'
-                                        name='nomenclature'
-                                        control='input'
-                                        type='text'
-                                        disabled={!isNewSubmission}
-                                   />
-                                   {/* application */}
-                                   <FormikControl
-                                        label='Application'
-                                        name='application'
-                                        control='checkbox'
-                                        options={[
-                                             { key: 'R&D', value: 'R&D' },
-                                             { key: 'BWS', value: 'BWS' },
-                                             { key: 'HWS', value: 'HWS' }
-                                        ]}
-                                   />
-                                   {/* status */}
-                                   <FormikControl
-                                        label='status'
-                                        name='status'
-                                        control='select'
-                                        options={[
-                                             { key: 'Select One ...', value: '' },
-                                             { key: 'R&D', value: 'R&D' },
-                                             { key: 'Production', value: 'Production' },
-                                             { key: 'Closed', value: 'Closed' }
-                                        ]}
-                                   />
-                                   {/* stock */}
-                                   <FormikControl
-                                        label='stock'
-                                        name='stock'
-                                        control='input'
-                                        type={'number'}
-                                   />
-                                   {/* target */}
-                                   <FormikControl
-                                        label='target'
-                                        name='target'
-                                        control='input'
-                                        type={'number'}
-                                   />
+                        {/* nomenclature */}
+                        <FormikControl
+                            label='Nomenclature'
+                            name='nomenclature'
+                            control='input'
+                            type='text'
+                            disabled={!isNewSubmission}
+                        />
+                        {/* application */}
+                        <FormikControl
+                            label='Application'
+                            name='application'
+                            control='checkbox'
+                            options={[
+                                { key: 'R&D', value: 'R&D' },
+                                { key: 'BWS', value: 'BWS' },
+                                { key: 'HWS', value: 'HWS' }
+                            ]}
+                        />
+                        {/* status */}
+                        <FormikControl
+                            label='status'
+                            name='status'
+                            control='select'
+                            options={[
+                                { key: 'Select One ...', value: '' },
+                                { key: 'R&D', value: 'R&D' },
+                                { key: 'Production', value: 'Production' },
+                                { key: 'Closed', value: 'Closed' }
+                            ]}
+                        />
+                        {/* stock */}
+                        <FormikControl
+                            label='stock'
+                            name='stock'
+                            control='input'
+                            type={'number'}
+                        />
+                        {/* target */}
+                        <FormikControl
+                            label='target'
+                            name='target'
+                            control='input'
+                            type={'number'}
+                        />
 
-                                   <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                        {
-                                             isValid ?
-                                                  dirty
-                                                       ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                       : 'No edits made'
-                                                  : 'Incomplete/Invalid Data'
-                                        }
-                                   </FormikSubmit>
-                              </FormikForm>
-                         )}
-                    </Formik>
-               </Modal>
-          </Portal>
-     )
+                    </FormikForm>
+                </Modal>
+
+            )}
+        </Formik>
+    )
+}
+
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
 }
 
 

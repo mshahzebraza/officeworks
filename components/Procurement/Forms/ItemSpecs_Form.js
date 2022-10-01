@@ -16,7 +16,7 @@ import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_clien
 import { getObjectWithValuesAt, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
-export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {}, open }) {
+export default function ItemSpecs_Form({ closer: modalCloser, data: activeModuleSpecs = {}, open }) {
 
     const moduleStateList = [...moduleApollo().list];
 
@@ -63,21 +63,29 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {}, o
 
         updateModuleSpecHandler([completeSpecs])
         resetForm();
-        closer()
+        modalCloser()
     }
 
 
     return (
 
-        <Modal title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`} closer={closer} open={open} >
-
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-            >
-                {
-                    ({ isValid, dirty, isSubmitting }) => (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+        >
+            {
+                ({ isValid, dirty, isSubmitting }) => (
+                    <Modal
+                        title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+                        closer={modalCloser}
+                        handleClose={modalCloser}
+                        open={open}
+                        submitProps={{
+                            disabled: !isValid || !dirty || isSubmitting,
+                            text: getSubmitBtnText(isValid, dirty)
+                        }}
+                    >
                         <FormikForm>
                             {
                                 renderComponentWithProps(
@@ -86,26 +94,23 @@ export default function ItemSpecs_Form({ closer, data: activeModuleSpecs = {}, o
                                 )
                             }
 
-                            <FormikSubmit />
-
-                            {/* <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                             {
-                                                  isValid ?
-                                                       dirty
-                                                            ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                            : 'No edits made'
-                                                       : 'Incomplete/Invalid Data'
-                                             }
-                                        </FormikSubmit> */}
                         </FormikForm>
-                    )
-                }
-            </Formik>
-
-        </Modal>
+                    </Modal>
+                )
+            }
+        </Formik>
     )
 }
 
+function getSubmitBtnText(isValid, dirty) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
+}
 function getItemSpecsFieldConfig(isNewSubmission, moduleStateList) {
     return {
         id: ['', Yup.string().required('Required'), {

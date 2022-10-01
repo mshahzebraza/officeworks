@@ -20,120 +20,129 @@ import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apoll
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function ProjectAssembly_Form(
-  {
-    closer: modalCloser,
-    activeProjectType,
-    activeProjectId,
-    activeAssembliesData: oldAssembliesData = [],
-    activeAssemblyData: oldAssemblyData = {}
-  }
+    {
+        closer: modalCloser,
+        activeProjectType,
+        activeProjectId,
+        activeAssembliesData: oldAssembliesData = [],
+        activeAssemblyData: oldAssemblyData = {}
+    }
 ) {
 
-  // const dispatch = useDispatch();
-  let assemblyOptions;
+    // const dispatch = useDispatch();
+    let assemblyOptions;
 
-  const isNewSubmission = isObjEmpty(oldAssemblyData);
-  isNewSubmission
-    ? assemblyOptions = getAssemblyOptions(oldAssembliesData)
-    : assemblyOptions = getAssemblyOptions(oldAssembliesData, oldAssemblyData.id)
-  // Initial Values
-  const initialValues = {
-    nomenclature: '',
-    id: '',
-    parent: '',
-    ...oldAssemblyData
-  }
+    const isNewSubmission = isObjEmpty(oldAssemblyData);
+    isNewSubmission
+        ? assemblyOptions = getAssemblyOptions(oldAssembliesData)
+        : assemblyOptions = getAssemblyOptions(oldAssembliesData, oldAssemblyData.id)
+    // Initial Values
+    const initialValues = {
+        nomenclature: '',
+        id: '',
+        parent: '',
+        ...oldAssemblyData
+    }
 
-  // Validation Schema
-  const validationSchema = Yup.object({
-    nomenclature: Yup.string().required('Assembly needs to have a name'),
-    id: Yup.string()
-      .test('len', 'Must be exactly 4 characters', val => val && val.length === 4)
-      .required('Please assign an ID to assemble'), //.min('Select at least one Application')
-    parent: Yup.string().when(['id'], {
-      is: (id) => id !== '0000',
-      then: Yup.string().required('Please assign a parent assembly')
+    // Validation Schema
+    const validationSchema = Yup.object({
+        nomenclature: Yup.string().required('Assembly needs to have a name'),
+        id: Yup.string()
+            .test('len', 'Must be exactly 4 characters', val => val && val.length === 4)
+            .required('Please assign an ID to assemble'), //.min('Select at least one Application')
+        parent: Yup.string().when(['id'], {
+            is: (id) => id !== '0000',
+            then: Yup.string().required('Please assign a parent assembly')
+        })
     })
-  })
 
-  const onSubmit = (values, { resetForm }) => {
-    isNewSubmission ?
-      addProjAssyHandler([activeProjectType, activeProjectId, values])
-      : updateProjAssyHandler([activeProjectType, activeProjectId, values]);
-    resetForm();
-    modalCloser()
-  }
+    const onSubmit = (values, { resetForm }) => {
+        isNewSubmission ?
+            addProjAssyHandler([activeProjectType, activeProjectId, values])
+            : updateProjAssyHandler([activeProjectType, activeProjectId, values]);
+        resetForm();
+        modalCloser()
+    }
 
-  return (
-    <Portal>
-      <Modal title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`} closer={modalCloser} >
+    return (
 
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-
-          onSubmit={onSubmit}
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
         >
-          {({ isValid, dirty, isSubmitting }) => (
-            <FormikForm>
-              {/* Nomenclature */}
-              <FormikControl
-                label='Nomenclature'
-                name='nomenclature'
-                control='input'
-                type='text'
-              />
+            {({ isValid, dirty, isSubmitting }) => (
+                <Modal
+                    title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`}
+                    closer={modalCloser}
+                    handleClose={modalCloser}
+                    open={open}
+                    submitProps={{
+                        disabled: !isValid || !dirty || isSubmitting,
+                        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+                    }}
+                >
 
-              {/* ID */}
-              <FormikControl
-                label='Assembly ID'
-                name='id'
-                control='input'
-                type='text'
-                disabled={!isNewSubmission}
-              />
-              {/* Parent */}
-              <FormikControl
-                label='Parent'
-                name='parent'
-                control='select'
-                options={[
-                  { key: 'Select One ...', value: '' },
-                  ...assemblyOptions
-                ]}
-              />
+                    <FormikForm>
+                        {/* Nomenclature */}
+                        <FormikControl
+                            label='Nomenclature'
+                            name='nomenclature'
+                            control='input'
+                            type='text'
+                        />
 
-              <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                {
-                  isValid ?
-                    dirty
-                      ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                      : 'No edits made'
-                    : 'Incomplete/Invalid Data'
-                }
-              </FormikSubmit>
-            </FormikForm>
-          )}
+                        {/* ID */}
+                        <FormikControl
+                            label='Assembly ID'
+                            name='id'
+                            control='input'
+                            type='text'
+                            disabled={!isNewSubmission}
+                        />
+                        {/* Parent */}
+                        <FormikControl
+                            label='Parent'
+                            name='parent'
+                            control='select'
+                            options={[
+                                { key: 'Select One ...', value: '' },
+                                ...assemblyOptions
+                            ]}
+                        />
+
+                    </FormikForm>
+                </Modal>
+
+            )}
         </Formik>
-      </Modal>
-    </Portal>
-  )
+    )
 }
 
 
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
+}
+
 function getAssemblyOptions(assemblyListData, removeAssemblyItemId = false) {
 
-  assemblyListData = deepClone(assemblyListData);
-  if (removeAssemblyItemId) {
-    const removeItemIndex = assemblyListData.findIndex(curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId)
-    assemblyListData.splice(removeItemIndex, 1) // WHY!!
-  }
-
-  return assemblyListData.map(assemblyItem => {
-    return {
-      key: assemblyItem.nomenclature,
-      value: assemblyItem.id
+    assemblyListData = deepClone(assemblyListData);
+    if (removeAssemblyItemId) {
+        const removeItemIndex = assemblyListData.findIndex(curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId)
+        assemblyListData.splice(removeItemIndex, 1) // WHY!!
     }
-  })
+
+    return assemblyListData.map(assemblyItem => {
+        return {
+            key: assemblyItem.nomenclature,
+            value: assemblyItem.id
+        }
+    })
 
 }

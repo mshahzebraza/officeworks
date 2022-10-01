@@ -16,7 +16,6 @@ import Modal from '../../UI/Modal'
 // Major Components
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
-import FormikSubmit from '../../Formik/FormikSubmit'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
 import Grid from '@mui/material/Grid'
 
@@ -27,8 +26,7 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
     const formData = (sourceType === 'po')
         ? getPOfieldConfig(isNewSubmission)
         : getMWOfieldConfig(isNewSubmission)
-    // Allow the Dropdown to have the "Closed" option only if submission-mode is "Update"
-    !isNewSubmission && formData.fields.status[2].options.push({ key: 'Closed', value: 'Closed' })
+    appendCloseOptionToStatusField(isNewSubmission, formData)
 
     // if submission-mode: "UPDATE", replace the initial values with already present data 
     const initialValuesReplacement = cloneAndPluck(
@@ -46,6 +44,7 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
         ...getObjectWithValuesAt(1, formData.fields),
     })
     const onSubmit = (values, { resetForm }) => {
+        console.log('values: ', values)
         isNewSubmission ? formData.submitHandlers.add(values) : formData.submitHandlers.update(values);
         resetForm()
         modalCloser();
@@ -53,23 +52,28 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
 
     /* -------- Render Function -------- */
     return (
-        <Modal
-            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-            closer={modalCloser}
-            open={open}
+
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
         >
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-            >
-                {({ isSubmitting, isValid, dirty }) => {
-                    // 1. Make the form multistage
-                    // 2. Make the Don't go to send stage before confirming the status of refId entered.
-                    return (
+            {({ isValid, dirty, isSubmitting }) => {
+                // 1. Make the form multistage
+                // 2. Make the Don't go to send stage before confirming the status of refId entered.
+                return (
+                    <Modal
+                        title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+                        closer={modalCloser}
+                        handleClose={modalCloser}
+                        open={open}
+                        submitProps={{
+                            disabled: !isValid || !dirty || isSubmitting,
+                            text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+                        }}
+                    >
                         <FormikForm>
                             <Grid container spacing={2}>
-
                                 {/* Render Form Inputs */}
                                 {
                                     renderComponentWithProps(
@@ -77,71 +81,35 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                                         getObjectWithValuesAt(2, formData.fields)
                                     )
                                 }
-                                {/* Render Form Submit */}
-                                <Grid item ml='auto' xs={4} textAlign='right' >
-                                    <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-                                        {
-                                            isValid ?
-                                                dirty
-                                                    ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                                                    : 'No edits made'
-                                                : 'Incomplete/Invalid Data'
-                                        }
-                                    </FormikSubmit>
-                                </Grid>
                             </Grid>
-
                         </FormikForm>
-                    )
-                }
-                }
+                    </Modal>
 
-            </Formik>
-        </Modal>
+                )
+            }
+            }
+
+        </Formik>
     )
 }
+// Allow the Dropdown to have the "Closed" option only if submission-mode is "Update"
+/**
+ * 
+ * @param {boolean} isNewSubmission checks the form is ["edit" OR "new"]
+ * @param {Object} formData An Object containing the configs(initialValues,validationSchema,props) for each of the fields
+ */
+function appendCloseOptionToStatusField(isNewSubmission, formData) {
+    !isNewSubmission && formData.fields.status[2].options.push({ key: 'Closed', value: 'Closed' })
+}
 
-function getMWOfieldConfig(isNewSubmission) {
-    return {
-        title: `Work Order Details`,
-        fields: {
-            /* fieldName: [initialValue, YUP-validation, controlProps] */
-            mwoId: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                name: 'mwoId',
-                label: 'MWO ID',
-                disabled: !isNewSubmission
-            }],
-            status: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'status',
-                label: 'Status',
-                options: [
-                    { label: 'Select One ...', value: '' },
-                    { label: 'Not Started', value: 'Not Started' },
-                    { label: 'Active', value: 'Active' },
-                    { label: 'Delivered', value: 'Delivered' },
-                ]
-            }],
-            title: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                name: 'title',
-                label: 'Title / Description'
-            }],
-            remarks: ['', Yup.string(), {
-                control: 'textarea',
-                gridSize: 12,
-                name: 'remarks',
-                label: 'Remarks/Description'
-            }],
-        },
-        submitHandlers: {
-            add: addMWOHandler,
-            update: updateMWOHandler
-        }
-    }
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
 }
 
 function getPOfieldConfig(isNewSubmission) {
@@ -250,4 +218,47 @@ function getPOfieldConfig(isNewSubmission) {
         }
     }
 }
+function getMWOfieldConfig(isNewSubmission) {
+    return {
+        title: `Work Order Details`,
+        fields: {
+            /* fieldName: [initialValue, YUP-validation, controlProps] */
+            mwoId: ['', Yup.string().required('Required'), {
+                control: 'input',
+                type: 'text',
+                name: 'mwoId',
+                label: 'MWO ID',
+                disabled: !isNewSubmission
+            }],
+            status: ['', Yup.string().required('Required'), {
+                control: 'select',
+                name: 'status',
+                label: 'Status',
+                options: [
+                    { label: 'Select One ...', value: '' },
+                    { label: 'Not Started', value: 'Not Started' },
+                    { label: 'Active', value: 'Active' },
+                    { label: 'Delivered', value: 'Delivered' },
+                ]
+            }],
+            title: ['', Yup.string().required('Required'), {
+                control: 'input',
+                type: 'text',
+                name: 'title',
+                label: 'Title / Description'
+            }],
+            remarks: ['', Yup.string(), {
+                control: 'textarea',
+                gridSize: 12,
+                name: 'remarks',
+                label: 'Remarks/Description'
+            }],
+        },
+        submitHandlers: {
+            add: addMWOHandler,
+            update: updateMWOHandler
+        }
+    }
+}
+
 

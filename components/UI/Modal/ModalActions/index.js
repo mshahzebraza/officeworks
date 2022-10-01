@@ -11,11 +11,12 @@ export function ModalActions({
     handleClose,
     handleSubmit,
     submitProps = {},
+    closeProps = {},
 }) {
     return (
         <DialogActions sx={modalActionStyles} >
-            <ModalCloseAction handleClose={handleClose} />
-            <ModalSubmitAction handleSubmit={handleSubmit} submitProps={submitProps} />
+            <ModalCloseAction handleClose={handleClose} {...closeProps} />
+            <ModalSubmitAction handleSubmit={handleSubmit} {...submitProps} />
         </DialogActions>
     );
 }

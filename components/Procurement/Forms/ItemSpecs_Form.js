@@ -16,7 +16,7 @@ import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_clien
 import { getObjectWithValuesAt, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
-export default function ItemSpecs_Form({ closer: modalCloser, data: activeModuleSpecs = {}, open }) {
+export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCloser, data: activeModuleSpecs = {} }) {
 
     const moduleStateList = [...moduleApollo().list];
 
@@ -79,8 +79,8 @@ export default function ItemSpecs_Form({ closer: modalCloser, data: activeModule
                     <Modal
                         title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
                         closer={modalCloser}
+                        open={isModalOpen}
                         handleClose={modalCloser}
-                        open={open}
                         submitProps={{
                             disabled: !isValid || !dirty || isSubmitting,
                             text: getSubmitBtnText(isValid, dirty)

@@ -19,8 +19,12 @@ import FormikForm from '../../Formik/FormikForm'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
 import Grid from '@mui/material/Grid'
 
-export default function Source_Form({ closer: modalCloser, data: activeSourceData = {}, sourceType = 'mwo', open }) {
-
+export default function Source_Form({
+    open: isModalOpen,
+    handleClose: modalCloser,
+    data: activeSourceData = {},
+    sourceType = 'mwo'
+}) {
     const isNewSubmission = isObjEmpty(activeSourceData);
 
     const formData = (sourceType === 'po')
@@ -40,6 +44,9 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
         ...getObjectWithValuesAt(0, formData.fields),
         ...initialValuesReplacement
     }
+    console.log('sourceType: ', sourceType)
+    console.log('initialValues: ', initialValues)
+
     const validationSchema = Yup.object({
         ...getObjectWithValuesAt(1, formData.fields),
     })
@@ -64,9 +71,8 @@ export default function Source_Form({ closer: modalCloser, data: activeSourceDat
                 return (
                     <Modal
                         title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                        closer={modalCloser}
+                        open={isModalOpen}
                         handleClose={modalCloser}
-                        open={open}
                         submitProps={{
                             disabled: !isValid || !dirty || isSubmitting,
                             text: getSubmitBtnText(isValid, dirty, isNewSubmission)

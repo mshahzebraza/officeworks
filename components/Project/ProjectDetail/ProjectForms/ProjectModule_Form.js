@@ -18,7 +18,7 @@ import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjModHandler, updateProjModHandler } from '../../../../lib/apollo_client/projectApollo'
 
 
-export default function ProjectModule_Form({ open, closer: modalCloser, projectState = [], oldModuleData = {}, assemblies = [] }) {
+export default function ProjectModule_Form({ open: isModalOpen, handleClose: modalCloser, projectState = [], oldModuleData = {}, assemblies = [] }) {
     const [projectCatName, projectId] = projectState
 
     const isNewSubmission = isObjEmpty(oldModuleData);
@@ -87,9 +87,8 @@ export default function ProjectModule_Form({ open, closer: modalCloser, projectS
             {({ isValid, dirty, isSubmitting }) => (
                 <Modal
                     title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`}
-                    closer={modalCloser}
+                    open={isModalOpen}
                     handleClose={modalCloser}
-                    open={open}
                     submitProps={{
                         disabled: !isValid || !dirty || isSubmitting,
                         text: getSubmitBtnText(isValid, dirty, isNewSubmission)

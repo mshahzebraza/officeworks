@@ -14,7 +14,7 @@ import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { mapModulesToPO } from '../../helpers/specific';
 import POtable from './POtable';
-import getActiveModals from './modalHandler';
+import getActiveProcurementModals from '../Procurement/procurementModalHandler';
 
 
 
@@ -22,13 +22,12 @@ import getActiveModals from './modalHandler';
 export default function POpageComp(pProps) {
 
     const [modalState, setModalState] = useState({
-        addForm: { state: false, data: null },
-        editForm: { state: false, data: null },
-        summaryDialog: { state: false, data: null },
+        addForm: { state: false, data: undefined },
+        editForm: { state: false, data: undefined },
+        summaryDialog: { state: false, data: undefined },
     })
     const POstate = useReactiveVar(poApollo)
     const ModuleState = useReactiveVar(moduleApollo)
-
 
     // Section: Component States
     const [POlist, setPOlist] = useState(null)
@@ -55,8 +54,8 @@ export default function POpageComp(pProps) {
 
     return (
         <>
-            {/* Modal Logic */}
-            {getActiveModals(modalState, setModalState)}
+            {/* Modal Logic controlled from within the MT-action-buttons */}
+            {getActiveProcurementModals(modalState, setModalState, 'po')}
             <Layout >
                 <POtable
                     setModalState={setModalState}

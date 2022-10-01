@@ -4,19 +4,17 @@ import React from 'react'
 // Store & Styles
 
 // Components
-import Portal from '../../UI/Portal'
-import Modal from '../../UI/Modal'
-import { Summarize } from '../../UI/Summarize/Summarize'
+import Modal from '../../UI/Modal';
+import { Summarize } from '../../UI/Summarize/Summarize';
 
 
-export default function MWO_Summary({ closer: modalCloser, mwoData }) {
+export default function MWO_Summary({ open: isModalOpen, handleClose: modalCloser, data: mwoData }) {
 
     return (
         <Modal
             title='MWO Summary'
-            closer={modalCloser}
             handleClose={modalCloser}
-            open={open}
+            open={isModalOpen}
             submitProps={{
                 hidden: true
             }}

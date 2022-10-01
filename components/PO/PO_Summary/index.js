@@ -1,24 +1,22 @@
 // Dependency
-import React from 'react'
+import React from 'react';
 
 // Store & Styles
 
 // Components
-import Portal from '../../UI/Portal'
-import Modal from '../../UI/Modal'
-import { Summarize } from '../../UI/Summarize/Summarize'
+import Modal from '../../UI/Modal';
+import { Summarize } from '../../UI/Summarize/Summarize';
 
 
-export default function PO_Summary({ open, closer: modalCloser, poData }) {
+export default function PO_Summary({ open: isModalOpen, handleClose: modalCloser, data: poData }) {
 
     // console.log('poData', poData);
     if (!poData) return 'no data received ...';
     return (
         <Modal
             title='PO Detail'
-            closer={modalCloser}
             handleClose={modalCloser}
-            open={open}
+            open={isModalOpen}
             submitProps={{
                 hidden: true
             }}

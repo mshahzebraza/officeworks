@@ -19,7 +19,7 @@ import { addProjectSummaryHandler, updateProjectSummaryHandler } from '../../../
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
-export default function ProjectSummary_Form({ open, closer: modalCloser, activeSummaryData: oldSummaryData = {} }) {
+export default function ProjectSummary_Form({ open: isModalOpen, handleClose: modalCloser, activeSummaryData: oldSummaryData = {} }) {
 
     // const dispatch = useDispatch();
 
@@ -64,9 +64,8 @@ export default function ProjectSummary_Form({ open, closer: modalCloser, activeS
             {({ isSubmitting, isValid, dirty }) => (
                 <Modal
                     title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`}
-                    closer={modalCloser}
                     handleClose={modalCloser}
-                    open={open}
+                    open={isModalOpen}
                     submitProps={{
                         disabled: !isValid || !dirty || isSubmitting,
                         text: getSubmitBtnText(isValid, dirty, isNewSubmission)

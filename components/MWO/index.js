@@ -15,7 +15,7 @@ import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { mapModulesToPO as populateLinkedModules } from '../../helpers/specific';
 import Loader from '../Loader';
 import MWOtable from './MWOtable';
-import getActiveModals from './modalHandler';
+import getActiveProcurementModals from '../Procurement/procurementModalHandler';
 
 
 
@@ -58,7 +58,7 @@ export default function MWOPageComp(pProps) {
     return (
         <>
             {/* Modal Toggle Logic */}
-            {getActiveModals(modalState, setModalState)}
+            {getActiveProcurementModals(modalState, setModalState, 'mwo')}
             {/* Normal JSX */}
             <Layout >
                 <MWOtable

@@ -7,7 +7,6 @@ import { ModalActions } from "./ModalActions";
 export default function Modal({
     title,
     description,
-    closer,
     children,
 
     open = true,
@@ -19,17 +18,17 @@ export default function Modal({
     return (
         <Dialog
             open={open}
-            onClose={closer || handleClose}
+            onClose={handleClose}
             aria-labelledby={title}
             fullWidth={true}
             maxWidth={'md'}
         >
-            <ModalHeader handleClose={closer || handleClose} title={title} />
+            <ModalHeader handleClose={handleClose} title={title} />
 
             <ModalContent description={description} children={children} />
 
             <ModalActions
-                handleClose={closer || handleClose}
+                handleClose={handleClose}
                 handleSubmit={handleSubmit}
                 closeProps={closeProps}
                 submitProps={submitProps}

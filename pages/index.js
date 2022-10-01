@@ -13,17 +13,15 @@ export default function Home() {
     }
 
     return (
-        <>
-            <Layout >
-                <Paper sx={paperStyles}  >
-                    <ButtonLink href='/po'>Purchase Orders</ButtonLink>
-                    <ButtonLink href='/wo'>Work Orders</ButtonLink>
-                    <ButtonLink href='/transaction'>Transactions</ButtonLink>
-                    <ButtonLink href='/project'>Projects</ButtonLink>
-                    <ButtonLink href='/inventory'>Inventory</ButtonLink>
-                </Paper>
-            </Layout>
-        </>
+        <Layout >
+            <Paper sx={paperStyles}  >
+                <ButtonLink href='/po'>Purchase Orders</ButtonLink>
+                <ButtonLink href='/wo'>Work Orders</ButtonLink>
+                <ButtonLink href='/transaction'>Transactions</ButtonLink>
+                <ButtonLink href='/project'>Projects</ButtonLink>
+                <ButtonLink href='/inventory'>Inventory</ButtonLink>
+            </Paper>
+        </Layout>
     )
 }
 

@@ -10,21 +10,14 @@ const closeIconBtnStyles = {
     color: (theme) => theme.palette.grey[500],
 }
 export const ModalCloseIcon = ({ handleClose }) => {
+    if (!handleClose) return null
     return (
-        <>
-            {
-                handleClose
-                    ? (
-                        <IconButton
-                            aria- label="close"
-                            onClick={handleClose}
-                            sx={closeIconBtnStyles}
-                        >
-                            <CloseIcon />
-                        </IconButton >
-                    )
-                    : null
-            }
-        </>
+        <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={closeIconBtnStyles}
+        >
+            <CloseIcon />
+        </IconButton >
     )
 }

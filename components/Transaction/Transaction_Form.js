@@ -22,7 +22,7 @@ import FormikSubmit from '../Formik/FormikSubmit'
 import { getIDseries, isObjEmpty } from '../../helpers/reusable'
 import { addTxnHandler } from '../../lib/apollo_client/transactionApollo'
 
-function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
+function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnData = {} }) {
 
     // const dispatch = useDispatch()
     const isNewSubmission = isObjEmpty(oldTxnData);
@@ -84,9 +84,8 @@ function Transaction_Form({ closer: modalCloser, oldTxnData = {} }) {
                 ({ values, dirty, isSubmitting }) => (
                     <Modal
                         title={`${isNewSubmission ? 'Add' : 'Update'} Transaction Details`}
-                        closer={modalCloser}
+                        open={isModalOpen}
                         handleClose={modalCloser}
-                        open={open}
                         submitProps={{
                             disabled: !isValid || !dirty || isSubmitting,
                             text: getSubmitBtnText(isValid, dirty, isNewSubmission)

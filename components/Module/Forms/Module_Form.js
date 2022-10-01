@@ -16,7 +16,7 @@ import { isObjEmpty, cloneAndPluck } from '../../../helpers/reusable'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
 
 
-export default function Module_Form({ closer: modalCloser, data: activeModuleData = {} }) {
+export default function Module_Form({ open: isModalOpen, handleClose: modalCloser, data: activeModuleData = {} }) {
 
     const moduleState = moduleApollo();
     const moduleStateList = [...moduleState.list]
@@ -161,9 +161,8 @@ export default function Module_Form({ closer: modalCloser, data: activeModuleDat
                     return (
                         <Modal
                             title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                            closer={modalCloser}
                             handleClose={modalCloser}
-                            open={open}
+                            open={isModalOpen}
                             submitProps={{
                                 disabled: !isValid || !dirty || isSubmitting,
                                 text: getSubmitBtnText(isValid, dirty, isNewSubmission)

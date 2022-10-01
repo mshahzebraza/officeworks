@@ -21,7 +21,8 @@ import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apoll
 // showUpdateModal, setShowUpdateModal, dispatch, data
 export default function ProjectAssembly_Form(
     {
-        closer: modalCloser,
+        open: isModalOpen,
+        handleClose: modalCloser,
         activeProjectType,
         activeProjectId,
         activeAssembliesData: oldAssembliesData = [],
@@ -74,9 +75,8 @@ export default function ProjectAssembly_Form(
             {({ isValid, dirty, isSubmitting }) => (
                 <Modal
                     title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`}
-                    closer={modalCloser}
                     handleClose={modalCloser}
-                    open={open}
+                    open={isModalOpen}
                     submitProps={{
                         disabled: !isValid || !dirty || isSubmitting,
                         text: getSubmitBtnText(isValid, dirty, isNewSubmission)

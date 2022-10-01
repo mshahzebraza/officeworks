@@ -17,7 +17,7 @@ import { getOf, renderComponentWithProps } from '../../../helpers/specific'
 import { Grid } from '@mui/material'
 
 
-export default function Item_Form({ open, closer: modalCloser, activeSourceId, data: activeItemData = {}, sourceType = 'po' }) {
+export default function Item_Form({ open: isModalOpen, handleClose: modalCloser, activeSourceId, data: activeItemData = {}, sourceType = 'po' }) {
 
     const moduleState = moduleApollo();
     const moduleStateList = [...moduleState.list]
@@ -67,9 +67,8 @@ export default function Item_Form({ open, closer: modalCloser, activeSourceId, d
                     return (
                         <Modal
                             title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                            closer={modalCloser}
                             handleClose={modalCloser}
-                            open={open}
+                            open={isModalOpen}
                             submitProps={{
                                 disabled: !isValid || !dirty || isSubmitting,
                                 text: getSubmitBtnText(isValid, dirty, isNewSubmission)

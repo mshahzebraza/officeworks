@@ -9,11 +9,13 @@ export default function Modal({
     description,
     closer,
     submit,
-    children
+    children,
+    // handleClose,
+    // open=false
 }) {
     return (
         <Dialog
-            open
+            open/* ={open} */
             onClose={closer}
             aria-labelledby={title}
             fullWidth={true}

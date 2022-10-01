@@ -2,9 +2,6 @@ import { DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions, B
 import React from 'react'
 import { ModalCloseIcon } from "./ModalCloseIcon";
 
-
-
-
 export function ModalHeader({ title = "Modal Title", handleClose }) {
     return (
         <DialogTitle id={title}>

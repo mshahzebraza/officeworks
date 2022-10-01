@@ -8,7 +8,7 @@ const projectTheme = createTheme({
                 root: {
                     fontSize: '0.875rem',
                     fontWeight: 600,
-                    borderRadius: 8.5,
+                    // borderRadius: 0,
                     textTransform: 'none',
                     // '&.MuiButton-contained': {
                     //     backgroundColor: '#009be5',

@@ -6,8 +6,7 @@ import { Formik } from 'formik'
 // Store & Styles
 
 // Components
-import Portal from '../../UI/Portal'
-import Modal from '../../UI/OldModal'
+import Modal from '../../UI/Modal'
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import FormikSubmit from '../../Formik/FormikSubmit'

@@ -74,75 +74,69 @@ export default function ProjectModule_Form({ open: isModalOpen, handleClose: mod
         modalCloser()
     }
 
+    const currentFormID = `submitForm-projectModule`;
 
 
     return (
-
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`}
+            open={isModalOpen}
+            handleClose={modalCloser}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {({ isValid, dirty, isSubmitting }) => (
-                <Modal
-                    title={`${isNewSubmission ? 'Add' : 'Update'} Project Module`}
-                    open={isModalOpen}
-                    handleClose={modalCloser}
-                    submitProps={{
-                        disabled: !isValid || !dirty || isSubmitting,
-                        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                    }}
-                >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                <FormikForm id={currentFormID} >
+                    <FormikControl
+                        label='Parent Assembly Id'
+                        name='parentAssemblyId'
+                        control='select'
+                        options={assemblyDropdownOptions}
+                    />
 
-                    <FormikForm>
-                        <FormikControl
-                            label='Parent Assembly Id'
-                            name='parentAssemblyId'
-                            control='select'
-                            options={assemblyDropdownOptions}
-                        />
+                    <FormikControl
+                        label='Part Type'
+                        name='type'
+                        control='select'
+                        options={partTypeOptions}
+                    />
+                    <FormikControl
+                        label='Nomenclature'
+                        name='nomenclature'
+                        control='input'
+                        type='text'
+                    />
+                    {/* Custom validation component using render props */}
+                    {/* Prefix inserted if part is 'manufactured' && 'assemblyId' provided */}
+                    <FormikControl
+                        label='Part ID'
+                        name='id' // needs prefixed project ID
+                        control='input'
+                        type='text'
+                        disabled={!isNewSubmission}
+                    />
+                    <FormikControl
+                        control='input'
+                        type='number'
+                        label='Qty / Assembly'
+                        name='qty'
+                    />
+                    <FormikControl
+                        control='textarea'
+                        type='text'
+                        label='Part Description'
+                        placeholder='The Part has a very good surface finish'
+                        name='remarks'
+                    />
 
-                        <FormikControl
-                            label='Part Type'
-                            name='type'
-                            control='select'
-                            options={partTypeOptions}
-                        />
-                        <FormikControl
-                            label='Nomenclature'
-                            name='nomenclature'
-                            control='input'
-                            type='text'
-                        />
-                        {/* Custom validation component using render props */}
-                        {/* Prefix inserted if part is 'manufactured' && 'assemblyId' provided */}
-                        <FormikControl
-                            label='Part ID'
-                            name='id' // needs prefixed project ID
-                            control='input'
-                            type='text'
-                            disabled={!isNewSubmission}
-                        />
-                        <FormikControl
-                            control='input'
-                            type='number'
-                            label='Qty / Assembly'
-                            name='qty'
-                        />
-                        <FormikControl
-                            control='textarea'
-                            type='text'
-                            label='Part Description'
-                            placeholder='The Part has a very good surface finish'
-                            name='remarks'
-                        />
-
-                    </FormikForm>
-                </Modal>
-
-            )}
-        </Formik>
+                </FormikForm>
+            </Formik>
+        </Modal >
     )
 }
 

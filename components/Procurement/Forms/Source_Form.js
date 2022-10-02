@@ -25,7 +25,7 @@ export default function Source_Form({
     data: activeSourceData = {},
     sourceType = 'mwo'
 }) {
-    const isNewSubmission = isObjEmpty(activeSourceData);
+    const isNewSubmission = isObjEmpty(activeSourceData); // data is empty -> new Submission 
 
     const formData = (sourceType === 'po')
         ? getPOfieldConfig(isNewSubmission)
@@ -44,60 +44,57 @@ export default function Source_Form({
         ...getObjectWithValuesAt(0, formData.fields),
         ...initialValuesReplacement
     }
-    console.log('sourceType: ', sourceType)
-    console.log('initialValues: ', initialValues)
 
     const validationSchema = Yup.object({
         ...getObjectWithValuesAt(1, formData.fields),
     })
-    const onSubmit = (values, { resetForm }) => {
+
+    const submitFormHandler = (values, formHelpers) => {
+        const { resetForm } = formHelpers
         console.log('values: ', values)
         isNewSubmission ? formData.submitHandlers.add(values) : formData.submitHandlers.update(values);
         resetForm()
         modalCloser();
     }
-
+    const currentFormID = `submitForm-source-${sourceType}`;
     /* -------- Render Function -------- */
     return (
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+            open={isModalOpen}
+            handleClose={modalCloser}
+            submitProps={{
+                form: currentFormID, // to link the form with the submit-button in the Modal-Actions
+            }}
         >
-            {({ isValid, dirty, isSubmitting }) => {
-                // 1. Make the form multistage
-                // 2. Make the Don't go to send stage before confirming the status of refId entered.
-                return (
-                    <Modal
-                        title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                        open={isModalOpen}
-                        handleClose={modalCloser}
-                        submitProps={{
-                            disabled: !isValid || !dirty || isSubmitting,
-                            text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                        }}
-                    >
-                        <FormikForm>
-                            <Grid container spacing={2}>
-                                {/* Render Form Inputs */}
-                                {
-                                    renderComponentWithProps(
-                                        FormikControl,
-                                        getObjectWithValuesAt(2, formData.fields)
-                                    )
-                                }
-                            </Grid>
-                        </FormikForm>
-                    </Modal>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={submitFormHandler}
+            >
+                <FormikForm id={currentFormID}  >
+                    <Grid container spacing={2}>
+                        {
+                            renderComponentWithProps(
+                                FormikControl,
+                                getObjectWithValuesAt(2, formData.fields)
+                            )
+                        }
+                    </Grid>
+                </FormikForm>
+            </Formik>
+        </Modal>
 
-                )
-            }
-            }
-
-        </Formik>
     )
 }
+
+function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
+    return {
+        disabled: !isValid || !dirty || isSubmitting,
+        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+    }
+}
+
 // Allow the Dropdown to have the "Closed" option only if submission-mode is "Update"
 /**
  * 

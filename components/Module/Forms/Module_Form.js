@@ -138,54 +138,40 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
 
     const onSubmit = (values, { resetForm }) => {
         // ? The values contain the fields that are explicitly fetched. Hence we have no way of passing in the flexible fields...
-        console.log('yahi say gya hay');
         isNewSubmission
             ? formData.submitHandlers.add(values)
             : formData.submitHandlers.update(values);
         resetForm();
         modalCloser()
     }
+    const currentFormID = `submitForm-module`;
 
     return (
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+            handleClose={modalCloser}
+            open={isModalOpen}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                <FormikForm id={currentFormID}>
+                    {
+                        renderComponentWithProps(
+                            FormikControl,
+                            getObjectWithValuesAt(2, formData.fields),
+                            ['inv']
+                        )
+                    }
 
-                (formik) => {
-                    const { dirty, isValid, isSubmitting } = formik
-
-                    return (
-                        <Modal
-                            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                            handleClose={modalCloser}
-                            open={isModalOpen}
-                            submitProps={{
-                                disabled: !isValid || !dirty || isSubmitting,
-                                text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                            }}
-                        >
-                            <FormikForm
-                            // multiStage
-                            >
-                                {
-                                    renderComponentWithProps(
-                                        FormikControl,
-                                        getObjectWithValuesAt(2, formData.fields),
-                                        ['inv']
-                                    )
-                                }
-
-                            </FormikForm>
-                        </Modal>
-
-                    )
-
-                }}
-        </Formik>
+                </FormikForm>
+            </Formik>
+        </Modal >
     )
 }
 

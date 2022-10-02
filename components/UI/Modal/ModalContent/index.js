@@ -5,11 +5,27 @@ const modalContentStyles = {
     px: 3
 }
 
-export function ModalContent({ description, children }) {
+export function ModalContent({ description, children, contentWrapperComponent: ContentWrapper }) {
+    const content = getContent(ContentWrapper, children)
+
     return (
-        <DialogContent dividers={true} sx={modalContentStyles} >
-            <ModalText description={description} />
-            {/* <CustomComponent /> */}
+        <>
+            <DialogContent dividers={true} sx={modalContentStyles} >
+                <ModalText description={description} />
+                {/* <CustomComponent /> */}
+                {content}
+            </DialogContent>
+        </>
+    );
+}
+
+
+
+function getContent(ContentWrapper, children) {
+    if (ContentWrapper) return (
+        <ContentWrapper>
             {children}
-        </DialogContent>);
+        </ContentWrapper>
+    )
+    return children;
 }

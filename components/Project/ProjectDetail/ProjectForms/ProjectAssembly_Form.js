@@ -64,58 +64,53 @@ export default function ProjectAssembly_Form(
         resetForm();
         modalCloser()
     }
+    const currentFormID = `submitForm-projectAssembly`;
 
     return (
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`}
+            handleClose={modalCloser}
+            open={isModalOpen}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {({ isValid, dirty, isSubmitting }) => (
-                <Modal
-                    title={`${isNewSubmission ? 'Add' : 'Update'} Assembly`}
-                    handleClose={modalCloser}
-                    open={isModalOpen}
-                    submitProps={{
-                        disabled: !isValid || !dirty || isSubmitting,
-                        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                    }}
-                >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                <FormikForm id={currentFormID} >
+                    {/* Nomenclature */}
+                    <FormikControl
+                        label='Nomenclature'
+                        name='nomenclature'
+                        control='input'
+                        type='text'
+                    />
 
-                    <FormikForm>
-                        {/* Nomenclature */}
-                        <FormikControl
-                            label='Nomenclature'
-                            name='nomenclature'
-                            control='input'
-                            type='text'
-                        />
+                    {/* ID */}
+                    <FormikControl
+                        label='Assembly ID'
+                        name='id'
+                        control='input'
+                        type='text'
+                        disabled={!isNewSubmission}
+                    />
+                    {/* Parent */}
+                    <FormikControl
+                        label='Parent'
+                        name='parent'
+                        control='select'
+                        options={[
+                            { key: 'Select One ...', value: '' },
+                            ...assemblyOptions
+                        ]}
+                    />
 
-                        {/* ID */}
-                        <FormikControl
-                            label='Assembly ID'
-                            name='id'
-                            control='input'
-                            type='text'
-                            disabled={!isNewSubmission}
-                        />
-                        {/* Parent */}
-                        <FormikControl
-                            label='Parent'
-                            name='parent'
-                            control='select'
-                            options={[
-                                { key: 'Select One ...', value: '' },
-                                ...assemblyOptions
-                            ]}
-                        />
-
-                    </FormikForm>
-                </Modal>
-
-            )}
-        </Formik>
+                </FormikForm>
+            </Formik>
+        </Modal>
     )
 }
 

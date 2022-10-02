@@ -7,7 +7,6 @@ export default function getActiveProcurementModals(allModalState, setAllModalSta
         throw new Error('procurementType is not Defined for getActiveModals');
         return null;
     }
-    console.log("allModalState.editForm.data: ", allModalState.editForm.data)
 
     return [
         <AddForm
@@ -35,7 +34,6 @@ export default function getActiveProcurementModals(allModalState, setAllModalSta
 ``
 
 const AddForm = ({ allModalState, setAllModalState, procurementType }) => {
-    console.log('AddFormModalState: ', allModalState);
     return (
         < Source_Form
             sourceType={procurementType}
@@ -53,22 +51,27 @@ const AddForm = ({ allModalState, setAllModalState, procurementType }) => {
     )
 }
 
-const EditForm = ({ allModalState, setAllModalState, procurementType }) => (
-    <Source_Form
-        sourceType={procurementType}
-        data={allModalState.editForm.data}
-        open={allModalState.editForm.state}
-        handleClose={() => setAllModalState(
-            (prevState) => (
-                {
-                    ...prevState,
-                    editForm: {
-                        ...prevState.editForm,
-                        state: false,
-                    }
-                }))}
-    />
-)
+const EditForm = ({ allModalState, setAllModalState, procurementType }) => {
+    // console.log('EditFormModalState: ', allModalState.editForm.data);
+
+    return (
+
+        <Source_Form
+            sourceType={procurementType}
+            data={allModalState.editForm.data}
+            open={allModalState.editForm.state}
+            handleClose={() => setAllModalState(
+                (prevState) => (
+                    {
+                        ...prevState,
+                        editForm: {
+                            ...prevState.editForm,
+                            state: false,
+                        }
+                    }))}
+        />
+    )
+}
 
 const SummaryDialog = ({ allModalState, setAllModalState, procurementType }) => {
     const SummaryComponent = procurementType === 'po'

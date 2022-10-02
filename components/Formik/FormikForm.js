@@ -1,10 +1,10 @@
 import { Form } from 'formik'
 import React, { useState } from 'react'
 import { concatStrings } from '../../helpers/reusable'
-import styles from './formik.module.scss';
+// import styles from './formik.module.scss';
 import FormikStepControls from './FormikStepControls';
 
-function FormikForm({ children, outerClasses = [], multiStage = false, stepOptions = [] }) {
+const FormikForm = ({ children, outerClasses = [], multiStage = false, stepOptions = [], ...restProps }) => {
     { //? How to use multi-step feature of the form
         // 1. Use the Following props in FormikForm
         /* {
@@ -43,7 +43,7 @@ function FormikForm({ children, outerClasses = [], multiStage = false, stepOptio
 
     if (!multiStage) {
         return (
-            <Form className={concatStrings([styles.form, ...outerClasses])} >
+            <Form {...restProps} >
                 {children}
             </Form >
         )
@@ -53,7 +53,7 @@ function FormikForm({ children, outerClasses = [], multiStage = false, stepOptio
 
 
     return (
-        <Form className={concatStrings([styles.form, ...outerClasses])} autoComplete='off' >
+        <Form className={concatStrings([styles.form, ...outerClasses])} autoComplete='off'  {...restProps}>
 
             {children[activeStep]}
 

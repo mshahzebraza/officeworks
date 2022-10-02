@@ -51,49 +51,45 @@ export default function Item_Form({ open: isModalOpen, handleClose: modalCloser,
         resetForm();
         modalCloser()
     }
+    const currentFormID = `submitForm-item-${sourceType}`;
 
     return (
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+            open={isModalOpen}
+            handleClose={modalCloser}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
 
-                (formik) => {
-                    const { dirty, isValid, isSubmitting } = formik
+            >
+                <FormikForm id={currentFormID} >
+                    <Grid container spacing={2}>
+                        {
+                            renderComponentWithProps(FormikControl,
+                                getOf(formData.fields, 'options'),
+                            )
+                        }
+                    </Grid>
+                </FormikForm>
+            </Formik>
+        </Modal>
 
-                    return (
-                        <Modal
-                            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                            handleClose={modalCloser}
-                            open={isModalOpen}
-                            submitProps={{
-                                disabled: !isValid || !dirty || isSubmitting,
-                                text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                            }}
-                        >
-                            <FormikForm
-                            // multiStage
-                            >
-                                <Grid container spacing={2}>
-                                    {
-                                        renderComponentWithProps(FormikControl,
-                                            getOf(formData.fields, 'options'),
-                                        )
-                                    }
-                                </Grid>
-
-                            </FormikForm>
-                        </Modal>
-                    )
-
-                }}
-        </Formik>
     )
 }
 
+
+function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
+    return {
+        disabled: !isValid || !dirty || isSubmitting,
+        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+    }
+}
 function getSubmitBtnText(isValid, dirty, isNewSubmission) {
     return isValid
         ? (

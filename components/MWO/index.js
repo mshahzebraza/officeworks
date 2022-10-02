@@ -23,9 +23,9 @@ import getActiveProcurementModals from '../Procurement/procurementModalHandler';
 export default function MWOPageComp(pProps) {
 
     const [modalState, setModalState] = useState({
-        addForm: { state: false, data: null },
-        editForm: { state: false, data: null },
-        summaryDialog: { state: false, data: null },
+        addForm: { state: false, data: undefined },
+        editForm: { state: false, data: undefined },
+        summaryDialog: { state: false, data: undefined },
     })
 
     const MWOstate = useReactiveVar(mwoApollo);

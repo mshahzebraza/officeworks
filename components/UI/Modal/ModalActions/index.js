@@ -6,13 +6,23 @@ const modalActionStyles = {
     px: 3,
     py: 2,
 }
+/**
+ * @param  {} handleClose
+ * @param  {} handleSubmit
+ * @param  {} submitProps={}
+ * @param  {} closeProps={}
+ * @param  {Boolean} [hide=false] - returns null if hide is TRUTHY
+ */
 
 export function ModalActions({
     handleClose,
     handleSubmit,
     submitProps = {},
     closeProps = {},
+    hide = false,
 }) {
+
+    if (hide) return null
     return (
         <DialogActions sx={modalActionStyles} >
             <ModalCloseAction handleClose={handleClose} {...closeProps} />
@@ -20,13 +30,3 @@ export function ModalActions({
         </DialogActions>
     );
 }
-
-{/* <FormikSubmit disabled={(!isValid || !dirty || isSubmitting)} >
-    {
-        isValid ?
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-            : 'Incomplete/Invalid Data'
-    }
-</FormikSubmit> */}

@@ -53,89 +53,86 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
         resetForm();
         modalCloser()
     }
+    const currentFormID = `submitForm-projectSummary`;
 
     return (
 
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`}
+            handleClose={modalCloser}
+            open={isModalOpen}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {({ isSubmitting, isValid, dirty }) => (
-                <Modal
-                    title={`${isNewSubmission ? 'Add' : 'Update'} Project Summary`}
-                    handleClose={modalCloser}
-                    open={isModalOpen}
-                    submitProps={{
-                        disabled: !isValid || !dirty || isSubmitting,
-                        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-                    }}
-                >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
 
-                    <FormikForm>
-                        {/* Type */}
-                        <FormikControl
-                            label='Type'
-                            name='type'
-                            control='select'
-                            options={[
-                                { key: 'Select an option', value: '' },
-                                { key: 'EM-Linear', value: 'EM-Linear' },
-                                { key: 'EM-Rotary', value: 'EM-Rotary' }
-                            ]}
-                        />
+                <FormikForm id={currentFormID} >
+                    {/* Type */}
+                    <FormikControl
+                        label='Type'
+                        name='type'
+                        control='select'
+                        options={[
+                            { key: 'Select an option', value: '' },
+                            { key: 'EM-Linear', value: 'EM-Linear' },
+                            { key: 'EM-Rotary', value: 'EM-Rotary' }
+                        ]}
+                    />
 
-                        {/* nomenclature */}
-                        <FormikControl
-                            label='Nomenclature'
-                            name='nomenclature'
-                            control='input'
-                            type='text'
-                            disabled={!isNewSubmission}
-                        />
-                        {/* application */}
-                        <FormikControl
-                            label='Application'
-                            name='application'
-                            control='checkbox'
-                            options={[
-                                { key: 'R&D', value: 'R&D' },
-                                { key: 'BWS', value: 'BWS' },
-                                { key: 'HWS', value: 'HWS' }
-                            ]}
-                        />
-                        {/* status */}
-                        <FormikControl
-                            label='status'
-                            name='status'
-                            control='select'
-                            options={[
-                                { key: 'Select One ...', value: '' },
-                                { key: 'R&D', value: 'R&D' },
-                                { key: 'Production', value: 'Production' },
-                                { key: 'Closed', value: 'Closed' }
-                            ]}
-                        />
-                        {/* stock */}
-                        <FormikControl
-                            label='stock'
-                            name='stock'
-                            control='input'
-                            type={'number'}
-                        />
-                        {/* target */}
-                        <FormikControl
-                            label='target'
-                            name='target'
-                            control='input'
-                            type={'number'}
-                        />
+                    {/* nomenclature */}
+                    <FormikControl
+                        label='Nomenclature'
+                        name='nomenclature'
+                        control='input'
+                        type='text'
+                        disabled={!isNewSubmission}
+                    />
+                    {/* application */}
+                    <FormikControl
+                        label='Application'
+                        name='application'
+                        control='checkbox'
+                        options={[
+                            { key: 'R&D', value: 'R&D' },
+                            { key: 'BWS', value: 'BWS' },
+                            { key: 'HWS', value: 'HWS' }
+                        ]}
+                    />
+                    {/* status */}
+                    <FormikControl
+                        label='status'
+                        name='status'
+                        control='select'
+                        options={[
+                            { key: 'Select One ...', value: '' },
+                            { key: 'R&D', value: 'R&D' },
+                            { key: 'Production', value: 'Production' },
+                            { key: 'Closed', value: 'Closed' }
+                        ]}
+                    />
+                    {/* stock */}
+                    <FormikControl
+                        label='stock'
+                        name='stock'
+                        control='input'
+                        type={'number'}
+                    />
+                    {/* target */}
+                    <FormikControl
+                        label='target'
+                        name='target'
+                        control='input'
+                        type={'number'}
+                    />
 
-                    </FormikForm>
-                </Modal>
-
-            )}
-        </Formik>
+                </FormikForm>
+            </Formik>
+        </Modal>
     )
 }
 

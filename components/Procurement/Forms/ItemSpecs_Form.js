@@ -66,39 +66,33 @@ export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCl
         modalCloser()
     }
 
+    const currentFormID = `submitForm-itemSpecs-${sourceType}`;
 
     return (
-
-        <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Modal
+            title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
+            open={isModalOpen}
+            handleClose={modalCloser}
+            submitProps={{
+                form: currentFormID
+            }}
         >
-            {
-                ({ isValid, dirty, isSubmitting }) => (
-                    <Modal
-                        title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-                        closer={modalCloser}
-                        open={isModalOpen}
-                        handleClose={modalCloser}
-                        submitProps={{
-                            disabled: !isValid || !dirty || isSubmitting,
-                            text: getSubmitBtnText(isValid, dirty)
-                        }}
-                    >
-                        <FormikForm>
-                            {
-                                renderComponentWithProps(
-                                    FormikControl,
-                                    getObjectWithValuesAt(2, formData.fields)
-                                )
-                            }
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
+                <FormikForm id={currentFormID} >
+                    {
+                        renderComponentWithProps(
+                            FormikControl,
+                            getObjectWithValuesAt(2, formData.fields)
+                        )
+                    }
 
-                        </FormikForm>
-                    </Modal>
-                )
-            }
-        </Formik>
+                </FormikForm>
+            </Formik>
+        </Modal>
     )
 }
 

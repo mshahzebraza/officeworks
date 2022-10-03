@@ -11,7 +11,6 @@ import Portal from '../../UI/Portal'
 import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
-import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
 import { getOf, renderComponentWithProps } from '../../../helpers/specific'
 import { Grid } from '@mui/material'
@@ -72,7 +71,11 @@ export default function Item_Form({ open: isModalOpen, handleClose: modalCloser,
                     <Grid container spacing={2}>
                         {
                             renderComponentWithProps(FormikControl,
+<<<<<<< HEAD
                                 getOf(formData.fields, 'options'),
+=======
+                                getOf(formData.fields, 'config'),
+>>>>>>> refactorfieldConfigs
                             )
                         }
                     </Grid>
@@ -106,7 +109,7 @@ function getMWOitemFieldConfig(moduleStateList, isNewSubmission) {
             id: {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
-                options: {
+                config: {
                     control: 'combobox',
                     gridSize: 12,
                     options: /* getModuleOptions(moduleStateList) */ moduleStateList,
@@ -121,7 +124,7 @@ function getMWOitemFieldConfig(moduleStateList, isNewSubmission) {
             qty: {
                 initialValue: '',
                 validation: Yup.number().required('Required'),
-                options: {
+                config: {
                     control: 'input',
                     type: 'number',
                     label: 'Order Quantity',
@@ -131,7 +134,7 @@ function getMWOitemFieldConfig(moduleStateList, isNewSubmission) {
             remarks: {
                 initialValue: '',
                 validation: Yup.string(),
-                options: {
+                config: {
                     control: 'input',
                     gridSize: 12,
                     type: 'text',
@@ -154,7 +157,7 @@ function getPOitemFieldConfig(moduleStateList, isNewSubmission) {
             id: {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
-                options: {
+                config: {
                     control: 'combobox',
                     gridSize: 12,
                     options: /* getModuleOptions(moduleStateList) */ moduleStateList,
@@ -169,7 +172,7 @@ function getPOitemFieldConfig(moduleStateList, isNewSubmission) {
             qty: {
                 initialValue: '',
                 validation: Yup.number().required('Required'),
-                options: {
+                config: {
                     control: 'input',
                     type: 'number',
                     label: 'Purchase Quantity',
@@ -179,7 +182,7 @@ function getPOitemFieldConfig(moduleStateList, isNewSubmission) {
             unitPrice: {
                 initialValue: '',
                 validation: Yup.number().required('Required'),
-                options: {
+                config: {
                     control: 'input',
                     type: 'number',
                     label: 'Unit Price',
@@ -189,7 +192,7 @@ function getPOitemFieldConfig(moduleStateList, isNewSubmission) {
             remarks: {
                 initialValue: '',
                 validation: Yup.string(),
-                options: {
+                config: {
                     gridSize: 12,
                     control: 'textarea',
                     label: 'Remarks / Description',

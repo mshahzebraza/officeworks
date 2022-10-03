@@ -13,9 +13,9 @@ import Modal from '../../../UI/Modal'
 // import Form from '../../../Form/Form'
 import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
-import FormikSubmit from '../../../Formik/FormikSubmit'
 import { deepClone, isObjEmpty } from '../../../../helpers/reusable'
 import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apollo_client/projectApollo'
+import { getOf } from '../../../../helpers/specific'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -30,31 +30,26 @@ export default function ProjectAssembly_Form(
     }
 ) {
 
-    // const dispatch = useDispatch();
-    let assemblyOptions;
-
     const isNewSubmission = isObjEmpty(oldAssemblyData);
-    isNewSubmission
-        ? assemblyOptions = getAssemblyOptions(oldAssembliesData)
-        : assemblyOptions = getAssemblyOptions(oldAssembliesData, oldAssemblyData.id)
-    // Initial Values
+
+    let assemblyOptions = getAssemblyOptions(
+        oldAssembliesData,
+        oldAssemblyData.id
+    )
+
+    const formData = {
+        title: 'Project Assembly',
+        fields: getProjectAssemblyFieldConfig(isNewSubmission, assemblyOptions)
+    }
+
     const initialValues = {
-        nomenclature: '',
-        id: '',
-        parent: '',
+        ...getOf(formData.fields, 'initialValue'),
         ...oldAssemblyData
     }
 
     // Validation Schema
     const validationSchema = Yup.object({
-        nomenclature: Yup.string().required('Assembly needs to have a name'),
-        id: Yup.string()
-            .test('len', 'Must be exactly 4 characters', val => val && val.length === 4)
-            .required('Please assign an ID to assemble'), //.min('Select at least one Application')
-        parent: Yup.string().when(['id'], {
-            is: (id) => id !== '0000',
-            then: Yup.string().required('Please assign a parent assembly')
-        })
+        ...getOf(formData.fields, 'validation'),
     })
 
     const onSubmit = (values, { resetForm }) => {
@@ -81,39 +76,62 @@ export default function ProjectAssembly_Form(
                 onSubmit={onSubmit}
             >
                 <FormikForm id={currentFormID} >
-                    {/* Nomenclature */}
-                    <FormikControl
-                        label='Nomenclature'
-                        name='nomenclature'
-                        control='input'
-                        type='text'
-                    />
-
-                    {/* ID */}
-                    <FormikControl
-                        label='Assembly ID'
-                        name='id'
-                        control='input'
-                        type='text'
-                        disabled={!isNewSubmission}
-                    />
-                    {/* Parent */}
-                    <FormikControl
-                        label='Parent'
-                        name='parent'
-                        control='select'
-                        options={[
-                            { key: 'Select One ...', value: '' },
-                            ...assemblyOptions
-                        ]}
-                    />
-
+                    {
+                        renderComponentWithProps(
+                            FormikControl,
+                            getOf(formData.fields, 'config'),
+                        )
+                    }
                 </FormikForm>
             </Formik>
         </Modal>
     )
 }
 
+function getProjectAssemblyFieldConfig(isNewSubmission, assemblyOptions) {
+    return ({
+        nomenclature: {
+            initialValue: '',
+            validation: Yup.string().required('Assembly needs to have a name'),
+            config: {
+                label: 'Nomenclature',
+                name: 'nomenclature',
+                control: 'input',
+                type: 'text'
+            }
+        },
+        id: {
+            initialValue: '',
+            validation: Yup.string()
+                .test('len', 'Must be exactly 4 characters', val => val && val.length === 4)
+                .required('Please assign an ID to assemble'), //.min('Select at least one Application')
+            config: {
+                label: 'Assembly ID',
+                name: 'id',
+                control: 'input',
+                type: 'text',
+                disabled: !isNewSubmission
+            }
+        },
+        parent: {
+            initialValue: '',
+            validation: Yup.string().when(['id'], {
+                is: (id) => id !== '0000',
+                then: Yup.string().required('Please assign a parent assembly')
+            }),
+            config: {
+                label: 'Parent',
+                name: 'parent',
+                control: 'select',
+                options: [
+                    { key: 'Select One ...', value: '' },
+                    ...assemblyOptions
+                ]
+            }
+        },
+
+    })
+}
 
 function getSubmitBtnText(isValid, dirty, isNewSubmission) {
     return isValid
@@ -128,8 +146,11 @@ function getSubmitBtnText(isValid, dirty, isNewSubmission) {
 function getAssemblyOptions(assemblyListData, removeAssemblyItemId = false) {
 
     assemblyListData = deepClone(assemblyListData);
-    if (removeAssemblyItemId) {
-        const removeItemIndex = assemblyListData.findIndex(curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId)
+
+    if (!!removeAssemblyItemId) {
+        const removeItemIndex = assemblyListData.findIndex(
+            curAssemblyItem => curAssemblyItem.id === removeAssemblyItemId
+        )
         assemblyListData.splice(removeItemIndex, 1) // WHY!!
     }
 

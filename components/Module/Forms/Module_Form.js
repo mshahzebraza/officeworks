@@ -7,11 +7,9 @@ import { Formik } from 'formik'
 import moduleApollo, { addModuleHandler, updateModuleHandler } from '../../../lib/apollo_client/moduleApollo'
 
 // Components
-import Portal from '../../UI/Portal'
 import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
-import FormikSubmit from '../../Formik/FormikSubmit'
 import { isObjEmpty, cloneAndPluck } from '../../../helpers/reusable'
 import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
 

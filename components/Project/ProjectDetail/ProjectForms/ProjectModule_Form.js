@@ -13,45 +13,14 @@ import Portal from '../../../UI/Portal'
 import Modal from '../../../UI/Modal'
 import FormikControl from '../../../Formik/FormikControl'
 import FormikForm from '../../../Formik/FormikForm'
-import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjModHandler, updateProjModHandler } from '../../../../lib/apollo_client/projectApollo'
-
+import { getOf, renderComponentWithProps } from '../../../../helpers/specific'
 
 export default function ProjectModule_Form({ open: isModalOpen, handleClose: modalCloser, projectState = [], oldModuleData = {}, assemblies = [] }) {
     const [projectCatName, projectId] = projectState
 
     const isNewSubmission = isObjEmpty(oldModuleData);
-
-
-    // Initial Values
-    const initialValues = {
-        parentAssemblyId: '',
-        type: '',
-        nomenclature: '',
-        id: '',
-        qty: '',
-        remarks: '',
-        ...oldModuleData
-    }
-
-    // Validation Schema
-    const validationSchema = Yup.object({
-        parentAssemblyId: Yup.string().required('Required'),
-        type: Yup.string().required('Required'),
-        nomenclature: Yup.string().required('Required'),
-        id: Yup.string().required('Required'),
-        qty: Yup.number().required('Required'),
-        remarks: Yup.string()
-    })
-
-    // Options (Radio,Checkboxes,Dropdown) 
-
-    const assemblyOptionsList = assemblies.map(
-        (assemblyObj) => {
-            return { key: `${assemblyObj.nomenclature}`, value: `${assemblyObj.id}` }
-        }
-    )
 
     const assemblyDropdownOptions = [
         { key: 'Select an option', value: '' },
@@ -64,6 +33,30 @@ export default function ProjectModule_Form({ open: isModalOpen, handleClose: mod
         { key: 'Standard - Special', value: 'specStd' },
         { key: 'Manufactured', value: 'mfg' },
     ]
+
+    const formData = {
+        title: 'Project Module',
+        fields: getProjectModuleFieldConfig(isNewSubmission, assemblyDropdownOptions, partTypeOptions)
+    }
+
+    // Initial Values
+    const initialValues = {
+        ...getOf(formData.fields, 'initialValue'),
+        ...oldModuleData
+    }
+
+    // Validation Schema
+    const validationSchema = Yup.object({
+        ...getOf(formData.fields, 'validation')
+    })
+
+    // Options (Radio,Checkboxes,Dropdown) 
+
+    const assemblyOptionsList = assemblies.map(
+        (assemblyObj) => {
+            return { key: `${assemblyObj.nomenclature}`, value: `${assemblyObj.id}` }
+        }
+    )
 
     // On Submit
     const onSubmit = (values, { resetForm }) => {
@@ -92,52 +85,81 @@ export default function ProjectModule_Form({ open: isModalOpen, handleClose: mod
                 onSubmit={onSubmit}
             >
                 <FormikForm id={currentFormID} >
-                    <FormikControl
-                        label='Parent Assembly Id'
-                        name='parentAssemblyId'
-                        control='select'
-                        options={assemblyDropdownOptions}
-                    />
-
-                    <FormikControl
-                        label='Part Type'
-                        name='type'
-                        control='select'
-                        options={partTypeOptions}
-                    />
-                    <FormikControl
-                        label='Nomenclature'
-                        name='nomenclature'
-                        control='input'
-                        type='text'
-                    />
-                    {/* Custom validation component using render props */}
-                    {/* Prefix inserted if part is 'manufactured' && 'assemblyId' provided */}
-                    <FormikControl
-                        label='Part ID'
-                        name='id' // needs prefixed project ID
-                        control='input'
-                        type='text'
-                        disabled={!isNewSubmission}
-                    />
-                    <FormikControl
-                        control='input'
-                        type='number'
-                        label='Qty / Assembly'
-                        name='qty'
-                    />
-                    <FormikControl
-                        control='textarea'
-                        type='text'
-                        label='Part Description'
-                        placeholder='The Part has a very good surface finish'
-                        name='remarks'
-                    />
-
+                    {
+                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                    }
                 </FormikForm>
             </Formik>
         </Modal >
     )
+}
+
+
+function getProjectModuleFieldConfig(isNewSubmission, assemblyDropdownOptions, partTypeOptions) {
+    return ({
+        parentAssemblyId: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Parent Assembly Id',
+                name: 'parentAssemblyId',
+                control: 'select',
+                options: assemblyDropdownOptions
+            },
+        },
+        type: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Part Type',
+                name: 'type',
+                control: 'select',
+                options: partTypeOptions,
+            },
+        },
+        nomenclature: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Nomenclature',
+                name: 'nomenclature',
+                control: 'input',
+                type: 'text'
+            },
+        },
+        id: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Part ID',
+                name: 'id',// needs prefixed project ID
+                control: 'input',
+                type: 'text',
+                disabled: !isNewSubmission
+            }
+        },
+        qty: {
+            initialValue: '',
+            validation: Yup.number().required('Required'),
+            config: {
+                control: 'input',
+                type: 'number',
+                label: 'Qty / Assembly',
+                name: 'qty'
+            },
+        },
+        remarks: {
+            initialValue: '',
+            validation: Yup.string(),
+            config: {
+                control: 'textarea',
+                type: 'text',
+                label: 'Part Description',
+                placeholder: 'The Part has a very good surface finish',
+                name: 'remarks'
+            },
+        },
+    })
 }
 
 function getSubmitBtnText(isValid, dirty, isNewSubmission) {

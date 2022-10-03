@@ -18,43 +18,37 @@ import Modal from '../UI/Modal'
 // import Form from '../Form/Form'
 import FormikControl from '../Formik/FormikControl'
 import FormikForm from '../Formik/FormikForm'
-import FormikSubmit from '../Formik/FormikSubmit'
 import { getIDseries, isObjEmpty } from '../../helpers/reusable'
 import { addTxnHandler } from '../../lib/apollo_client/transactionApollo'
+import { getOf, renderComponentWithProps } from '../../helpers/specific'
 
 function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnData = {} }) {
 
     // const dispatch = useDispatch()
     const isNewSubmission = isObjEmpty(oldTxnData);
 
+
+    const formData = {
+        title: 'Transaction',
+        fields: getTransactionFieldConfig(isNewSubmission)
+    }
+
     const initialValues = {
+        ...getOf(formData.fields, 'initialValue'),
         // tid: '',
-        txnType: '',
-        productNomenclature: '',
-        productId: '',
-        partIDs: '',
         // qty: 0,
-        intent: '',
-        party: '',
         // date: '',
-        remarks: '',
         // initiator: '',
         ...oldTxnData
     }
 
     const validationSchema = Yup.object({
+        ...getOf(formData.fields, 'validation')
         // tid: Yup.string().required('Required'),
-        txnType: Yup.string().required('Required'),
-        productNomenclature: Yup.string().required('Required'),
-        productId: Yup.string().required('Required'),
         // partIDs: Yup/* .string() */.required('Required'),
-        partIDs: Yup.mixed().required('Required'),
 
         // qty: Yup.number().required('Required'),
-        intent: Yup.string().required('Required'),
-        party: Yup.string().required('Required'),
         // date: Yup.string().required('Required'),
-        remarks: Yup.string(),
         // initiator: Yup.string().required('Required'),
     })
 
@@ -90,74 +84,9 @@ function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnD
             >
 
                 <FormikForm id={currentFormID} >
-
-                    {/* type */}
-                    <FormikControl
-                        control='select'
-                        name='txnType'
-                        label='Transaction Type'
-                        options={[
-                            { key: 'Select One...', value: '' },
-                            { key: 'Deposit', value: 'deposit' },
-                            { key: 'Withdrawal', value: 'withdrawal' },
-                        ]}
-                    />
-                    {/* product */}
-                    <FormikControl
-                        control='select'
-                        name='productNomenclature'
-                        label='Product Name'
-                        options={[
-                            { key: 'Select One...', value: '' },
-                            { key: 'Sliding Bearing', value: 's' },
-                            { key: 'Ball Lead Screw', value: 'Ball Lead Screw' },
-                        ]}
-                    />
-                    {/* id */}
-                    <FormikControl
-                        control='select'
-                        name='productId'
-                        label='Product ID'
-                        options={[
-                            { key: 'Select One...', value: '' },
-                            { key: 'NRS BF 220x2 1502', value: 'NRS BF 220x2 1502' },
-                            { key: 'NRS BF 220x4 1502', value: 'NRS BF 220x4 1502' },
-                        ]}
-                    />
-                    {/* partIDs */}
-                    <FormikControl
-                        control='input'
-                        type='text'
-                        name='partIDs'
-                        // disabled={!isNewSubmission}
-                        label='Part IDs'
-                    />
-
-                    {/* intent */}
-                    <FormikControl
-                        control='input'
-                        type='text'
-                        name='intent'
-                        label='Motive/Intent of Transaction'
-                        placeholder='E.g Rectification of sample'
-                    />
-                    {/* party */}
-                    <FormikControl
-                        control='input'
-                        type='text'
-                        name='party'
-                        label='Deposited/Withdrawn by'
-                        placeholder='E.g User 102331'
-                    />
-                    {/* remarks */}
-                    <FormikControl
-                        control='textarea'
-                        type='text'
-                        name='remarks'
-                        label='Remarks/Details'
-                        placeholder='Auto generated' // in case of purchase order and manufacture order
-                    />
-
+                    {
+                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                    }
                 </FormikForm>
 
             </Formik>
@@ -168,6 +97,120 @@ function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnD
 }
 
 export default Transaction_Form;
+
+
+
+function getTransactionFieldConfig() {
+    return ({
+        // tid: Yup.string().required('Required'),
+        // partIDs: Yup/* .string() */.required('Required'),
+
+        // qty: Yup.number().required('Required'),
+        // date: Yup.string().required('Required'),
+        // initiator: Yup.string().required('Required'),
+        id: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                name: 'txnType',
+                label: 'Transaction Type',
+                options: [
+                    { key: 'Select One...', value: '' },
+                    { key: 'Deposit', value: 'deposit' },
+                    { key: 'Withdrawal', value: 'withdrawal' },
+                ]
+            },
+        },
+        txnType: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                name: 'txnType',
+                label: 'Transaction Type',
+                options: [
+                    { key: 'Select One...', value: '' },
+                    { key: 'Deposit', value: 'deposit' },
+                    { key: 'Withdrawal', value: 'withdrawal' },
+                ]
+            }
+        },
+        productNomenclature: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                name: 'productNomenclature',
+                label: 'Product Name',
+                options: [
+                    { key: 'Select One...', value: '' },
+                    { key: 'Sliding Bearing', value: 's' },
+                    { key: 'Ball Lead Screw', value: 'Ball Lead Screw' },
+                ]
+            },
+        },
+        productId: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                name: 'productId',
+                label: 'Product ID',
+                options: [
+                    { key: 'Select One...', value: '' },
+                    { key: 'NRS BF 220x2 1502', value: 'NRS BF 220x2 1502' },
+                    { key: 'NRS BF 220x4 1502', value: 'NRS BF 220x4 1502' },
+                ]
+            },
+        },
+        partIDs: {
+            initialValue: '',
+            validation: Yup.mixed().required('Required'),
+            config: {
+                control: 'input',
+                type: 'text',
+                name: 'partIDs',
+                // disabled:!isNewSubmission,
+                label: 'Part IDs',
+            },
+        },
+        intent: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'input',
+                type: 'text',
+                name: 'intent',
+                label: 'Motive/Intent of Transaction',
+                placeholder: 'E.g Rectification of sample'
+            },
+        },
+        party: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'input',
+                type: 'text',
+                name: 'party',
+                label: 'Deposited/Withdrawn by',
+                placeholder: 'E.g User 102331'
+            },
+        },
+        remarks: {
+            initialValue: '',
+            validation: Yup.string(),
+            config: {
+                control: 'textarea',
+                type: 'text',
+                name: 'remarks',
+                label: 'Remarks/Details',
+                placeholder: 'Auto generated'
+            },
+        },
+    })
+}
+
 
 
 

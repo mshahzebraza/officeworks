@@ -16,7 +16,7 @@ import Modal from '../../UI/Modal'
 // Major Components
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
-import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
+import { getOf, renderComponentWithProps } from '../../../helpers/specific'
 import Grid from '@mui/material/Grid'
 
 export default function Source_Form({
@@ -41,12 +41,12 @@ export default function Source_Form({
 
     /* -------- Formik Dependencies -------- */
     const initialValues = {
-        ...getObjectWithValuesAt(0, formData.fields),
+        ...getOf(formData.fields, 'initialValue'),
         ...initialValuesReplacement
     }
 
     const validationSchema = Yup.object({
-        ...getObjectWithValuesAt(1, formData.fields),
+        ...getOf(formData.fields, 'validation'),
     })
 
     const submitFormHandler = (values, formHelpers) => {
@@ -77,7 +77,7 @@ export default function Source_Form({
                         {
                             renderComponentWithProps(
                                 FormikControl,
-                                getObjectWithValuesAt(2, formData.fields)
+                                getOf(formData.fields, "config")
                             )
                         }
                     </Grid>
@@ -102,7 +102,7 @@ function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
  * @param {Object} formData An Object containing the configs(initialValues,validationSchema,props) for each of the fields
  */
 function appendCloseOptionToStatusField(isNewSubmission, formData) {
-    !isNewSubmission && formData.fields.status[2].options.push({ key: 'Closed', value: 'Closed' })
+    !isNewSubmission && formData.fields.status.config.options.push({ key: 'Closed', value: 'Closed' })
 }
 
 function getSubmitBtnText(isValid, dirty, isNewSubmission) {
@@ -120,100 +120,136 @@ function getPOfieldConfig(isNewSubmission) {
         title: `Purchase Details`,
         fields: {
             /* fieldName: [initialValue, YUP-validation, controlProps] */
-            refType: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'refType',
-                label: 'Data Reference',
-                options: [
-                    { label: 'Select One...', value: '' },
-                    { label: 'CST', value: 'CST' },
-                    { label: 'Bill', value: 'Bill' },
-                    { label: 'PO', value: 'PO' },
-                    { label: 'Requisition', value: 'REQ' },
-                ]
-            }],
-            refId: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                name: 'refId',
-                disabled: !isNewSubmission,
-                label: 'Data Reference ID'
-            }],
-            category: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'category',
-                label: 'PO Category',
-                options: [
-                    { label: 'Select One ...', value: '' },
-                    { label: 'Limited Tender', value: 'Limited Tender' },
-                    { label: 'Single Quotation', value: 'Single Quotation' },
-                    { label: 'Repeat Order', value: 'Repeat Order' },
-                    { label: 'Spot Purchase', value: 'Spot Purchase' },
-                    { label: 'Imprest', value: 'Imprest' },
-                ]
-            }],
-            fulfillmentSource: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'fulfillmentSource',
-                label: 'Source of Fulfillment',
-                options: [
-                    { label: 'Select One', value: '' },
-                    { label: 'Local Purchase', value: 'Local' },
-                    { label: 'Foreign Purchase', value: 'Foreign' },
-                ]
-            }],
-            currency: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'currency',
-                label: 'Currency of Payment',
-                options: [
-                    { label: 'Select One', value: '' },
-                    { label: 'RMB', value: 'RMB' },
-                    { label: 'USD', value: 'USD' },
-                    { label: 'PKR', value: 'PKR' },
-                ]
-            }],
-            totalCost: [0, Yup.number().required('Required'), {
-                control: 'input',
-                type: 'number',
-                name: 'totalCost',
-                label: 'Total Cost',
-            }],
-            status: ['', Yup.number().required('Required'), {
-                control: 'select',
-                name: 'status',
-                label: 'Current Status',
-                options: [
-                    { label: 'Select One ...', value: null },
-                    { label: 'Rejected', value: 0 },
-                    { label: 'Draft', value: 1 },
-                    { label: 'Initiated', value: 2 },
-                    { label: 'ERP Approved', value: 3 },
-                    { label: 'Supplier Evaluated', value: 4 },
-                    { label: 'Concurrence Approved', value: 5 },
-                    { label: 'PO Approved', value: 6 },
-                    { label: 'LC Opened', value: 7 },
-                    { label: 'Delivery Confirmed', value: 8 },
-                    { label: 'Closed', value: 9 },
-                ],
-            }],
-            supplier: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'supplier',
-                label: 'Supplier',
-                options: [
-                    { label: 'Select One...', value: '' },
-                    { label: 'Wuhan', value: 'Wuhan' },
-                    { label: 'Chengdu', value: 'Chengdu' },
-                    { label: 'E-Tech', value: 'E-Tech' },
-                ]
-            }],
-            remarks: ['', Yup.string(), {
-                control: 'textarea',
-                gridSize: 12,
-                name: 'remarks',
-                label: 'Remarks/Description'
-            }],
+            refType: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'refType',
+                    label: 'Data Reference',
+                    options: [
+                        { label: 'Select One...', value: '' },
+                        { label: 'CST', value: 'CST' },
+                        { label: 'Bill', value: 'Bill' },
+                        { label: 'PO', value: 'PO' },
+                        { label: 'Requisition', value: 'REQ' },
+                    ]
+                }
+            },
+            refId: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'text',
+                    name: 'refId',
+                    disabled: !isNewSubmission,
+                    label: 'Data Reference ID'
+                }
+            },
+            category: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'category',
+                    label: 'PO Category',
+                    options: [
+                        { label: 'Select One ...', value: '' },
+                        { label: 'Limited Tender', value: 'Limited Tender' },
+                        { label: 'Single Quotation', value: 'Single Quotation' },
+                        { label: 'Repeat Order', value: 'Repeat Order' },
+                        { label: 'Spot Purchase', value: 'Spot Purchase' },
+                        { label: 'Imprest', value: 'Imprest' },
+                    ]
+                }
+            },
+            fulfillmentSource: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'fulfillmentSource',
+                    label: 'Source of Fulfillment',
+                    options: [
+                        { label: 'Select One', value: '' },
+                        { label: 'Local Purchase', value: 'Local' },
+                        { label: 'Foreign Purchase', value: 'Foreign' },
+                    ]
+                }
+            },
+            currency: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'currency',
+                    label: 'Currency of Payment',
+                    options: [
+                        { label: 'Select One', value: '' },
+                        { label: 'RMB', value: 'RMB' },
+                        { label: 'USD', value: 'USD' },
+                        { label: 'PKR', value: 'PKR' },
+                    ]
+                }
+            },
+            totalCost: {
+                initialValue: 0,
+                validation: Yup.number().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'number',
+                    name: 'totalCost',
+                    label: 'Total Cost',
+                }
+            },
+            status: {
+                initialValue: '',
+                validation: Yup.number().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'status',
+                    label: 'Current Status',
+                    options: [
+                        { label: 'Select One ...', value: null },
+                        { label: 'Rejected', value: 0 },
+                        { label: 'Draft', value: 1 },
+                        { label: 'Initiated', value: 2 },
+                        { label: 'ERP Approved', value: 3 },
+                        { label: 'Supplier Evaluated', value: 4 },
+                        { label: 'Concurrence Approved', value: 5 },
+                        { label: 'PO Approved', value: 6 },
+                        { label: 'LC Opened', value: 7 },
+                        { label: 'Delivery Confirmed', value: 8 },
+                        { label: 'Closed', value: 9 },
+                    ],
+                }
+            },
+            supplier: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'supplier',
+                    label: 'Supplier',
+                    options: [
+                        { label: 'Select One...', value: '' },
+                        { label: 'Wuhan', value: 'Wuhan' },
+                        { label: 'Chengdu', value: 'Chengdu' },
+                        { label: 'E-Tech', value: 'E-Tech' },
+                    ]
+                }
+            },
+            remarks: {
+                initialValue: '',
+                validation: Yup.string(),
+                config: {
+                    control: 'textarea',
+                    gridSize: 12,
+                    name: 'remarks',
+                    label: 'Remarks/Description'
+                }
+            },
         },
         submitHandlers: {
             add: addPOHandler,
@@ -226,36 +262,52 @@ function getMWOfieldConfig(isNewSubmission) {
         title: `Work Order Details`,
         fields: {
             /* fieldName: [initialValue, YUP-validation, controlProps] */
-            mwoId: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                name: 'mwoId',
-                label: 'MWO ID',
-                disabled: !isNewSubmission
-            }],
-            status: ['', Yup.string().required('Required'), {
-                control: 'select',
-                name: 'status',
-                label: 'Status',
-                options: [
-                    { label: 'Select One ...', value: '' },
-                    { label: 'Not Started', value: 'Not Started' },
-                    { label: 'Active', value: 'Active' },
-                    { label: 'Delivered', value: 'Delivered' },
-                ]
-            }],
-            title: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                name: 'title',
-                label: 'Title / Description'
-            }],
-            remarks: ['', Yup.string(), {
-                control: 'textarea',
-                gridSize: 12,
-                name: 'remarks',
-                label: 'Remarks/Description'
-            }],
+            mwoId: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'text',
+                    name: 'mwoId',
+                    label: 'MWO ID',
+                    disabled: !isNewSubmission
+                }
+            },
+            status: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    name: 'status',
+                    label: 'Status',
+                    options: [
+                        { label: 'Select One ...', value: '' },
+                        { label: 'Not Started', value: 'Not Started' },
+                        { label: 'Active', value: 'Active' },
+                        { label: 'Delivered', value: 'Delivered' },
+                    ]
+                }
+            },
+            title: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'text',
+                    name: 'title',
+                    label: 'Title / Description'
+                }
+            },
+            remarks: {
+                initialValue: '',
+                validation: Yup.string(),
+                config: {
+                    control: 'textarea',
+                    gridSize: 12,
+                    name: 'remarks',
+                    label: 'Remarks/Description'
+                }
+            },
         },
         submitHandlers: {
             add: addMWOHandler,

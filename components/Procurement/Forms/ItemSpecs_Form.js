@@ -9,10 +9,9 @@ import { Formik } from 'formik'
 import Modal from '../../UI/Modal'
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
-import FormikSubmit from '../../Formik/FormikSubmit'
-import { cloneAndPluck, deepClone, isObjEmpty } from '../../../helpers/reusable'
+import { deepClone, isObjEmpty } from '../../../helpers/reusable'
 import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_client/moduleApollo'
-import { getObjectWithValuesAt, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
+import { getOf, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
 export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCloser, data: activeModuleSpecs = {} }) {
@@ -45,12 +44,12 @@ export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCl
     }
     // fetching the data according to the keys of the initialValuesReplacement
     const initialValues = {
-        ...getObjectWithValuesAt(0, formData.fields),
+        ...getOf(formData.fields, 'initialValue'),
         ...initialValuesReplacement
     }
 
     const validationSchema = Yup.object().shape({
-        ...getObjectWithValuesAt(1, formData.fields),
+        ...getOf(formData.fields, 'validation'),
     })
 
     const onSubmit = (values, { resetForm }) => {
@@ -85,7 +84,7 @@ export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCl
                     {
                         renderComponentWithProps(
                             FormikControl,
-                            getObjectWithValuesAt(2, formData.fields)
+                            getOf(formData.fields, 'config')
                         )
                     }
 
@@ -106,54 +105,74 @@ function getSubmitBtnText(isValid, dirty) {
 }
 function getItemSpecsFieldConfig(isNewSubmission, moduleStateList) {
     return {
-        id: ['', Yup.string().required('Required'), {
-            control: 'input',
-            type: 'text',
-            label: 'Item Id',
-            name: 'id',
-            disabled: !isNewSubmission
-        }],
-        name: ['', Yup.string().required('Required'), {
-            control: 'input',
-            type: 'text',
-            label: 'Item Name',
-            name: 'name',
-            datalist: [
-                ...moduleStateList.map(module => {
-                    return module.name
-                })
-            ]
-        }],
-        type: ['', Yup.string().required('Required'), {
-            control: 'select',
-            label: 'Item Type',
-            name: 'type',
-            options: [
-                { key: 'Select One...', value: '' },
-                { key: 'Special Standard', value: 'Special' },
-                { key: 'Standard', value: 'Standard' },
-                { key: 'Manufactured', value: 'Manufactured' }, // either internally or externally
-            ]
-        }],
-        application: ['', Yup.string().required('Required'), {
-            control: 'select',
-            name: 'application',
-            label: 'Application / Use',
-            options: [
-                { key: 'Select One ...', value: '' },
-                { key: 'Make most of the list dynamically load from projects - or even better, get this data from the project directory automatically and remove the field from here altogether', value: 'Dynamic' },
-                { key: '3K', value: 'PEMA-L3K-BD' },
-                { key: 'Lab Use', value: 'LU' },
-                { key: 'R&D', value: 'R&D' },
-                { key: 'Miscellaneous', value: 'MISC' },
-            ]
-        }],
-        specifications: [[], Yup.array(), {
-            control: 'fieldListPair',
-            label: 'Add the Specifications in pairs',
-            name: 'specifications',
-            placeholders: ['Shelf Life', '10 years']
-        }],
+        id: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'input',
+                type: 'text',
+                label: 'Item Id',
+                name: 'id',
+                disabled: !isNewSubmission
+            },
+        },
+        name: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'input',
+                type: 'text',
+                label: 'Item Name',
+                name: 'name',
+                datalist: [
+                    ...moduleStateList.map(module => {
+                        return module.name
+                    })
+                ]
+            }
+        },
+        type: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                label: 'Item Type',
+                name: 'type',
+                options: [
+                    { key: 'Select One...', value: '' },
+                    { key: 'Special Standard', value: 'Special' },
+                    { key: 'Standard', value: 'Standard' },
+                    { key: 'Manufactured', value: 'Manufactured' }, // either internally or externally
+                ]
+            }
+        },
+        application: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                control: 'select',
+                name: 'application',
+                label: 'Application / Use',
+                options: [
+                    { key: 'Select One ...', value: '' },
+                    { key: 'Make most of the list dynamically load from projects - or even better, get this data from the project directory automatically and remove the field from here altogether', value: 'Dynamic' },
+                    { key: '3K', value: 'PEMA-L3K-BD' },
+                    { key: 'Lab Use', value: 'LU' },
+                    { key: 'R&D', value: 'R&D' },
+                    { key: 'Miscellaneous', value: 'MISC' },
+                ]
+            }
+        },
+        specifications: {
+            initialValue: [],
+            validation: Yup.array(),
+            config: {
+                control: 'fieldListPair',
+                label: 'Add the Specifications in pairs',
+                name: 'specifications',
+                placeholders: ['Shelf Life', '10 years']
+            }
+        },
     }
 }
 

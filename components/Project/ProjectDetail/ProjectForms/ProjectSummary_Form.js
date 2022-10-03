@@ -13,9 +13,9 @@ import Modal from '../../../UI/Modal'
 // import Form from '../../../Form/Form'
 import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
-import FormikSubmit from '../../../Formik/FormikSubmit'
 import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjectSummaryHandler, updateProjectSummaryHandler } from '../../../../lib/apollo_client/projectApollo'
+import { getOf, renderComponentWithProps } from '../../../../helpers/specific'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -25,25 +25,20 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
 
     const isNewSubmission = isObjEmpty(oldSummaryData);
 
+    const formData = {
+        title: 'Project Summary',
+        fields: getProjectSummaryFieldConfig(isNewSubmission)
+    }
+
     // Initial Values
     const initialValues = {
-        type: '', // EM-Linear (DropDown)
-        nomenclature: '', // PEMA-L3K-BD (Input)
-        application: [], // AbWS (Multiple Checkbox)
-        status: '', // Production (Dropdown)
-        stock: '', // fetched dynamically from inventory based on the project nomenclature
-        target: '', // fetched dynamically from targets based on the project nomenclature
+        ...getOf(formData.fields, 'initialValue'),
         ...oldSummaryData
     }
 
     // Validation Schema
     const validationSchema = Yup.object({
-        type: Yup.string().required('Required'),
-        nomenclature: Yup.string().required('Required'),
-        application: Yup.array().nullable(), //.min('Select at least one Application'), 
-        status: Yup.string()/* .required('Required') */,
-        stock: Yup.number()/* .required('Required') */,
-        target: Yup.number()/* .required('Required') */,
+        ...getOf(formData.fields, 'validation'),
     })
 
     const onSubmit = (values, { resetForm }) => {
@@ -70,66 +65,10 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
-
                 <FormikForm id={currentFormID} >
-                    {/* Type */}
-                    <FormikControl
-                        label='Type'
-                        name='type'
-                        control='select'
-                        options={[
-                            { key: 'Select an option', value: '' },
-                            { key: 'EM-Linear', value: 'EM-Linear' },
-                            { key: 'EM-Rotary', value: 'EM-Rotary' }
-                        ]}
-                    />
-
-                    {/* nomenclature */}
-                    <FormikControl
-                        label='Nomenclature'
-                        name='nomenclature'
-                        control='input'
-                        type='text'
-                        disabled={!isNewSubmission}
-                    />
-                    {/* application */}
-                    <FormikControl
-                        label='Application'
-                        name='application'
-                        control='checkbox'
-                        options={[
-                            { key: 'R&D', value: 'R&D' },
-                            { key: 'BWS', value: 'BWS' },
-                            { key: 'HWS', value: 'HWS' }
-                        ]}
-                    />
-                    {/* status */}
-                    <FormikControl
-                        label='status'
-                        name='status'
-                        control='select'
-                        options={[
-                            { key: 'Select One ...', value: '' },
-                            { key: 'R&D', value: 'R&D' },
-                            { key: 'Production', value: 'Production' },
-                            { key: 'Closed', value: 'Closed' }
-                        ]}
-                    />
-                    {/* stock */}
-                    <FormikControl
-                        label='stock'
-                        name='stock'
-                        control='input'
-                        type={'number'}
-                    />
-                    {/* target */}
-                    <FormikControl
-                        label='target'
-                        name='target'
-                        control='input'
-                        type={'number'}
-                    />
-
+                    {
+                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                    }
                 </FormikForm>
             </Formik>
         </Modal>
@@ -147,43 +86,83 @@ function getSubmitBtnText(isValid, dirty, isNewSubmission) {
 }
 
 
+function getProjectSummaryFieldConfig(isNewSubmission) {
 
-/* 
-[
-  {
-    field: 'type',
-    req: true,
-    defaultValue: projData.type && projData.type,
-    dataList: ['EM-Linear', 'EM-Rotary']
-  },
-  {
-    field: 'nomenclature',
-    defaultValue: projData.nomenclature && projData.nomenclature,
-    req: true,
-    isFixed: projData.status !== 'R&D' && true // Workaround
-  },
-  {
-    field: 'application',
-    // req: true,
-    defaultValue: projData.application && projData.application,
-    dataList: ['B-1', 'B-2', 'B-3'], // ['AbWS', 'HWS', 'Abdali-NG']
-  },
-  {
-    field: 'status',
-    req: true,
-    defaultValue: projData.status && projData.status,
-    dataList: ['R&D', 'Production', 'Discontinued'],
-  },
-  {
-    field: 'stock',
-    req: true,
-    defaultValue: projData.stock && projData.stock || '0',
-  },
-  {
-    field: 'target',
-    req: true,
-    defaultValue: projData.target && projData.target || '0',
-  },
+    return {
+        type: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Type',
+                name: 'type',
+                control: 'select',
+                options: [
+                    { key: 'Select an option', value: '' },
+                    { key: 'EM-Linear', value: 'EM-Linear' },
+                    { key: 'EM-Rotary', value: 'EM-Rotary' }
+                ]
+            }
+        },
+        nomenclature: {
+            initialValue: '',
+            validation: Yup.string().required('Required'),
+            config: {
+                label: 'Nomenclature',
+                name: 'nomenclature',
+                control: 'input',
+                type: 'text',
+                disabled: !isNewSubmission
 
-]
- */
+            }
+        },
+        application: {
+            initialValue: [],
+            validation: Yup.array().nullable(), //.min('Select at least one 
+            config: {
+                label: 'Application',
+                name: 'application',
+                control: 'checkbox',
+                options: [
+                    { key: 'R&D', value: 'R&D' },
+                    { key: 'BWS', value: 'BWS' },
+                    { key: 'HWS', value: 'HWS' }
+                ]
+            }
+        },
+        status: {
+            initialValue: '',
+            validation: Yup.string()/* .required('Required') */,
+            config: {
+                label: 'status',
+                name: 'status',
+                control: 'select',
+                options: [
+                    { key: 'Select One ...', value: '' },
+                    { key: 'R&D', value: 'R&D' },
+                    { key: 'Production', value: 'Production' },
+                    { key: 'Closed', value: 'Closed' }
+                ]
+            }
+        },
+        stock: {
+            initialValue: '',
+            validation: Yup.number()/* .required('Required') */,
+            config: {
+                label: 'stock',
+                name: 'stock',
+                control: 'input',
+                type: 'number'
+            }
+        },
+        target: {
+            initialValue: '',
+            validation: Yup.number()/* .required('Required') */,
+            config: {
+                label: 'target',
+                name: 'target',
+                control: 'input',
+                type: 'number'
+            }
+        },
+    }
+}

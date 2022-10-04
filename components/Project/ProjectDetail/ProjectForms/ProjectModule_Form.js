@@ -15,7 +15,7 @@ import FormikControl from '../../../Formik/FormikControl'
 import FormikForm from '../../../Formik/FormikForm'
 import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjModHandler, updateProjModHandler } from '../../../../lib/apollo_client/projectApollo'
-import { getOf, renderComponentWithProps } from '../../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../../helpers/specific'
 
 export default function ProjectModule_Form({ open: isModalOpen, handleClose: modalCloser, projectState = [], oldModuleData = {}, assemblies = [] }) {
     const [projectCatName, projectId] = projectState
@@ -86,7 +86,7 @@ export default function ProjectModule_Form({ open: isModalOpen, handleClose: mod
             >
                 <FormikForm id={currentFormID} >
                     {
-                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
                     }
                 </FormikForm>
             </Formik>

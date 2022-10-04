@@ -15,7 +15,7 @@ import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
 import { isObjEmpty } from '../../../../helpers/reusable'
 import { addProjectSummaryHandler, updateProjectSummaryHandler } from '../../../../lib/apollo_client/projectApollo'
-import { getOf, renderComponentWithProps } from '../../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../../helpers/specific'
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -67,7 +67,7 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
             >
                 <FormikForm id={currentFormID} >
                     {
-                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
                     }
                 </FormikForm>
             </Formik>

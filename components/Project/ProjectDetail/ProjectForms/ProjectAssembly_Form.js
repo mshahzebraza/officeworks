@@ -15,7 +15,8 @@ import FormikForm from '../../../Formik/FormikForm'
 import FormikControl from '../../../Formik/FormikControl'
 import { deepClone, isObjEmpty } from '../../../../helpers/reusable'
 import { addProjAssyHandler, updateProjAssyHandler } from '../../../../lib/apollo_client/projectApollo'
-import { getOf } from '../../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../../helpers/specific'
+
 
 
 // showUpdateModal, setShowUpdateModal, dispatch, data
@@ -77,7 +78,7 @@ export default function ProjectAssembly_Form(
             >
                 <FormikForm id={currentFormID} >
                     {
-                        renderComponentWithProps(
+                        getComponentArrayWithProps(
                             FormikControl,
                             getOf(formData.fields, 'config'),
                         )

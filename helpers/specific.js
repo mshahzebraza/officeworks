@@ -159,6 +159,41 @@ export function mapModulesToPO(linkedModules, moduleList) {
     })
 
 }
+
+
+/**
+ * Input :
+ * sourceObject :{
+ *   fieldX : {
+ *      initialValue: 'valX',
+ *      validation: {...validationX ...},
+ *   },
+ *   fieldX : {
+ *      initialValue: 'valY',
+ *      validation: {...validationY ...},
+ *   },
+ * }
+ * desiredKey: 'validation'
+ * 
+ * Output:
+ * {
+ *    fieldX: {...validationX ...},
+ *    fieldY: {...validationY ...},
+ * }
+ * 
+ * @interface Field
+ * @property {string} [initialValue]
+ * @property {Object} [validation]
+ * @property {Object} [config]
+ * 
+ * @interface SourceObject
+ * @property {Field} [fieldA]
+ * @property {Field} [fieldB]
+ * 
+ * SourceObject's keys are re-mapped to nested 
+ * @param  {StringObject} sourceObject
+ * @param  {} desiredDataKey
+ */
 export function getOf(sourceObject, desiredDataKey) {
     // desiredDataKey === 'key2'
     // Input
@@ -188,6 +223,7 @@ export function getOf(sourceObject, desiredDataKey) {
     )
     return reducedObject;
 }
+
 
 export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) {
     // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
@@ -230,54 +266,70 @@ export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) 
 
 }
 
-export function renderComponentWithProps(Component, componentPropsObject, nestedKeys = false) {
-    // Input
-    /*
-    Component: 'CustomComponent'
-    componentPropsObjects: {
-        id: {x:1,y:2},
-        name: {a:3,b:4},
-    }
-    */
-    // Output:(JSX)
-    /* [
-        <CustomComponent key='id' x='1' y='2' /> 
-        <CustomComponent key='name' a='3' b='4' /> 
-    ] */
+
+
+/**
+ * 
+ * // Input
+ * Component: 'CustomComponent'
+ * propsConfigContainer: {
+ *     id: {
+ *         x:1,
+ *         y:2
+ *     },
+ *     name: {
+ *         a:{
+ *             a1:3,
+ *             a2:4
+ *         },
+ *         b:{
+ *             b1:3,
+ *             b2:4
+ *         }
+ *     },
+ * }
+ * // Output:(JSX)
+ * [
+ *     <CustomComponent key='id' x='1' y='2' /> 
+ *     <CustomComponent key='name.a' a1='3' a2='4' /> 
+ *     <CustomComponent key='name.b' b1='3' b2='4' /> 
+ * ] 
+ * @param  {} Component
+ * @param  {} propsConfigContainer
+ * @param  {} nestedKeys=false - in case a nested key is passed, ...
+ */
+export function getComponentArrayWithProps(Component, propsConfigContainer, nestedKeys = false) {
+    // Input (Nested)
+
 
     // Loose the keys of the object and get an array of values
-    const componentPropsEntries = Object.entries(componentPropsObject)
+    const propsConfigEntries = Object.entries(propsConfigContainer)
 
     // For each value get the JSX of "FormikControl"
 
-    const compArr = componentPropsEntries.reduce(
-        (acc, [compName, compProps], idx) => {
+    const fieldComponents = propsConfigEntries.reduce(
+        (acc, [fieldKey, fieldPropConfig], idx) => {
 
-            if (!!nestedKeys) {
-                if (nestedKeys.includes(compName)) {
-                    Object.entries(compProps).forEach(([nestedKeyCompName, nestedKeyCompProps], nestedIdx) => {
-                        acc.push(
-                            <Component
-                                key={`${nestedKeyCompName}_${nestedIdx}`}
-                                {...nestedKeyCompProps}
-                            />)
-                    })
+            if (!!nestedKeys && nestedKeys.includes(fieldKey)) {
+                // check if the current key is the nested key
 
-                } else {
-                    acc.push(
-                        <Component
-                            key={`${compName}_${idx}`}
-                            {...compProps}
-                        />)
-                }
+                const nestedComponentArray = getNestedComponentArrayWithProps(
+                    Component,
+                    fieldPropConfig,
+                    fieldKey
+                );
+
+                acc.push(...nestedComponentArray)
+
 
             } else {
-                acc.push(
-                    <Component
-                        key={`${compName}_${idx}`}
-                        {...compProps}
-                    />
+                // spread the component-props onto <Component {...component-props} />
+                const currentComponentWithProps = getComponentWithProps(
+                    Component,
+                    fieldPropConfig,
+                    `${fieldKey}_${idx}`
                 )
+                acc.push(currentComponentWithProps)
             }
 
             return acc;
@@ -285,5 +337,63 @@ export function renderComponentWithProps(Component, componentPropsObject, nested
         []
     )
 
-    return compArr
+    return fieldComponents
+}
+
+
+
+/**
+ * {
+ *   key1: propsConfig1, ( should be passed to getComponentWithProps )
+ *   key2: propsConfig2, ( should be passed to getComponentWithProps )
+ *   key3: {
+ *      nestedKey3_1: propsConfig3_1,
+ *      nestedKey3_2: propsConfig3_2,
+ *   }, ( should be passed to getNestedComponentArrayWithProps )
+ * }
+ * @param  {} Component
+ * @param  {} nestedPropsConfig - { nestedKey3_1:propsConfig3_1, nestedKey3_2:propsConfig3_2, }
+ * @param  {} key
+ */
+
+function getNestedComponentArrayWithProps(Component, nestedPropsConfigContainer, parentKey = '') {
+    // This nestedPropsConfigContainer will contain the object which will contain propsConfig for nested keys
+    /**
+     * 
+     * nestedPropsConfigContainer (aka key3): {
+     *    nestedKey3_1: propsConfig3_1,
+     *    nestedKey3_2: propsConfig3_2,
+     * }
+     * 
+     */
+
+    const nestedPropsConfigEntries = Object.entries(nestedPropsConfigContainer);
+
+    const nestedFieldComponents = nestedPropsConfigEntries.map(
+        ([nestedFieldKey, nestedFieldPropConfig]) => (
+            getComponentWithProps(
+                Component,
+                nestedFieldPropConfig,
+                `${nestedFieldKey}_${parentKey}`
+            )
+        )
+    )
+    return nestedFieldComponents;
+
+}
+
+
+
+/**
+ * Assigns the props of propConfig to the Component and returns it
+ * @param  {JSX.Element} Component - Component which is to be rendered
+ * @param  {{}} propConfig - Object of props to be used for the Component
+ * @param  {string} [key] - key property to be used for an array of React.elements
+ */
+
+function getComponentWithProps(Component, propConfig = {}, key) {
+    propConfig = { ...propConfig, key }
+    return (
+        <Component {...propConfig} />
+    )
 }

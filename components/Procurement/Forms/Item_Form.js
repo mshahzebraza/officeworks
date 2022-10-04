@@ -12,7 +12,7 @@ import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import { isObjEmpty, cloneAndPluck, request } from '../../../helpers/reusable'
-import { getOf, renderComponentWithProps } from '../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../helpers/specific'
 import { Grid } from '@mui/material'
 
 
@@ -70,12 +70,8 @@ export default function Item_Form({ open: isModalOpen, handleClose: modalCloser,
                 <FormikForm id={currentFormID} >
                     <Grid container spacing={2}>
                         {
-                            renderComponentWithProps(FormikControl,
-<<<<<<< HEAD
+                            getComponentArrayWithProps(FormikControl,
                                 getOf(formData.fields, 'options'),
-=======
-                                getOf(formData.fields, 'config'),
->>>>>>> refactorfieldConfigs
                             )
                         }
                     </Grid>

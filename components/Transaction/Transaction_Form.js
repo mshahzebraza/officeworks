@@ -20,7 +20,7 @@ import FormikControl from '../Formik/FormikControl'
 import FormikForm from '../Formik/FormikForm'
 import { getIDseries, isObjEmpty } from '../../helpers/reusable'
 import { addTxnHandler } from '../../lib/apollo_client/transactionApollo'
-import { getOf, renderComponentWithProps } from '../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../helpers/specific'
 
 function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnData = {} }) {
 
@@ -85,7 +85,7 @@ function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnD
 
                 <FormikForm id={currentFormID} >
                     {
-                        renderComponentWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
                     }
                 </FormikForm>
 

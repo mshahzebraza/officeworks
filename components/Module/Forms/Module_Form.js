@@ -11,7 +11,7 @@ import Modal from '../../UI/Modal'
 import FormikForm from '../../Formik/FormikForm'
 import FormikControl from '../../Formik/FormikControl'
 import { isObjEmpty, cloneAndPluck } from '../../../helpers/reusable'
-import { getObjectWithValuesAt, renderComponentWithProps } from '../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../helpers/specific'
 
 
 export default function Module_Form({ open: isModalOpen, handleClose: modalCloser, data: activeModuleData = {} }) {
@@ -20,74 +20,7 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
     const moduleStateList = [...moduleState.list]
     const isNewSubmission = isObjEmpty(activeModuleData); // is item a non-empty object
 
-    const formData = {
-        title: 'Module',
-        fields: {
-            id: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                label: 'Module ID',
-                name: 'id',
-                disabled: !isNewSubmission
-            }],
-            name: ['', Yup.string().required('Required'), {
-                control: 'input',
-                type: 'text',
-                label: 'Module Name',
-                name: 'name',
-                disabled: !isNewSubmission,
-                // ? Dropdown is given to keep the same category of modules exactly match w.r.t spelling and case and to avoid scenarios like 'gLAS', 'Glass', 'glass' etc.
-                datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
-                    if (!prev.includes(moduleName)) prev.push(moduleName)
-                    return prev
-                }, [])
-            }],
-            type: ['', Yup.string().required('Required'), {
-                control: 'select',
-                options: [
-                    { key: 'Select One...', value: '' },
-                    { key: 'Special Standard', value: 'Special' },
-                    { key: 'Manufactured', value: 'Manufactured' }, // either internally or externally
-                    { key: 'Standard', value: 'Standard' },
-                ],
-                label: 'Module Type',
-                name: 'type',
-            }],
-            "inv.total": [0, Yup.number().required('Required'), {
-                control: 'input',
-                type: 'number',
-                label: 'Total Inventory',
-                name: 'inv.total'
-            }],
-            // ! Must not be greater than totalInventory
-            "inv.qualified": [0, Yup.number().required('Required'), {
-                control: 'input',
-                type: 'number',
-                label: 'Qualified Inventory',
-                name: 'inv.qualified'
-            }],
-            application: [[], Yup.array()/* .nullable() */, {
-                control: 'checkbox',
-                options: [
-                    { key: 'R&D', value: 'R&D' },
-                    { key: 'R1', value: 'Regular 1' }, // either internally or externally
-                    { key: 'R2', value: 'Regular 2' }
-                ],
-                label: 'Application',
-                name: 'application'
-            }],
-            specs: [[], Yup.array(), {
-                control: 'fieldListPair',
-                label: 'Add the Specifications in pairs',
-                name: 'specs',
-                placeholders: ['Shelf Life', '10 years']
-            }],
-        },
-        submitHandlers: {
-            add: addModuleHandler,
-            update: updateModuleHandler,
-        }
-    }
+    const formData = getModuleFieldConfig(isNewSubmission, moduleStateList)
 
 
     function getPrevWithNewValues(prevObject = activeModuleData,
@@ -114,7 +47,7 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
         }
 
         return {
-            ...getObjectWithValuesAt(0, formData.fields), // get the default values from the formData object's fields
+            ...getOf(formData.fields, 'initialValue'), // get the default values from the formData object's fields
             ...dataFromPrevious
             // specs: Object.entries(initialValuesReplacement.specs || {})
         }
@@ -124,14 +57,13 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
     // const { specs: specsArr, ...restInitialValues } = getPrevWithNewValues()
 
     // const initialValues = { ...restInitialValues, specs: Object.fromEntries(specsArr) }
-    // console.log('newValidation', getObjectWithValuesAt(1, formData.fields));
+    // console.log('newValidation', getOf(1, formData.fields));
 
     const initialValues = getPrevWithNewValues();
 
     const validationSchema = Yup.object().shape({
-        ...getObjectWithValuesAt(1, formData.fields, (val) => { Yup.object().shape(val) }),
+        ...getOf(formData.fields, 'validation'),
     })
-
 
 
     const onSubmit = (values, { resetForm }) => {
@@ -160,9 +92,9 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
             >
                 <FormikForm id={currentFormID}>
                     {
-                        renderComponentWithProps(
+                        getComponentArrayWithProps(
                             FormikControl,
-                            getObjectWithValuesAt(2, formData.fields),
+                            getOf(formData.fields, 'config'),
                             ['inv']
                         )
                     }
@@ -171,6 +103,110 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
             </Formik>
         </Modal >
     )
+}
+
+function getModuleFieldConfig(isNewSubmission, moduleStateList) {
+    return {
+        title: 'Module',
+        fields: {
+            id: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'text',
+                    label: 'Module ID',
+                    name: 'id',
+                    disabled: !isNewSubmission
+                }
+            },
+            name: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'input',
+                    type: 'text',
+                    label: 'Module Name',
+                    name: 'name',
+                    disabled: !isNewSubmission,
+                    // ? Dropdown is given to keep the same category of modules exactly match w.r.t spelling and case and to avoid scenarios like 'gLAS', 'Glass', 'glass' etc.
+                    datalist: moduleStateList.reduce((prev, { name: moduleName }) => {
+                        if (!prev.includes(moduleName))
+                            prev.push(moduleName)
+                        return prev
+                    }, [])
+                }
+            },
+            type: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'select',
+                    options: [
+                        { key: 'Select One...', value: '' },
+                        { key: 'Special Standard', value: 'Special' },
+                        { key: 'Manufactured', value: 'Manufactured' },
+                        { key: 'Standard', value: 'Standard' },
+                    ],
+                    label: 'Module Type',
+                    name: 'type',
+                }
+            },
+            inv: {
+                initialValue: {
+                    total: 0,
+                    qualified: 0,
+                },
+                validation: Yup.object().shape({
+                    total: Yup.number().required('Required'),
+                    qualified: Yup.number().required('Required'),
+                }),
+                config: {
+                    total: {
+                        control: 'input',
+                        type: 'number',
+                        label: 'Total Inventory',
+                        name: 'inv.total'
+                    },
+                    qualified: {
+                        control: 'input',
+                        type: 'number',
+                        label: 'Qualified Inventory',
+                        name: 'inv.qualified'
+                    },
+                }
+            },
+            application: {
+                initialValue: [],
+                validation: Yup.array() /* .nullable() */,
+                config: {
+                    control: 'checkbox',
+                    options: [
+                        { key: 'R&D', value: 'R&D' },
+                        { key: 'R1', value: 'Regular 1' },
+                        { key: 'R2', value: 'Regular 2' }
+                    ],
+                    label: 'Application',
+                    name: 'application'
+                }
+            },
+            specs: {
+                initialValue: [],
+                validation: Yup.array(),
+                config: {
+                    control: 'fieldListPair',
+                    label: 'Add the Specifications in pairs',
+                    name: 'specs',
+                    placeholders: ['Shelf Life', '10 years']
+                }
+            },
+
+        },
+        submitHandlers: {
+            add: addModuleHandler,
+            update: updateModuleHandler,
+        }
+    }
 }
 
 function getSubmitBtnText(isValid, dirty, isNewSubmission) {

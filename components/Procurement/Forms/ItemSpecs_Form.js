@@ -11,7 +11,7 @@ import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
 import { deepClone, isObjEmpty } from '../../../helpers/reusable'
 import moduleApollo, { updateModuleSpecHandler } from '../../../lib/apollo_client/moduleApollo'
-import { getOf, renderComponentWithProps, sourceSpecificKeys } from '../../../helpers/specific'
+import { getOf, getComponentArrayWithProps, sourceSpecificKeys } from '../../../helpers/specific'
 
 
 export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCloser, data: activeModuleSpecs = {} }) {
@@ -82,7 +82,7 @@ export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCl
             >
                 <FormikForm id={currentFormID} >
                     {
-                        renderComponentWithProps(
+                        getComponentArrayWithProps(
                             FormikControl,
                             getOf(formData.fields, 'config')
                         )

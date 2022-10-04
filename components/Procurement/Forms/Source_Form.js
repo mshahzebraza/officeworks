@@ -16,7 +16,7 @@ import Modal from '../../UI/Modal'
 // Major Components
 import FormikControl from '../../Formik/FormikControl'
 import FormikForm from '../../Formik/FormikForm'
-import { getOf, renderComponentWithProps } from '../../../helpers/specific'
+import { getOf, getComponentArrayWithProps } from '../../../helpers/specific'
 import Grid from '@mui/material/Grid'
 
 export default function Source_Form({
@@ -75,7 +75,7 @@ export default function Source_Form({
                 <FormikForm id={currentFormID}  >
                     <Grid container spacing={2}>
                         {
-                            renderComponentWithProps(
+                            getComponentArrayWithProps(
                                 FormikControl,
                                 getOf(formData.fields, "config")
                             )

@@ -67,7 +67,7 @@ export default function POdetailPageComp({ pageId }) {
 
     console.log('activePOdata', activePOdata)
 
-    console.assert(!!activePOdata?.linkedModules, 'Must Not Happen')
+    console.assert(!!activePOdata?.items, 'Must Not Happen')
 
     // Section: Component Rendering
     return (
@@ -85,11 +85,11 @@ export default function POdetailPageComp({ pageId }) {
                 {/* Navigation List */}
                 <Grid item xs={2.5} >
                     {
-                        // TODO: No need of ternary operator here as the "Empty LinkedModules" case is already handled earlier
-                        activePOdata?.linkedModules?.length > 0
+                        // TODO: No need of ternary operator here as the "Empty items" case is already handled earlier
+                        activePOdata?.items?.length > 0
                             ? <NavList
                                 classes={[styles.navList]}
-                                itemList={activePOdata.linkedModules}
+                                itemList={activePOdata.items}
                                 activeIndex={activeItemIndex}
                                 setActiveIndex={setActiveItemIndex}
                             />
@@ -101,12 +101,12 @@ export default function POdetailPageComp({ pageId }) {
                     {
 
                         // ? execute below if modules length > 0
-                        activePOdata?.linkedModules?.length > 0 &&
+                        activePOdata?.items?.length > 0 &&
                         <ItemDetail
                             sourceType='po'
                             classes={[styles.itemDetail]}
                             activeSourceId={activePOdata.refId}
-                            itemData={activePOdata.linkedModules[activeItemIndex]} // detail for the current PO modules- nested/item/detail level
+                            itemData={activePOdata.items[activeItemIndex]} // detail for the current PO modules- nested/item/detail level
                         /> || <p className='note'>No Modules Inside - detailPage/ItemDetail</p>
                     }
                 </Grid>
@@ -120,8 +120,8 @@ export default function POdetailPageComp({ pageId }) {
 function populateActivePO(activePO, ModuleList, pageId) {
 
     if (!!activePO) {
-        activePO.linkedModules = mapModulesToPO(
-            activePO.linkedModules,
+        activePO.items = mapModulesToPO(
+            activePO.items,
             ModuleList
         )
         return activePO

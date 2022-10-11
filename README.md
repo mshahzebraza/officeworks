@@ -1,8 +1,14 @@
 **Current Issues:**
 
-- [] understand nestedKeys props in getValuesAt and use-case (see the moduleForm's use-case)
-- [] write unit test for specific-helper functions (especially getValuesAt)
-- [] find an alternative to nested-key-prop to convert it to getOf logic
+- [ ] <strong>Bug:</strong> Solve the issue of config-to-components for nested fields - the name is not being converted from 'items.itemId' to 'items[0].itemId'
+
+  - check if the FAentry is responsible for the feature
+  - check if keeping the parent and nested field's names separate and merging them only in FAentry works
+
+- [ ] compare the prev code of `getObjectWithValuesAt` and structure of `field-config`
+
+  - nested-fields of `field-config-object` had the validation logic separated and the nested-logics were then wrapped in the object's validation-logic
+  -
 
   **Issues:**
 

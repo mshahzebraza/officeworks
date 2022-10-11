@@ -1,89 +1,203 @@
-// Input
-/*
-Component: 'CustomComponent'
-componentPropsObjects: {
-    id: {x:1,y:2},
-    name: {a:3,b:4},
-}
-*/
-// Output:(JSX)
-/* [
-    <CustomComponent key='id' x='1' y='2' /> 
-    <CustomComponent key='name' a='3' b='4' /> 
-] */
+import * as Yup from 'yup'
+import { getOf } from '../helpers/specific';
 
-// Input (Nested)
-/*
-Component: 'CustomComponent'
-componentPropsObjects: {
-    id: {x:1,y:2},
-    name: {
-        a:{
-            a1:3,
-            a2:4
-        },
-        b:{
-            b1:3,
-            b2:4
+
+function checkDataType(testEl) {
+    const elType = typeof (testEl)
+    let result;
+
+    if (elType === 'object') {
+        // Array
+        if (Array.isArray(testEl)) {
+            result = 'array'
+            // console.log('Array Input');
+        } else if (testEl === null) {
+            result = 'null'
+            // console.log('Null Input');
+        } else {
+            result = 'object'
+            // console.log('Object Input');
         }
-    },
+    } else if (elType == 'undefined') {
+        result = 'undefined'
+        // console.log('Undefined Input');
+    } else { // String & Number
+        result = elType
+        // console.log(elType);
+    }
+    return result;
 }
-*/
-// Output:(JSX)
-/* [
-    <CustomComponent key='id' x='1' y='2' /> 
-    <CustomComponent key='name.a' a1='3' a2='4' /> 
-    <CustomComponent key='name.b' b1='3' b2='4' /> 
-] */
 
-export function getComponentArrayWithProps(Component, componentPropsObject, nestedKeys = false) {
+function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) {
+    // Input: //? index:1, source: {x:['x1','x2'],y:['y1','y2']}
+    // Output //? {x: 'x2', y: 'y2'}
 
-    // Loose the keys of the object and get an array of values
-    const componentPropsEntries = Object.entries(componentPropsObject)
+    const responseObj = {};
+    for (const key in source) {
 
-    // For each value get the JSX of "FormikControl"
+        const [firstKey, ...nestedKeys] = key.split('.');
 
-    const compArr = componentPropsEntries.reduce(
-        (acc, [compName, compProps], idx) => {
-            const componentPropsEntries = { a: { a1: 'configForA1', a2: 'configForA2' }, b: 2, c: 3 };
+        if (!!nestedKeys.length) { // if nested keys exist
+            const [secondKey, ...deepNestedKeys] = nestedKeys;
+            if (!!deepNestedKeys.length) throw new Error('Multi-Nested keys are not supported yet');
 
-            // for 3nd iteration
-            const c3Name = 'c', c3Props = 3;
-            // for 2nd iteration
-            const c2Name = 'b', c2Props = 2;
-            // for 1st iteration
-            const c1Name = 'a';
-            const c1Props = { a1: 'configForA1', a2: 'configForA2' };
+            // if the first key is not defined already set it to {}
+            responseObj[firstKey] = responseObj[firstKey] ?? {};
+            responseObj[firstKey][secondKey] = source[key][index];
 
-            if (!!nestedKeys && nestedKeys.includes(compName)) {
-                // check if the current key is the nested key
-                const c1PropsEntries = [["a1", 'configForA1'], ["a2", 'configForA2']]
-                Object.entries(compProps)
-                    .forEach(
-                        ([nestedKeyCompName, nestedKeyCompProps], nestedIdx) => {
-                            // 1st iteration
-                            // [nestedKeyCompName, nestedKeyCompProps] = ['a1','configForA1']
-                            acc.push(
-                                <Component
-                                    key={`${nestedKeyCompName}_${nestedIdx}`}
-                                    {...nestedKeyCompProps}
-                                />)
-                        })
 
-            } else {
-                // spread the component-props onto <Component {...component-props} />
-                acc.push(
-                    <Component
-                        key={`${compName}_${idx}`}
-                        {...compProps}
-                    />
-                )
-            }
+        } else { // if nested keys do not exist
+            responseObj[firstKey] = source[key][index]
+        }
+    }
 
-            return acc;
-        },
-        []
+    // Wrap the nested keys in a nestedKeysWrapper object
+    if (nestedKeysWrapper) {
+        // check if any nested keys exist
+        const wrappedResponseObj = Object.entries(responseObj).reduce(
+            (acc, [key, value]) => {
+                // check if the value is an object
+                checkDataType(value) === 'object'
+                    ? acc[key] = nestedKeysWrapper(value)
+                    : acc[key] = value;
+                return acc;
+            }, []
+        )
+        return Object.fromEntries(wrappedResponseObj);
+    }
+    return responseObj;
+
+}
+
+function getOf(sourceObject, desiredDataKey) {
+    // desiredDataKey === 'key2'
+    // Input
+    /* { 
+        id: {key1:'',key2:'hello'} , 
+        name: {key1:'',key2:'Jane Doe'} 
+    } */
+    // Output
+    /* { 
+        id: 'hello' , 
+        name: 'Jane Doe' 
+    } */
+
+    const sourceEntries = Object.entries(sourceObject);
+    /* 
+    [ 
+        ['id', {key1:'',key2:'hello'} ], 
+        ['name', {key1:'',key2:'Jane Doe'} ] 
+    ]
+    */
+    const reducedObject = sourceEntries.reduce(
+        (prev, cur) => {
+            const [sourceKey, sourceValue] = cur;
+            prev[sourceKey] = sourceValue[desiredDataKey];
+            return prev;
+        }, {}
     )
-
-    return compArr
+    return reducedObject;
 }
+
+const inputConfig = {
+    x: {
+        isNested: true, // if field is nested then navigate through nested fields differently
+        initialValue: {
+            a: '',
+            b: '',
+        },
+        validation: Yup.object().shape({
+            a: Yup.string().required('Required'),
+            b: Yup.string().required('Required')
+        }),
+        config: {
+            a: {
+                configPropName: 'mouse',
+                configPropInventory: 5,
+            },
+            b: {
+                configPropName: 'keyboard',
+                configPropInventory: 12,
+            },
+        },
+    }
+}
+
+getOf(inputConfig, 'initialValue')
+
+/**
+ * Final/Desired Result
+ * 
+ * initialValue: {
+ *    x: {
+ *      a: 'nested a',
+ *      b: 'nested b',
+ *    }
+ *    
+ * validation: {
+ *    x: Yup.object(),shape({
+ *      a: Yup.string().required('Required'),
+ *      b: Yup.string().required('Required'),
+ *    })
+ * }
+ *    
+ *    
+ */
+
+
+/**
+ * For Reference: 
+ * nestedValidationObject : {
+ *    a: Yup.string().required('Required'),
+ *    b: Yup.string().required('Required')
+ * }
+ * 
+ * 
+ * Input Config: { 
+ *    x: {
+ *       isNested: true, // if field is nested then navigate through nested fields differently
+ *       
+ *       initialValue: {
+ *          a: '',
+ *          b: '',
+ *       },
+ *       validation: Yup.object().shape({ 
+ *          a: Yup.string().required('Required'),
+ *          b: Yup.string().required('Required')
+ *       }), 
+ *       config: {
+ *           a : {
+ *              configPropName: 'mouse',
+ *              configPropInventory: 05,
+ *           },
+ *           b : {
+ *              configPropName: 'keyboard',
+ *              configPropInventory: 12,
+ *           },
+ *       }, 
+ *    }
+ * }
+ *    
+ *    
+ */
+
+
+const x = {
+    "inv.total": [
+        0,
+        "validation",
+        {
+            "control": "input",
+            "type": "number",
+            "label": "Total Inventory",
+            "name": "inv.total"
+        }
+    ]
+}
+
+
+const y = getObjectWithValuesAt(2, x, (val) => ({ o: val }));
+console.log('res: ', y)
+
+
+const p = getObjectWithValuesAt(1, x, (val) => { return { 'asd': val } })

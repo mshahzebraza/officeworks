@@ -21,7 +21,7 @@ export default function MWOentryBar({
         index: 'Sr',
         mwoId: 'MWO ID',
         title: 'Title',
-        linkedModules: 'Item Name',// linkedModules was swapped with Items keyName using summarizerNew2
+        items: 'Item Name',// items was swapped with Items keyName using summarizerNew2
         qty: 'Qty',
         application: 'Application',
         status: 'Status'
@@ -34,17 +34,17 @@ export default function MWOentryBar({
         summarizerNew2(
             mwoData,
             {
-                // replaceKeys: [['linkedModules', 'items']], //? keyName "linkedModules" must be changed to itemName 
+                // replaceKeys: [['items', 'items']], //? keyName "items" must be changed to itemName 
                 deleteKeys: ['__v'],
                 array: {
                     categorizeKeys: [],
                     concatenateKeys: []
                 },
-                nestedArrayOfObjects: [['linkedModules', 'name']]
+                nestedArrayOfObjects: [['items', 'name']]
             }
         )
 
-    let mwoModules = mwoData?.linkedModules; // default for header, data will be string
+    let mwoModules = mwoData?.items; // default for header, data will be string
 
     if (!header) {// data will be AoOs
         if (checkDataType(mwoModules) === 'array' && mwoModules?.length > 0) {

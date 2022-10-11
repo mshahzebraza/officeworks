@@ -12,7 +12,7 @@ import { deepClone } from '../../helpers/reusable';
 import ModalButton from '../UI/ModalButton';
 import SearchInput from '../UI/SearchInput';
 import moduleApollo from '../../lib/apollo_client/moduleApollo';
-import { mapModulesToPO as populateLinkedModules } from '../../helpers/specific';
+import { mapModulesToPO as populateitems } from '../../helpers/specific';
 import Loader from '../Loader';
 import MWOtable from './MWOtable';
 import getActiveProcurementModals from '../Procurement/procurementModalHandler';
@@ -78,7 +78,7 @@ function populateMWOlist(MWOList, ModuleList) {
     const populatedMWOlist = MWOList.map((currentRecord, idx) => {
         currentRecord = deepClone(currentRecord) // ?so that the original apollo state is not mutated
         // for each of moduleRefs, find the corresponding module data in the ModuleState
-        currentRecord.linkedModules = populateLinkedModules(currentRecord.linkedModules, ModuleList)
+        currentRecord.items = populateitems(currentRecord.items, ModuleList)
         return { ...currentRecord, id: idx }
     })
     return populatedMWOlist;

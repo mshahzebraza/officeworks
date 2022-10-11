@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { useFormikContext } from 'formik'
 import React from 'react'
 
-function ButtonWrapper(props) {
+function SubmitWrapper(props) {
 
     // fetching props from the parent component
     const { children, ...restProps } = props
@@ -17,7 +17,6 @@ function ButtonWrapper(props) {
         variant: 'contained',
         color: 'primary',
         fullWidth: true,
-        color: 'warning',
         // size: 'small',
 
         onClick: handleSubmit,
@@ -34,4 +33,4 @@ function ButtonWrapper(props) {
     )
 }
 
-export default ButtonWrapper    
+export default SubmitWrapper    

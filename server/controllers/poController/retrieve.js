@@ -19,7 +19,7 @@ export const fetchPOs = async (req, res) => {
 
 
     // Fetch All POs
-    const poList = await poModel.find({}).populate("linkedModules");
+    const poList = await poModel.find({}).populate("items");
     res.status(200).json({
         success: true,
         error: null,

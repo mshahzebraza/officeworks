@@ -94,15 +94,6 @@ export default function ItemSpecs_Form({ open: isModalOpen, handleClose: modalCl
     )
 }
 
-function getSubmitBtnText(isValid, dirty) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
-}
 function getItemSpecsFieldConfig(isNewSubmission, moduleStateList) {
     return {
         id: {

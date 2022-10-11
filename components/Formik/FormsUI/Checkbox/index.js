@@ -20,9 +20,16 @@ import React from 'react'
 function CheckboxWrapper(props) {
 
     // fetching props from the parent component and field input
-    const { showHelper = false, name, label, legend, icon, checkedIcon, ...restProps } = props;
-    const [__, meta] = useField(name); // code 1
-    const errorText = meta?.touched && meta?.error;
+    const { name, showHelper = false, customHelperText = null, label, legend, icon, checkedIcon, ...restProps } = props;
+
+    const [__, meta] = useField(name);
+    const { touched, error } = meta;
+    const isError = !!touched && !!error; // apply error styles in case the input in not valid
+    const errorText = !!touched && error; // apply error styles in case the input in not valid
+    const helperText = customHelperText || errorText; // prioritize the customHelperText over the default error-text
+
+
+
 
     // config for Checkbox props
     const configCheckbox = {
@@ -34,7 +41,7 @@ function CheckboxWrapper(props) {
 
     // config for FormControl - useful for error handling of checkboxes
     const configFormControl = {
-        error: !!errorText,
+        error: !!isError,
         // helperText doesn't work with FormControl
         // using FormControl means all the sub-components of FormControl must be used like:
         // FormLabel, FormGroup, FormControlLabel, FormControl, FormHelperText etc.
@@ -51,7 +58,7 @@ function CheckboxWrapper(props) {
                 />
             </FormGroup>
 
-            {showHelper && <FormHelperText>{errorText || ' '}</FormHelperText>}
+            {showHelper && <FormHelperText>{helperText || ' '}</FormHelperText>}
 
         </FormControl>
     )

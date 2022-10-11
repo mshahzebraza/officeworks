@@ -86,7 +86,10 @@ export default function ProjectModule_Form({ open: isModalOpen, handleClose: mod
             >
                 <FormikForm id={currentFormID} >
                     {
-                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(
+                            FormikControl,
+                            getOf(formData.fields, 'config')
+                        )
                     }
                 </FormikForm>
             </Formik>
@@ -160,14 +163,4 @@ function getProjectModuleFieldConfig(isNewSubmission, assemblyDropdownOptions, p
             },
         },
     })
-}
-
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
 }

@@ -16,18 +16,25 @@ function CheckboxListWrapper({
     name,
     legend,
     options = [],
+    customHelperText = null,
     row = false,
     showSelectAll = false,
     showHelper = false,
     ...restProps
 }) {
-
-
     const [field, meta, helpers] = useField(name);
-    const errorText = meta?.touched && meta?.error;
+
+    const { touched, error } = meta;
+    const isError = !!touched && !!error; // apply error styles in case the input in not valid
+    const errorText = !!touched && error; // apply error styles in case the input in not valid
+    const helperText = customHelperText || errorText; // prioritize the customHelperText over the default error-text
+
+
+
+
 
     // config Array for Checkboxes' props
-    const configArray = options.map(({ value, label, icon, checkedIcon }) => { //TODO: change the format of options
+    const configArray = options.map(({ value, label, icon: Icon, checkedIcon: CheckedIcon }) => { //TODO: change the format of options
 
         return {
             name,
@@ -36,13 +43,13 @@ function CheckboxListWrapper({
             label,
             value,
             checked: field?.value?.includes(value),
-            control: <Checkbox /* icon={????} */ /* checkedIcon={?????} */ />,
+            control: <Checkbox icon={Icon && <Icon />} checkedIcon={CheckedIcon && <CheckedIcon />} />,
         }
     })
 
     // config for FormControl - useful for error handling of checkboxes
     const configFormControl = {
-        error: !!errorText,
+        error: isError,
     };
 
     return (
@@ -75,7 +82,7 @@ function CheckboxListWrapper({
 
             </FormGroup>
 
-            {showHelper && <FormHelperText>{errorText || ' '}</FormHelperText>}
+            {showHelper && <FormHelperText>{helperText || ' '}</FormHelperText>}
 
 
         </FormControl>

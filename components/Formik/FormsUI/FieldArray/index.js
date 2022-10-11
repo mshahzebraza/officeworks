@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 
 function FAaddButton(props) {
     return (
-        <Grid item xs={4}>
+        <Grid item>
             <Button variant="contained" onClick={() => props.push(props.structure)} startIcon={<AddIcon />}>{props.children}</Button>
         </Grid>
     );
@@ -34,7 +34,7 @@ function FAcancelButton(props) {
     return (
         <Grid item xs={2}>
             <Button
-                variant="contained"
+                variant="outlined"
                 sx={{
                     height: '100%'
                 }}
@@ -50,11 +50,12 @@ function FAcancelButton(props) {
 }
 
 
-function FAtextField({ name, label, helperText, rest }) {
+function FAtextField({ name, label, type, helperText, rest }) {
     return (
         <Grid item xs={10} >
             <TextField
                 name={name} // is a substitute for value, onChange, onBlur, etc.
+                type={type}
                 {...rest}
                 label={label}
                 helperText={helperText} // to avoid the button from getting full height due to custom styles
@@ -83,17 +84,16 @@ function FieldList({
     // showDivider = false,
     structure = "",
     dividerText = '',
-    fieldName = 'Unnamed Field',
-    AddIcon,
-    addText,
-    RemoveIcon,
-    removeText,
+    label = 'Unnamed Field',
+    AddIcon, // to be used with Add Btn
+    RemoveIcon, // to be used with Remove Btn
+    type = 'text',
     ...rest
 }) {
     return (
         <FormControl component="fieldset" fullWidth>
 
-            <FormLabel component="legend" sx={{ marginBottom: 1.5 }} >{`${legend}(s)`}</FormLabel>
+            <FormLabel component="legend" sx={{ marginBottom: 1.5 }} >{legend}</FormLabel>
 
             <FieldArray name={name} >
                 {(fieldArrayProps) => {
@@ -124,8 +124,9 @@ function FieldList({
                                                 {/* Input */}
                                                 <FAtextField
                                                     rest={rest}
+                                                    type={type}
                                                     name={thisField}
-                                                    label={`${fieldName} ${index + 1}`}
+                                                    label={`${label} ${index + 1}`}
                                                     helperText={false} // to avoid the button from getting full height due to custom styles
                                                 />
 
@@ -143,7 +144,7 @@ function FieldList({
 
                                 })}
                             {/* Add Button */}
-                            <FAaddButton push={push} structure={structure} >Add {fieldName}</FAaddButton>
+                            <FAaddButton push={push} structure={structure} >Add {label}</FAaddButton>
                         </Grid>
                     );
 

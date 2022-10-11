@@ -74,7 +74,7 @@ function populatePOlist(POList, ModuleList) {
     const populatedPOlist = POList.map((currentRecord, idx) => {
         currentRecord = deepClone(currentRecord) // ?so that the original apollo state is not mutated
         // for each of moduleRefs, find the corresponding module data in the ModuleState
-        currentRecord.linkedModules = mapModulesToPO(currentRecord.linkedModules, ModuleList)
+        currentRecord.items = mapModulesToPO(currentRecord.items, ModuleList)
         return { ...currentRecord, id: idx }
     })
 

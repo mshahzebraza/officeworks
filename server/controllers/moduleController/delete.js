@@ -30,33 +30,33 @@ export const deleteModule = async (req, res) => {
         if (moduleUUID && poUUID && !mwoUUID) {
             // unlink the moduleID from the current PO
             const unlinkedPO = await poModel.findOneAndUpdate(
-                { _id: poUUID }, // make sure to return the module with nested linkedModule
-                { $pull: { linkedModules: { item: moduleUUID } } },
+                { _id: poUUID }, // make sure to return the module with nested item
+                { $pull: { items: { item: moduleUUID } } },
                 { new: true }
             );
             if (!unlinkedPO) return invalidResponse(res, "Module could not be unlinked from PO");
 
             // unlink the poID from the current module
-            const unlinkedModule = await moduleModel.findOneAndUpdate(
+            const unitem = await moduleModel.findOneAndUpdate(
                 { _id: moduleUUID, linkedPOs: poUUID }, // make sure to return the module with nested linkedPO
                 { $pull: { linkedPOs: poUUID } },
                 { new: true }
             );
             // delete the module if it is not linked to any other MWO or PO
             if (!(
-                unlinkedModule.linkedMWOs.length
-                || unlinkedModule.linkedPOs.length
+                unitem.linkedMWOs.length
+                || unitem.linkedPOs.length
             )) {
                 var message = "Module deleted as it is not linked to any other MWO or PO";
-                await unlinkedModule.remove()
+                await unitem.remove()
             };
 
             // return response
             return res.status(200).json({
                 success: true,
-                // data: { module: unlinkedModule, po: unlinkedPO },
+                // data: { module: unitem, po: unlinkedPO },
                 data: {
-                    deletedModule: unlinkedModule, // to match the moduleState item in the frontend
+                    deletedModule: unitem, // to match the moduleState item in the frontend
                     moduleSource: unlinkedPO
                 },
                 message: message || "Module unlinked from PO",
@@ -68,31 +68,31 @@ export const deleteModule = async (req, res) => {
         else if (moduleUUID && mwoUUID && !poUUID) {
             // unlink the moduleID from the current MWO
             const unlinkedMWO = await mwoModel.findOneAndUpdate(
-                { _id: mwoUUID }, // make sure to return the module with nested linkedModule
-                { $pull: { linkedModules: { item: moduleUUID } } },
+                { _id: mwoUUID }, // make sure to return the module with nested item
+                { $pull: { items: { item: moduleUUID } } },
                 { new: true }
             );
             if (!unlinkedMWO) return invalidResponse(res, "Module could not be unlinked from MWO");
             // unlink the mwoID from the current module
-            const unlinkedModule = await moduleModel.findOneAndUpdate(
+            const unitem = await moduleModel.findOneAndUpdate(
                 { _id: moduleUUID, linkedMWOs: mwoUUID }, // make sure to return the module with nested linkedMWO
                 { $pull: { linkedMWOs: mwoUUID } },
                 { new: true }
             );
             // delete the module if it is not linked to any other MWO or PO
             if (!(
-                unlinkedModule.linkedMWOs.length
-                || unlinkedModule.linkedPOs.length
+                unitem.linkedMWOs.length
+                || unitem.linkedPOs.length
             )) {
                 var message = "Module deleted as it is not linked to any other MWO or PO";
-                await unlinkedModule.remove()
+                await unitem.remove()
             };
             // return response
             return res.status(200).json({
                 success: true,
-                // data: { module: unlinkedModule, mwo: unlinkedMWO },
+                // data: { module: unitem, mwo: unlinkedMWO },
                 data: {
-                    deletedModule: unlinkedModule, // to match the moduleState item in the frontend
+                    deletedModule: unitem, // to match the moduleState item in the frontend
                     moduleSource: unlinkedMWO
                 },
                 message: message || "Module unlinked from MWO",
@@ -108,26 +108,26 @@ export const deleteModule = async (req, res) => {
             const moduleExists = await moduleModel.exists({ _id: moduleUUID });
             if (!moduleExists) return invalidResponse(res, "Module not found for deletion");
             // unlink all poIDs from the current module
-            const unlinkedModule = await moduleModel.findByIdAndUpdate(
+            const unitem = await moduleModel.findByIdAndUpdate(
                 moduleUUID,
                 { $set: { linkedPOs: [], linkedMWOs: [] } },
                 { new: true }
             );
-            // if (unlinkedModule) return invalidResponse(res, "Module to unlink not found in database");
+            // if (unitem) return invalidResponse(res, "Module to unlink not found in database");
 
             // Unlink the unlinked module from all POs
-            await asyncForEach(unlinkedModule.linkedPOs, async (poId) => {
+            await asyncForEach(unitem.linkedPOs, async (poId) => {
                 await poModel.findByIdAndUpdate(
                     poId,
-                    { $pull: { linkedModules: moduleUUID } },
+                    { $pull: { items: moduleUUID } },
                     { new: true }
                 );
             })
             // Unlink the unlinked module from all MWOs
-            await asyncForEach(unlinkedModule.linkedMWOs, async (mwoId) => {
+            await asyncForEach(unitem.linkedMWOs, async (mwoId) => {
                 await mwoModel.findByIdAndUpdate(
                     mwoId,
-                    { $pull: { linkedModules: moduleUUID } },
+                    { $pull: { items: moduleUUID } },
                     { new: true }
                 );
             })
@@ -137,7 +137,7 @@ export const deleteModule = async (req, res) => {
                 success: true,
                 message: "Module unlinked from all POs & MWOs",
                 data: {
-                    deletedModule: unlinkedModule // to match the moduleState item in the frontend
+                    deletedModule: unitem // to match the moduleState item in the frontend
                 },
                 error: null
             })
@@ -154,7 +154,7 @@ export const deleteModule = async (req, res) => {
                     linkedPOid,
                     {
                         $pull: {
-                            linkedModules: {
+                            items: {
                                 item: moduleUUID
                             }
                         }
@@ -167,7 +167,7 @@ export const deleteModule = async (req, res) => {
                     linkedMWOid,
                     {
                         $pull: {
-                            linkedModules: {
+                            items: {
                                 item: moduleUUID
                             }
                         }

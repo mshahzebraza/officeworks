@@ -67,7 +67,10 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
             >
                 <FormikForm id={currentFormID} >
                     {
-                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(
+                            FormikControl,
+                            getOf(formData.fields, 'config')
+                        )
                     }
                 </FormikForm>
             </Formik>
@@ -75,15 +78,6 @@ export default function ProjectSummary_Form({ open: isModalOpen, handleClose: mo
     )
 }
 
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
-}
 
 
 function getProjectSummaryFieldConfig(isNewSubmission) {

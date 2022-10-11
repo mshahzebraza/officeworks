@@ -21,7 +21,7 @@ export default function POentry({
         index: 'Sr',
         refType: 'Ref Type',
         refId: 'Ref ID',
-        linkedModules: 'Items', // linkedModules was swapped with items keyName using summarizerNew2
+        items: 'Items', // items was swapped with items keyName using summarizerNew2
         status: 'Status',
     },
     header = false
@@ -32,17 +32,17 @@ export default function POentry({
         summarizerNew2(
             poData,
             {
-                // replaceKeys: [['linkedModules', 'items']],//? keyName "linkedModules" must be changed to itemName 
+                // replaceKeys: [['items', 'items']],//? keyName "items" must be changed to itemName 
                 deleteKeys: ['__v'],
                 array: {
                     categorizeKeys: [],
                     concatenateKeys: []
                 },
-                nestedArrayOfObjects: [['linkedModules', 'name']]
+                nestedArrayOfObjects: [['items', 'name']]
             }
         )
 
-    let poModules = poData?.linkedModules; // default for header, data will be string
+    let poModules = poData?.items; // default for header, data will be string
 
     if (!header) {// data will be AoOs
         if (checkDataType(poModules) === 'array' && poModules?.length > 0) {

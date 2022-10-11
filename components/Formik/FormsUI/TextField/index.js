@@ -2,30 +2,29 @@ import React from 'react'
 import { Field, useField } from 'formik'
 import TextField from '@mui/material/TextField'
 
-
+// checkIt :
+/**
+ * @param  {boolean} props.resetHelperStyles - style the helper-text as anerror only if the "reset-helper-style" is "Falsy" AND "error-text" is "Truthy" - should be called as noErrorStyles
+ */
 function TextFieldWrapper(props) {
 
     // fetching props from the parent component and field input
-    const { name, ...restProps } = props
+    const { name, showHelper = false, customHelperText = null, ...restProps } = props
     const [__, meta] = useField(name);
-    const errorText = meta?.touched && meta?.error;
+    const { touched, error } = meta;
+    const isError = !!touched && !!error; // apply error styles in case the input in not valid
+    const errorText = !!touched && error; // apply error styles in case the input in not valid
+    const helperText = customHelperText || errorText; // prioritize the customHelperText over the default error-text
 
     // config for TextField props
     const configTextField = {
-
         name,
-        // ? passing the name directly to the Field component is an alternative of passing
-        // ? name + { ...useField().field } 
-        // ? as a prop to any input (TextField in this case) component
-
         fullWidth: true,
         variant: 'outlined',
         size: 'small',
-        error: Boolean(errorText),
-        helperText: errorText || ' ', //? empty string is a default to leave space below
-
+        error: isError, // show error only if showHelper is true && field is touched
+        helperText: showHelper && (helperText || ' '),
         ...restProps,
-        // restProps can override hardcoded default props
     }
 
 
@@ -33,7 +32,6 @@ function TextFieldWrapper(props) {
         <Field
             as={TextField} // which is basically an input (so props are passed to input tag)
             {...configTextField}
-
         />
     )
 

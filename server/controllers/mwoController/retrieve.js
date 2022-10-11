@@ -20,7 +20,7 @@ export const fetchMWOs = async (req, res) => {
     }
 
     // Fetch all MWOs
-    const mwoList = await mwoModel.find({}).populate("linkedModules");
+    const mwoList = await mwoModel.find({}).populate("items");
     return res.status(200).json({
         success: true,
         data: { mwoList }

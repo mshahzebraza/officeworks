@@ -94,8 +94,7 @@ export default function Module_Form({ open: isModalOpen, handleClose: modalClose
                     {
                         getComponentArrayWithProps(
                             FormikControl,
-                            getOf(formData.fields, 'config'),
-                            ['inv']
+                            getOf(formData.fields, 'config')
                         )
                     }
 
@@ -207,14 +206,4 @@ function getModuleFieldConfig(isNewSubmission, moduleStateList) {
             update: updateModuleHandler,
         }
     }
-}
-
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
 }

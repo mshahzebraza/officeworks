@@ -85,7 +85,10 @@ function Transaction_Form({ open: isModalOpen, handleClose: modalCloser, oldTxnD
 
                 <FormikForm id={currentFormID} >
                     {
-                        getComponentArrayWithProps(FormikControl, getOf(formData.fields, 'config'))
+                        getComponentArrayWithProps(
+                            FormikControl,
+                            getOf(formData.fields, 'config')
+                        )
                     }
                 </FormikForm>
 
@@ -212,14 +215,3 @@ function getTransactionFieldConfig() {
 }
 
 
-
-
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
-}

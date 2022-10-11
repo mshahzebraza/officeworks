@@ -3,32 +3,38 @@ import FormControls from './FormControls'
 import { Grid } from '@mui/material'
 
 
-function GridWrapper({ children, gridSize = 6 }) {
-    return <Grid item xs={gridSize} >{children}</Grid>
+function GridWrapper({ children, gridSpan = 6 }) {
+    return <Grid item xs={gridSpan} >{children}</Grid>
 }
 
 function FormikControl(props) {
-    const { control, gridSize, ...rest } = props
+    const { control = 'text', gridSpan, ...rest } = props
 
     switch (control) {
-        case 'input':
-            return <GridWrapper gridSize={gridSize} ><FormControls.TextField {...rest} /></GridWrapper>
+        case 'text':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.TextField {...rest} /></GridWrapper>
         //   return <Input {...rest} />
         case 'textarea':
-            return <GridWrapper gridSize={gridSize} ><FormControls.TextField multiline rows={4} {...rest} /></GridWrapper>
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.TextField  {...rest} /></GridWrapper>
         // return <Textarea {...rest} />
         case 'select':
-            return <GridWrapper gridSize={gridSize} ><FormControls.Select {...rest} /></GridWrapper>
-        case 'combobox':
-            return <GridWrapper gridSize={gridSize} ><FormControls.ComboBox {...rest} /></GridWrapper>
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.Select {...rest} /></GridWrapper>
+        case 'comboBox':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.ComboBox {...rest} /></GridWrapper>
         case 'radio':
-            return <GridWrapper gridSize={gridSize} ><FormControls.Radio row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
-        case 'checkbox':
-            return <GridWrapper gridSize={gridSize} ><FormControls.CheckboxList row {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
-        // case 'fieldList':
-        //     return <FieldList {...rest} /> 
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.Radio {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
+        case 'dateTimePicker':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.DateTimePicker {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
+        case 'checkBox':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.Checkbox {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
+        case 'checkBoxList':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.CheckboxList  {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
+        case 'fieldArray':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.FieldArray  {...rest} /></GridWrapper> // legend, name, options <[array of objects]>
         case 'nestedFieldArray':
-            return <GridWrapper gridSize={gridSize} ><FormControls.FieldArrayNested {...rest} /></GridWrapper> // legend, name, fieldName, structure
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.FieldArrayNested {...rest} /></GridWrapper> // legend, name, fieldName, structure
+        case 'submit':
+            return <GridWrapper gridSpan={gridSpan} ><FormControls.Submit {...rest} /></GridWrapper> // legend, name, fieldName, structure
         // return <FieldListPair {...rest} />
         default:
             return null

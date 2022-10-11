@@ -80,7 +80,7 @@ export default function ProjectAssembly_Form(
                     {
                         getComponentArrayWithProps(
                             FormikControl,
-                            getOf(formData.fields, 'config'),
+                            getOf(formData.fields, 'config')
                         )
                     }
                 </FormikForm>
@@ -134,15 +134,6 @@ function getProjectAssemblyFieldConfig(isNewSubmission, assemblyOptions) {
     })
 }
 
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
-}
 
 function getAssemblyOptions(assemblyListData, removeAssemblyItemId = false) {
 

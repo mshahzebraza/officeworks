@@ -12,7 +12,7 @@ const mwoSchema = new Schema({
     remarks: String,
     // supplier: PPC, MSS, etc
 
-    linkedModules: [
+    items: [
         {
             item: { type: ObjectId, ref: 'Module' },
             qty: Number,

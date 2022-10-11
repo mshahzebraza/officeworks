@@ -70,8 +70,9 @@ export default function Item_Form({ open: isModalOpen, handleClose: modalCloser,
                 <FormikForm id={currentFormID} >
                     <Grid container spacing={2}>
                         {
-                            getComponentArrayWithProps(FormikControl,
-                                getOf(formData.fields, 'options'),
+                            getComponentArrayWithProps(
+                                FormikControl,
+                                getOf(formData.fields, 'options')
                             )
                         }
                     </Grid>
@@ -82,22 +83,6 @@ export default function Item_Form({ open: isModalOpen, handleClose: modalCloser,
     )
 }
 
-
-function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
-    return {
-        disabled: !isValid || !dirty || isSubmitting,
-        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-    }
-}
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
-}
 function getMWOitemFieldConfig(moduleStateList, isNewSubmission) {
     return {
         title: 'MWO Item',

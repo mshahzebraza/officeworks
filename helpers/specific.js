@@ -133,11 +133,11 @@ export const moduleSpecificKeys = (returnLinkedFields = false) => {
 
 
 // takes in a list of POitems and returns a list of POitems with the linked modules populated
-export function mapModulesToPO(linkedModules, moduleList) {
-    return linkedModules.map((linkedModule) => {
-        const { item: moduleRef, ...rest } = linkedModule;
+export function mapModulesToPO(items, moduleList) {
+    return items.map((item) => {
+        const { item: moduleRef, ...rest } = item;
 
-        // match module._id with linkedModule.item
+        // match module._id with item.item
         const matchingModule = deepClone(
             moduleList.find(module => {
                 return module._id === moduleRef
@@ -296,12 +296,8 @@ export function getObjectWithValuesAt(index, source, nestedKeysWrapper = false) 
  * ] 
  * @param  {} Component
  * @param  {} propsConfigContainer
- * @param  {} nestedKeys=false - in case a nested key is passed, ...
  */
-export function getComponentArrayWithProps(Component, propsConfigContainer, nestedKeys = false) {
-    // Input (Nested)
-
-
+export function getComponentArrayWithProps(Component, propsConfigContainer) {
     // Loose the keys of the object and get an array of values
     const propsConfigEntries = Object.entries(propsConfigContainer)
 
@@ -309,79 +305,19 @@ export function getComponentArrayWithProps(Component, propsConfigContainer, nest
 
     const fieldComponents = propsConfigEntries.reduce(
         (acc, [fieldKey, fieldPropConfig], idx) => {
-
-            if (!!nestedKeys && nestedKeys.includes(fieldKey)) {
-                // check if the current key is the nested key
-
-                const nestedComponentArray = getNestedComponentArrayWithProps(
-                    Component,
-                    fieldPropConfig,
-                    fieldKey
-                );
-
-                acc.push(...nestedComponentArray)
-
-
-            } else {
-                // spread the component-props onto <Component {...component-props} />
-                const currentComponentWithProps = getComponentWithProps(
-                    Component,
-                    fieldPropConfig,
-                    `${fieldKey}_${idx}`
-                )
-                acc.push(currentComponentWithProps)
-            }
-
+            // spread the component-props onto <Component {...component-props} />
+            const currentComponentWithProps = getComponentWithProps(
+                Component,
+                fieldPropConfig,
+                `${fieldKey}_${idx}`,
+            )
+            acc.push(currentComponentWithProps)
             return acc;
         },
         []
     )
-
     return fieldComponents
 }
-
-
-
-/**
- * {
- *   key1: propsConfig1, ( should be passed to getComponentWithProps )
- *   key2: propsConfig2, ( should be passed to getComponentWithProps )
- *   key3: {
- *      nestedKey3_1: propsConfig3_1,
- *      nestedKey3_2: propsConfig3_2,
- *   }, ( should be passed to getNestedComponentArrayWithProps )
- * }
- * @param  {} Component
- * @param  {} nestedPropsConfig - { nestedKey3_1:propsConfig3_1, nestedKey3_2:propsConfig3_2, }
- * @param  {} key
- */
-
-function getNestedComponentArrayWithProps(Component, nestedPropsConfigContainer, parentKey = '') {
-    // This nestedPropsConfigContainer will contain the object which will contain propsConfig for nested keys
-    /**
-     * 
-     * nestedPropsConfigContainer (aka key3): {
-     *    nestedKey3_1: propsConfig3_1,
-     *    nestedKey3_2: propsConfig3_2,
-     * }
-     * 
-     */
-
-    const nestedPropsConfigEntries = Object.entries(nestedPropsConfigContainer);
-
-    const nestedFieldComponents = nestedPropsConfigEntries.map(
-        ([nestedFieldKey, nestedFieldPropConfig]) => (
-            getComponentWithProps(
-                Component,
-                nestedFieldPropConfig,
-                `${nestedFieldKey}_${parentKey}`
-            )
-        )
-    )
-    return nestedFieldComponents;
-
-}
-
 
 
 /**
@@ -392,8 +328,37 @@ function getNestedComponentArrayWithProps(Component, nestedPropsConfigContainer,
  */
 
 function getComponentWithProps(Component, propConfig = {}, key) {
-    propConfig = { ...propConfig, key }
+
+    if (key) propConfig = { ...propConfig, key }
     return (
         <Component {...propConfig} />
     )
+}
+
+
+
+/**
+ * get the props for submit-button of formik-form to control pre-mature submission
+ * @param {{}} formikProps - necessary validation helpers to control submit-button-state
+ * @param {Boolean} isNewSubmission - Form is opened in Edit OR Add Mode
+ * @returns {{}}
+ */
+function getSubmitProps(formikProps, isNewSubmission) {
+    const { isValid, dirty, isSubmitting } = formikProps;
+    return {
+        disabled: !isValid || !dirty || isSubmitting,
+        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
+    }
+}
+
+
+
+function getSubmitBtnText(isValid, dirty, isNewSubmission) {
+    return isValid
+        ? (
+            dirty
+                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
+                : 'No edits made'
+        )
+        : ('Incomplete/Invalid Data')
 }

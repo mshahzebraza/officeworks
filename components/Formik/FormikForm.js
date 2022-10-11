@@ -1,7 +1,6 @@
 import { Form } from 'formik'
 import React, { useState } from 'react'
 import { concatStrings } from '../../helpers/reusable'
-// import styles from './formik.module.scss';
 import FormikStepControls from './FormikStepControls';
 
 const FormikForm = ({ children, outerClasses = [], multiStage = false, stepOptions = [], ...restProps }) => {

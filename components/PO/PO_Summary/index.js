@@ -25,8 +25,8 @@ export default function PO_Summary({ open: isModalOpen, handleClose: modalCloser
                 data={poData}
                 dataKeyOptions={{
                     toDelete: ['_id', '__v', 'index', 'tableData'],
-                    toFetch: [['linkedModules', 'item']],
-                    toUpdate: [['refId', 'referenceID'], ['category', 'PO Category'], ['linkedModules', 'Modules Procured']]
+                    toFetch: [['items', 'item']],
+                    toUpdate: [['refId', 'referenceID'], ['category', 'PO Category'], ['items', 'Modules Procured']]
                 }}
             />
 

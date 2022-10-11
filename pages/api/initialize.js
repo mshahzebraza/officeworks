@@ -12,7 +12,7 @@ import { invalidResponse } from '../../helpers/reusable';
 const fetchAppData = async (req, res) => {
 
     const poList = await poModel.find({})
-    if (!poList) return invalidResponse(res, "PO List couldn't be fetched") /* .populate('linkedModules').exec() */
+    if (!poList) return invalidResponse(res, "PO List couldn't be fetched") /* .populate('items').exec() */
     const mwoList = await mwoModel.find({})
     if (!mwoList) return invalidResponse(res, "MWO List couldn't be fetched")
     const projectList = await projectModel.find({})

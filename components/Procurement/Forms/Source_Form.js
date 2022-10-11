@@ -51,7 +51,7 @@ export default function Source_Form({
 
     const submitFormHandler = (values, formHelpers) => {
         const { resetForm } = formHelpers
-        console.log('values: ', values)
+        console.log('submit values: ', values)
         isNewSubmission ? formData.submitHandlers.add(values) : formData.submitHandlers.update(values);
         resetForm()
         modalCloser();
@@ -87,14 +87,6 @@ export default function Source_Form({
 
     )
 }
-
-function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
-    return {
-        disabled: !isValid || !dirty || isSubmitting,
-        text: getSubmitBtnText(isValid, dirty, isNewSubmission)
-    }
-}
-
 // Allow the Dropdown to have the "Closed" option only if submission-mode is "Update"
 /**
  * 
@@ -103,16 +95,6 @@ function getSubmitProps({ isValid, dirty, isSubmitting }, isNewSubmission) {
  */
 function appendCloseOptionToStatusField(isNewSubmission, formData) {
     !isNewSubmission && formData.fields.status.config.options.push({ key: 'Closed', value: 'Closed' })
-}
-
-function getSubmitBtnText(isValid, dirty, isNewSubmission) {
-    return isValid
-        ? (
-            dirty
-                ? `Submit ${isNewSubmission ? '(Add)' : '(Update)'}`
-                : 'No edits made'
-        )
-        : ('Incomplete/Invalid Data')
 }
 
 function getPOfieldConfig(isNewSubmission) {
@@ -140,7 +122,7 @@ function getPOfieldConfig(isNewSubmission) {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
                 config: {
-                    control: 'input',
+                    control: 'text',
                     type: 'text',
                     name: 'refId',
                     disabled: !isNewSubmission,
@@ -197,11 +179,14 @@ function getPOfieldConfig(isNewSubmission) {
                 initialValue: 0,
                 validation: Yup.number().required('Required'),
                 config: {
-                    control: 'input',
+                    control: 'text',
                     type: 'number',
                     name: 'totalCost',
                     label: 'Total Cost',
-                }
+                    inputProps: {
+                        min: 0
+                    }
+                },
             },
             status: {
                 initialValue: '',
@@ -225,6 +210,15 @@ function getPOfieldConfig(isNewSubmission) {
                     ],
                 }
             },
+            initiatorId: {
+                initialValue: '',
+                validation: Yup.string().required('Required'),
+                config: {
+                    control: 'text',
+                    name: 'initiatorId',
+                    label: 'Initiator Employee ID',
+                },
+            },
             supplier: {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
@@ -240,12 +234,101 @@ function getPOfieldConfig(isNewSubmission) {
                     ]
                 }
             },
+            items: {
+                initialValue: [
+                    { id: '', qty: 0, unitPrice: 0, remarks: '' }
+                ],
+                validation: Yup.array()
+                    .of(
+                        Yup.object().shape({
+                            id: Yup
+                                .string()
+                                .typeError('Please Enter a valid Code')
+                                .required("Item ID is required")
+                            ,
+                            qty: Yup
+                                .number()
+                                .integer()
+                                .typeError('Please Enter a valid Number')
+                                .required("Item Qty is required")
+                            ,
+                            unitPrice: Yup
+                                .number()
+                                .integer()
+                                .min(0, 'Price cannot be a negative number')
+                                .typeError('Please Enter a valid Number')
+                                .required("Unit Price is required")
+                            ,
+                            remarks: Yup.string()
+                        })
+                    ),
+                config: {
+                    control: 'nestedFieldArray',
+                    legend: 'List of nested fields',
+                    name: 'items',
+                    label: 'Provide the list of purchase items',
+                    showHelper: true,
+                    gridSpan: 12,
+                    removeText: 'Remove Item',
+                    removeIcon: null,
+                    addIcon: null,
+                    fieldConfigArr: [
+                        // id {string}
+                        {
+                            control: 'text',
+                            type: 'text',
+                            label: 'Item ID',
+                            name: 'id',
+                            gridSpan: 5,
+                            default: '', //! default value to for the nested field
+                            showHelper: false,
+                            customHelperText: 'Enter the Item ID',
+                        },
+                        // qty {number}
+                        {
+                            control: 'text',
+                            type: 'number',
+                            label: 'Item Qty',
+                            name: 'qty',
+                            gridSpan: 3,
+                            default: 0, //! default value to for the nested field
+                            showHelper: false,
+                            customHelperText: 'Enter the Item Qty',
+                        },
+                        // unitPrice {number}
+                        {
+                            control: 'text',
+                            type: 'number',
+                            gridSpan: 2,
+                            label: 'Unit Price',
+                            name: 'unitPrice',
+                            default: 0, //! default value to for the nested field
+                            showHelper: false,
+                            customHelperText: 'Enter the Unit Price',
+                        },
+                        // remarks {string}
+                        {
+                            control: 'text',
+                            type: 'text',
+                            multiline: true,
+                            gridSpan: 10,
+                            label: 'Item Purchase Remarks',
+                            name: 'remarks',
+                            default: '', //! default value to for the nested field
+                            showHelper: false,
+                            customHelperText: 'Enter the detail Item Purchase',
+                        },
+                    ],
+                }
+            },
             remarks: {
                 initialValue: '',
                 validation: Yup.string(),
                 config: {
-                    control: 'textarea',
-                    gridSize: 12,
+                    control: 'text',
+                    gridSpan: 12,
+                    multiline: true,
+                    minRows: 4,
                     name: 'remarks',
                     label: 'Remarks/Description'
                 }
@@ -266,7 +349,7 @@ function getMWOfieldConfig(isNewSubmission) {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
                 config: {
-                    control: 'input',
+                    control: 'text',
                     type: 'text',
                     name: 'mwoId',
                     label: 'MWO ID',
@@ -292,7 +375,7 @@ function getMWOfieldConfig(isNewSubmission) {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
                 config: {
-                    control: 'input',
+                    control: 'text',
                     type: 'text',
                     name: 'title',
                     label: 'Title / Description'
@@ -302,8 +385,10 @@ function getMWOfieldConfig(isNewSubmission) {
                 initialValue: '',
                 validation: Yup.string(),
                 config: {
-                    control: 'textarea',
-                    gridSize: 12,
+                    control: 'text',
+                    gridSpan: 12,
+                    multiline: true,
+                    minRows: 4,
                     name: 'remarks',
                     label: 'Remarks/Description'
                 }

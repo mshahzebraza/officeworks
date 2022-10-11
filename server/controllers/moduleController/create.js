@@ -61,7 +61,7 @@ export const createModule = async (req, res) => {
                     { _id: poUUID },
                     {
                         $push: {
-                            linkedModules: {
+                            items: {
                                 item: existingModule._id, // module data is already saved in the list of modules
                                 ...sourceData // qty, unitPrice etc.
                             }
@@ -81,7 +81,7 @@ export const createModule = async (req, res) => {
                     { _id: mwoUUID },
                     {
                         $push: {
-                            linkedModules: {
+                            items: {
                                 item: existingModule._id,
                                 ...sourceData
                             }
@@ -134,7 +134,7 @@ export const createModule = async (req, res) => {
                     poUUID,
                     {
                         $push: {
-                            linkedModules:
+                            items:
                             {
                                 item: addedModule._id,
                                 ...sourceData
@@ -177,7 +177,7 @@ export const createModule = async (req, res) => {
                     mwoUUID,
                     {
                         $push: {
-                            linkedModules:
+                            items:
                             {
                                 item: addedModule._id,
                                 ...sourceData

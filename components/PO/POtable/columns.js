@@ -1,5 +1,4 @@
-import { Chip, Box, Grid, Button, Avatar, Typography, Tooltip } from '@mui/material';
-import CellAvatar from '../../customMUI/tableComponents/CellAvatar';
+import { POinitiatorBox, POitemsChips } from './components';
 
 
 const statusLookup = {
@@ -16,37 +15,32 @@ const statusLookup = {
 }
 
 
-const defaultPhotoPath = '/images/avatar.png';
-const initiatorData = {
-    7320: {
-        name: 'Shahzeb',
-        photoPath: defaultPhotoPath
-    },
-    7321: {
-        name: 'Jane Doe',
-    },
-    7322: {
-        name: 'Jack Doe',
-    },
-    7323: {
-        name: 'Jill Doe',
-    },
-    7324: {
-        name: 'Joe Doe',
-    },
-    7325: {
-        name: 'Juan Doe',
-    },
-    7326: {
-        name: 'Julie Doe',
-    },
-    7327: {
-        name: 'Jenny Doe',
-    },
-    7328: {
-        name: 'John Doe',
-    },
 
+/**
+ * Creates a config object for each Initiator
+ * @param  {string} name
+ * @param  {string} photoPath the relative path to the Avatar Image
+ */
+class Initiator {
+    constructor(
+        name,
+        photoPath = '/images/avatar.png',
+    ) {
+        this.name = name;
+        this.photoPath = photoPath;
+    }
+}
+
+const initiatorData = {
+    7320: new Initiator('Shahzeb', '/images/avatar.png'),
+    7321: new Initiator('Jane Doe'),
+    7322: new Initiator('Jack Doe'),
+    7323: new Initiator('Jill Doe'),
+    7324: new Initiator('Joe Doe'),
+    7325: new Initiator('Juan Doe'),
+    7326: new Initiator('Julie Doe'),
+    7327: new Initiator('Jenny Doe'),
+    7328: new Initiator('John Doe'),
 }
 
 /**
@@ -138,7 +132,7 @@ export const columns = [
         false,
     ),
     new Column(
-        'linkedModules',
+        'items',
         'Item(s)',
         'What type of items were procured',
         false,
@@ -148,14 +142,9 @@ export const columns = [
         null,
         null,
         null,
-        (rowData) => <Grid container gap={1}>
-            {rowData.linkedModules.map(
-                (module, index) => <Grid item key={index}>
-                    <Chip label={module.name || 'Null'} />
-                </Grid>
-            )}
-        </Grid>
+        (rowData) => <POitemsChips data={rowData.items} />
     ),
+
     new Column(
         'status',
         'Status',
@@ -179,19 +168,6 @@ export const columns = [
         null,
         null,
         null,
-        (rowData) => { // ? images can be added with this method
-            const initiatorID = rowData.initiator;
-            const initiator = initiatorData[initiatorID];
-            let fallback = false;
-            if (!initiator) {
-                fallback = initiatorID;
-            }
-
-            return <CellAvatar
-                data={initiator}
-                fallback={fallback}
-                text={initiator?.name ?? initiatorID ?? 'NULL'}
-            />
-        }
+        (rowData) => <POinitiatorBox data={rowData?.initiatorId} options={initiatorData} />
     ),
 ];

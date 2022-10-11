@@ -9,11 +9,16 @@ function RadioWrapper({
     options = [],
     row = false,
     showHelper = false,
+    customHelperText = null,
     ...restProps
 }) {
     // fetching props from the parent component and field input
     const [_, meta] = useField(name);
-    const errorText = meta?.touched && meta?.error;
+    const { touched, error } = meta;
+
+    const isError = !!touched && !!error; // apply error styles in case the input in not valid
+    const errorText = !!touched && error; // apply error styles in case the input in not valid
+    const helperText = customHelperText || errorText; // prioritize the customHelperText over the default error-text
 
     // config Array for Radios' props
     const configArray = options.map(({ value, label }) => { //TODO: change the format of options
@@ -30,7 +35,7 @@ function RadioWrapper({
 
     // config for FormControl - useful for error handling of radios
     const configFormControl = {
-        error: !!errorText,
+        error: isError,
     };
 
     return (
@@ -50,7 +55,7 @@ function RadioWrapper({
                 }
             </RadioGroup>
 
-            {showHelper && <FormHelperText>{errorText || ' '}</FormHelperText>}
+            {showHelper && <FormHelperText>{helperText || ' '}</FormHelperText>}
 
         </FormControl>
     )

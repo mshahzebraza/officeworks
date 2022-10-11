@@ -18,7 +18,7 @@ const deleteModule = async (req, res) => {
                 linkedPOid,
                 {
                     $pull: {
-                        linkedModules: {
+                        items: {
                             item: ObjectId(moduleUUID)
                         }
                     }
@@ -31,7 +31,7 @@ const deleteModule = async (req, res) => {
                 linkedMWOid,
                 {
                     $pull: {
-                        linkedModules: {
+                        items: {
                             item: ObjectId(moduleUUID)
                         }
                     }

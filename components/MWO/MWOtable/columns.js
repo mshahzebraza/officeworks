@@ -94,14 +94,14 @@ export const columns = [
         // flex: 1,
     },
     {
-        field: 'linkedModules', // inv.total
+        field: 'items', // inv.total
         title: 'Item(s)',
         tooltip: 'What modules are to be manufactured',
         sortable: false,
         grouping: false,
         //? Custom Components | Formatters
         render: (rowData) => <Grid container gap={1}>
-            {rowData.linkedModules.map(
+            {rowData.items.map(
                 (module, index) => <Grid item key={index}>
                     <Chip label={module.name || 'Null'} />
                 </Grid>

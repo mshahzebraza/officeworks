@@ -55,10 +55,10 @@ const updateModule = async (req, res) => {
     if (poUUID) {
         // update the module in the moduleList
         const updatedSource = await poModel.findOneAndUpdate(
-            { _id: poUUID/* , "linkedModules.item": moduleUUID */ }, // find the module in which the linkedModules array of the contains an item with the moduleUUID
+            { _id: poUUID/* , "items.item": moduleUUID */ }, // find the module in which the items array of the contains an item with the moduleUUID
             {
                 $set: {
-                    "linkedModules.$[matchingModule]": {
+                    "items.$[matchingModule]": {
                         item: updatedModule._id,
                         ...sourceData
                     },
@@ -89,10 +89,10 @@ const updateModule = async (req, res) => {
     } else if (mwoUUID) {
         // update the module in the moduleList
         const updatedSource = await mwoModel.findOneAndUpdate(
-            { _id: mwoUUID/* , "linkedModules.item": moduleUUID  */ }, // find the module in which the linkedModules array of the contains an item with the moduleUUID
+            { _id: mwoUUID/* , "items.item": moduleUUID  */ }, // find the module in which the items array of the contains an item with the moduleUUID
             {
                 $set: {
-                    "linkedModules.$[matchingModule]": {
+                    "items.$[matchingModule]": {
                         item: updatedModule._id,
                         ...sourceData
                     },

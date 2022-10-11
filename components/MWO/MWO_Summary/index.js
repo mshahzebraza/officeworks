@@ -23,8 +23,8 @@ export default function MWO_Summary({ open: isModalOpen, handleClose: modalClose
                 data={mwoData}
                 dataKeyOptions={{
                     toDelete: ['_id', '__v', 'index'],
-                    toFetch: [['linkedModules', 'item']],
-                    toUpdate: [['mwoId', 'MWO ID'], ['linkedModules', 'Modules Ordered']]
+                    toFetch: [['items', 'item']],
+                    toUpdate: [['mwoId', 'MWO ID'], ['items', 'Modules Ordered']]
                 }}
             />
         </Modal>

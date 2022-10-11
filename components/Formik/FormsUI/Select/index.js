@@ -4,10 +4,13 @@ import { MenuItem, TextField/* , Select */ } from '@mui/material'
 
 function SelectWrapper(props) {
     // fetching props from the parent component and field input
-    const { name, options = [], ...restProps } = props
+    const { name, options = [], showHelper = false, customHelperText = null, ...restProps } = props
 
-    const [_, meta] = useField(name);
-    const errorText = meta?.touched && meta?.error;
+    const [__, meta] = useField(name);
+    const { touched, error } = meta;
+    const isError = !!touched && !!error; // apply error styles in case the input in not valid
+    const errorText = !!touched && error; // apply error styles in case the input in not valid
+    const helperText = customHelperText || errorText; // prioritize the customHelperText over the default error-text
 
 
     // config for SelectWrappper props
@@ -15,8 +18,8 @@ function SelectWrapper(props) {
         name,
         select: true,
 
-        error: !!errorText,
-        helperText: errorText || ' ',
+        error: isError,
+        helperText: showHelper && (helperText || ' '),
         // ...field,
         ...restProps,
         // restProps can override hardcoded default props

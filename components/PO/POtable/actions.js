@@ -97,7 +97,7 @@ const getMTactionEdit = (
 
 
 /**
- * This object tells the MUI-table to create an action button with the configuration 
+ * ? Summary Action Getter 
  * @param  {Function} setModalState=()=>{}
  * @param  {JSX.element} icon=tableIcons.Summary
  * @param  {string} tooltip="SummaryManufacturingRecord"
@@ -115,7 +115,7 @@ const getMTactionSummary = (
         isFreeAction,
         onClick: (event, rowData) => setModalState((prevState) => ({
             ...prevState,
-            summaryDialog: {
+            summaryForm: {
                 ...prevState.summaryDialog,
                 state: true,
                 data: rowData

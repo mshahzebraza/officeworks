@@ -1,7 +1,11 @@
 
-// Input: ['c1','c2','c3']
-// Output: 'c1 c2 c3'
-export function concatStrings(strArr = [], separator = ' ') {
+
+/**
+ * @param  {[String]} strArr ['hello','-','world']
+ * @param  {[{Object}]} separator ' '(default)
+ * @returns {String} 'hello - world'
+ */
+export function concatStringsWith(strArr = [], separator = ' ') {
     return strArr.join(separator).trim();
 }
 
@@ -19,8 +23,6 @@ export function checkArrType(arr = []) {
 export function toSentenceCase(ccString) {
     return _.startCase(ccString);
 }
-
-
 
 // Input: 'Hello There Mister'
 // Output: 'helloThereMister'
@@ -635,8 +637,7 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
 
 
 
-/* Input
-
+/* Input for "summarizer" not "summarizerNew2" - may not be same for summarizerNew2
 {
     refId: 'PO-001', //* String
     totalCost: '$1,000', //* String
@@ -660,18 +661,6 @@ function getOpenInstances(targetIndices, enclosingIndexPairs) {
     parts: [{name: "Ball Lead Screw", qty: 1}, {name: "Screw", qty: 3}] //* Array of objects reqKey @ name
   ]
  */
-export function summarizer(
-    data = {},
-    arrOptions = [/* 
-     [
-         ['commaTags', '___' ], //? concatenate AoS with ___ as separator
-         ['dailySalesRepeated', 'removeUnique'] //? categorize AoS
-          //? Other than this, every AoS will be concatenated with ', '
-          ['AoO_name', 'objKeyToCategorize']
-          //? And every AoO, will first be reduced to AoS (strings being the 'objKeyToCategorize'), then will be categorized 
-       ] */
-    ],
-    objOptions = []
 
 /**
  * The function is used to graphically present a set of data (usually from an object) in key-value pairs.
@@ -737,26 +726,26 @@ export function summarizer(
  * @returns {}
  */
 export function summarizerNew2(
-        {
-            data = {},
-            options = {
-                // ? following 2 keys are the data-keys, and must be considered as data options
-                replaceKeys: [/* ['key-to-be-replaced', 'key-to-replace'] */],// data.key-to-be-replaced -> data.key-to-replace
-                deleteKeys: [/* 'parts', 'qty' */], // delete data.parts, data.qty
-                // ? array options are only focussed on the keys holding array values and hence it is nested
-                array: {
-                    // temporary solution: ideally separator should be allowed to be different for each array
-                    concatSeparator: ', ',
-                    concatenateKeys: [/* 
+    {
+        data = {},
+        options = {
+            // ? following 2 keys are the data-keys, and must be considered as data options
+            replaceKeys: [/* ['key-to-be-replaced', 'key-to-replace'] */],// data.key-to-be-replaced -> data.key-to-replace
+            deleteKeys: [/* 'parts', 'qty' */], // delete data.parts, data.qty
+            // ? array options are only focussed on the keys holding array values and hence it is nested
+            array: {
+                // temporary solution: ideally separator should be allowed to be different for each array
+                concatSeparator: ', ',
+                concatenateKeys: [/* 
                          ['key-1-values-to-concatenate', 'concatSeparatorForKey1'], 
                          ['key-2-values-to-concatenate', 'concatSeparatorForKey2'], 
                     */],
-                    categorizeKeys: [/* 'key-3-values-to-categorize' */],
-                },
-                objectKeysAndPullKeys: {/* key-whose-values-to-categorize: focal-value-of-to-be-pulled */ },
-            }
+                categorizeKeys: [/* 'key-3-values-to-categorize' */],
+            },
+            objectKeysAndPullKeys: {/* key-whose-values-to-categorize: focal-value-of-to-be-pulled */ },
         }
-    ) {
+    }
+) {
     console.log('log 1 - options: ', options)
 
     const concatSeparator = '--'
@@ -770,86 +759,70 @@ export function summarizerNew2(
     // ObjectAndFocalKeys - a collection of keys-values where keys point to the properties of the data-object that are Objects and values point to the nested key to be pulled from that object.
 
     // Delete unwanted keys if any
-    if (objDeleteKeys) {
-        objDeleteKeys.forEach(
-            (key) => data.hasOwnProperty(key) && delete data[key]
-        )
-    }
+    arrDeleteKeys.forEach(
+        (key) => data.hasOwnProperty(key) && delete data[key]
+    )
 
-    // Assuming that the arrOptions & objOptions are both array of arrays with 2 elements
-    const arrOptionsMap = arrOptions && new Map(arrOptions);
-    const objOptionsMap = objOptions && new Map(objOptions);
-    console.log('arrOptionsMap', arrOptionsMap);
-
-    const result = Object.entries(data)
+    const mapArrResult = Object.entries(data)
         .reduce(
-            (acc, [key, val], index/* , arr */) => {
+            // data-key, data-value
+            (acc, [dataKey, val], index/* , arr */) => {
                 let returnValue;
 
-                const valDataType = checkDataType(val);
-
                 // *String
-                if (valDataType !== 'array' && valDataType !== 'object') {
-                    console.log('index: ', index, 'key: ', key, '----  String');
+                // ! why not just check if its a string
+                if (!isArray(val) && !isObject(val)) {
+                    // console.log('index: ', index, 'key: ', key, '----  String');
                     returnValue = val;
                 }
 
                 // *Array of Strings
-                if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
-                    console.log('index: ', index, 'key: ', key, '---- Array of Strings');
+                if (isArrayOfStrings(val)) { //"of strings"
+                    /**
+                        * FLOW:
+                        * Check: if the key is defined for either concatenation or categorization operation
+                        * Check: if the key is not defined in concatenation or categorization operation
+                        * Concat the concat-keys' values
+                        * Categorize the ctg-keys' values
+                        */
 
-                    // If the key is in the arrOptionsMap, then value against that key would be the 'concatenateSeparator', unless the value is 'removeUnique'
-                    const arrOptionDefinedForKey = arrOptionsMap.get(key) || ', ';
-                    const shouldConcatenate = arrOptionDefinedForKey !== 'removeUnique';
-                    // Either concatenate or remove-duplicates-and-categorize the items
-                    returnValue = shouldConcatenate
-                        ? concatStrings(val, arrOptionDefinedForKey)
-                        : removeDuplicateAndCategorize(val);
+                    returnValue = arraySummarize(arrConcatKeys, dataKey, arrCtgKeys, val, concatSeparator);
+
                 }
 
                 // *Array of Objects 
-                if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
-                    console.log('index: ', index, 'key: ', key, '---- Array of Objects');
+                if (isArrayOfObjects(val)) { //"of objects"
+                    /**
+                        * FLOW:
+                        * Check: if the key is defined for categorization operation
+                        * Check: if the focal key is present in all the object entries
+                        * Return the each object with object[focalKey] in the array
+                        */
 
+                    // ObjectAndFocalKeys - a collection of keys-values where keys point to the properties of the data-object that are Objects and values point to the nested key to be pulled from that object.
+                    returnValue = arrayOfObjectsSummarize(objectAndFocalKeySet, dataKey, val);
+                }
 
-                    const selectedKeyToCategorize = arrOptionsMap.get(key) || false;
-                    if (!selectedKeyToCategorize) return acc // Don't bother to return anything at all against the current-data-key, if no key is selected from the objects in AoO
-
-                    // filter only the required key'values from the each element of array of objects and return an array of strings
-                    returnValue = removeDuplicateAndCategorize(
-                        val.map(AoOitem => AoOitem[selectedKeyToCategorize])
-                    )
-
+                // *Array with zero length
+                if (isEmptyArray(val)) {
+                    returnValue = [];
                 }
 
                 // *Object 
                 // TODO: review and add support for nested objects of strings/numbers
-                if (valDataType === 'object') {
+                if (isObject(val)) {
                     returnValue = val
                 }
 
-                // *Object Options - key replacement
-                // replace the key with the value of the objOptionsMap
-                // Check:-
-                // Is the current key included in objOptionsMap
-                // If yes then get the value of map and replace the existing key with the value of map against the key
-                if (objOptions) {
-                    const objOptionDefinedForKey = objOptionsMap.get(key) || false;
-                    if (objOptionDefinedForKey) {
-                        key = objOptionDefinedForKey;
-                        // returnValue = returnValue[objOptionDefinedForKey];
-                    }
-                }
+                // *Data key replacement
+                const currentKeyReplacement = replaceKeysMap.get(dataKey)
+                if (!!currentKeyReplacement) { dataKey = currentKeyReplacement }
 
-                // *Array with zero length
-                if (valDataType === 'array' && val.length === 0) {
-                    returnValue = [];
-                }
-
-                acc.push([key, returnValue]);
+                acc.push([dataKey, returnValue]);
                 return acc;
             }, [])
 
+    const result = Object.fromEntries(mapArrResult)
     return result
 
 }
@@ -892,210 +865,163 @@ function arrayOfObjectsSummarize(objectAndFocalKeySet, dataKey, val) {
                 }
             );
         }
+
+        const listOfNestedCtgKeyValues = mapAndPullFrom(val, focalNestedKey);
+        return getItemFrequencyObject(listOfNestedCtgKeyValues);
+    }
+}
+
+function arraySummarize(arrConcatKeys, dataKey, arrCtgKeys, val, concatSeparator) {
+
+    // Checks
+    if (arrConcatKeys.includes(dataKey) && arrCtgKeys.includes(dataKey))
+        throw new Error('Array can either be concatenated or categorized. Not Both');
+
+    if (!arrConcatKeys.includes(dataKey) && !arrCtgKeys.includes(dataKey))
+        throw new Error(`Define the operation (concatenate/categorize) of array-of-strings (key: "${dataKey}")`);
+    // Check if the values for concatenation are strings/numbers only otherwise return error
+    // values for ctg can be anything
+
+    // Logic
+    // todo: key's value to concatenate
+    if (arrConcatKeys.includes(dataKey)) {
+        // const concatSeparator = arrConcatMap.get(key) || ', ';
+        return concatStringsWith(val, concatSeparator);
+    }
+
+    // todo: key's value to categorize
+    if (arrCtgKeys.includes(dataKey)) {
+        return getItemFrequencyObject(val);
+    }
+}
+
+
+function isString(val) {
+    return checkDataType(val) === 'string'
+}
+
+function isNumber(val) {
+    return checkDataType(val) === 'number'
+}
+
+function isArray(val) {
+    return checkDataType(val) === 'array'
+}
+
+function isEmptyArray(val) {
+    return checkDataType(val) === 'array' && val.length === 0
+}
+
+function isObject(val) {
+    return checkDataType(val) === 'object'
+}
+
+function isArrayOfStrings(val) {
+    if (isArray(val) && val.every(arrayItem => isString(arrayItem))) return true
+    return false
+}
+
+function isArrayOfNumbers(val) {
+    if (isArray(val) && val.every(arrayItem => isNumber(arrayItem))) return true
+    return false
+}
+function isArrayOfObjects(val) {
+    if (isArray(val) && val.every(arrayItem => isObject(arrayItem))) return true
+    return false;
+}
+
+
+/**
+ * De-Dupe an array of primary-data-types and map the frequency of all items to the item as key
+ * @param  {[String]} items ['itemA', 'itemA', 'itemB', 'itemB', 'itemC']
+ * @returns {{}} { itemA: 2, itemB: 2, itemC: 1 }
+ */
+
+function getItemFrequencyObject(items) {
+    if (!isArrayOfStrings(items) && !isArrayOfNumbers(items)) throw new Error(`invalid input passed to getItemFrequencyObject. Input-Type: ${checkDataType(items)}`);
+    if (!items.length) throw new Error('empty array');
+
+    /**
+     * checks each string-item and increments qty if already exists in prevStrObj otherwise create a new property of the string with 1 as value
+     * @param  {{itemId: itemQty}} prevStrObj this is the object that will store each itemId as key and no. of iterations of the item as its value 
+     * prevStrObj = {
+     *    string1: string1Qty,
+     *    string2: string2Qty,
+     * }
+     * @param  {} curStr the current string in the iteration cycle
+     */
+    function itemsReducer(oldFrequencyObject, curItem) {
+        // FLOW
+        /**
+         * 1. Check: if NOT A PrimaryDataType => throw Error: "Only Primary Data-Type Items supported for 'getItemFrequencyObject'"
+         * 2. find the frequency of current-string in the frequency-object; default to 0 if not found
+         * 3. increment the current-string-frequency by 1 (for new item 0+1=1)
+         * 4. return frequency-object
+         */
+        const oldFrequency = oldFrequencyObject[curItem] || 0;
+        oldFrequencyObject[curItem] = oldFrequency + 1
+        return oldFrequencyObject;
+    }
+    // reduces string to an object with each key mapped to a string and each value mapped to repetition in array 
+    const finalFrequencyObject = items.reduce(itemsReducer, {});
+
+    return finalFrequencyObject;
+
+}
+
+
+
+/* Input
+mapData =[
+  keyA: 'valueA',
+  keyB: 'valueB',
+],
+replaceOptions = [
+  ['keyA', 'newKeyA'],
+  ['keyB', 'newKeyB']
+]
+ */
+/* Output: A Map
+  [
+    'newKeyA': 'valueA',
+    'newKeyB': 'valueB'
+  ]
+ */
+// ? Replaces the keys of a Map
+export const replaceKeysMap = (mapData = [], replaceOptions = []) => {
+    // Making sure the mapData is an Array of Arrays and not a Map
+    mapData = [...mapData];
+
+    replaceOptions.forEach(
+        ([key, newKey]) => {
+            // generate an array of keys from a duplicated data
+            const keyArr = [...new Map(mapData).keys()]
+
+            const matchIdx = keyArr.findIndex(
+                el => el === key
+            )
+            mapData[matchIdx]?.[0] = newKey
+        }
     )
-
-        // 3. All the array-holding, non-categorizeKeys must be concatenated with ', ', unless the current key is specified in the options.array.concatenateKeys with a special 'concatenateSeparator'
-        //? concatenate keys contain a map, keys of which are the keys to be concatenated and values are the concatenation separators
-        const concatMap = new Map(options.array.concatenateKeys);
-        const concatKeysArr = [...concatMap.keys()];
-
-        // concatenate all the array-keys (except the categorizeKeys which have already been removed from allArrKeys)
-        allArrKeys.forEach(
-            (key) => {
-                const val = data[key];
-                let concatSeparator = ', ';
-                // if concatSeparator is specifically defined for any of the keys, then use that to concatenate. Otherwise use ', ' to concatenate.
-                if (concatKeysArr.includes(key)) {
-                    concatSeparator = concatMap.get(key);
-                }
-                // replace the data-key with the concatenated string
-                data[key] = concatStrings(val, concatSeparator);
-            }
-        )
-
-        // 4. Replace the key-names with the values of the options.replaceKeys
-        options.replaceKeys.forEach(
-            (key) => {
-                const [oldKey, newKey] = key;
-                // check if data has the key to be replaced
-                if (data.hasOwnProperty(oldKey)) {
-                    const val = data[oldKey];
-                    data[newKey] = val;
-                    delete data[oldKey];
-                }
-            }
-        )
+    return mapData;
+}
 
 
-        if (!arrConcatKeys.includes(dataKey) && !arrCtgKeys.includes(dataKey))
-            throw new Error(`Define the operation (concatenate/categorize) of array-of-strings (key: "${dataKey}")`);
-        // Check if the values for concatenation are strings/numbers only otherwise return error
-        // values for ctg can be anything
-
-        return data;
+export async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
     }
+}
 
-    export function summarizerNew2(
-        data = {},
-        options = {
-            // ? following 2 keys are the data-keys, and must be considered as data options
-            replaceKeys: [/* ['key-to-be-replaced', 'key-to-replace'] */],// data.key-to-be-replaced -> data.key-to-replace
-            deleteKeys: [/* 'parts', 'qty' */], // delete data.parts, data.qty
-            // ? array options are only focussed on the keys holding array values and hence it is nested
-            array: {
-                concatenateKeys: [/* 
-                         ['key-1-values-to-concatenate', 'concatSeparatorForKey1'], 
-                         ['key-2-values-to-concatenate', 'concatSeparatorForKey2'], 
-                    */],
-                categorizeKeys: [/* 'key-3-values-to-categorize' */],
-            },
-            nestedArrayOfObjects: [/* ['key-4-object-values-to-categorize', 'the focal key of the objects to be categorized'] */],
-        }
-    ) {
+export function badRequest(requestMessage) {
+    return res.status(200).json({
+        success: false,
+        message: requestMessage,
+        data: null,
+        error: requestMessage
+    })
+}
 
-        const arrDeleteKeys = options.deleteKeys; //? these keys will be deleted
-        const replaceKeysMap = new Map(options.replaceKeys); //? these key-names will be replaced
-        const arrConcatMap = new Map(options.array.concatenateKeys); //? custom concatenation separators
-        const arrCtgKeys = options.array.categorizeKeys; //? will always be categorized
-        const arrNestedMap = new Map(options.nestedArrayOfObjects); //? will always be categorized after fetching the specified nested key
-
-        // Delete unwanted keys if any
-        arrDeleteKeys.forEach(
-            (key) => data.hasOwnProperty(key) && delete data[key]
-        )
-
-        const mapArrResult = Object.entries(data)
-            .reduce(
-                // data-key, data-value
-                (acc, [key, val], index/* , arr */) => {
-                    let returnValue;
-
-                    const valDataType = checkDataType(val);
-
-                    // *String
-                    if (valDataType !== 'array' && valDataType !== 'object') {
-                        // console.log('index: ', index, 'key: ', key, '----  String');
-                        returnValue = val;
-                    }
-
-                    // *Array of Strings
-                    if (valDataType === 'array' && checkArrType(val) === 'string') { //"of strings"
-                        // console.log('index: ', index, 'key: ', key, '---- Array of Strings');
-
-                        // If the key is in the arrOptionsMap, then value against that key would be the 'concatenateSeparator', unless the value is 'removeUnique'
-                        const shouldCategorize = arrCtgKeys.includes(key);
-                        if (shouldCategorize) {
-                            returnValue = removeDuplicateAndCategorize(
-                                val,
-                                shouldCategorize
-                            );
-                        } else {
-                            const concatSeparator = arrConcatMap.get(key) || ', ';
-                            returnValue = concatStrings(val, concatSeparator);
-                        }
-                    }
-
-                    // *Array of Objects 
-                    if (valDataType === 'array' && checkArrType(val) === 'object') { //"of objects"
-                        // console.log('index: ', index, 'key: ', key, '---- Array of Objects');
-
-                        const nestedCtgKey = arrNestedMap.get(key);
-                        if (!nestedCtgKey) {
-                            console.error('No categorization options found for key: ', key);
-                            // returnValue = val; //? if you want to keep the AoO data intact
-                            return acc //? if you want to remove the array of objects in the final data
-                        }
-
-                        // check if the nestedCtgKey is really present in the val present in AoO
-                        const isNestedKeyPresentInAllObjects = val.every(obj => obj.hasOwnProperty(nestedCtgKey));
-                        if (!isNestedKeyPresentInAllObjects) {
-                            console.error('nestedCtgKey: ', nestedCtgKey, ', is not present in all objects');
-                            returnValue = val
-                        };
-
-                        if (nestedCtgKey) {
-                            const listOfNestedCtgKeyValues = val.map(AoOitem => AoOitem[nestedCtgKey])
-                            returnValue = removeDuplicateAndCategorize(listOfNestedCtgKeyValues);
-                        }
-                    }
-
-                    // *Array with zero length
-                    if (valDataType === 'array' && val.length === 0) {
-                        returnValue = [];
-                    }
-
-                    // *Object 
-                    // TODO: review and add support for nested objects of strings/numbers
-                    if (valDataType === 'object') {
-                        returnValue = val
-                    }
-
-                    // *Data key replacement
-                    const currentKeyReplacement = replaceKeysMap.get(key)
-                    if (!!currentKeyReplacement) { key = currentKeyReplacement }
-
-                    acc.push([key, returnValue]);
-                    return acc;
-                }, [])
-
-        const result = Object.fromEntries(mapArrResult)
-        return result
-
-    }
-
-
-
-    /* Input
-    mapData =[
-      keyA: 'valueA',
-      keyB: 'valueB',
-    ],
-    replaceOptions = [
-      ['keyA', 'newKeyA'],
-      ['keyB', 'newKeyB']
-    ]
-     */
-    /* Output: A Map
-      [
-        'newKeyA': 'valueA',
-        'newKeyB': 'valueB'
-      ]
-     */
-    // ? Replaces the keys of a Map
-    export const replaceKeysMap = (mapData = [], replaceOptions = []) => {
-        // Making sure the mapData is an Array of Arrays and not a Map
-        mapData = [...mapData];
-
-        replaceOptions.forEach(
-            ([key, newKey]) => {
-                // generate an array of keys from a duplicated data
-                const keyArr = [...new Map(mapData).keys()]
-
-                const matchIdx = keyArr.findIndex(
-                    el => el === key
-                )
-                mapData[matchIdx]?.[0] = newKey
-            }
-        )
-        return mapData;
-    }
-
-
-    export async function asyncForEach(array, callback) {
-        for (let index = 0; index < array.length; index++) {
-            await callback(array[index], index, array);
-        }
-    }
-
-    export function badRequest(requestMessage) {
-        return res.status(200).json({
-            success: false,
-            message: requestMessage,
-            data: null,
-            error: requestMessage
-        })
-    }
-
-    // generate a next fetcher
-    export const fetcher = (...args) => fetch(...args).then(res => res.json())
+// generate a next fetcher
+export const fetcher = (...args) => fetch(...args).then(res => res.json())
 

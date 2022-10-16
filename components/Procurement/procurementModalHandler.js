@@ -3,10 +3,7 @@ import PO_Summary from "../PO/PO_Summary";
 import Source_Form from "./Forms/Source_Form";
 
 export default function getActiveProcurementModals(allModalState, setAllModalState, procurementType) {
-    if (!procurementType) {
-        throw new Error('procurementType is not Defined for getActiveModals');
-        return null;
-    }
+    if (!procurementType) throw new Error('procurementType is not Defined for getActiveModals');
 
     return [
         <AddForm
@@ -52,7 +49,6 @@ const AddForm = ({ allModalState, setAllModalState, procurementType }) => {
 }
 
 const EditForm = ({ allModalState, setAllModalState, procurementType }) => {
-    // console.log('EditFormModalState: ', allModalState.editForm.data);
 
     return (
 
@@ -74,6 +70,7 @@ const EditForm = ({ allModalState, setAllModalState, procurementType }) => {
 }
 
 const SummaryDialog = ({ allModalState, setAllModalState, procurementType }) => {
+
     const SummaryComponent = procurementType === 'po'
         ? PO_Summary
         : MWO_Summary;

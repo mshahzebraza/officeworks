@@ -826,8 +826,20 @@ export function summarizerNew2(
     return result
 
 }
+/**
+ * 
+ * @param  {} objectAndFocalKeySet  a collection of keys-values where keys point to the properties of the data-object that are Objects and values point to the nested key to be pulled from that object.
+ * @example 
+ * `{ 
+ *      object1:keyA, 
+ *      object2: keyB
+ * }`
+ * basically means that for array-of-object1, pull keyA from each object and for array-of-object2, pull keyB from each object
+ * @param  {} dataKey - current key from the data-object. used to fetch focalKey for that "Array of Objects"
+ * @param  {} val
+ */
 
-function arrayOfObjectsSummarize(objectAndFocalKeySet, dataKey, val) {
+export function arrayOfObjectsSummarize(objectAndFocalKeySet, dataKey, val) {
     const focalNestedKey = objectAndFocalKeySet[dataKey];
     if (!focalNestedKey)
         throw new Error(`Define the focal-key for categorization of array-of-objects for data-key: "${dataKey}"`);

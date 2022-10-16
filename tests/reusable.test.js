@@ -1,5 +1,5 @@
 // ES6 import syntax also works
-import { checkDataType, summarizerNew2 } from '../helpers/reusable'
+import { arrayOfObjectsSummarize, checkDataType, summarizerNew2 } from '../helpers/reusable'
 
 // checkDataType
 test('test checkDataType against all possible data input types', () => {
@@ -18,14 +18,35 @@ test('test checkDataType against all possible data input types', () => {
     )
 });
 
-// checkDataType
-test('test summarizerNew2 against all possible data input types', () => {
+
+// arrayOfObjectsSummarize
+test('test arrayOfObjectsSummarize against all possible data input types', () => {
     [
-        [[{}, {}], {}],
+        [[
+            { myObject: 'myNestedKey' },
+            'myObject',
+            [
+                { myNestedKey: 'hello' },
+                { myNestedKey: ['my', 'name', 'is', 'shahzeb'] },
+                {
+                    myNestedKey: {
+                        keyName: 'mNnestedKey3',
+                        type: "object"
+                    }
+                },
+            ]
+        ], [
+            'hello',
+            ['my', 'name', 'is', 'shahzeb'],
+            {
+                keyName: 'mNnestedKey3',
+                type: "object"
+            }
+        ]],
     ].forEach(
         pair => {
             const [inputParams, expectedResult] = pair;
-            expect(summarizerNew2(...inputParams)).toMatchObject(expectedResult);
+            expect(arrayOfObjectsSummarize(...inputParams)).toMatchObject(expectedResult);
         }
     )
 });

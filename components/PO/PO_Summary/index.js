@@ -9,7 +9,8 @@ import { Summarize } from '../../UI/Summarize/Summarize';
 
 
 export default function PO_Summary({ open: isModalOpen, handleClose: modalCloser, data: poData }) {
-    console.log('poData: ', poData)
+
+    // console.log('poData', poData);
     if (!poData) return 'no data received ...';
     return (
         <Modal

@@ -1,6 +1,6 @@
 import { Form } from 'formik'
 import React, { useState } from 'react'
-import { concatStringsWith } from '../../helpers/reusable'
+import { concatStrings } from '../../helpers/reusable'
 import FormikStepControls from './FormikStepControls';
 
 const FormikForm = ({ children, outerClasses = [], multiStage = false, stepOptions = [], ...restProps }) => {
@@ -52,7 +52,7 @@ const FormikForm = ({ children, outerClasses = [], multiStage = false, stepOptio
 
 
     return (
-        <Form className={concatStringsWith([styles.form, ...outerClasses])} autoComplete='off'  {...restProps}>
+        <Form className={concatStrings([styles.form, ...outerClasses])} autoComplete='off'  {...restProps}>
 
             {children[activeStep]}
 

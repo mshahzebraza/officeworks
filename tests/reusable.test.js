@@ -22,27 +22,44 @@ test('test checkDataType against all possible data input types', () => {
 // arrayOfObjectsSummarize
 test('test arrayOfObjectsSummarize against all possible data input types', () => {
     [
+        // First Input/Output Pair
         [[
             { myObject: 'myNestedKey' },
             'myObject',
             [
+                { myNestedKey: 'hello1' },
                 { myNestedKey: 'hello' },
-                { myNestedKey: ['my', 'name', 'is', 'shahzeb'] },
-                {
-                    myNestedKey: {
-                        keyName: 'mNnestedKey3',
-                        type: "object"
-                    }
-                },
+                { myNestedKey: 'hello' },
             ]
-        ], [
-            'hello',
-            ['my', 'name', 'is', 'shahzeb'],
-            {
-                keyName: 'mNnestedKey3',
-                type: "object"
-            }
-        ]],
+        ],
+        // After categorization - But is it needed ? Think of the use-cases
+        {
+            hello1: 1,
+            hello: 2
+        },
+        ],
+        // Second Input/Output Pair
+        // [[
+        //     { myObject: 'myNestedKey' },
+        //     'myObject',
+        //     [
+        //         { myNestedKey: 'hello' },
+        //         { myNestedKey: ['my', 'name', 'is', 'shahzeb'] },
+        //         {
+        //             myNestedKey: {
+        //                 keyName: 'mNnestedKey3',
+        //                 type: "object"
+        //             }
+        //         },
+        //     ]
+        // ], [
+        //     'hello',
+        //     ['my', 'name', 'is', 'shahzeb'],
+        //     {
+        //         keyName: 'mNnestedKey3',
+        //         type: "object"
+        //     }
+        // ]],
     ].forEach(
         pair => {
             const [inputParams, expectedResult] = pair;

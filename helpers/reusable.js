@@ -879,6 +879,9 @@ export function arrayOfObjectsSummarize(objectAndFocalKeySet, dataKey, val) {
         }
 
         const listOfNestedCtgKeyValues = mapAndPullFrom(val, focalNestedKey);
+        console.log('testing ...')
+        console.log('listOfNestedCtgKeyValues: ', listOfNestedCtgKeyValues)
+
         return getItemFrequencyObject(listOfNestedCtgKeyValues);
     }
 }

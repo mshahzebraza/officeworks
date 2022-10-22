@@ -1,108 +1,81 @@
 import { Grid } from "@mui/material";
 import { checkDataType, deepClone, replaceKeysMap, toSentenceCase } from "../../../helpers/reusable";
 import { summarizer } from "../../../helpers/summarizer";
+import { SummaryItemAoO, SummaryItemPrimary } from "./newSummaryItem";
 import styles from './Summarize.module.scss'
-import { SummaryItem } from "./SummaryItem";
+// import { SummaryItem } from "./SummaryItem";
 
 /**
  * Renders the pairs as Grids Elements for primary data types
  * In case an array of object is passed, the object must be viewed as a table
- * @param {*} param0 
- * @returns 
+ * 
+ * @param  {} data
+ * @param  {} config
+ * @param  {} viewRawData
+ * 
  */
-export function Summarize(
-    {
-        data,
-        //? if true, will use SummaryItem as a child. Use When custom entries are required
-        CustomSummaryItem = SummaryItem,
-        //? Only pass the keys which are available in the data. 
-        dataKeyOptions = {
-            //? Will not show in the final Summary Modal
-            toDelete: [], // array of strings // ['keyToDelete'] 
-            //? Any nested Keys from AoOs to be categorized and shown in the final Summary Modal
-            toFetch: [], // array of array of strings // [['objKey', 'nestedKeyToFetch']]
-            //? to Replace keys with new ones in the final Summary Modal
-            toUpdate: [] // array of array of strings // [['keyToUpdate', 'replacementValue']]
-        }
-    }
-) {
 
-    const mockData = {
-        id: 'hello my id',
-        unrelated: 'adskodao adosk a',
-        source: 'foreign',
-        // items: [
-        //     { id: 'J64SY700C', qty: 25, unitPrice: 400, currency: 'USD' }
-        // ]
-    }
-    const mockConfig = {
-        renameKeys: [['id', 'Product ID']],
-        deleteKeys: ['unrelated'],
-        // concatenatePrimary: [],
-        // renderCustomComponents: [
-        //     ['items', customJsxForItems]
-        // ]
-    }
-    // const customComponents = {
-    //     items: <CustomRenderComponentForItems/>
-    // }
-    const summarizedDataArr = summarizer({
-        data: mockData,
-        renderConfig: mockConfig,
-        // viewRawData: false
+export function Summarize({
+    data,
+    config,
+    viewRawData = false
+}) {
+    if (viewRawData) return renderRawData(data)
+    if (!data) throw new Error('No Data received in Summarize!')
+    if (!config) throw new Error('No configuration received in Summarize!')
+
+    // data = deepClone(data);
+
+    // deleteKeys(config.deleteKeys, dataCopy);
+    // wrap the label & values in JSX. 
+    // The type of wrapping JSX is decided based on the passed config props
+    const resultEntries = Object.entries(data).map(([label, value], idx) => {
+        // Also check if label needs to be renamed.
+        const CustomSummaryItem = config.render[label] || config.render.default;
+
+        // Delete if necessary and return null
+        if (config.deleteKeys.includes(label)) return null;
+
+        // Rename if necessary
+        if (config.renameKeys[label]) label = config.renameKeys[label];
+
+        // label = getRenamedLabelIfNecessary(config.renameKeys, label)
+        return <CustomSummaryItem key={idx} label={label} value={value} />
     })
 
-    return (
-        summarizedDataArr.map((dataSet, idx) => {
-            const { label, value, type } = dataSet
-            // check the type of value
-            const SummaryItemJSX = summaryItemHandlers[type];
-            return (<PrimaryDataSummaryItem label={label} value={value} key={idx} />)
-        })
-    )
-}
+    // renameKeys(config.renameKeys, dataCopy);
 
-const summaryItemHandlers = {
-    string: PrimaryDataSummaryItem,
-    number: PrimaryDataSummaryItem,
-    arrayOfObjects: AoODataSummaryItem
-    // object:
-    // arrayOfObjects:
-    // arrayOfStrings:
-    // arrayOfNumbers:
+    // return result;
+    return <Grid container direction={'column'} gap={1} > {resultEntries}</Grid >
 
 }
-// console.log('summarizedData: ', summarizedData)
-function PrimaryDataSummaryItem({ label, value, ...rest }) {
-    return (
-        <Grid container {...rest}>
-            <Grid item xs={4}>{label}</Grid>
-            <Grid item xs={8}>{value}</Grid>
-        </Grid>
-    )
+
+function renderRawData(data) {
+    return <pre>
+        {JSON.stringify(data, null, 2)}
+    </pre>;
 }
-function AoODataSummaryItem({ label, value: AoOdata }) {
-    return (
-        <Grid container >
-            <Grid item xs={4} >{label}</Grid>
-            <Grid item xs={12} container >
-                <Grid item xs={2}>Type</Grid>
-                <Grid item xs={2}>ID</Grid>
-                <Grid item xs={2}>Price</Grid>
-                <Grid item xs={6}>Remarks</Grid>
-            </Grid>
-            {
-                AoOdata.map(object => {
-                    return (
-                        <Grid item xs={12} container >
-                            <Grid item xs={2}>Type</Grid>
-                            <Grid item xs={2}>ID</Grid>
-                            <Grid item xs={2}>Price</Grid>
-                            <Grid item xs={6}>Remarks</Grid>
-                        </Grid>
-                    )
-                })
-            }
-        </Grid>
-    )
+
+function getRenamedLabelIfNecessary(keysToRename, label) {
+    // get the updatedLabel against the existing label
+    const updatedLabel = keysToRename[label] || label
+    return updatedLabel;
+}
+
+function renameKeys(keysToRename, data) {
+    keysToRename.forEach(
+        ([key, newKey]) => {
+            if (!data.hasOwnProperty(key))
+                return null;
+            const temp = data[key];
+            delete data[key];
+            data[newKey] = temp;
+        }
+    );
+}
+
+function deleteKeys(keysToDelete, data) {
+    keysToDelete.forEach(
+        (key) => data.hasOwnProperty(key) && delete data[key]
+    );
 }

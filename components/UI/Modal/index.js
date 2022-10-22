@@ -10,7 +10,7 @@ import { ModalActions } from "./ModalActions";
  * @param  {} open=true
  * @param  {} handleClose
  * @param  {} handleSubmit
- * @param  {} closeProps
+ * @param  {} closeProps - { text, hidden, ...buttonProps }
  * @param  {} submitProps
  * @param  {Boolean} [hideActions=true] - set to FALSE if component is rendered in ModalContent-children (i.e. if access to formik Props is needed)
  */

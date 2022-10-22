@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import { arrayOfObjectsSummarize } from "./arrayOfObjectsSummarize";
 import { arraySummarize } from "./arraySummarize";
 import { isArray, isObject, isArrayOfStrings, isArrayOfObjects, isEmptyArray } from "./reusable";
@@ -96,35 +97,126 @@ export function summarizerNew2(
     {
         data = {}, options = {
             // ? following 2 keys are the data-keys, and must be considered as data options
+            // delete the keys
+            deleteProperties: [],
+            // rename the keys
+            renameProperties: [],
+            // manipulate the values (array) against the keys and return a concatenated string
+            concatArrProperties: [{ name: 'keyName' }],
+
+            // manipulate the values (array) against the keys and return an array of objects
+            ctgArrProperties: [{ name: 'keyName' }],
+
+            // manipulate the values (array of objects) against the keys and return an array of nested values against a specific key
+            pullDataArrObjProperties: [{ objKey: 'arrObjDataKey', name: 'specific_Nested_Key' }],
+            // manipulatePropertiesArrPrimary: [{name}],
+            // manipulatePropertiesArrReference: [],
+
             replaceKeys: [ /* ['key-to-be-replaced', 'key-to-replace'] */],
             deleteKeys: [ /* 'parts', 'qty' */],
+
+            // arrDataConcat:[],
+            // arrDataCtg:[],
+            // arrObjDataPull:[],
 
             // ? array options are only focussed on the keys holding array values and hence it is nested
             array: {
                 // temporary solution: ideally separator should be allowed to be different for each array
-                concatSeparator: ', ',
-                concatenateKeys: [ /*
+                concatSeparator= ', ',
+                concatenateKeys: [] = [ /*
                  ['key-1-values-to-concatenate', 'concatSeparatorForKey1'],
                  ['key-2-values-to-concatenate', 'concatSeparatorForKey2'],
             */],
-                categorizeKeys: [ /* 'key-3-values-to-categorize' */],
-            },
-            objectKeysAndPullKeys: { /* key-whose-values-to-categorize: focal-value-of-to-be-pulled */ },
+                categorizeKeys: [ /* 'key-3-values-to-categorize' */] = [],
+            } = {},
+            objectKeysAndPullKeys: { /* key-whose-values-to-categorize: focal-value-of-to-be-pulled */ } = {},
         }
     }
 ) {
     console.log('log 1 - options: ', options);
+    console.log('log 1 - data: ', data);
+
+    const renameKeys = [['oldKeyName', 'newKeyName']]
+    const deleteKeys = ['keyToDelete1', 'keyToDelete2']
+    const concatenatePrimary = []
+    const categorizePrimary = []
+    const pullAndReplaceNested = []
+
+    const customJsxForItems = ({ items: [] }) => {
+        return (
+            <Grid container >
+                <Grid item container xs={12} >
+                    <Grid item xs={2}>Type</Grid>
+                    <Grid item xs={2}>ID</Grid>
+                    <Grid item xs={2}>Price</Grid>
+                    <Grid item xs={6}>Remarks</Grid>
+                </Grid>
+                {
+                    items.map(item => {
+                        return (
+                            <Grid container >
+                                <Grid item xs={2}>Type</Grid>
+                                <Grid item xs={2}>ID</Grid>
+                                <Grid item xs={2}>Price</Grid>
+                                <Grid item xs={6}>Remarks</Grid>
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
+        )
+    }
+
+    const myModuleList = [
+        { type: 'motor', id: 'J52SY350A' },
+        { type: 'motor', id: 'J64SY700C' },
+        { type: 'screw', id: 'M5x12' },
+        { type: 'potentiometer', id: 'MSL-130-100-S-N' },
+    ]
+    const myData = {
+        id: 'hello my id',
+        unrelated: 'adskodao adosk a',
+        source: 'foreign',
+        // items: [
+        //     { id: 'J64SY700C', qty: 25, unitPrice: 400, currency: 'USD' }
+        // ]
+    }
+    const myConfig = {
+        renameKeys: [['id', 'Product ID']],
+        deleteKeys: ['unrelated'],
+        // concatenatePrimary: [],
+        // renderCustomComponents: [
+        //     ['items', customJsxForItems]
+        // ]
+    }
+
+    myConfig.deleteKeys.forEach(
+        (key) => myData.hasOwnProperty(key) && delete data[key]
+    );
+    myConfig.renameKeys.forEach(
+        ([key, newKey]) => {
+            if (!myData.hasOwnProperty(key)) return null;
+            const temp = data[key];
+            delete data[key];
+            data[newKey] = temp;
+        }
+    );
+
+    return Object(myData).entries.map(([dataKey, dataValue]) => (
+        <Grid container>
+            <Grid item xs={4}>{dataKey}</Grid>
+            <Grid item xs={8}>{dataValue}</Grid>
+        </Grid>
+    ))
 
     const concatSeparator = '--';
     const arrDeleteKeys = options.deleteKeys; //? these keys will be deleted
 
     // NOT WORKING
-    const replaceKeysMap = new Map(options.replaceKeys); //? these key-names will be replaced
-    const arrCtgKeys = options.array.categorizeKeys; //? will always be categorized
-    const arrConcatKeys = options.array.concatenateKeys; //? will always be categorized
-    const objectAndFocalKeySet = options.objectKeysAndPullKeys; //? will always be categorized after fetching the specified nested key
-
-
+    const replaceKeysMap = new Map(options?.replaceKeys); //? these key-names will be replaced
+    const arrCtgKeys = options?.array?.categorizeKeys; //? will always be categorized
+    const arrConcatKeys = options?.array?.concatenateKeys; //? will always be categorized
+    const objectAndFocalKeySet = options?.objectKeysAndPullKeys; //? will always be categorized after fetching the specified nested key
 
 
     // ObjectKeysWithFocalKeyMap
@@ -200,6 +292,8 @@ export function summarizerNew2(
             }, []);
 
     const result = Object.fromEntries(mapArrResult);
+    console.log('log 1 - result: ', result);
+
     return result;
 
 }

@@ -6,11 +6,10 @@ export function SummaryItem({ label, value, ...rest }) {
     let containsNestedItems = false;
     if (checkDataType(value) !== 'string' && checkDataType(value) !== 'number') containsNestedItems = true
     // if (!checkDataType(value) === 'string' && !checkDataType(value) === 'number') 
-    console.log('sss', value)
 
     return (
         <Grid container {...rest} sx={{
-            "&:nth-child(even)": {
+            "&:nth-of-type(even)": {
                 // border: '1px dashed red',
                 background: '#f4f4f4'
             },

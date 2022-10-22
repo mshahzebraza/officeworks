@@ -10,36 +10,14 @@ import { SummaryItem } from '../../UI/Summarize/newSummaryItem';
 import { Grid } from '@mui/material'
 
 
+
 export default function PO_Summary({
     open: isModalOpen,
     handleClose: modalCloser,
     data: poData,
-    config = {
-        // toFetch: [['items', 'item']],
-        // new config ... 
-        deleteKeys: ['id', '_id', '__v', 'index', 'tableData'],
-        // renameKeys: [['refId', 'referenceID'], ['category', 'PO Category'], ['items', 'Modules Procured']],
-        renameKeys: {
-            refType: 'Reference Type',
-            refId: 'Reference ID',
-            category: 'PO Category',
-            fulfillmentSource: 'Fulfillment Source',
-            currency: 'Currency',
-            totalCost: 'Total Cost',
-            status: 'Status',
-            initiatorId: 'Initiator ID',
-            supplier: 'Supplier',
-            items: 'Procured Modules',
-            remarks: 'Remarks',
-            id: 'ID',
-        },
-        render: {
-            default: ({ label, value }) => <SummaryItem label={label} value={value} />,
-            items: ({ label, value }) => <SummaryItem label={label} value={<SummaryItemValue_Items value={value} />} />,
-            status: ({ label, value }) => <SummaryItem label={label} value={`phase-${value}`} />,
-        }
-        // pullNested: []
-    }
+    // the default config for PO-schema
+    config = defaultPOsummaryConfig,
+    viewRawData = false
 
 }) {
     // ! Add the component logic here
@@ -61,11 +39,36 @@ export default function PO_Summary({
             <Summarize
                 data={poData}
                 config={config}
-            // viewRawData
+                viewRawData={viewRawData || !config}
             />
 
         </Modal>
     )
+}
+
+const defaultPOsummaryConfig = {
+    // new config ... 
+    deleteKeys: ['id', '_id', '__v', 'index', 'tableData'],
+    renameKeys: {
+        refType: 'Reference Type',
+        refId: 'Reference ID',
+        category: 'PO Category',
+        fulfillmentSource: 'Fulfillment Source',
+        currency: 'Currency',
+        totalCost: 'Total Cost',
+        status: 'Status',
+        initiatorId: 'Initiator ID',
+        supplier: 'Supplier',
+        items: 'Procured Modules',
+        remarks: 'Remarks',
+        id: 'ID',
+    },
+    render: {
+        default: ({ label, value }) => <SummaryItem label={label} value={value} />,
+        items: ({ label, value }) => <SummaryItem label={label} value={<SummaryItemValue_Items value={value} />} />,
+        status: ({ label, value }) => <SummaryItem label={label} value={`phase-${value}`} />,
+    }
+    // pullNested: []
 }
 
 export function SummaryItemValue_Items({ value: AoOdata }) {

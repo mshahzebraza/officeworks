@@ -13,10 +13,9 @@ import transactionApollo from '../lib/apollo_client/transactionApollo';
 import moduleApollo from '../lib/apollo_client/moduleApollo';
 
 import { useEffect } from 'react';
-import { httpParams, request as requestAPI } from '../helpers/reusable';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import projectTheme from '../projectTheme';
-
+import { request as requestAPI } from '../helpers/request';
 
 
 function MyApp({ Component, pageProps }) {

@@ -1,5 +1,5 @@
 import { Chip, Grid } from '@mui/material';
-import CellAvatar from '../../customMUI/tableComponents/CellAvatar';
+import { MWOinitiatorBox, MWOitemsChips } from './components';
 
 
 const statusLookup = {
@@ -15,137 +15,166 @@ const statusLookup = {
     9: 'Closed',
 }
 
-const defaultPhotoPath = '/images/avatar.png';
+
+/**
+ * Creates a config object for each Initiator
+ * @param  {string} name
+ * @param  {string} photoPath the relative path to the Avatar Image
+ */
+class Initiator {
+    constructor(
+        name,
+        photoPath = '/images/avatar.png',
+    ) {
+        this.name = name;
+        this.photoPath = photoPath;
+    }
+}
 
 const initiatorData = {
-    7320: {
-        name: 'Shahzeb',
-        photoPath: defaultPhotoPath
-    },
-    7321: {
-        name: 'Jane Doe',
-    },
-    7322: {
-        name: 'Jack Doe',
-    },
-    7323: {
-        name: 'Jill Doe',
-    },
-    7324: {
-        name: 'Joe Doe',
-    },
-    7325: {
-        name: 'Juan Doe',
-    },
-    7326: {
-        name: 'Julie Doe',
-    },
-    7327: {
-        name: 'Jenny Doe',
-    },
-    7328: {
-        name: 'John Doe',
-    },
-
+    7320: new Initiator('Shahzeb', '/images/avatar.png'),
+    7321: new Initiator('Jane Doe'),
+    7322: new Initiator('Jack Doe'),
+    7323: new Initiator('Jill Doe'),
+    7324: new Initiator('Joe Doe'),
+    7325: new Initiator('Juan Doe'),
+    7326: new Initiator('Julie Doe'),
+    7327: new Initiator('Jenny Doe'),
+    7328: new Initiator('John Doe'),
 }
 
 
+/**
+ * Creates a config object for each of the Material-Table column
+ * @param  {string} field
+ * @param  {string} [title] ['Title']
+ * @param  {string} [tooltip]='No tooltip'
+ * @param  {Boolean} [grouping]=false
+ * @param  {string} [defaultValue]='---'
+ * @param  {Boolean} [sortable]=true
+ * @param  {Boolean} [hidden]=false
+ * @param  {number} [width]=null
+ * @param  {number} [flex]=null
+ * @param  {Object} [lookup]=null
+ * @param  {Function} [render]=null
+ */
+class Column {
+    constructor(
+        field,
+        title = 'Title',
+        tooltip = 'No tooltip',
+        grouping = false,
+        defaultValue = '---',
+        sortable = true,
+        hidden = false,
+        width = null,
+        flex = null,
+        lookup = null,
+        render = null,
+    ) {
+        this.field = field;
+        this.title = title;
+        this.tooltip = tooltip;
+        this.grouping = grouping;
+        this.default = defaultValue;
+        this.sortable = sortable;
+        this.hidden = hidden;
+        this.width = width;
+        this.flex = flex;
+        this.lookup = lookup;
+        this.render = render;
+    }
+}
+
+
+
 export const columns = [
-    {
-        field: 'id',
-        title: 'Sr.',
-        // ?this field now is not editable in the table... must be added dynamically
-        // editable: false,
-        tooltip: 'Serial Number',
-        grouping: false,
-        // render: null
-        // flex: 0.1,
-    },
+    new Column(
+        'id',
+        'Sr.',
+        'Serial Number',
+        false
+    ),
+    //    refType should Apply here e.g. TSR,WO,REQ, etc
+    new Column(
+        'mwoId',
+        'MWO ID',
+        'ID of Manufacturing WO',
+        false,
+        null,
+        null,
+        false
+    ),
+    new Column(
+        'title',
+        'MWO Title',
+        'Description of Work',
+        false,
+    ),
+    new Column(
+        'category',
+        'Category',
+        'Category of Work Order',
+        false,
+    ),
+    new Column(
+        'items',
+        'Item(s)',
+        'What modules are to be manufactured',
+        false,
+        '-',
+        false,
+        false,
+        null,
+        null,
+        null,
+        (rowData) => <MWOitemsChips data={rowData.items} />
+    ),
+    new Column(
+        'status',
+        'Status',
+        'Current Status of MWO',
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        statusLookup
+    ),
+    new Column(
+        'initiatorID',
+        'Initiator',
+        'Initiator of Purchase Case',
+        false,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        (rowData) => <MWOinitiatorBox data={rowData?.initiatorId} options={initiatorData} />
+    ),
     // {
-    //     field: 'refType',
-    //     title: 'Source',
-    //     tooltip: 'Source of Data',
-    //     hidden: true,
+    // field: 'initiatorID',
+    // title: 'Initiator',
+    // grouping: false,
+    // tooltip: 'Initiator of Manufacturing WO',
+    // render: (rowData) => { // ? images can be added with this method
+    //     const initiatorID = rowData.initiator;
+    //     const initiator = initiatorData[initiatorID];
+    //     let fallback = false;
+    //     if (!initiator) {
+    //         fallback = initiatorID;
+    //     }
+    //     console.log('')
 
-    //     // flex: 1,
+    //     return <CellAvatar
+    //         data={initiator}
+    //         fallback={fallback}
+    //         text={initiator?.name ?? initiatorID ?? 'NULL'}
+    //     />
+    // }
     // },
-    {
-        field: 'mwoId',
-        title: 'MWO ID',
-        tooltip: 'ID of Manufacturing WO',
-        grouping: false,
-        // hidden: true,
-        default: '-', //? if no value is provided, this will be displayed
-        // flex: 1,
-    },
-    {
-        field: 'title',
-        title: 'MWO Title',
-        tooltip: 'Description of Work',
-        grouping: false,
-        // render: (rowData) => `${rowData.refType} ${rowData.refId}`,
-        // flex: 1,
-    },
-    {
-        field: 'category',
-        title: 'Category',
-        tooltip: 'Category of Purchase',
-        grouping: false,
-        // flex: 1,
-    },
-    {
-        field: 'items', // inv.total
-        title: 'Item(s)',
-        tooltip: 'What modules are to be manufactured',
-        sortable: false,
-        grouping: false,
-        //? Custom Components | Formatters
-        render: (rowData) => <Grid container gap={1}>
-            {rowData.items.map(
-                (module, index) => <Grid item key={index}>
-                    <Chip label={module.name || 'Null'} />
-                </Grid>
-            )}
-        </Grid>,
-        // flex: 1,
-        //? To render a custom input component when editing the row data: 
-        // editComponent: props => (
-        //     <input
-        //         type="text"
-        //         value={props.value}
-        //         onChange={e => props.onChange(e.target.value)}
-        //     />
-        // )
-
-    },
-    {
-        field: 'status',
-        title: 'Status',
-        tooltip: 'Current Status of MWO',
-        lookup: statusLookup, // ? Lookups
-        // defaultGroupOrder: 0, // ? group by default
-        // defaultGroupSort: 'desc',
-        // flex: 1,
-    },
-    {
-        field: 'initiatorID',
-        title: 'Initiator',
-        grouping: false,
-        tooltip: 'Initiator of Manufacturing WO',
-        render: (rowData) => { // ? images can be added with this method
-            const initiatorID = rowData.initiator;
-            const initiator = initiatorData[initiatorID];
-            let fallback = false;
-            if (!initiator) {
-                fallback = initiatorID;
-            }
-
-            return <CellAvatar
-                data={initiator}
-                fallback={fallback}
-                text={initiator?.name ?? initiatorID ?? 'NULL'}
-            />
-        }
-    },
 
 ];

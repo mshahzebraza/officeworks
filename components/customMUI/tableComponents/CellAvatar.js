@@ -11,7 +11,7 @@ const CellAvatar = ({ tooltip, photoPath = false, text = false }) => { // ? imag
         <Tooltip title={tooltip} >
             <Avatar
                 src={photoPath}
-                alt={tooltip.toString()}
+                alt={tooltip/* .toString() */}
                 sx={{ border: photoBorderStyles }}
             />
         </Tooltip >

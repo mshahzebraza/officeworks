@@ -1,78 +1,25 @@
-// ES6 import syntax also works
-import { arrayOfObjectsSummarize, checkDataType, summarizerNew2 } from '../helpers/reusable'
+import { arrayOfObjectsSummarize } from "../helpers/arrayOfObjectsSummarize";
 
-// checkDataType
-test('test checkDataType against all possible data input types', () => {
+
+describe.each(
     [
-        [['name'], 'string'],
-        [[26], 'number'],
-        [[[]], 'array'],
-        [[{}], 'object'],
-        [[null], 'null'],
-        [[undefined], 'undefined'],
-    ].forEach(
-        pair => {
-            const [inputParams, expectedResult] = pair;
-            expect(checkDataType(...inputParams)).toBe(expectedResult);
-        }
-    )
-});
-
-
-// arrayOfObjectsSummarize
-test('test arrayOfObjectsSummarize against all possible data input types', () => {
-    [
-        // First Input/Output Pair
-        [[
-            { myObject: 'myNestedKey' },
-            'myObject',
-            [
-                { myNestedKey: 'hello1' },
-                { myNestedKey: 'hello' },
-                { myNestedKey: 'hello' },
-            ]
-        ],
-        // After categorization - But is it needed ? Think of the use-cases
         {
-            hello1: 1,
-            hello: 2
-        },
-        ],
-        // Second Input/Output Pair
-        // [[
-        //     { myObject: 'myNestedKey' },
-        //     'myObject',
-        //     [
-        //         { myNestedKey: 'hello' },
-        //         { myNestedKey: ['my', 'name', 'is', 'shahzeb'] },
-        //         {
-        //             myNestedKey: {
-        //                 keyName: 'mNnestedKey3',
-        //                 type: "object"
-        //             }
-        //         },
-        //     ]
-        // ], [
-        //     'hello',
-        //     ['my', 'name', 'is', 'shahzeb'],
-        //     {
-        //         keyName: 'mNnestedKey3',
-        //         type: "object"
-        //     }
-        // ]],
-    ].forEach(
-        pair => {
-            const [inputParams, expectedResult] = pair;
-            expect(arrayOfObjectsSummarize(...inputParams)).toMatchObject(expectedResult);
+            data: [
+                { myPullKey: 'hello1' },
+            ],
+            pullKey: 'myPullKey',
+            expected: { hello1: 1, }
         }
-    )
-});
-
-
-
-
-
-
+    ]
+)(
+    'Summarize Array-of-objects against a nested-key whose value a primary data-type',
+    ({ data, pullKey, expected }) => {
+        test(`summarize against ${pullKey}`, () => {
+            expect(arrayOfObjectsSummarize({ data, pullKey }))
+                .toMatchObject(expected);
+        });
+    }
+);
 
 
 

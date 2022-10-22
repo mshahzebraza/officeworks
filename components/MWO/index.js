@@ -50,7 +50,6 @@ export default function MWOPageComp(pProps) {
         }
     }, [MWOstate, ModuleState])
 
-
     // Section: Fallback Rendering
     if (loading) return <Loader />
 

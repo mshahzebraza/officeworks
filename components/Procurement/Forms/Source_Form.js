@@ -66,6 +66,7 @@ export default function Source_Form({
             submitProps={{
                 form: currentFormID, // to link the form with the submit-button in the Modal-Actions
             }}
+        // contentProps={{ styles: { height: 700 } }}
         >
             <Formik
                 initialValues={initialValues}

@@ -35,6 +35,7 @@ export default function PO_Summary({
             closeProps={{
                 text: 'Close'
             }}
+        // contentProps={{ styles: { height: 500 } }}
         >
             <Summarize
                 data={poData}

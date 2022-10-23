@@ -142,7 +142,7 @@ export const columns = [
         null,
         null,
         null,
-        (rowData) => <POitemsChips data={rowData.items} />
+        (rowData) => <POitemsChips items={rowData.items} currency={rowData.currency} />
     ),
 
     new Column(

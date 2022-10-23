@@ -128,7 +128,7 @@ export const columns = [
         null,
         null,
         null,
-        (rowData) => <MWOitemsChips data={rowData.items} />
+        (rowData) => <MWOitemsChips items={rowData.items} />
     ),
     new Column(
         'status',

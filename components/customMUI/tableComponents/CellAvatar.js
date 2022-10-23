@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, Tooltip } from '@mui/material';
 
-const CellAvatar = ({ tooltip, photoPath = false, text = false }) => { // ? images can be added with this method
+const CellAvatar = ({ tooltip = 'Default-Undefined', photoPath = false, text = false }) => { // ? images can be added with this method
 
     const photoBorderStyles = photoPath
         ? '2px solid black'
@@ -11,7 +11,7 @@ const CellAvatar = ({ tooltip, photoPath = false, text = false }) => { // ? imag
         <Tooltip title={tooltip} >
             <Avatar
                 src={photoPath}
-                alt={tooltip/* .toString() */}
+                alt={tooltip?.toString()}
                 sx={{ border: photoBorderStyles }}
             />
         </Tooltip >

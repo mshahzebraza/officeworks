@@ -16,7 +16,7 @@ export default function PO_Summary({
     handleClose: modalCloser,
     data: poData,
     // the default config for PO-schema
-    config = getDefaultPOsummaryConfig({ currency: poData.currency }),
+    config = getDefaultPOsummaryConfig({ currency: poData?.currency }),
     viewRawData = false
 
 }) {

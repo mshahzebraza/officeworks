@@ -12,12 +12,12 @@ export const MTcomponents = {
 }
 
 // Components for data-items of the table columns
-export const POitemsChips = ({ data }) => (
+export const POitemsChips = ({ items: data, currency }) => (
     <Grid container gap={1}>
         {data.map(
             (item, index) => {
                 const { id, qty, unitPrice } = item;
-                return <Grid item key={index} component={Tooltip} title={`${qty}x @ ${unitPrice}/-`} >
+                return <Grid item key={index} component={Tooltip} title={`${qty}x @ ${unitPrice}/- ${currency} each`} >
                     <Chip label={id || 'Null'} />
                 </Grid>
             }

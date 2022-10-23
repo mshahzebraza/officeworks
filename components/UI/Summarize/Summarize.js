@@ -1,73 +1,81 @@
-import { checkDataType, deepClone, replaceKeysMap, summarizer, summarizerNew2, toSentenceCase } from "../../../helpers/reusable";
+import { Grid } from "@mui/material";
+import { checkDataType, deepClone, replaceKeysMap, toSentenceCase } from "../../../helpers/reusable";
+import { summarizer } from "../../../helpers/summarizer";
+import { SummaryItemAoO, SummaryItemPrimary } from "./newSummaryItem";
 import styles from './Summarize.module.scss'
-import { SummaryItem } from "./SummaryItem";
+// import { SummaryItem } from "./SummaryItem";
 
+/**
+ * Renders the pairs as Grids Elements for primary data types
+ * In case an array of object is passed, the object must be viewed as a table
+ * 
+ * @param  {} data
+ * @param  {} config
+ * @param  {} viewRawData
+ * 
+ */
 
-export function Summarize(
-    {
-        data,
-        //? if true, will use SummaryItem as a child. Use When custom entries are required
-        CustomSummaryItem = SummaryItem,
-        //? Only pass the keys which are available in the data. 
-        dataKeyOptions = {
-            //? Will not show in the final Summary Modal
-            toDelete: [], // array of strings // ['keyToDelete'] 
-            //? Any nested Keys from AoOs to be categorized and shown in the final Summary Modal
-            toFetch: [], // array of array of strings // [['objKey', 'nestedKeyToFetch']]
-            //? to Replace keys with new ones in the final Summary Modal
-            toUpdate: [] // array of array of strings // [['keyToUpdate', 'replacementValue']]
-        }
-    }
-) {
+export function Summarize({
+    data,
+    config,
+    viewRawData = false
+}) {
+    if (viewRawData) return renderRawData(data)
+    if (!data) throw new Error('No Data received in Summarize!')
+    if (!config) throw new Error('No configuration received in Summarize!')
 
-    return (
-        <pre>
-            {JSON.stringify(data, null, 2)}
-        </pre>
-    )
+    // data = deepClone(data);
 
-    // return (
-    //     <div className={styles.body}>
-    //         <CustomSummaryItem
-    //             key={1}
-    //             field={toSentenceCase('itemField')}
-    //             value={'itemValue'}
-    //             isList={true}
-    //         />
-    //     </div>
-    // )
+    // deleteKeys(config.deleteKeys, dataCopy);
+    // wrap the label & values in JSX. 
+    // The type of wrapping JSX is decided based on the passed config props
+    const resultEntries = Object.entries(data).map(([label, value], idx) => {
+        // Also check if label needs to be renamed.
+        const CustomSummaryItem = config.render[label] || config.render.default;
 
-    data = summarizerNew2(
-        deepClone(data),
-        {
-            replaceKeys: dataKeyOptions.toUpdate, //? keyName "items" must be changed to itemName 
-            deleteKeys: dataKeyOptions.toDelete,
-            array: {
-                categorizeKeys: [],
-                concatenateKeys: []
-            },
-            nestedArrayOfObjects: dataKeyOptions.toFetch
-        }
-    )
+        // Delete if necessary and return null
+        if (config.deleteKeys.includes(label)) return null;
 
+        // Rename if necessary
+        if (config.renameKeys[label]) label = config.renameKeys[label];
 
-    return (<div className={styles.body}>
-        {
-            Object.entries(data)
-                .map(
-                    ([itemField, itemValue], index) => {
-                        return (
-                            <CustomSummaryItem
-                                key={index}
-                                field={toSentenceCase(itemField)}
-                                value={itemValue}
-                                isList={checkDataType(itemValue) === 'array'}
-                            />
-                        )
-                    }
-                )
-        }
+        // label = getRenamedLabelIfNecessary(config.renameKeys, label)
+        return <CustomSummaryItem key={idx} label={label} value={value} />
+    })
 
-    </div>);
+    // renameKeys(config.renameKeys, dataCopy);
+
+    // return result;
+    return <Grid container direction={'column'} gap={1} > {resultEntries}</Grid >
+
 }
 
+function renderRawData(data) {
+    return <pre>
+        {JSON.stringify(data, null, 2)}
+    </pre>;
+}
+
+function getRenamedLabelIfNecessary(keysToRename, label) {
+    // get the updatedLabel against the existing label
+    const updatedLabel = keysToRename[label] || label
+    return updatedLabel;
+}
+
+function renameKeys(keysToRename, data) {
+    keysToRename.forEach(
+        ([key, newKey]) => {
+            if (!data.hasOwnProperty(key))
+                return null;
+            const temp = data[key];
+            delete data[key];
+            data[newKey] = temp;
+        }
+    );
+}
+
+function deleteKeys(keysToDelete, data) {
+    keysToDelete.forEach(
+        (key) => data.hasOwnProperty(key) && delete data[key]
+    );
+}

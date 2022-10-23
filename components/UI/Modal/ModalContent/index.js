@@ -5,12 +5,13 @@ const modalContentStyles = {
     px: 3
 }
 
-export function ModalContent({ description, children, contentWrapperComponent: ContentWrapper }) {
+export function ModalContent({ description, children, contentWrapperComponent: ContentWrapper, contentProps }) {
+    const { styles = {} } = contentProps
     const content = getContent(ContentWrapper, children)
 
     return (
         <>
-            <DialogContent dividers={true} sx={modalContentStyles} >
+            <DialogContent dividers={true} sx={{ ...modalContentStyles, ...styles }} >
                 <ModalText description={description} />
                 {/* <CustomComponent /> */}
                 {content}

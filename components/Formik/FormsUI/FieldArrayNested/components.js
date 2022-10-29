@@ -3,8 +3,33 @@ import AddIcon from '@mui/icons-material/Add';
 import { Grid, FormHelperText, FormLabel, IconButton } from '@mui/material';
 import TextField from '../TextField';
 import Button from '@mui/material/Button';
+import { getActiveFAentryHelperText } from './helpers';
 
 
+/**
+ * Renders the Helper Text for each of the Field-Array-Entry in the Field-Array-Collection.
+ * The Helper Text will be a single string to address the errors of all fields contained inside a Field-Array-Entry.
+ * This is done by rendering a single concatenated errorText for all the fields in the Field-Array-Entry.
+ * In case, none of the field of the Field-Array-Entry has an error then a default text will be shown.  
+ * NOTE: DO NOT SET DEFAULTS for the parameters OTHERWISE HELPER TEXT WON'T WORK
+ * @param  {Boolean} showHelper decides if the line-space must be provided for helperText or not. If showHelper is true, a value (be it a placeholder) must be set to errorText. The value may be set (and hence space provided) with a fallback/placeholder helper if there is no error or fields are untouched.
+ * @param  {{}} FAentryTouchedState the touched state data for the the FAentry. Each Property of the data corresponds the to a form-field and  will be have a Boolean Value
+ * @param  {{}} FAentryErrorsState the errors state data for the the FAentry. Each Property of the data corresponds the to a form-field and will be have an errorText-string value based on the validation defined in the form
+ */
+export function FAEntryHelperText({ showHelper, FAentryTouchedState, FAentryErrorsState }) {
+    if (!showHelper) return null; // don't leave the errorText space if showHelper is FALSY
+
+    // create an error or a placeholder/fallback text for the errorText (fallback/placeholder must not be error styled)  
+    const [helperText, isErrorActive] = getActiveFAentryHelperText(FAentryTouchedState, FAentryErrorsState)
+
+    return (<Grid item xs={12} >
+        <FormHelperText error={isErrorActive} sx={{
+            m: 0
+        }}>
+            {helperText}
+        </FormHelperText>
+    </Grid>);
+}
 
 export function AddFAentry({
     pushEntry,
@@ -29,7 +54,6 @@ export function AddFAentry({
 }
 
 export function RemoveFAentry({
-    index,
     removeEntry,
     removeText = null,
     removeIcon: MyRemoveIcon = CloseIcon,
@@ -45,7 +69,7 @@ export function RemoveFAentry({
                         sx={{
                             py: .75
                         }}
-                        onClick={() => removeEntry(index)}
+                        onClick={removeEntry}
                         startIcon={MyRemoveIcon && <MyRemoveIcon />}
                         // disabled={index === 0}
                         fullWidth
@@ -54,7 +78,7 @@ export function RemoveFAentry({
                     </Button>
                     :
                     <IconButton
-                        onClick={() => removeEntry(index)}
+                        onClick={removeEntry}
                         size='small'
                         sx={{
                             border: "1.5px solid #999",
@@ -76,6 +100,7 @@ export function RemoveFAentry({
     );
 }
 
+// ! REMOVE if un-used 
 export function FAtextField({ name, label, helperText, ...rest }) {
     return (
         <Grid item xs={5} >

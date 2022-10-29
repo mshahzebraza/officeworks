@@ -9,7 +9,7 @@ import InnerForm from './InnerForm';
  * @param  {} name
  * @param  {} label='UnnamedField'
  * @param  {} fieldConfigArr
- * @param  {} showHelper=false
+ * @param  {} [showHelper]=false
  * @param  {AddIcon} addIcon
  * @param  {} addText
  * @param  {RemoveIcon} removeIcon
@@ -49,18 +49,16 @@ function FieldArrayNested({
 
                     // create an object for storing the names of collection,entries,and fields
                     const fieldAddress = { collection: name, entry: null, field: null, }
-
                     // Render NestedFormCollection
                     return (
                         <InnerForm
                             fieldAddress={fieldAddress}
-                            name={name}
                             pushEntry={pushEntry}
                             removeEntry={removeEntry}
-                            addIcon={addIcon}
-                            removeIcon={removeIcon}
                             addText={addText}
+                            addIcon={addIcon}
                             removeText={removeText}
+                            removeIcon={removeIcon}
                             collectionState={collectionState}
                             fieldConfigArr={fieldConfigArr}
                             showHelper={showHelper}

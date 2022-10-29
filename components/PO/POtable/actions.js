@@ -12,7 +12,7 @@ export function getAllMTactions(setModalState, deleteHandler, router) {
         getMTactionDelete(deleteHandler),
         getMTactionEdit(setModalState),
         getMTactionSummary(setModalState),
-        getMTactionDetails(router)
+        // getMTactionDetails(router)
     ]
 }
 

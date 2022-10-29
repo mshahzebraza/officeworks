@@ -8,10 +8,6 @@ export const updatePO = async (req, res) => {
     if (!poUUID) throw new Error("No PO UUID provided");
     if (!poData) throw new Error("No PO data provided");
 
-    delete poData.items;
-    delete poData._id;
-    delete poData.__v;
-
     const updatedPO = await poModel.findByIdAndUpdate(
         poUUID,
         poData,

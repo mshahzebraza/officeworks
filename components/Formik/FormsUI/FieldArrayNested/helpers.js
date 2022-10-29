@@ -1,5 +1,46 @@
 
 
+
+
+
+/**
+ * returns "a string - value of helper-text" and "a boolean - to represent if the helper is an error"
+ * NOTE: DO NOT SET DEFAULTS for the parameters OTHERWISE HELPER TEXT WON'T WORK
+ * @param  {{}} activeFAentryTouched=[] the touched object (for all nested item's properties) of each nested item
+ * @param  {{}} activeFAentryErrors=[] the error object (for all nested item's properties) of each nested item
+ * @returns [helperText, isHelperTextAnError]
+ */
+export function getActiveFAentryHelperText(activeFAentryTouched, activeFAentryErrors) {
+    /* 
+        1. Check if at-least one nested-field is touched. (touchedArrOfObj would not exist otherwise)
+        2. Check if at-least one field has error (the error object would not exist otherwise)
+        3. Combine the values of existing errors of nested-fields into one.
+     */
+    let isError = false;
+    // const activeFAentryErrors = FAerrorArr[FAactiveEntryIdx];
+    // const activeFAentryTouched = FAtouchedArr[FAactiveEntryIdx];
+    if (!activeFAentryTouched) return ['Fields are un-touched for the entry', isError]
+    if (!activeFAentryErrors) return ['No errors found for the entry', isError]
+    // check for global errors
+    // in case of a global error, the errorCollection is set to a string, therefore activeFAentryErrors, essentially equal to errorCollection[n] must be a single letter. therefore this condition can be checked to know if the global error is present or not
+    if ((typeof activeFAentryErrors === "string") && activeFAentryErrors.length === 1) return ['No errors!', isError]
+
+    isError = true;
+
+    const activeFAentryErrorValues = Object.values(activeFAentryErrors);
+    const activeFAentryErrorStr = activeFAentryErrorValues.reduce(
+        (acc, errorVal) => {
+            // Ensure that concatenation does not include separator before the first element (first element would be set to null and checked before concatenation) 
+            acc = (!!acc) ? acc.concat(' | ', errorVal) : errorVal
+            return acc;
+        }
+        , null
+    )
+
+    return [activeFAentryErrorStr, isError];
+
+}
+
 /**
  * Maps through configs of the fields and create a new object with names of respective fields 
  * @param  {[{ control, name, label, type, showHelper, customHelperText, default }]} nestedFieldConfig - Takes in an array of configs each containing name & default keys

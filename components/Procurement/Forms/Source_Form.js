@@ -249,6 +249,8 @@ function getPOfieldConfig(isNewSubmission) {
                             ,
                             qty: Yup
                                 .number()
+                                .not([0], 'Quantity cannot be 0')
+                                .min(0, 'Quantity must be positive')
                                 .integer()
                                 .typeError('Please Enter a valid Number')
                                 .required("Item Qty is required")
@@ -295,6 +297,9 @@ function getPOfieldConfig(isNewSubmission) {
                             default: 0, //! default value to for the nested field
                             showHelper: false,
                             customHelperText: 'Enter the Item Qty',
+                            inputProps: {
+                                min: 0
+                            }
                         },
                         // unitPrice {number}
                         {
@@ -306,6 +311,9 @@ function getPOfieldConfig(isNewSubmission) {
                             default: 0, //! default value to for the nested field
                             showHelper: false,
                             customHelperText: 'Enter the Unit Price',
+                            inputProps: {
+                                min: 0
+                            }
                         },
                         // remarks {string}
                         {

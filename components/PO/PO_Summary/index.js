@@ -8,6 +8,7 @@ import Modal from '../../UI/Modal';
 import { Summarize } from '../../UI/Summarize/Summarize';
 import { SummaryItem } from '../../UI/Summarize/newSummaryItem';
 import { Grid } from '@mui/material'
+import { isEmptyArray } from '../../../helpers/reusable';
 
 
 
@@ -68,7 +69,12 @@ function getDefaultPOsummaryConfig({ currency }) {
         },
         render: {
             default: ({ label, value }) => <SummaryItem label={label} value={value} />,
-            items: ({ label, value }) => <SummaryItem label={label} value={<SummaryItemValue_Items value={value} currency={currency} />} />,
+            items: ({ label, value }) => {
+                // prevents rendering of a separate row if no items are present
+                if (isEmptyArray(value)) return null;
+
+                return (<SummaryItem label={label} value={<SummaryItemValue_Items value={value} currency={currency} />} />)
+            },
             status: ({ label, value }) => <SummaryItem label={label} value={`phase-${value}`} />,
             totalCost: ({ label, value }) => <SummaryItem label={label} value={`${currency} ${value}`} />,
         }
@@ -76,7 +82,7 @@ function getDefaultPOsummaryConfig({ currency }) {
     })
 }
 
-const myModuleList = [
+export const listOfModuleTypes = [
     { type: 'motor', id: 'J52SY350A' },
     { type: 'motor', id: 'J64SY700C' },
     { type: 'screw', id: 'M5x12' },
@@ -84,19 +90,40 @@ const myModuleList = [
     { type: 'motor', id: 'Oipiisda-121' },
 ]
 
-function getModuleType(AoOdata, moduleList) {
-    return AoOdata.map(
-        (myObj, idx) => {
-            const matchingModule = moduleList.find((module) => module.id === myObj.id);
-            myObj.type = matchingModule?.type ?? '-';
-            return myObj;
+
+/**
+ * check if the a certain partID belongs to a module-type and attaches the relevant module-type property to each of the module-data object in moduleDataCollection.
+ * NOTE: Ensure that the common key between both the object is "id". Otherwise
+ * @param  {[{}]} moduleDataCollection a data collection of several modules/items having the module-id field in them
+ * @param  {[{}]} listOfModuleTypes a list of data against each id and its corresponding module type
+ * @param  {[]} searchKeys [ dataModuleKey, dataTypeKey ] keys to be compared from both the data collection. Both are set to 'id' be default 
+ * @example J64SY700C is a "Motor" Module-Type
+ */
+export function attachModuleTypes(moduleDataCollection, listOfModuleTypes, searchKeys = ['id', 'id']) {
+    const [searchKeyForData, searchKeyForType] = searchKeys;
+    return moduleDataCollection.map(
+        (moduleData) => {
+            // find the module whose id is stored in the listOfModuleTypes
+            const matchingModule = listOfModuleTypes.find(
+                ({ [searchKeyForType]: moduleId }) => moduleId === moduleData[searchKeyForData]
+            );
+            // add a type property to moduleData based on the matching id's moduleType in listOfModuleTypes
+            // set a default value if matchingModule is not found
+            moduleData.type = matchingModule?.type ?? 'No Type Found'; // 
+            return moduleData;
         }
     );
 }
-
-function SummaryItemValue_Items({ value: AoOdata, currency }) {
-    AoOdata = getModuleType(AoOdata, myModuleList)
-    const dataHeaders = Object.keys(AoOdata[0])
+/**
+ * Renders the JSX for nested fields of "Items" field in a table format
+ * @param  {[{}]} value list of Items containing the properties like item's Id, item's qty etc.
+ * @param  {string} currency the currency in which PO was issued. This is to append the unitPrices of items with the currency
+ */
+function SummaryItemValue_Items({ value: listOfItems, currency }) {
+    // adds the "type" property to the summary-object ("listOfItems")
+    listOfItems = attachModuleTypes(listOfItems, listOfModuleTypes)
+    // fetches the keys of item properties to be used as header in the table rendered in summary
+    const dataHeaders = Object.keys(listOfItems[0])
     const propertyConfig = {
         id: {
             span: 2,
@@ -142,11 +169,11 @@ function SummaryItemValue_Items({ value: AoOdata, currency }) {
             </Grid>
             {/* Body */}
             {
-                AoOdata.map((object, idx) => {
+                listOfItems.map((object, idx) => {
                     const dataEntries = Object.entries(object)
                     return (
                         <Grid
-                            key={'AoOdata' + idx} item xs={12} container
+                            key={'listOfItems' + idx} item xs={12} container
                         >
                             {
                                 dataEntries.map(([dataKey, dataValue], idx) => {

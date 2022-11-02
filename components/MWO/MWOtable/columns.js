@@ -95,7 +95,13 @@ export const columns = [
         'Serial Number',
         false
     ),
-    //    refType should Apply here e.g. TSR,WO,REQ, etc
+    //    mwoType e.g. TSR,WO,REQ, etc
+    new Column(
+        'mwoType',
+        'MWO Type',
+        'Type of Work Order',
+        false,
+    ),
     new Column(
         'mwoId',
         'MWO ID',
@@ -111,12 +117,7 @@ export const columns = [
         'Description of Work',
         false,
     ),
-    new Column(
-        'category',
-        'Category',
-        'Category of Work Order',
-        false,
-    ),
+
     new Column(
         'items',
         'Item(s)',

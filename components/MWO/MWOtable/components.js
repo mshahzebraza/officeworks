@@ -16,8 +16,8 @@ export const MWOitemsChips = ({ items: data }) => (
     <Grid container gap={1}>
         {data.map(
             (item, index) => {
-                const { id, qty, unitPrice } = item;
-                return <Grid item key={index} component={Tooltip} title={`${qty}x`} >
+                const { id, qty } = item;
+                return <Grid item key={index} component={Tooltip} title={`Qty-${qty}`} >
                     <Chip label={id || 'Null'} />
                 </Grid>
             }

@@ -17,7 +17,7 @@ export const POitemsChips = ({ items: data, currency }) => (
         {data.map(
             (item, index) => {
                 const { id, qty, unitPrice } = item;
-                return <Grid item key={index} component={Tooltip} title={`${qty}x @ ${unitPrice}/- ${currency} each`} >
+                return <Grid item key={index} component={Tooltip} title={`Qty-${qty} @ ${unitPrice}/- ${currency} each`} >
                     <Chip label={id || 'Null'} />
                 </Grid>
             }

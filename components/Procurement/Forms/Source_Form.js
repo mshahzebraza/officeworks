@@ -102,7 +102,6 @@ function getPOfieldConfig(isNewSubmission) {
     return {
         title: `Purchase Details`,
         fields: {
-            /* fieldName: [initialValue, YUP-validation, controlProps] */
             refType: {
                 initialValue: '',
                 validation: Yup.string().required('Required'),
@@ -197,7 +196,7 @@ function getPOfieldConfig(isNewSubmission) {
                     name: 'status',
                     label: 'Current Status',
                     options: [
-                        { label: 'Select One ...', value: null },
+                        { label: 'Select One ...', value: '' },
                         { label: 'Rejected', value: 0 },
                         { label: 'Draft', value: 1 },
                         { label: 'Initiated', value: 2 },
@@ -213,7 +212,7 @@ function getPOfieldConfig(isNewSubmission) {
             },
             initiatorId: {
                 initialValue: '',
-                validation: Yup.string().required('Required'),
+                validation: Yup.number().required('Required'),
                 config: {
                     control: 'text',
                     name: 'initiatorId',

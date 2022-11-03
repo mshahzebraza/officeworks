@@ -1,4 +1,5 @@
-import { attachModuleTypes, listOfModuleTypes } from "../components/PO/PO_Summary";
+import { listOfModuleTypes } from "../constants/listOfModuleTypes"
+import { attachModuleTypes } from "../helpers/specific"
 
 describe.each([
     {

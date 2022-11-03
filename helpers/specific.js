@@ -1,8 +1,6 @@
 import { checkDataType, cloneAndPluck, deepClone } from "./reusable";
 
 
-cloneAndPluck
-
 export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {
 
 
@@ -361,4 +359,31 @@ function getSubmitBtnText(isValid, dirty, isNewSubmission) {
                 : 'No edits made'
         )
         : ('Incomplete/Invalid Data')
+}
+
+
+
+
+/**
+ * check if the a certain partID belongs to a module-type and attaches the relevant module-type property to each of the module-data object in moduleDataCollection.
+ * NOTE: Ensure that the common key between both the object is "id". Otherwise
+ * @param  {[{}]} moduleDataCollection a data collection of several modules/items having the module-id field in them
+ * @param  {[{}]} listOfModuleTypes a list of data against each id and its corresponding module type
+ * @param  {[]} searchKeys [ dataModuleKey, dataTypeKey ] keys to be compared from both the data collection. Both are set to 'id' be default 
+ * @example J64SY700C is a "Motor" Module-Type
+ */
+export function attachModuleTypes(moduleDataCollection, listOfModuleTypes, searchKeys = ['id', 'id']) {
+    const [searchKeyForData, searchKeyForType] = searchKeys;
+    return moduleDataCollection.map(
+        (moduleData) => {
+            // find the module whose id is stored in the listOfModuleTypes
+            const matchingModule = listOfModuleTypes.find(
+                ({ [searchKeyForType]: moduleId }) => moduleId === moduleData[searchKeyForData]
+            );
+            // add a type property to moduleData based on the matching id's moduleType in listOfModuleTypes
+            // set a default value if matchingModule is not found
+            moduleData.type = matchingModule?.type ?? 'No Type Found'; // 
+            return moduleData;
+        }
+    );
 }

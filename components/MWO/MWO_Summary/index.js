@@ -6,26 +6,31 @@ import React from 'react'
 // Components
 import Modal from '../../UI/Modal';
 import { Summarize } from '../../UI/Summarize/Summarize';
+import { getMWOsummaryConfig } from './summaryConfig';
 
 
-export default function MWO_Summary({ open: isModalOpen, handleClose: modalCloser, data: mwoData }) {
-
+export default function MWO_Summary({
+    open: isModalOpen,
+    handleClose: modalCloser,
+    data: mwoData,
+    // the default config for MWO-schema
+    config = getMWOsummaryConfig(),
+    viewRawData = false
+}) {
+    if (!mwoData) return 'no data received ...';
+    console.log('data in mwo summary: ', mwoData)
     return (
         <Modal
             title='MWO Summary'
             handleClose={modalCloser}
             open={isModalOpen}
-            submitProps={{
-                hidden: true
-            }}
+            submitProps={{ hidden: true }}
+            closeProps={{ text: 'Close' }}
         >
             <Summarize
                 data={mwoData}
-                dataKeyOptions={{
-                    toDelete: ['_id', '__v', 'index'],
-                    toFetch: [['items', 'item']],
-                    toUpdate: [['mwoId', 'MWO ID'], ['items', 'Modules Ordered']]
-                }}
+                config={config}
+                viewRawData={viewRawData || !config}
             />
         </Modal>
     )

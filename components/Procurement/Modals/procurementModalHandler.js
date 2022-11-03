@@ -1,6 +1,6 @@
-import MWO_Summary from "../MWO/MWO_Summary";
-import PO_Summary from "../PO/PO_Summary";
-import Source_Form from "./Forms/Source_Form";
+import MWO_Summary from "../../MWO/MWO_Summary";
+import PO_Summary from "../../PO/PO_Summary";
+import Source_Form from "../Forms/Source_Form";
 
 export default function getActiveProcurementModals(allModalState, setAllModalState, procurementType) {
     if (!procurementType) throw new Error('procurementType is not Defined for getActiveModals');

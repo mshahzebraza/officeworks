@@ -14,7 +14,7 @@ import { deepClone } from '../../helpers/reusable';
 import Loader from '../Loader';
 import { mapModulesToPO } from '../../helpers/specific';
 import POtable from './POtable';
-import getActiveProcurementModals from '../Procurement/procurementModalHandler';
+import getActiveProcurementModals from '../Procurement/Modals/procurementModalHandler';
 
 
 

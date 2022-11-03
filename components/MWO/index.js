@@ -15,7 +15,7 @@ import moduleApollo from '../../lib/apollo_client/moduleApollo';
 import { mapModulesToPO as populateitems } from '../../helpers/specific';
 import Loader from '../Loader';
 import MWOtable from './MWOtable';
-import getActiveProcurementModals from '../Procurement/procurementModalHandler';
+import getActiveProcurementModals from '../Procurement/Modals/procurementModalHandler';
 
 
 

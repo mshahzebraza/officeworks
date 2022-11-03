@@ -33,7 +33,7 @@ const getMTactionAdd = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, rowData) => setModalState((prevState) => ({
+        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
             addForm: {
                 ...prevState.addForm,
@@ -61,7 +61,7 @@ const getMTactionDelete = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, rowData) => deleteHandler(rowData._id),
+        onClick: (event, { tableData, ...rowData }) => deleteHandler(rowData._id),
     }
 )
 
@@ -83,7 +83,7 @@ const getMTactionEdit = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, rowData) => setModalState((prevState) => ({
+        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
             editForm: {
                 ...prevState.editForm,
@@ -112,9 +112,9 @@ const getMTactionSummary = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, rowData) => setModalState((prevState) => ({
+        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
-            summaryForm: {
+            summaryDialog: {
                 ...prevState.summaryDialog,
                 state: true,
                 data: rowData

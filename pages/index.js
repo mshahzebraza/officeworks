@@ -1,5 +1,5 @@
-import Layout from '../components/Layout';
-import { ButtonLink } from '../components/customMUI';
+import Layout from '../client/components/Layout';
+import { ButtonLink } from '../client/components/customMUI';
 import { Paper } from '@mui/material';
 
 export default function Home() {

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Grid, Typography } from '@mui/material'
-import { ButtonLink } from '../components/customMUI'
+import { ButtonLink } from '../client/components/customMUI'
 
 
 const fileStyles = {

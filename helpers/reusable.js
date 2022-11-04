@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { checkDataType } from "./checkDataType";
+import { checkDataType } from "./refactored/checkDataType";
 
 
 /**
@@ -69,7 +69,6 @@ export function transformEntries(object, transformer = pairToEntry) {
         return transformer(el, idx)
     });
 }
-global.x = transformEntries;
 // returns transformed data from an array
 export function transformArray(array, transformer) {
     return array.map((el, idx) => {
@@ -199,3 +198,8 @@ export function badRequest(requestMessage) {
 // generate a next fetcher
 export const fetcher = (...args) => fetch(...args).then(res => res.json())
 
+export function renderRawData(data) {
+    return <pre>
+        {JSON.stringify(data, null, 2)}
+    </pre>;
+}

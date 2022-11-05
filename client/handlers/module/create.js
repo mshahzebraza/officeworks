@@ -1,4 +1,5 @@
-import { request } from '../../helpers/reusable';
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { moduleClientState } from "../../store/config";
 
 // Only for Modules-Page's Form Function
 export const createModule = async (itemData) => {
@@ -16,7 +17,7 @@ export const createModule = async (itemData) => {
     // }
 
     // 1. Database add
-    const { success, data, error, message } = await request(
+    const { success, data, error, message } = await requestAPI(
         {
             url: process.env.API.MODULE,
             method: 'POST',

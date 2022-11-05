@@ -1,4 +1,5 @@
-import { requestAPI } from "../../helpers/refactored/requestAPI";
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { mwoClientState } from "../../store/config";
 
 export const deleteMWO = async (deleteMWOid) => {
 
@@ -6,7 +7,7 @@ export const deleteMWO = async (deleteMWOid) => {
     const mwoStateList = [...mwoState.list];
 
     // 1. Database delete
-    const { success, data: { deletedMWO }, error, message } = await request(
+    const { success, data: { deletedMWO }, error, message } = await requestAPI(
         {
             url: process.env.API.MWO,
             method: 'DELETE',

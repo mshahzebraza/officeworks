@@ -1,4 +1,5 @@
-import { requestAPI } from '../../helpers/refactored/requestAPI';
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { poClientState } from "../../store/config";
 
 export const updatePO = async (poUpdateData) => {
     let wasClosed, isClosed = poUpdateData.status === 'Closed';
@@ -12,7 +13,7 @@ export const updatePO = async (poUpdateData) => {
     wasClosed = poStateList[targetIndex].status === 'Closed';
 
     // Create the request 
-    const { success, data: { updatedPO }, error, message } = await request(
+    const { success, data: { updatedPO }, error, message } = await requestAPI(
         {
             url: process.env.API.PO,
             method: 'PATCH',

@@ -1,4 +1,5 @@
-import { request } from '../../helpers/reusable';
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { moduleClientState } from "../../store/config";
 
 export const updateModule = async (itemData) => {
     // ?Ensure that the module ALREADY EXISTS in the module list
@@ -20,7 +21,7 @@ export const updateModule = async (itemData) => {
     }
 
     // 1. Database add
-    const { success, data, error, message } = await request(
+    const { success, data, error, message } = await requestAPI(
         {
             url: process.env.API.MODULE,
             method: 'PATCH',

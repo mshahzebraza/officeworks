@@ -1,6 +1,5 @@
-import { requestAPI } from "../../helpers/refactored/requestAPI";
-
-
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { mwoClientState } from "../../store/config";
 
 export const updateMWO = async (formData) => {
     let wasClosed, isClosed = formData.status === 'Closed';
@@ -13,7 +12,7 @@ export const updateMWO = async (formData) => {
     })
     wasClosed = mwoStateList[targetIndex].status === 'Closed';
     // Database
-    const { success, data: { updatedMWO }, error, message } = await request(
+    const { success, data: { updatedMWO }, error, message } = await requestAPI(
         {
             url: process.env.API.MWO,
             method: 'PATCH',

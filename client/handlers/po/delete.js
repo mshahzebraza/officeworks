@@ -1,4 +1,5 @@
-import { requestAPI } from '../../helpers/refactored/requestAPI';
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { poClientState } from "../../store/config";
 
 export const deletePO = async (poDeleteId) => {
     // Find target PO Index & Delete it
@@ -6,7 +7,7 @@ export const deletePO = async (poDeleteId) => {
     const poStateList = [...poState.list];
 
     // 1. Database delete
-    const { success, data: { deletedPO }, error, message } = await request(
+    const { success, data: { deletedPO }, error, message } = await requestAPI(
         {
             url: process.env.API.PO,
             method: 'DELETE',

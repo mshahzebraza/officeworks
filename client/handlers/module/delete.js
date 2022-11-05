@@ -1,4 +1,5 @@
-import { request } from '../../helpers/reusable';
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { moduleClientState } from "../../store/config";
 
 export const deleteModule = async (selectedModuleUUID) => {
     // !Will all the purchases/MWO against the module be deleted ?
@@ -22,7 +23,7 @@ export const deleteModule = async (selectedModuleUUID) => {
     // ! And inform the user that all instances or linkages will be removed if the module id deleted
 
     // 1. Database add
-    const { success, data, error, message } = await request(
+    const { success, data, error, message } = await requestAPI(
         {
             url: process.env.API.MODULE,
             method: 'DELETE',

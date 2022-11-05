@@ -1,12 +1,12 @@
-import { requestAPI } from '../../helpers/refactored/requestAPI';
-
+import { requestAPI } from '../../../helpers/refactored/requestAPI';
+import { poClientState } from "../../store/config";
 
 // Note: There was a separate addPOmoduleHandler before the-great-cleansing
 export const createPO = async (poCreateData) => {
     const poState = poClientState();
     const poStateList = [...poState.list];
 
-    const { success, data: { createdPO }, error, message } = await request(
+    const { success, data: { createdPO }, error, message } = await requestAPI(
         {
             url: process.env.API.PO,
             method: 'POST',

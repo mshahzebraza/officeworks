@@ -2,7 +2,7 @@ import connectDB from '../../server/db/config' // next-connect is makes the proc
 import nextConnect from 'next-connect';
 import { getNChandlerConfig } from '../../helpers/refactored/getNChandlerConfig';
 
-import { retrieveApp } from "../../server/controllers/module/retrieve";
+import { retrieveApp } from "../../server/controllers/all/retrieve";
 
 connectDB();
 const handlerConfig = getNChandlerConfig()

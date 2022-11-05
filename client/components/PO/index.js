@@ -1,26 +1,20 @@
 // Dependency
 import React, { useState, useEffect } from 'react';
-
-// Store & Styles
+import { useReactiveVar } from "@apollo/client";
+// Store/State
+import { deletePO } from '../../handlers/po/delete';
+import { poClientState, moduleClientState } from '../../store/config';
+// Functions
+import { deepClone } from '../../../helpers/reusable';
+import { mapModulesToPO } from '../../../helpers/specific';
+import { getActiveProcModals } from '../../../helpers/specific/getActiveProcModals';
 
 // Components
 import Layout from '../Layout';
-// import { deepClone } from '../../helpers/reusable';
-
-import { useReactiveVar } from "@apollo/client";
-import poClientState, { deletePOHandler } from '../../lib/apollo_client/poClientState';
-import moduleClientState from '../../lib/apollo_client/moduleClientState';
-import { deepClone } from '../../helpers/reusable';
-import Loader from '../Loader';
-import { mapModulesToPO } from '../../helpers/specific';
 import POtable from './POtable';
-import getActiveProcurementModals from '../../../helpers/specific/procurementModalHandler';
+import Loader from '../Loader';
 
-
-
-
-export default function PO(pProps) {
-
+export default function PO() {
     const [modalState, setModalState] = useState({
         addForm: { state: false, data: undefined },
         editForm: { state: false, data: undefined },
@@ -40,7 +34,7 @@ export default function PO(pProps) {
         if (POstate.fetched && ModuleState.fetched) {
             setLoading(false);
             // populate POstate.list and save it to POlist
-            const populatedPOlist = populatePOlist(POstate.list, ModuleState.list)
+            const populatedPOlist = POstate.list
             setPOlist(populatedPOlist)
         }
     }, [POstate, ModuleState])
@@ -55,11 +49,11 @@ export default function PO(pProps) {
     return (
         <>
             {/* Modal Logic controlled from within the MT-action-buttons */}
-            {getActiveProcurementModals(modalState, setModalState, 'po')}
+            {getActiveProcModals(modalState, setModalState, 'po')}
             <Layout >
                 <POtable
                     setModalState={setModalState}
-                    deleteHandler={deletePOHandler}
+                    deleteHandler={deletePO}
                     data={POlist}
                 />
 

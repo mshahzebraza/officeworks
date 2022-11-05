@@ -9,10 +9,6 @@ export const retrieveApp = async () => {
     const { success, data, error, message } = await requestAPI({ url: 'http://localhost:3000/api/all' })
     if (!success) throw new Error('Error:', error || message)
 
-    // delete data versions
-    for (const key in data) delete data[key].__v
-
-
     // 2. Client update
     moduleClientState({ list: data.moduleList, fetched: true })
     poClientState({ list: data.poList, fetched: true });

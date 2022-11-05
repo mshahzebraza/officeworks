@@ -1,5 +1,5 @@
 import { Chip, Grid, Tooltip } from "@mui/material"
-import { MTableHeader } from "material-table"
+import { MTableBodyRow, MTableHeader } from "material-table"
 import CellAvatar from "../../customMUI/tableComponents/CellAvatar"
 
 // Components for Material Table UI

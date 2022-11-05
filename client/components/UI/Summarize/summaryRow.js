@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material"
-import { checkDataType } from "../../../helpers/checkDataType"
+import { checkDataType } from "../../../../helpers/refactored/checkDataType"
 
 
 export function SummaryRow({ label, value, ...rest }) {

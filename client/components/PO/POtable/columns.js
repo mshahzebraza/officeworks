@@ -91,7 +91,14 @@ export const columns = [
         'id',
         'Sr.',
         'Serial Number',
-        false
+        false,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        (rowData) => (rowData.tableData.id)
     ),
     new Column(
         'refType',

@@ -1,4 +1,4 @@
-import { deepClone } from "./reusable";
+import { deepClone } from "../reusable";
 
 // copy only a few keys from an object // equivalent to _.pick()
 // if any of the required key is not found in sourceObject then nothing is returned against that key. (that key will not be found in returned object)

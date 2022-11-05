@@ -93,7 +93,14 @@ export const columns = [
         'id',
         'Sr.',
         'Serial Number',
-        false
+        false,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        (rowData) => (rowData.tableData.id)
     ),
     //    mwoType e.g. TSR,WO,REQ, etc
     new Column(

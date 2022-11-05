@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { listOfModuleTypes } from "../../../constants/listOfModuleTypes";
-import { isEmptyArray } from "../../../helpers/reusable";
-import { attachModuleTypes } from "../../../helpers/specific";
+import { isEmptyArray } from "../../../../helpers/reusable";
+import { attachModuleTypes } from "../../../../helpers/specific";
 import { SummaryRow } from "../../UI/Summarize/summaryRow";
 
 export function getMWOsummaryConfig() {

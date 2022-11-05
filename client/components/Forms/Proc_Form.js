@@ -3,19 +3,21 @@ import React from 'react'
 import * as Yup from 'yup'
 import { isObjEmpty } from '../../../helpers/reusable'
 import { Formik } from 'formik'
-import { cloneAndPluck } from '../../../helpers/cloneAndPluck'
+import { cloneAndPluck } from '../../../helpers/refactored/cloneAndPluck'
 // Store
-import { addPOHandler, updatePOHandler } from '../../../lib/apollo_client/poClientState'
-import { addMWOHandler, updateMWOHandler } from '../../../lib/apollo_client/mwoClientState'
+import { createPO } from '../../handlers/po/create';
+import { updatePO } from '../../handlers/po/update';
+import { createMWO } from '../../handlers/mwo/create';
+import { updateMWO } from '../../handlers/mwo/update';
 
 // Styles
 
 // UI Components
-import Modal from '../../UI/Modal'
+import Modal from '../../components/UI/Modal'
 
 // Major Components
-import FormikControl from '../../Formik/FormikControl'
-import FormikForm from '../../Formik/FormikForm'
+import FormikControl from '../../components/Formik/FormikControl'
+import FormikForm from '../../components/Formik/FormikForm'
 import { getOf, getComponentArrayWithProps } from '../../../helpers/specific'
 import Grid from '@mui/material/Grid'
 
@@ -342,8 +344,8 @@ function getPOfieldConfig(isNewSubmission) {
             },
         },
         submitHandlers: {
-            add: addPOHandler,
-            update: updatePOHandler
+            add: createPO,
+            update: updatePO
         }
     }
 }
@@ -503,8 +505,8 @@ function getMWOfieldConfig(isNewSubmission) {
             },
         },
         submitHandlers: {
-            add: addMWOHandler,
-            update: updateMWOHandler
+            add: createMWO,
+            update: updateMWO
         }
     }
 }

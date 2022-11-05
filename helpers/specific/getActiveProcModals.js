@@ -1,8 +1,8 @@
 import MWO_Summary from "../../client/components/MWO/MWO_Summary";
 import PO_Summary from "../../client/components/PO/PO_Summary";
-import Source_Form from "../../client/components/Procurement/Forms/Source_Form";
+import Proc_Form from "../../client/components/Forms/Proc_Form";
 
-export default function getActiveProcurementModals(allModalState, setAllModalState, procurementType) {
+export function getActiveProcModals(allModalState, setAllModalState, procurementType) {
     if (!procurementType) throw new Error('procurementType is not Defined for getActiveModals');
 
     return [
@@ -32,7 +32,7 @@ export default function getActiveProcurementModals(allModalState, setAllModalSta
 
 const AddForm = ({ allModalState, setAllModalState, procurementType }) => {
     return (
-        < Source_Form
+        < Proc_Form
             sourceType={procurementType}
             open={allModalState.addForm.state}
             handleClose={() => setAllModalState(
@@ -53,7 +53,7 @@ const EditForm = ({ allModalState, setAllModalState, procurementType }) => {
 
     return (
 
-        <Source_Form
+        <Proc_Form
             sourceType={procurementType}
             data={allModalState.editForm.data}
             open={allModalState.editForm.state}

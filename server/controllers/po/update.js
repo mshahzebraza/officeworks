@@ -1,10 +1,9 @@
 import poModel from "../../models/poModel";
+import { invalidResponse } from "../../../helpers/refactored/invalidResponse";
 
 export const updatePO = async (req, res) => {
-
     const { poUUID } = req.query;
     const { poData } = req.body;
-
     if (!poUUID) throw new Error("No PO UUID provided");
     if (!poData) throw new Error("No PO data provided");
 
@@ -19,7 +18,7 @@ export const updatePO = async (req, res) => {
     // return successful Response
     return res.status(200).json({
         success: true,
-        message: "PO updated successfully",
+        message: "PO updated",
         data: { updatedPO },
         error: null
     })

@@ -1,14 +1,9 @@
 import { ApolloProvider } from "@apollo/client";
-import client, {
-    moduleClientState,
-    mwoClientState,
-    poClientState
-} from '../client/handlers/clientState';
-
-
 import { useEffect } from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+
 import projectTheme from '../client/theme/projectTheme';
+import client, { moduleClientState, mwoClientState, poClientState } from '../client/store/config';
 import { requestAPI } from '../helpers/refactored/requestAPI';
 
 
@@ -20,36 +15,24 @@ function MyApp({ Component, pageProps }) {
         // Fetching the data from the server
         const {
             success,
-            data: { poList, mwoList, moduleList },
+            data,
             error,
             message
         } = await requestAPI({
-            url: 'http://localhost:3000/api/initialize',
+            url: 'http://localhost:3000/api/all',
         });
+        if (!success) throw new Error('Error:', error || message)
 
-        if (!success) throw new Error('Error:', error)
+        // delete data versions
+        for (const list of data) delete list.__v
 
-        delete moduleClientState.__v;
-        delete poList.__v;
-        delete mwoList.__v;
-
-        moduleClientState({
-            list: moduleList,
-            fetched: true
-        })
-        poClientState({
-            list: poList,
-            fetched: true
-        });
-        mwoClientState({
-            list: mwoList,
-            fetched: true
-        });
+        moduleClientState({ list: data.moduleList, fetched: true })
+        poClientState({ list: data.poList, fetched: true });
+        mwoClientState({ list: data.mwoList, fetched: true });
 
     }
     useEffect(() => {
         loadAppData() // Initialize the app data into app state.
-
     }, []);
 
     return (

@@ -1,30 +1,31 @@
 import poModel from "../../models/poModel";
+import { invalidResponse } from "../../../helpers/refactored/invalidResponse";
 
-export const fetchPOs = async (req, res) => {
-
-    console.log('api/fetchPOs')
+// retrieve single or all POs
+export const retrievePOs = async (req, res) => {
     const { poUUID } = req.query;
-    // Fetch a single PO if a UUID is provided
+
+    //? Retrieve a single PO if a UUID is provided
     if (poUUID) {
-        const po = await poModel.findById(poUUID).exec();
-        if (!po) throw new Error("PO not found");
+        const po = await poModel.findById(poUUID);
+        if (!deletedPO) return invalidResponse(res, "Unsuccessful to retrieve PO");
 
         return res.status(200).json({
             success: true,
             error: null,
-            message: "PO fetched successfully",
+            message: "PO Retrieved",
             data: { po }
         });
     }
 
+    //? Retrieve All POs
+    const poList = await poModel.find({});
+    if (!poList) return invalidResponse(res, "Unsuccessful to retrieve List of POs");
 
-    // Fetch All POs
-    const poList = await poModel.find({}).populate("items");
     res.status(200).json({
         success: true,
         error: null,
-        message: "List of All POs fetched successfully",
+        message: "List of POs Retrieved",
         data: { poList }
     })
-
 };

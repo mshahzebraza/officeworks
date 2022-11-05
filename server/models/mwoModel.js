@@ -1,8 +1,6 @@
-// import { Mongoose as mongoose } from "mongoose";
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
 
 const mwoSchema = new Schema({
     mwoType: String,

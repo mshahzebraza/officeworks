@@ -19,8 +19,7 @@ const ObjectId = Schema.Types.ObjectId; // to give ids to mongo objects (assigne
  * @param  {String} remarks
  */
 const poSchema = new Schema({
-    // auto-generated if not set to "false" explicitly
-    // _id: mongoose.ObjectId,
+    // _id: mongoose.ObjectId, // auto-generated if not set to "false" explicitly
     refType: String,
     refId: { type: String, required: true, unique: true },
     category: String,
@@ -47,56 +46,3 @@ const poSchema = new Schema({
 // Search "Mongoose Models" for a Model name 'poModel' and create one if not present already.
 const model_PO = mongoose.models.PO || mongoose.model('PO', poSchema);
 export default model_PO;
-
-/* 
-Object Version
-
-const poData = {
-    refType: "Bill",
-    refId: "de-lp-mn/21-22",
-    category: "Repeat Order",
-    fulfillmentSource: "Local",
-    currency: "RMB",
-    totalCost: 11221,
-    status: 0,
-    initiatorId: "7320",
-    supplier: "Wuhan",
-    items: [
-        {
-            "id": "J88SY350A",
-            "qty": 25,
-            "unitPrice": 1500,
-            "remarks": "the item had a shorter shaft than required"
-        }
-    ],
-    remarks: "the purchase was delayed due to a budget constraint"
-}
-
-
- */
-
-
-/* 
-JSON Version
-{
-    "refType": "Bill",
-    "refId": "de-lp-mn/21-22",
-    "category": "Repeat Order",
-    "fulfillmentSource": "Local",
-    "currency": "RMB",
-    "totalCost": 11221,
-    "status": 0,
-    "initiatorId": "7320",
-    "supplier": "Wuhan",
-    "items": [
-        {
-            "id": "J88SY350A",
-            "qty": 25,
-            "unitPrice": 1500,
-            "remarks": "the item had a shorter shaft than required"
-        }
-    ],
-    "remarks": "the purchase was delayed due to a budget constraint"
-}
-
- */

@@ -1,13 +1,10 @@
 // Dependency
 import React from 'react'
 
-// Store & Styles
-
 // Components
 import Modal from '../../UI/Modal';
-import { Summarize } from '../../UI/Summarizer';
+import { Summarizer } from '../../UI/Summarizer';
 import { getMWOsummaryConfig } from './summaryConfig';
-
 
 export default function MWO_Summary({
     open: isModalOpen,
@@ -17,7 +14,6 @@ export default function MWO_Summary({
     viewRawData = false
 }) {
     if (!mwoData) return 'no data received ...';
-    console.log('data in mwo summary: ', mwoData)
     return (
         <Modal
             title='MWO Summary'
@@ -26,7 +22,7 @@ export default function MWO_Summary({
             submitProps={{ hidden: true }}
             closeProps={{ text: 'Close' }}
         >
-            <Summarize
+            <Summarizer
                 data={mwoData}
                 config={config}
                 viewRawData={viewRawData || !config}

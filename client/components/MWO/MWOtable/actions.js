@@ -1,3 +1,4 @@
+import { actionTypes } from "../../../../helpers/specific/mwoModalReducer"
 import { tableIcons } from "../../../constants/tableIcons"
 
 /**
@@ -6,12 +7,12 @@ import { tableIcons } from "../../../constants/tableIcons"
  * @param  {Function} deleteHandler - used for deletion for a particular MWO
  * @returns {[{},{},{},{}]} - an array containing config-object of each MT-action
  */
-export function getAllMTactions(setModalState, deleteHandler) {
+export function getMWOentryActions(dispatchModal, deleteHandler) {
     return [
-        getMTactionAdd(setModalState),
-        getMTactionDelete(deleteHandler),
-        getMTactionEdit(setModalState),
-        getMTactionSummary(setModalState),
+        createMWOaction(dispatchModal),
+        deleteMWOaction(deleteHandler),
+        updateMWOaction(dispatchModal),
+        showMWOsummaryAction(dispatchModal),
     ]
 }
 
@@ -23,8 +24,8 @@ export function getAllMTactions(setModalState, deleteHandler) {
  * @param  {string} [tooltip]="AddManufacturingRecord"
  * @param  {boolean} [isFreeAction]=true
  */
-const getMTactionAdd = (
-    setModalState = () => { },
+const createMWOaction = (
+    dispatchModal = () => { },
     icon = tableIcons.Add,
     tooltip = "Add Manufacturing Record",
     isFreeAction = true,
@@ -33,14 +34,7 @@ const getMTactionAdd = (
         icon,
         tooltip,
         isFreeAction,
-        // Alternative: dispatch({ type:'SHOW_CREATE_MWO_ENTRY_FORM'})
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            addForm: {
-                ...prevState.addForm,
-                state: true
-            }
-        })),
+        onClick: (event) => dispatchModal({ type: actionTypes.SHOW_CREATE_MWO_ENTRY_FORM }),
     }
 )
 
@@ -52,7 +46,7 @@ const getMTactionAdd = (
  * @param  {string} [tooltip]="DeleteManufacturingRecord"
  * @param  {false} [isFreeAction]=false
  */
-const getMTactionDelete = (
+const deleteMWOaction = (
     deleteHandler = () => { }, // deleteMWOHandler
     icon = tableIcons.Delete,
     tooltip = "Delete Manufacturing Record",
@@ -74,8 +68,8 @@ const getMTactionDelete = (
  * @param  {string} tooltip="EditManufacturingRecord"
  * @param  {boolean} isFreeAction=false
  */
-const getMTactionEdit = (
-    setModalState = () => { },
+const updateMWOaction = (
+    dispatchModal = () => { },
     icon = tableIcons.Edit,
     tooltip = "Edit Manufacturing Record",
     isFreeAction = false,
@@ -84,15 +78,7 @@ const getMTactionEdit = (
         icon,
         tooltip,
         isFreeAction,
-        // Alternative: dispatch({ type:'SHOW_EDIT_MWO_ENTRY_FORM' , payload: rowData })
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            editForm: {
-                ...prevState.editForm,
-                state: true,
-                data: rowData
-            }
-        })),
+        onClick: (event, { tableData, ...rowData }) => dispatchModal({ type: actionTypes.SHOW_UPDATE_MWO_ENTRY_FORM, payload: rowData }),
     }
 )
 
@@ -104,8 +90,8 @@ const getMTactionEdit = (
  * @param  {string} tooltip="SummaryManufacturingRecord"
  * @param  {boolean} isFreeAction=false
  */
-const getMTactionSummary = (
-    setModalState = () => { },
+const showMWOsummaryAction = (
+    dispatchModal = () => { },
     icon = tableIcons.Summary,
     tooltip = "Summary Manufacturing Record",
     isFreeAction = false,
@@ -114,15 +100,7 @@ const getMTactionSummary = (
         icon,
         tooltip,
         isFreeAction,
-        // Alternative: dispatch({ type:'SHOW_MWO_ENTRY_SUMMARY' , payload: rowData })
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            summaryDialog: {
-                ...prevState.summaryDialog,
-                state: true,
-                data: rowData
-            }
-        })),
+        onClick: (event, { tableData, ...rowData }) => dispatchModal({ type: actionTypes.SHOW_MWO_ENTRY_SUMMARY, payload: rowData }),
     }
 )
 

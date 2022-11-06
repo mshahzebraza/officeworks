@@ -33,7 +33,7 @@ const LoaderBackdrop = ({ children }) => {
             direction='column'
             justifyContent='center'
             alignItems='center'
-            component='main'
+            // component='main'
             sx={fileStyles.backdrop}
         >
             {children}

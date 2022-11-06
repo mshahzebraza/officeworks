@@ -7,12 +7,12 @@ import { tableIcons } from "../../../constants/tableIcons"
  * @param  {Function} deleteHandler - used for deletion for a particular MWO
  * @returns {[{},{},{},{}]} - an array containing config-object of each MT-action
  */
-export function getAllMTactions(dispatchModal, deleteHandler) {
+export function getPOentryActions(dispatchModal, deleteHandler) {
     return [
-        getMTactionAdd(dispatchModal),
-        getMTactionDelete(deleteHandler),
-        getMTactionEdit(dispatchModal),
-        getMTactionSummary(dispatchModal),
+        createPOaction(dispatchModal),
+        deletePOaction(deleteHandler),
+        updatePOaction(dispatchModal),
+        showPOsummaryAction(dispatchModal),
     ]
 }
 
@@ -24,7 +24,7 @@ export function getAllMTactions(dispatchModal, deleteHandler) {
  * @param  {string} [tooltip]="AddManufacturingRecord"
  * @param  {boolean} [isFreeAction]=true
  */
-const getMTactionAdd = (
+const createPOaction = (
     dispatchModal = () => { },
     icon = tableIcons.Add,
     tooltip = "Add Purchase Record",
@@ -34,9 +34,8 @@ const getMTactionAdd = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event) => {
-            dispatchModal({ type: actionTypes.SHOW_CREATE_PO_ENTRY_FORM })
-        },
+        onClick: (event) => dispatchModal({ type: actionTypes.SHOW_CREATE_PO_ENTRY_FORM })
+        ,
     }
 )
 
@@ -48,7 +47,7 @@ const getMTactionAdd = (
  * @param  {string} [tooltip]="DeleteManufacturingRecord"
  * @param  {false} [isFreeAction]=false
  */
-const getMTactionDelete = (
+const deletePOaction = (
     deleteHandler = () => { }, // deleteMWOHandler
     icon = tableIcons.Delete,
     tooltip = "Delete Purchase Record",
@@ -70,7 +69,7 @@ const getMTactionDelete = (
  * @param  {string} tooltip="EditManufacturingRecord"
  * @param  {boolean} isFreeAction=false
  */
-const getMTactionEdit = (
+const updatePOaction = (
     dispatchModal = () => { },
     icon = tableIcons.Edit,
     tooltip = "Edit Purchase Record",
@@ -80,9 +79,7 @@ const getMTactionEdit = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, { tableData, ...rowData }) => {
-            dispatchModal({ type: actionTypes.SHOW_UPDATE_PO_ENTRY_FORM, payload: rowData })
-        },
+        onClick: (event, { tableData, ...rowData }) => dispatchModal({ type: actionTypes.SHOW_UPDATE_PO_ENTRY_FORM, payload: rowData }),
     }
 )
 
@@ -94,7 +91,7 @@ const getMTactionEdit = (
  * @param  {string} tooltip="SummaryManufacturingRecord"
  * @param  {boolean} isFreeAction=false
  */
-const getMTactionSummary = (
+const showPOsummaryAction = (
     dispatchModal = () => { },
     icon = tableIcons.Summary,
     tooltip = "Summary Purchase Record",
@@ -104,9 +101,7 @@ const getMTactionSummary = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, { tableData, ...rowData }) => {
-            dispatchModal({ type: actionTypes.SHOW_PO_ENTRY_SUMMARY, payload: rowData })
-        },
+        onClick: (event, { tableData, ...rowData }) => dispatchModal({ type: actionTypes.SHOW_PO_ENTRY_SUMMARY, payload: rowData }),
     }
 )
 

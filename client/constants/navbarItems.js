@@ -20,9 +20,9 @@ export const mainNavbarItems = [
     },
     {
         id: 2,
-        route: '/wo',
+        route: '/mwo',
         icon: ConstructionOutlinedIcon,
-        label: 'Work Orders',
+        label: 'Mfg. Work Orders',
     },
     {
         id: 3,

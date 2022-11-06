@@ -1,14 +1,10 @@
 // Dependency
 import React from 'react';
 
-// Store & Styles
-
 // Components
 import Modal from '../../UI/Modal';
 import { Summarizer } from '../../UI/Summarizer';
 import { getPOsummaryConfig } from './summaryConfig';
-
-
 
 export default function PO_Summary({
     open: isModalOpen,

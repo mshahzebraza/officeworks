@@ -1,9 +1,10 @@
 // Dependency
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { useReactiveVar } from "@apollo/client";
 // Store/State
 import { deletePO } from '../../handlers/po/delete';
 import { poClientState } from '../../store/config';
+import { INITIAL_MODAL_STATE } from "../../../client/constants/initialProcModalStates";
 // Functions
 import { ActiveProcModals } from '../../../helpers/specific/ActiveProcModals';
 import { modalReducer } from "../../../helpers/specific/poModalReducer";
@@ -13,11 +14,6 @@ import POtable from './POtable';
 import Loader from '../Loader';
 
 export default function PO() {
-    const INITIAL_MODAL_STATE = {
-        createForm: { show: false, data: undefined },
-        updateForm: { show: false, data: undefined },
-        summary: { show: false, data: undefined },
-    }
     const POstate = useReactiveVar(poClientState)
     const [activeModalsState, dispatchModal] = useReducer(modalReducer, INITIAL_MODAL_STATE)
 

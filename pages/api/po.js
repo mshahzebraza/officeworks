@@ -11,14 +11,9 @@ connectDB();
 const handlerConfig = getNChandlerConfig();
 const ncHandler = nextConnect(handlerConfig);
 
-// A single api path may have multiple handlers based on the type of request. As the code below shows:
-// For readability, we have segregated the handler requests from te controller functions. The controller functions are the logic behind api calls and they are stored separately.
-// Example: handler.post(controllerForSomeModel)
-
 ncHandler.post(createPO);
 ncHandler.get(retrievePOs);
 ncHandler.patch(updatePO)
 ncHandler.delete(deletePO);
-
 
 export default ncHandler;

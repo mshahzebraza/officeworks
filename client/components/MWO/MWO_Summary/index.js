@@ -5,7 +5,7 @@ import React from 'react'
 
 // Components
 import Modal from '../../UI/Modal';
-import { Summarize } from '../../Dialogs/Summary_Dialog';
+import { Summarize } from '../../UI/Summarizer';
 import { getMWOsummaryConfig } from './summaryConfig';
 
 

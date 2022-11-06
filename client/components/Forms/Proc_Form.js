@@ -27,6 +27,7 @@ export default function ProcForm({
     data: activeSourceData = {},
     sourceType = 'mwo'
 }) {
+    if (!isModalOpen) return null;
     const isNewSubmission = isObjEmpty(activeSourceData); // data is empty -> new Submission 
 
     const formData = (sourceType === 'po')
@@ -63,7 +64,6 @@ export default function ProcForm({
     return (
         <Modal
             title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
-            open={isModalOpen}
             handleClose={modalCloser}
             submitProps={{
                 form: currentFormID, // to link the form with the submit-button in the Modal-Actions

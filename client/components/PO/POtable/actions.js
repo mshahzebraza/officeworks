@@ -1,3 +1,4 @@
+import { actionTypes } from "../../../../helpers/specific/poModalReducer"
 import { tableIcons } from "../../../constants/tableIcons"
 
 /**
@@ -6,13 +7,12 @@ import { tableIcons } from "../../../constants/tableIcons"
  * @param  {Function} deleteHandler - used for deletion for a particular MWO
  * @returns {[{},{},{},{}]} - an array containing config-object of each MT-action
  */
-export function getAllMTactions(setModalState, deleteHandler, router) {
+export function getAllMTactions(dispatchModal, deleteHandler) {
     return [
-        getMTactionAdd(setModalState),
+        getMTactionAdd(dispatchModal),
         getMTactionDelete(deleteHandler),
-        getMTactionEdit(setModalState),
-        getMTactionSummary(setModalState),
-        // getMTactionDetails(router)
+        getMTactionEdit(dispatchModal),
+        getMTactionSummary(dispatchModal),
     ]
 }
 
@@ -25,7 +25,7 @@ export function getAllMTactions(setModalState, deleteHandler, router) {
  * @param  {boolean} [isFreeAction]=true
  */
 const getMTactionAdd = (
-    setModalState = () => { },
+    dispatchModal = () => { },
     icon = tableIcons.Add,
     tooltip = "Add Purchase Record",
     isFreeAction = true,
@@ -34,13 +34,9 @@ const getMTactionAdd = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            addForm: {
-                ...prevState.addForm,
-                state: true
-            }
-        })),
+        onClick: (event) => {
+            dispatchModal({ type: actionTypes.SHOW_CREATE_PO_ENTRY_FORM })
+        },
     }
 )
 
@@ -75,7 +71,7 @@ const getMTactionDelete = (
  * @param  {boolean} isFreeAction=false
  */
 const getMTactionEdit = (
-    setModalState = () => { },
+    dispatchModal = () => { },
     icon = tableIcons.Edit,
     tooltip = "Edit Purchase Record",
     isFreeAction = false,
@@ -84,14 +80,9 @@ const getMTactionEdit = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            editForm: {
-                ...prevState.editForm,
-                state: true,
-                data: rowData
-            }
-        })),
+        onClick: (event, { tableData, ...rowData }) => {
+            dispatchModal({ type: actionTypes.SHOW_UPDATE_PO_ENTRY_FORM, payload: rowData })
+        },
     }
 )
 
@@ -104,7 +95,7 @@ const getMTactionEdit = (
  * @param  {boolean} isFreeAction=false
  */
 const getMTactionSummary = (
-    setModalState = () => { },
+    dispatchModal = () => { },
     icon = tableIcons.Summary,
     tooltip = "Summary Purchase Record",
     isFreeAction = false,
@@ -113,38 +104,8 @@ const getMTactionSummary = (
         icon,
         tooltip,
         isFreeAction,
-        onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
-            ...prevState,
-            summaryDialog: {
-                ...prevState.summaryDialog,
-                state: true,
-                data: rowData
-            }
-        })),
-    }
-)
-
-
-/**
- * ? Details Action Getter 
- * @param  {Function} router=()=>{}
- * @param  {JSX.element} icon=tableIcons.Summary
- * @param  {string} tooltip="SummaryManufacturingRecord"
- * @param  {boolean} isFreeAction=false
- */
-const getMTactionDetails = (
-    router = () => { },
-    icon = tableIcons.Details,
-    tooltip = "Go to Purchase Details",
-    isFreeAction = false,
-) => (
-    {
-        icon,
-        tooltip,
-        isFreeAction,
         onClick: (event, { tableData, ...rowData }) => {
-            const { refType, refId } = rowData;
-            router.push(`po/${refType}__${refId}`)
+            dispatchModal({ type: actionTypes.SHOW_PO_ENTRY_SUMMARY, payload: rowData })
         },
     }
 )

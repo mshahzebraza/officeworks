@@ -7,7 +7,6 @@ import { getAllMTactions } from "./actions"
 import { MTcomponents } from "./components"
 import { MToptions } from "./options"
 import { columns } from './columns';
-import { useRouter } from 'next/router';
 import { editableOptions } from './editable';
 
 
@@ -21,7 +20,7 @@ import { editableOptions } from './editable';
  */
 
 // MWO Material-Table
-const POtable = ({ setModalState, deleteHandler, data }) => {
+const POtable = ({ setModalState, deleteHandler, data, dispatchModal }) => {
 
     const MTconfig = {
         title: 'Purchase Orders',
@@ -30,7 +29,7 @@ const POtable = ({ setModalState, deleteHandler, data }) => {
         columns,
         options: MToptions,
         // editable: editableOptions, // add this to enable editing options (onRowAdd, onRowDelete, onRowUpdate, onBulkUpdate)
-        actions: getAllMTactions(setModalState, deleteHandler, useRouter()),
+        actions: getAllMTactions(dispatchModal, deleteHandler),
         // detailPanel: tableDetailPanel,
         // ! Not working
         components: MTcomponents,
@@ -48,19 +47,4 @@ const POtable = ({ setModalState, deleteHandler, data }) => {
     )
 }
 
-
-export default POtable
-
-
-
-
-
-
-
-
-
-// export { data } from './tableData';
-// export { columns } from './fieldConfig';
-// export { tableIcons } from '../../../constants/tableIcons';
-// export { tableConfig } from './tableConfig';
-
+export default POtable;

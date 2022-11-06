@@ -1,87 +1,24 @@
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-	/* "version": "0.2.0",
-	"configurations": [
-		{
-			"type": "chrome",
-			"request": "launch",
-			"name": "Next: Chrome",
-			"url": "http://localhost:3000",
-			"webRoot": "${workspaceFolder}"
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Next: Node",
-			"outputCapture": "std",
-			"program": "./node_modules/next/dist/bin/next",
-			"args": ["dev"]
-		}
-	],
-	"compounds": [
-		{
-			"name": "Next: Full",
-			"configurations": ["Next: Node", "Next: Chrome"]
-		}
-	] */
-	/* "version": "0.2.0",
-	"configurations": [
-		{
-			"type": "chrome",
-			"request": "launch",
-			"name": "Next: Chrome",
-			"url": "http://localhost:3000",
-			"webRoot": "${workspaceFolder}",
-			"skipFiles": ["<node_internals>/**"]
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Next: Node",
-			"runtimeExecutable": "${workspaceFolder}/node_modules/next/dist/bin/next",
-			"env": {
-				"NODE_OPTIONS": "--inspect-brk"
-			},
-			"port": 9229,
-			"console": "integratedTerminal"
-		}
-	],
-	"compounds": [
-		{
-			"name": "Next: Full",
-			"configurations": ["Next: Node", "Next: Chrome"]
-		}
-	] */
-	// !NEXT Official Configurations
+	"version": "0.2.0",
 	"configurations": [
 		{
 			"name": "Next.js: debug server-side",
 			"type": "node-terminal",
 			"request": "launch",
-			// "command": "npm run dev",
-			"outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"],
-			"skipFiles": ["<node_internals>/**"]
+			"command": "next dev"
 		},
 		{
 			"name": "Next.js: debug client-side",
 			"type": "pwa-chrome",
 			"request": "launch",
-			// "command": "npm run dev",
-
 			"url": "http://localhost:3000"
 		},
 		{
 			"name": "Next.js: debug full stack",
 			"type": "node-terminal",
 			"request": "launch",
-			// "command": "npm run dev",
-			"console": "externalTerminal",
-			"skipFiles": ["<node_internals>/**"],
-			"outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"],
-			// "autoAttachChildProcesses": false,
-
+			"command": "next dev",
+			"console": "integratedTerminal",
 			"serverReadyAction": {
 				"pattern": "started server on .+, url: (https?://.+)",
 				"uriFormat": "%s",

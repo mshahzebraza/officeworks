@@ -33,6 +33,7 @@ const getMTactionAdd = (
         icon,
         tooltip,
         isFreeAction,
+        // Alternative: dispatch({ type:'SHOW_CREATE_MWO_ENTRY_FORM'})
         onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
             addForm: {
@@ -83,6 +84,7 @@ const getMTactionEdit = (
         icon,
         tooltip,
         isFreeAction,
+        // Alternative: dispatch({ type:'SHOW_EDIT_MWO_ENTRY_FORM' , payload: rowData })
         onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
             editForm: {
@@ -112,6 +114,7 @@ const getMTactionSummary = (
         icon,
         tooltip,
         isFreeAction,
+        // Alternative: dispatch({ type:'SHOW_MWO_ENTRY_SUMMARY' , payload: rowData })
         onClick: (event, { tableData, ...rowData }) => setModalState((prevState) => ({
             ...prevState,
             summaryDialog: {

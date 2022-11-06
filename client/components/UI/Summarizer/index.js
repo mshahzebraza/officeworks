@@ -1,17 +1,17 @@
 import { Grid } from "@mui/material";
-import { renderRawData } from "../../../helpers/reusable";
+import { renderRawData } from "../../../../helpers/reusable";
 
 /**
- * Renders the pairs as Grids Elements for primary data types
- * In case an array of object is passed, the object must be viewed as a table
+ * Receives object data and converts the key-value pairs into readable/renderable components 
+ * (Disintegrates complex data types into primary data types)
+ * E.g In case an array of object is passed, the object must be viewed as a table
  * 
  * @param  {} data
  * @param  {} config
  * @param  {} viewRawData
  * 
  */
-
-export function SummaryDialog({
+export function Summarizer({
     data,
     config,
     viewRawData = false

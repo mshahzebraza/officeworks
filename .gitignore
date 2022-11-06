@@ -33,7 +33,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-.vscode/settings.json
-.vscode/settings.json
 .gitignore
 stashes.md
+/.vscode/

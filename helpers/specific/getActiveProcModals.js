@@ -82,7 +82,6 @@ const SummaryDialog = ({ allModalState, setAllModalState, procurementType }) => 
         : MWO_Summary;
 
     return (
-        // ! Delete or use the summarizer function to pass in only the key-value pairs ... or create a new function
         <SummaryComponent
             data={allModalState.summaryDialog.data}
             open={allModalState.summaryDialog.state}

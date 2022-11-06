@@ -5,7 +5,7 @@ import React from 'react';
 
 // Components
 import Modal from '../../UI/Modal';
-import { Summarize } from '../../Dialogs/Summary_Dialog';
+import { Summarizer } from '../../UI/Summarizer';
 import { getPOsummaryConfig } from './summaryConfig';
 
 
@@ -19,7 +19,6 @@ export default function PO_Summary({
     viewRawData = false
 }) {
     if (!poData) return 'no data received ...';
-    console.log('data in po summary: ', poData)
     return (
         <Modal
             title='PO Summary'
@@ -28,12 +27,11 @@ export default function PO_Summary({
             submitProps={{ hidden: true }}
             closeProps={{ text: 'Close' }}
         >
-            <Summarize
+            <Summarizer
                 data={poData}
                 config={config}
                 viewRawData={viewRawData || !config}
             />
-
         </Modal>
     )
 }

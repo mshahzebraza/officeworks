@@ -61,8 +61,8 @@ function getRouteName(route) {
             return 'Home'
         case '/po':
             return 'Purchase Orders'
-        case '/wo':
-            return 'Work Orders'
+        case '/mwo':
+            return 'Mfg. Work Orders'
         case '/module':
             return 'Modules'
         case '/project':

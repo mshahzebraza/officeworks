@@ -14,7 +14,7 @@ export default function PO_Summary({
     config = getPOsummaryConfig({ currency: poData?.currency }),
     viewRawData = false
 }) {
-    if (!poData) return 'no data received ...';
+    if (!isModalOpen) return null;
     return (
         <Modal
             title='PO Summary'
@@ -23,11 +23,16 @@ export default function PO_Summary({
             submitProps={{ hidden: true }}
             closeProps={{ text: 'Close' }}
         >
-            <Summarizer
-                data={poData}
-                config={config}
-                viewRawData={viewRawData || !config}
-            />
+            {
+                (poData) ?
+                    <Summarizer
+                        data={poData}
+                        config={config}
+                        viewRawData={viewRawData || !config}
+                    />
+                    : 'no data received ...'
+            }
+
         </Modal>
     )
 }

@@ -13,7 +13,7 @@ export default function MWO_Summary({
     config = getMWOsummaryConfig(),
     viewRawData = false
 }) {
-    if (!mwoData) return 'no data received ...';
+    if (!isModalOpen) return null;
     return (
         <Modal
             title='MWO Summary'
@@ -22,11 +22,15 @@ export default function MWO_Summary({
             submitProps={{ hidden: true }}
             closeProps={{ text: 'Close' }}
         >
-            <Summarizer
-                data={mwoData}
-                config={config}
-                viewRawData={viewRawData || !config}
-            />
+            {
+                (mwoData) ?
+                    <Summarizer
+                        data={mwoData}
+                        config={config}
+                        viewRawData={viewRawData || !config}
+                    />
+                    : 'no data received ...'
+            }
         </Modal>
     )
 }

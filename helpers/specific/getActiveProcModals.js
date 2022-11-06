@@ -1,7 +1,13 @@
 import MWO_Summary from "../../client/components/MWO/MWO_Summary";
 import PO_Summary from "../../client/components/PO/PO_Summary";
 import Proc_Form from "../../client/components/Forms/Proc_Form";
-
+/**
+ * Modal Logic controlled from within the MT-action-buttons
+ * @param {*} allModalState 
+ * @param {*} setAllModalState 
+ * @param {*} procurementType 
+ * @returns 
+ */
 export function getActiveProcModals(allModalState, setAllModalState, procurementType) {
     if (!procurementType) throw new Error('procurementType is not Defined for getActiveModals');
 

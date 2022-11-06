@@ -2,15 +2,12 @@ import { requestAPI } from '../../../helpers/refactored/requestAPI';
 import { poClientState } from "../../store/config";
 
 export const updatePO = async (poUpdateData) => {
-    let wasClosed, isClosed = poUpdateData.status === 'Closed';
-
     const poState = poClientState()
     const poStateList = [...poState.list]
 
     const targetIndex = poStateList.findIndex(
         po => po.refId === poUpdateData.refId
     );
-    wasClosed = poStateList[targetIndex].status === 'Closed';
 
     // Create the request 
     const { success, data: { updatedPO }, error, message } = await requestAPI(

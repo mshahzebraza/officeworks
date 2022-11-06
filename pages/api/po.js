@@ -3,12 +3,12 @@ import nextConnect from 'next-connect';
 import { getNChandlerConfig } from '../../helpers/refactored/getNChandlerConfig';
 
 import { createPO } from "../../server/controllers/po/create";
-import { retrievePO } from "../../server/controllers/po/retrieve";
+import { retrievePOs } from "../../server/controllers/po/retrieve";
 import { updatePO } from "../../server/controllers/po/update";
 import { deletePO } from "../../server/controllers/po/delete";
 
 connectDB();
-const handlerConfig = getNChandlerConfig()
+const handlerConfig = getNChandlerConfig();
 const ncHandler = nextConnect(handlerConfig);
 
 // A single api path may have multiple handlers based on the type of request. As the code below shows:
@@ -16,7 +16,7 @@ const ncHandler = nextConnect(handlerConfig);
 // Example: handler.post(controllerForSomeModel)
 
 ncHandler.post(createPO);
-ncHandler.get(retrievePO);
+ncHandler.get(retrievePOs);
 ncHandler.patch(updatePO)
 ncHandler.delete(deletePO);
 

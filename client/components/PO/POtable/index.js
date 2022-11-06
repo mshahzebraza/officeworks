@@ -19,9 +19,9 @@ import { editableOptions } from './editable';
  * @param  {Array} [data]='' - List of MWO entries to render as Table rows
  */
 
-// MWO Material-Table
+// PO Material-Table
 const POtable = ({ setModalState, deleteHandler, data, dispatchModal }) => {
-
+    console.log('poData', data)
     const MTconfig = {
         title: 'Purchase Orders',
         icons: tableIcons,

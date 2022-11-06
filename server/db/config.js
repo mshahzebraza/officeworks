@@ -1,9 +1,5 @@
 
-
-
-
 import mongoose from 'mongoose';
-// const mongoose = require('mongoose')
 import CatchAsyncErrors from '../middlewares/CatchAsyncErrors';
 
 const connectDB = CatchAsyncErrors(async () => {

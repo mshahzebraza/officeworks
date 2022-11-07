@@ -3,18 +3,13 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 
-
-// Store
-// Styles
-import styles from './LoginForm.module.scss'
-
 // Components
 import FormikControl from "../Formik/FormikControl";
 import FormikForm from "../Formik/FormikForm";
-import FormikSubmit from "../Formik/FormikSubmit";
+import FormikSubmit from "../Formik/FormsUI/Submit";
 
 
-function Login_Form() {
+function Login_Form({ formId }) {
 
     const initialValues = {
         username: '',
@@ -35,51 +30,38 @@ function Login_Form() {
     }
 
     return (
-        // <Portal>
-        // <Modal
-        // title={'Login Form'}
-        // closer={modalCloser}
-        // >
-        <div className={styles.main}>
-
-            <div className={styles.card}>
-
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    <FormikForm>
-                        <h1>Login Form</h1>
-                        <br />
-                        <FormikControl
-                            control="input"
-                            type="text"
-                            label="Username"
-                            name="username"
-                            placeholder="Username"
-                        />
-                        {/* <FormikControl
-              control="input"
-              type="email"
-              label="Email"
-              name="email"
-              placeholder="Email"
-            /> */}
-                        <FormikControl
-                            control="input"
-                            type="password"
-                            label="Password"
-                            name="password"
-                            placeholder="Password"
-                        />
-                        <FormikSubmit />
-                    </FormikForm>
-                </Formik>
-            </div>
-        </div>
-        // </Modal>
-        // </Portal>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+        >
+            <FormikForm id={formId} >
+                <h1>Login Form</h1>
+                <br />
+                <FormikControl
+                    control="input"
+                    type="text"
+                    label="Username"
+                    name="username"
+                    placeholder="Username"
+                />
+                {/* <FormikControl
+  control="input"
+  type="email"
+  label="Email"
+  name="email"
+  placeholder="Email"
+/> */}
+                <FormikControl
+                    control="input"
+                    type="password"
+                    label="Password"
+                    name="password"
+                    placeholder="Password"
+                />
+                <FormikSubmit />
+            </FormikForm>
+        </Formik>
     )
 }
 

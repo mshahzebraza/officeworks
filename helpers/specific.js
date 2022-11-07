@@ -1,4 +1,6 @@
-import { checkDataType, cloneAndPluck, deepClone } from "./reusable";
+import { checkDataType } from "./refactored/checkDataType";
+import { cloneAndPluck } from "./refactored/cloneAndPluck";
+import { deepClone } from "./reusable";
 
 
 export function updateFlexibleModuleSpecs(moduleSpecs, updateFormData = {}) {

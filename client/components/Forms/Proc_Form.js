@@ -66,7 +66,7 @@ export default function ProcForm({
             title={`${isNewSubmission ? 'Add' : 'Update'} ${formData.title}`}
             handleClose={modalCloser}
             submitProps={{
-                form: currentFormID, // to link the form with the submit-button in the Modal-Actions
+                form: currentFormID, // links the "form-element" with the "submit-button" in the Modal-Actions
             }}
         // contentProps={{ styles: { height: 700 } }}
         >

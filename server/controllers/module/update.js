@@ -1,5 +1,5 @@
 import moduleModel from "../../models/moduleModel";
-import { invalidResponse } from "../../../helpers/reusable";
+import { invalidResponse } from "../../../helpers/refactored/invalidResponse";
 
 export const updateModule = async (req, res) => {
     const { moduleUUID } = req.query; //poUUID is not needed (un/linking is not required as neither the moduleId is changed nor is module deleted)

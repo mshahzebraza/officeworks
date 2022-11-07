@@ -19,10 +19,10 @@ const connectDB = CatchAsyncErrors(async () => {
     // Check Connection
     const db = mongoose.connection;
     db.once('open', () => {
-        console.log('Success: connected to MongoDB:', mongoose.connection.host, process.env.MONGO_URI)
+        console.log('✅✅✅ Success: connected to MongoDB:', mongoose.connection.host, process.env.MONGO_URI)
     })
     db.on('error', (err) => {
-        console.log('Error connecting to MongoDB', err)
+        console.log('👎👎👎Error connecting to MongoDB', err)
     })
 
 

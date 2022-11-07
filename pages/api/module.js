@@ -3,7 +3,7 @@ import nextConnect from 'next-connect';
 import { getNChandlerConfig } from '../../helpers/refactored/getNChandlerConfig';
 
 import { createModule } from "../../server/controllers/module/create";
-import { retrieveModule } from "../../server/controllers/module/retrieve";
+import { retrieveModules } from "../../server/controllers/module/retrieve";
 import { updateModule } from "../../server/controllers/module/update";
 import { deleteModule } from "../../server/controllers/module/delete";
 
@@ -16,7 +16,7 @@ const ncHandler = nextConnect(handlerConfig);
 // Example: handler.post(controllerForSomeModel)
 
 ncHandler.post(createModule);
-ncHandler.get(retrieveModule);
+ncHandler.get(retrieveModules);
 ncHandler.patch(updateModule)
 ncHandler.delete(deleteModule);
 

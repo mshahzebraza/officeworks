@@ -1,6 +1,9 @@
-import React from 'react';
-import Module from '../client/components/Module';
+import { useRouter } from 'next/router';
 
-const ModulePage = () => <Module />
+const ModulePage = () => {
+    // useRouter().push('/404')
+    return 'null'
+};
+
 
 export default ModulePage;

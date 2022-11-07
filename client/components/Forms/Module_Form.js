@@ -4,12 +4,13 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 // Store & Styles
-import moduleClientState, { addModuleHandler, updateModuleHandler } from '../../../lib/apollo_client/moduleClientState'
-
+import { createModule } from '../../../client/handlers/module/create'
+import { updateModule } from '../../../client/handlers/module/update'
+import { moduleClientState } from '../../../client/store/config';
 // Components
-import Modal from '../../UI/Modal'
-import FormikForm from '../../Formik/FormikForm'
-import FormikControl from '../../Formik/FormikControl'
+import Modal from '../UI/Modal'
+import FormikForm from '../Formik/FormikForm'
+import FormikControl from '../Formik/FormikControl'
 import { isObjEmpty, cloneAndPluck } from '../../../helpers/reusable'
 import { getOf, getComponentArrayWithProps } from '../../../helpers/specific'
 
@@ -202,8 +203,8 @@ function getModuleFieldConfig(isNewSubmission, moduleStateList) {
 
         },
         submitHandlers: {
-            add: addModuleHandler,
-            update: updateModuleHandler,
+            add: createModule,
+            update: updateModule,
         }
     }
 }

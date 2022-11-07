@@ -14,6 +14,7 @@ import { ModalActions } from "./ModalActions";
  * @param  {} submitProps
  * @param  {} contentProps Props for Modal-Content
  * @param  {Boolean} [hideActions=true] - set to FALSE if component is rendered in ModalContent-children (i.e. if access to formik Props is needed)
+ * @param  {string} maxWidth set the width of the dialog
  */
 
 export default function Modal({
@@ -28,6 +29,7 @@ export default function Modal({
     submitProps,
     contentProps = {},
     hideActions = false,
+    maxWidth = 'md',
 }) {
 
 
@@ -38,7 +40,7 @@ export default function Modal({
             onClose={handleClose}
             aria-labelledby={title}
             fullWidth={true}
-            maxWidth={'md'}
+            maxWidth={maxWidth}
         >
             <ModalHeader
                 handleClose={handleClose}

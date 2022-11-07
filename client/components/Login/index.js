@@ -1,19 +1,18 @@
+import { Box } from '@mui/material'
 import React from 'react'
-import Modal from '../UI/Modal'
 import LoginForm from './Login_Form.js'
 
 function Login() {
-    const formId = 'login_form'
     return (
-        <Modal
-            title={`Login Form`}
-            // handleClose={(modalCloser)}
-            submitProps={{
-                form: formId, // to link the form with the submit-button in the Modal-Actions
+        <Box
+            sx={{
+                width: "100vw",
+                height: "100vh",
+                background: "#ffb503", // blue: 0e759e, green: 03ffbb
             }}
         >
             <LoginForm />
-        </Modal>
+        </Box>
     )
 }
 

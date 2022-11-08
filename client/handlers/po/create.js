@@ -6,9 +6,10 @@ export const createPO = async (poCreateData) => {
     const poState = poClientState();
     const poStateList = [...poState.list];
 
-    const { success, data: { createdPO }, error, message } = await requestAPI(
+    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
+    const { success, data, error, message } = await requestAPI(
         {
-            url: process.env.API.PO,
+            url: PREFIX + process.env.API.PO,
             method: 'POST',
             body: {
                 poData: poCreateData

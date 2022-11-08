@@ -23,9 +23,10 @@ export const deleteModule = async (selectedModuleUUID) => {
     // ! And inform the user that all instances or linkages will be removed if the module id deleted
 
     // 1. Database add
+    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: process.env.API.MODULE,
+            url: PREFIX + process.env.API.MODULE,
             method: 'DELETE',
             params: {
                 moduleUUID: selectedModuleUUID

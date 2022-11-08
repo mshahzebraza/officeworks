@@ -10,9 +10,10 @@ export const updatePO = async (poUpdateData) => {
     );
 
     // Create the request 
-    const { success, data: { updatedPO }, error, message } = await requestAPI(
+    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
+    const { success, data, error, message } = await requestAPI(
         {
-            url: process.env.API.PO,
+            url: PREFIX + process.env.API.PO,
             method: 'PATCH',
             body: {
                 poData: poUpdateData

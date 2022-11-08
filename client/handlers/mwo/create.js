@@ -6,9 +6,10 @@ export const createMWO = async (formData) => {
     const mwoStateList = [...mwoState.list];
 
     // Check Duplicate
-    const { success, data: { createdMWO }, error, message } = await requestAPI(
+    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
+    const { success, data, error, message } = await requestAPI(
         {
-            url: process.env.API.MWO,
+            url: PREFIX + process.env.API.MWO,
             method: 'POST',
             body: {
                 mwoData: formData

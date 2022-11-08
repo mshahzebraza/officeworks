@@ -21,9 +21,10 @@ export const updateModule = async (itemData) => {
     }
 
     // 1. Database add
+    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: process.env.API.MODULE,
+            url: PREFIX + process.env.API.MODULE,
             method: 'PATCH',
             body: {
                 moduleData: itemData

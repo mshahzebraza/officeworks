@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose';
-import CatchAsyncErrors from '../middlewares/CatchAsyncErrors';
+import CatchAsyncErrors from '../middlewares/catchAsyncErrors';
 
 const connectDB = CatchAsyncErrors(async () => {
 

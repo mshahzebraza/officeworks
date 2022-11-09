@@ -1,4 +1,4 @@
-import { getItemFrequencyObject } from "../helpers/getItemFrequencyObject";
+import { getItemFrequencyObject } from "../helpers/refactored/getItemFrequencyObject";
 
 describe.each([
     {

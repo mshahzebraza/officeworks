@@ -1,4 +1,4 @@
-import { arrayOfObjectsSummarize } from "../helpers/arrayOfObjectsSummarize";
+import { arrayOfObjectsSummarize } from "../helpers/refactored/arrayOfObjectsSummarize";
 
 
 describe.each(

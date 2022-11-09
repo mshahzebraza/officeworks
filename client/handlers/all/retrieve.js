@@ -6,9 +6,13 @@ import { moduleClientState, poClientState, mwoClientState } from "../../store/co
  */
 export const retrieveApp = async () => {
     // Retrieve App State from server //! Not Ideal: Try windowing, use RTK Query, React-Query etc.
-    const { success, data, error, message } = await requestAPI({ url: 'http://localhost:3000/api/all' })
-    if (!success) throw new Error('Error:', error || message)
+    const { success, data, error, message } = await requestAPI({ url: process.env.NEXT_PUBLIC_API_ALL })
 
+    if (!success) {
+        console.error(error);
+        return null;
+    }
+    console.log('message: ', message);
     // 2. Client update
     moduleClientState({ list: data.moduleList, fetched: true })
     poClientState({ list: data.poList, fetched: true });

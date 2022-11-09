@@ -1,4 +1,4 @@
-import { checkDataType } from "../helpers/checkDataType";
+import { checkDataType } from "../helpers/refactored/checkArrType";
 
 
 describe.each(

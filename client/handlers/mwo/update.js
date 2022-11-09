@@ -12,10 +12,9 @@ export const updateMWO = async (formData) => {
     })
     wasClosed = mwoStateList[targetIndex].status === 'Closed';
     // Database
-    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: PREFIX + process.env.API.MWO,
+            url: process.env.NEXT_PUBLIC_API_MWO,
             method: 'PATCH',
             params: {
                 mwoUUID: mwoStateList[targetIndex]._id
@@ -33,9 +32,7 @@ export const updateMWO = async (formData) => {
     console.log('message: ', message);
 
     // State
-    mwoStateList.splice(targetIndex, 1, updatedMWO)
-    console.log('updatedMWO', updatedMWO);
-
+    mwoStateList.splice(targetIndex, 1, data.updatedMWO)
 
     mwoClientState({
         fetched: mwoState.fetched,

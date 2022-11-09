@@ -7,10 +7,9 @@ export const deletePO = async (poDeleteId) => {
     const poStateList = [...poState.list];
 
     // 1. Database delete
-    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: PREFIX + process.env.API.PO,
+            url: process.env.NEXT_PUBLIC_API_PO,
             method: 'DELETE',
             params: {
                 poUUID: poDeleteId
@@ -27,6 +26,6 @@ export const deletePO = async (poDeleteId) => {
     // 2. Update State
     poClientState({
         fetched: poState.fetched,
-        list: poStateList.filter(po => po.refId !== deletedPO.refId)
+        list: poStateList.filter(po => po.refId !== data.deletedPO.refId)
     });
 };

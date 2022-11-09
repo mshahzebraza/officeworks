@@ -10,10 +10,9 @@ export const updatePO = async (poUpdateData) => {
     );
 
     // Create the request 
-    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: PREFIX + process.env.API.PO,
+            url: process.env.NEXT_PUBLIC_API_PO,
             method: 'PATCH',
             body: {
                 poData: poUpdateData
@@ -31,9 +30,7 @@ export const updatePO = async (poUpdateData) => {
     console.log('message: ', message);
 
     // Update the PO
-    poStateList[targetIndex] = updatedPO;
-    console.log('updatedPO', updatedPO);
-
+    poStateList[targetIndex] = data.updatedPO;
     poClientState({
         fetched: poState.fetched,
         list: poStateList

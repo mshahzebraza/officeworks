@@ -7,10 +7,9 @@ export const deleteMWO = async (deleteMWOid) => {
     const mwoStateList = [...mwoState.list];
 
     // 1. Database delete
-    const PREFIX = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : process.env.LOCAL_URL
     const { success, data, error, message } = await requestAPI(
         {
-            url: PREFIX + process.env.API.MWO,
+            url: process.env.NEXT_PUBLIC_API_MWO,
             method: 'DELETE',
             params: {
                 mwoUUID: deleteMWOid
@@ -27,6 +26,6 @@ export const deleteMWO = async (deleteMWOid) => {
     // 2. Update State
     mwoClientState({
         fetched: mwoState.fetched,
-        list: mwoStateList.filter(po => po.mwoId !== deletedMWO.mwoId)
+        list: mwoStateList.filter(po => po.mwoId !== data.deletedMWO.mwoId)
     })
 }

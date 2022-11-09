@@ -1,4 +1,4 @@
-import { listOfModuleTypes } from "../constants/listOfModuleTypes"
+import { listOfModuleTypes } from "../client/constants/listOfModuleTypes"
 import { attachModuleTypes } from "../helpers/specific"
 
 describe.each([

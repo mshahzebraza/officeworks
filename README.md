@@ -2,7 +2,7 @@
 
 An Enterprise Level Web Application developed for a use in an organization to plan and manage production along with inventory tracking.
 
-[![Code_Repo](https://img.shields.io/badge/Code_Repo-641e93?style=for-the-badge&logo=github&logoColor=white)](https://wa.me/923350450600) [![Live_Demo](https://img.shields.io/badge/Live_Demo-c40303?style=for-the-badge&logo=brave&logoColor=white)](https://wa.me/923350450600)
+[![Code_Repo](https://img.shields.io/badge/Code_Repo-641e93?style=for-the-badge&logo=github&logoColor=white)](<https://github.com/mshahzebraza/officeworks>) [![Live_Demo](https://img.shields.io/badge/Live_Demo-c40303?style=for-the-badge&logo=brave&logoColor=white)](<https://officeworks.vercel.app/>)
 
 ## Epics
 
@@ -25,4 +25,5 @@ M.Shahzeb Raza is an aspiring MERN Stack Web Developer who finds solace in build
 
 <!-- [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://katherineoelsner.com/) -->
 
-[![whatsapp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/923350450600) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mshahzebraza) [![gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto::m.shahzebraza.97@gmail.com)
+[![whatsapp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/923350450600) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mshahzebraza) [![gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto::m.shahzebraza.97@gmail.com) 
+[![Phone](https://img.shields.io/badge/Phone-100000?style=for-the-badge)](<tel:+923350450600>)
